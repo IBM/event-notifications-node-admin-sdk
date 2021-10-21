@@ -24,7 +24,7 @@ const authHelper = require('../resources/auth-helper.js');
 const timeout = 200000;
 
 // Location of our config file.
-const configFile = `${__dirname}/../../event_notifications_v1.env`;
+const configFile = `${__dirname}/../../event_notifications.env`;
 
 const describe = authHelper.prepareTests(configFile);
 

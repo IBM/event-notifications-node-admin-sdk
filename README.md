@@ -489,7 +489,7 @@ eventNotificationsService
 
 ## Set Environment
 
-Find `event_notifications_v1.env.hide` in the repo and rename it to `event_notifications_v1.env`. After that add the values for,
+Find `event_notifications.env.hide` in the repo and rename it to `event_notifications.env`. After that add the values for,
 
 - `EVENT_NOTIFICATIONS_URL` - Add the Event Notifications service instance Url.
 - `EVENT_NOTIFICATIONS_APIKEY` - Add the Event Notifications service instance apikey.

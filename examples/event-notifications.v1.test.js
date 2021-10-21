@@ -38,7 +38,7 @@ const authHelper = require('../test/resources/auth-helper.js');
 // in a configuration file and then:
 // export IBM_CREDENTIALS_FILE=<name of configuration file>
 //
-const configFile = `${__dirname}/../event_notifications_v1.env`;
+const configFile = `${__dirname}/../event_notifications.env`;
 
 const describe = authHelper.prepareTests(configFile);
 
