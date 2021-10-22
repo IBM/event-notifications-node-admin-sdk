@@ -1,9 +1,4 @@
-[![Build Status](https://travis-ci.com/Notification-Hub/event-notifications-node-sdk.svg?token=eW5FVD71iyte6tTby8gr&branch=main)](https://travis.ibm.com/Notification-Hub/event-notifications-node-sdk)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-<!--
-[![npm-version](https://img.shields.io/npm/v/Notification-Hub/event-notifications-node-sdk.svg)](https://www.npmjs.com/package/ibm-event-notifications-node-admin-sdk)
-[![codecov](https://codecov.io/gh/Notification-Hub/event-notifications-node-admin-sdk/branch/main/graph/badge.svg)](https://codecov.io/gh/Notification-Hub/event-notifications-node-sdk)
--->
+
 # IBM Cloud Event Notifications Node.js SDK
 Node.js client library to interact with various [Event Notifications APIs](https://cloud.ibm.com/apidocs?category=event-notifications).
 
@@ -11,16 +6,6 @@ Disclaimer: this SDK is being released initially as a **pre-release** version.
 Changes might occur which impact applications that use this SDK.
 
 ## Table of Contents
-
-<!--
-  The TOC below is generated using the `markdown-toc` node package.
-
-      https://github.com/jonschlinkert/markdown-toc
-
-  You should regenerate the TOC after making changes to this file.
-
-      npx markdown-toc -i README.md
-  -->
 
 <!-- toc -->
 
@@ -55,7 +40,7 @@ Service Name | Import Path
 ## Installation
 
 ```sh
-npm install ibm-event-notifications-node-admin-sdk
+npm install ibm-event-notifications-node-admin-sdk@0.0.1-beta1
 ```
 
 ## Using the SDK
@@ -65,21 +50,21 @@ For general SDK usage information, please see
 ## Initialize SDK
 
 Initialize the sdk to connect with your Event Notifications service instance.
+
 ```js
 import { EventNotificationsV1 } from 'ibm-event-notifications-node-admin-sdk/event-notifications/v1';
 import { IamAuthenticator } from 'ibm-event-notifications-node-admin-sdk/auth';
 
 const authenticator = new IamAuthenticator({
-  apikey: <apikey>,
-  url: <IBM Cloud URL to generate Token>,
+  apikey: <apikey>,  // Event notifications service instance APIKey
 });
 
 const eventNotificationsService = EventNotificationsV1.newInstance({
   authenticator,
-  serviceUrl: <service-url>,
+  serviceUrl: "https://" + region + ".event-notifications.cloud.ibm.com/event-notifications"
 });
 ```
-
+- region : Region of the Event Notifications Instance
 
 ## Using the SDK
 
@@ -114,7 +99,7 @@ SDK Methods to consume
 
 ```js
 const params = {
-  instanceId: <instance-id>,
+  instanceId: <instance-id>, // Event notifications service instance GUID
 };
 
 eventNotificationsService
@@ -131,8 +116,8 @@ eventNotificationsService
 
 ```js
 const params = {
-  instanceId: <instance-id>,
-  id: <source-id>,
+  instanceId: <instance-id>, // Event notifications service instance GUID
+  id: <source-id>, // Event notifications service instance Source ID
 };
 
 eventNotificationsService
@@ -159,12 +144,12 @@ const rulesModel = {
 
 // TopicUpdateSourcesItem
 const topicUpdateSourcesItemModel = {
-  id: <source-id>,
+  id: <source-id>,  // Event notifications service instance Source ID
   rules: [rulesModel],
 };
 
 const params = {
-  instanceId: <instance-id>,
+  instanceId: <instance-id>, // Event notifications service instance GUID
   name: <topic-name>,
   description: <topic-description>,
   sources: [topicUpdateSourcesItemModel],
@@ -489,7 +474,7 @@ eventNotificationsService
 
 ## Set Environment
 
-Find `event_notifications.env.hide` in the repo and rename it to `event_notifications.env`. After that add the values for,
+Find [event_notifications.env.hide(https://github.com/IBM/event-notifications-node-admin-sdk/blob/main/event_notifications.env.hide) in the repo and rename it to `event_notifications.env`. After that add the values for,
 
 - `EVENT_NOTIFICATIONS_URL` - Add the Event Notifications service instance Url.
 - `EVENT_NOTIFICATIONS_APIKEY` - Add the Event Notifications service instance apikey.
@@ -507,7 +492,7 @@ please ask a question at
 
 ## Issues
 If you encounter an issue with the SDK, you are welcome to submit
-a [bug report](https://github.com/IBM/event-notifications-node-sdk/issues).
+a [bug report](https://github.com/IBM/event-notifications-node-admin-sdk/issues).
 Before that, please search for similar issues. It's possible someone has
 already encountered this issue.
 
