@@ -10,7 +10,7 @@ node_js:
 
 script:
 - npm run build
-- npm run test-travis || travis_terminate 1
+- npm run test-unit-travis || travis_terminate 1
 - npm run lint
 - npm run check-packages
 # - sh scripts/typedoc/generate_typedoc.sh currently in progress
