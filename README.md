@@ -1,5 +1,5 @@
 
-# IBM Cloud Event Notifications Node.js SDK
+# IBM Cloud Event Notifications Node.js SDK 0.0.1
 Node.js client library to interact with various [Event Notifications APIs](https://cloud.ibm.com/apidocs?category=event-notifications).
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
@@ -29,7 +29,7 @@ The IBM Cloud Event Notifications Node.js SDK allows developers to programmatica
 
 Service Name | Import Path
 --- | --- 
-[Event-Notifications](https://cloud.ibm.com/apidocs/event-notifications) | event-notifications-node-admin-sdk/event-notifications/v1
+[Event-Notifications](https://cloud.ibm.com/apidocs/event-notifications) | @ibm-cloud/event-notifications-node-admin-sdk/event-notifications/v1
 
 ## Prerequisites
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
@@ -40,7 +40,7 @@ Service Name | Import Path
 ## Installation
 
 ```sh
-npm install ibm-event-notifications-node-admin-sdk@0.0.1-beta1
+npm install @ibm-cloud/event-notifications-node-admin-sdk
 ```
 
 ## Using the SDK
@@ -52,8 +52,8 @@ For general SDK usage information, please see
 Initialize the sdk to connect with your Event Notifications service instance.
 
 ```js
-import { EventNotificationsV1 } from 'ibm-event-notifications-node-admin-sdk/event-notifications/v1';
-import { IamAuthenticator } from 'ibm-event-notifications-node-admin-sdk/auth';
+import { EventNotificationsV1 } from '@ibm-cloud/event-notifications-node-admin-sdk/event-notifications/v1';
+import { IamAuthenticator } from '@ibm-cloud/event-notifications-node-admin-sdk/auth';
 
 const authenticator = new IamAuthenticator({
   apikey: <apikey>,  // Event notifications service instance APIKey
