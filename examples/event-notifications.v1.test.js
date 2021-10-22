@@ -44,7 +44,7 @@ const describe = authHelper.prepareTests(configFile);
 
 // EN config values
 let instanceId = '';
-let topicName = 'Admin Topic Compliance';
+const topicName = 'Admin Topic Compliance';
 let sourceId = '';
 let topicId = '';
 let destinationId = '';
@@ -454,8 +454,8 @@ describe('EventNotificationsV1', () => {
     const params = {
       instanceId,
       name: 'subscription_web',
-      destinationId: destinationId,
-      topicId: topicId,
+      destinationId,
+      topicId,
       attributes: subscriptionCreateAttributesModel,
       description: 'Subscription for the web',
     };

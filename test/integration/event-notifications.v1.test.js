@@ -16,8 +16,8 @@
 
 /* eslint-disable no-console */
 
-const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const { readExternalSources } = require('ibm-cloud-sdk-core');
+const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const authHelper = require('../resources/auth-helper.js');
 
 // testcase timeout value (200s).
@@ -30,7 +30,7 @@ const describe = authHelper.prepareTests(configFile);
 
 // EN test configuration values
 let instanceId = '';
-let topicName = 'Admin Topic Compliance';
+const topicName = 'Admin Topic Compliance';
 let sourceId = '';
 let topicId = '';
 let topicId2 = '';
@@ -59,11 +59,10 @@ describe('EventNotificationsV1_integration', () => {
 
   test('listSources()', async () => {
     let offset = 0;
-    let limit = 1;
+    const limit = 1;
     let hasMore = true;
-    let search = '';
+    const search = '';
     do {
-      
       const params = {
         instanceId,
         limit,
@@ -76,14 +75,13 @@ describe('EventNotificationsV1_integration', () => {
       expect(res.status).toBe(200);
       expect(res.result).toBeDefined();
 
-      if (sourceId == '') {
-        sourceId = res.result.sources[0].id
+      if (sourceId === '') {
+        sourceId = res.result.sources[0].id;
       }
-      offset += 1
-      if(res.result.total_count <= offset) {
-        hasMore = false
+      offset += 1;
+      if (res.result.total_count <= offset) {
+        hasMore = false;
       }
-      
     } while (hasMore);
 
     //
@@ -130,11 +128,12 @@ describe('EventNotificationsV1_integration', () => {
       rules: [rulesModel],
     };
 
-    var description = "This topic is used for routing all compliance related notifications to the appropriate destinations"
+    let description =
+      'This topic is used for routing all compliance related notifications to the appropriate destinations';
     const params = {
       instanceId,
       name: topicName,
-      description: description,
+      description,
       sources: [topicUpdateSourcesItemModel],
     };
 
@@ -144,12 +143,12 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result).toBeDefined();
     expect(res.result.name).toBe(topicName);
     expect(res.result.description).toBe(description);
-    topicId = res.result.id
+    topicId = res.result.id;
 
     // Second topic
-    var description = "Topic 2 for GCM notifications"
-    var name = topicName + "_2"
-    
+    description = 'Topic 2 for GCM notifications';
+    const name = `${topicName}_2`;
+
     const paramsSecond = {
       instanceId,
       name,
@@ -163,7 +162,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result).toBeDefined();
     expect(resSecond.result.name).toBe(name);
     expect(resSecond.result.description).toBe(description);
-    topicId2 = resSecond.result.id
+    topicId2 = resSecond.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -178,13 +177,11 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('listTopics()', async () => {
-
     let offset = 0;
-    let limit = 1;
+    const limit = 1;
     let hasMore = true;
-    let search = '';
+    const search = '';
     do {
-      
       const params = {
         instanceId,
         limit,
@@ -196,11 +193,10 @@ describe('EventNotificationsV1_integration', () => {
       expect(res).toBeDefined();
       expect(res.status).toBe(200);
       expect(res.result).toBeDefined();
-      offset += 1
-      if(res.result.total_count <= offset) {
-        hasMore = false
+      offset += 1;
+      if (res.result.total_count <= offset) {
+        hasMore = false;
       }
-      
     } while (hasMore);
 
     //
@@ -212,7 +208,6 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('getTopic()', async () => {
-    
     const params = {
       instanceId,
       id: topicId,
@@ -248,13 +243,13 @@ describe('EventNotificationsV1_integration', () => {
       rules: [rulesModel],
     };
 
-    const description = "Updated Topic for GCM notifications"
-    const name = "Updated Admin Topic Compliance"
+    const description = 'Updated Topic for GCM notifications';
+    const name = 'Updated Admin Topic Compliance';
     const params = {
       instanceId,
       id: topicId,
-      name: name,
-      description: description,
+      name,
+      description,
       sources: [topicUpdateSourcesItemModel],
     };
 
@@ -283,7 +278,7 @@ describe('EventNotificationsV1_integration', () => {
 
     // DestinationConfigParamsWebhookDestinationConfig
     const destinationConfigParamsModel = {
-      url: "https://gcm.com",
+      url: 'https://gcm.com',
       verb: 'get',
       custom_headers: { 'Authorization': 'aaa-r-t-fdsfs-55kfjsd-fsdfs' },
       sensitive_headers: ['Authorization'],
@@ -294,14 +289,14 @@ describe('EventNotificationsV1_integration', () => {
       params: destinationConfigParamsModel,
     };
 
-    const name = 'GCM_destination'
-    const description = 'GCM  Destination'
-    const type = 'webhook'
+    const name = 'GCM_destination';
+    const description = 'GCM  Destination';
+    const type = 'webhook';
     const params = {
       instanceId,
-      name: name,
-      type: type,
-      description: description,
+      name,
+      type,
+      description,
       config: destinationConfigModel,
     };
 
@@ -313,7 +308,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.type).toBe(type);
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
-    destinationId = res.result.id
+    destinationId = res.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -327,13 +322,11 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('listDestinations()', async () => {
-
     let offset = 0;
-    let limit = 1;
+    const limit = 1;
     let hasMore = true;
-    let search = '';
+    const search = '';
     do {
-      
       const params = {
         instanceId,
         limit,
@@ -345,15 +338,14 @@ describe('EventNotificationsV1_integration', () => {
       expect(res).toBeDefined();
       expect(res.status).toBe(200);
       expect(res.result).toBeDefined();
-      
-      
-      let destination = res.result.destinations[0]
-      if(destination.id != destinationId && destination.type == "smtp_ibm") {
-        destinationId2 = destination.id 
+
+      const destination = res.result.destinations[0];
+      if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
+        destinationId2 = destination.id;
       }
-      offset += 1
-      if(res.result.total_count <= offset) {
-        hasMore = false
+      offset += 1;
+      if (res.result.total_count <= offset) {
+        hasMore = false;
       }
     } while (hasMore);
 
@@ -401,14 +393,15 @@ describe('EventNotificationsV1_integration', () => {
       params: destinationConfigParamsModel,
     };
 
-    const name = 'Admin Webhook Compliance'
-    const description = 'This destination is for creating admin webhook to receive compliance notifications'
+    const name = 'Admin Webhook Compliance';
+    const description =
+      'This destination is for creating admin webhook to receive compliance notifications';
 
     const params = {
       instanceId,
       id: destinationId,
-      name: name,
-      description: description,
+      name,
+      description,
       config: destinationConfigModel,
     };
 
@@ -439,15 +432,15 @@ describe('EventNotificationsV1_integration', () => {
       signing_enabled: false,
     };
 
-    const name = 'subscription_web'
-    const description = 'Subscription for web'
+    const name = 'subscription_web';
+    const description = 'Subscription for web';
     const params = {
       instanceId,
-      name: name,
-      destinationId: destinationId,
-      topicId: topicId,
+      name,
+      destinationId,
+      topicId,
       attributes: subscriptionCreateAttributesModel,
-      description: description,
+      description,
     };
 
     const res = await eventNotificationsService.createSubscription(params);
@@ -456,7 +449,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result).toBeDefined();
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
-    subscriptionId = res.result.id
+    subscriptionId = res.result.id;
 
     // second subscription
     const subscriptionCreateAttributesModelSecond = {
@@ -464,13 +457,13 @@ describe('EventNotificationsV1_integration', () => {
       add_notification_payload: true,
     };
 
-    const nameSecond = 'subscription_web_2'
-    const descriptionSecond = 'Subscription 2 for web'
+    const nameSecond = 'subscription_web_2';
+    const descriptionSecond = 'Subscription 2 for web';
     const paramsSecond = {
       instanceId,
       name: nameSecond,
       destinationId: destinationId2,
-      topicId: topicId,
+      topicId,
       attributes: subscriptionCreateAttributesModelSecond,
       description: descriptionSecond,
     };
@@ -481,7 +474,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result).toBeDefined();
     expect(resSecond.result.name).toBe(nameSecond);
     expect(resSecond.result.description).toBe(descriptionSecond);
-    subscriptionId2 = resSecond.result.id
+    subscriptionId2 = resSecond.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -496,14 +489,11 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('listSubscriptions()', async () => {
-
-
     let offset = 0;
-    let limit = 1;
+    const limit = 1;
     let hasMore = true;
-    let search = '';
+    const search = '';
     do {
-      
       const params = {
         instanceId,
         limit,
@@ -515,11 +505,10 @@ describe('EventNotificationsV1_integration', () => {
       expect(res).toBeDefined();
       expect(res.status).toBe(200);
       expect(res.result).toBeDefined();
-      offset += 1
-      if(res.result.total_count <= offset) {
-        hasMore = false
+      offset += 1;
+      if (res.result.total_count <= offset) {
+        hasMore = false;
       }
-      
     } while (hasMore);
 
     //
@@ -558,13 +547,13 @@ describe('EventNotificationsV1_integration', () => {
       signing_enabled: true,
     };
 
-    const name = 'GCM_sub_updated'
-    const description = 'Update GCM subscription'
+    const name = 'GCM_sub_updated';
+    const description = 'Update GCM subscription';
     const params = {
       instanceId,
       id: subscriptionId,
-      name: name,
-      description: description,
+      name,
+      description,
       attributes: subscriptionUpdateAttributesModel,
     };
 
@@ -588,10 +577,9 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('deleteSubscription()', async () => {
-    
     let params = {
       instanceId,
-      id: subscriptionId
+      id: subscriptionId,
     };
 
     let res = await eventNotificationsService.deleteSubscription(params);
@@ -601,7 +589,7 @@ describe('EventNotificationsV1_integration', () => {
 
     params = {
       instanceId,
-      id: subscriptionId2
+      id: subscriptionId2,
     };
 
     res = await eventNotificationsService.deleteSubscription(params);
@@ -619,7 +607,6 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('deleteTopic()', async () => {
-
     let params = {
       instanceId,
       id: topicId,
