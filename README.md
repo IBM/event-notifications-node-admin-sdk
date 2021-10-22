@@ -1,5 +1,5 @@
 
-# IBM Cloud Event Notifications Node.js SDK 0.0.1
+# IBM Cloud Event Notifications Node.js SDK 0.0.2
 Node.js client library to interact with various [Event Notifications APIs](https://cloud.ibm.com/apidocs?category=event-notifications).
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
