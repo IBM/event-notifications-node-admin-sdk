@@ -1,3 +1,10 @@
+## [0.0.3](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.2...v0.0.3) (2021-10-28)
+
+
+### Bug Fixes
+
+* production service support ([#9](https://github.com/IBM/event-notifications-node-admin-sdk/issues/9)) ([2467f87](https://github.com/IBM/event-notifications-node-admin-sdk/commit/2467f871025d87c70f7f44b138b211964f3270af))
+
 ## [0.0.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.1...v0.0.2) (2021-10-22)
 
 
