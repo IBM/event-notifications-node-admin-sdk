@@ -52,7 +52,7 @@ let subscriptionId = '';
 
 // Save original console.log
 const originalLog = console.log;
-const originalWarn = console.warn;
+const originalWarn = console.warn;    
 
 // Mocks for console.log and console.warn
 const consoleLogMock = jest.spyOn(console, 'log');
@@ -68,14 +68,14 @@ describe('EventNotificationsV1', () => {
   instanceId = config.guid;
 
   let eventNotificationsService;
-
   test('Initialize services', async () => {
-    // begin-common
+  // begin-common
 
     eventNotificationsService = EventNotificationsV1.newInstance({});
 
-    // end-common
+  // end-common
   });
+  
 
   test('listSources request example', async () => {
     consoleLogMock.mockImplementation((output) => {
@@ -296,8 +296,8 @@ describe('EventNotificationsV1', () => {
     originalLog('createDestination() result:');
     // begin-create_destination
 
-    // DestinationConfigParamsWebhookDestinationConfig
-    const destinationConfigParamsModel = {
+     // DestinationConfigParamsWebhookDestinationConfig
+     const destinationConfigParamsModel = {
       url: 'https://gcm.com',
       verb: 'get',
       custom_headers: { 'Authorization': 'aaa-r-t-fdsfs-55kfjsd-fsdfs' },
@@ -446,7 +446,6 @@ describe('EventNotificationsV1', () => {
 
     // Request models needed by this operation.
 
-    // SubscriptionCreateAttributesSMSAttributes
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
     };

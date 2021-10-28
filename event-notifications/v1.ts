@@ -36,8 +36,7 @@ import { getSdkHeaders } from '../lib/common';
  */
 
 class EventNotificationsV1 extends BaseService {
-  static DEFAULT_SERVICE_URL: string =
-    'https://notifications-dev-02072d4876b4d118c3c99d947398ca94-0001.us-south.containers.appdomain.cloud/event-notifications';
+  static DEFAULT_SERVICE_URL: string = 'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
 
   static DEFAULT_SERVICE_NAME: string = 'event_notifications';
 
@@ -186,7 +185,11 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getSource');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSource'
+    );
 
     const parameters = {
       options: {
@@ -309,7 +312,11 @@ class EventNotificationsV1 extends BaseService {
       'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'listTopics');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTopics'
+    );
 
     const parameters = {
       options: {
@@ -365,7 +372,11 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getTopic');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTopic'
+    );
 
     const parameters = {
       options: {
@@ -494,7 +505,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -790,7 +807,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1023,7 +1046,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1349,7 +1378,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type Email/Webhook. */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -1367,7 +1396,8 @@ namespace EventNotificationsV1 {
   }
 
   /** DestinationConfigParams. */
-  export interface DestinationConfigParams {}
+  export interface DestinationConfigParams {
+  }
 
   /** Destination object. */
   export interface DestinationLisItem {
@@ -1377,7 +1407,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type Email/Webhook. */
     type: string;
     /** Subscription count. */
     subscription_count: number;
@@ -1407,7 +1437,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type Email/Webhook. */
     type: string;
     /** Payload describing a destination configuration. */
     config: DestinationConfig;
@@ -1517,10 +1547,12 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionAttributes. */
-  export interface SubscriptionAttributes {}
+  export interface SubscriptionAttributes {
+  }
 
   /** SubscriptionCreateAttributes. */
-  export interface SubscriptionCreateAttributes {}
+  export interface SubscriptionCreateAttributes {
+  }
 
   /** Subscription list object. */
   export interface SubscriptionList {
@@ -1557,7 +1589,8 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionUpdateAttributes. */
-  export interface SubscriptionUpdateAttributes {}
+  export interface SubscriptionUpdateAttributes {
+  }
 
   /** Topic object. */
   export interface Topic {
@@ -1661,14 +1694,6 @@ namespace EventNotificationsV1 {
     recipient_selection: string;
   }
 
-  /** SMS attributes object. */
-  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
-    /** The recipient selection method. */
-    recipient_selection: string;
-  }
-
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
     /** Signing webhook attributes. */
@@ -1678,8 +1703,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesEmailAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesEmailAttributes extends SubscriptionCreateAttributes {
     /** The email id string. */
     to: string[];
     /** Whether to add the notification payload to the email. */
@@ -1688,22 +1712,14 @@ namespace EventNotificationsV1 {
     reply_to?: string;
   }
 
-  /** SMS attributes object. */
-  export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
-  }
-
   /** The attributes for a webhook notification. */
-  export interface SubscriptionCreateAttributesWebhookAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesWebhookAttributes extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesEmailAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesEmailAttributes extends SubscriptionUpdateAttributes {
     /** The email id string. */
     to: string[];
     /** Whether to add the notification payload to the email. */
@@ -1712,15 +1728,8 @@ namespace EventNotificationsV1 {
     reply_to?: string;
   }
 
-  /** SMS attributes object. */
-  export interface SubscriptionUpdateAttributesSMSAttributes extends SubscriptionUpdateAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
-  }
-
   /** The attributes for a webhook notification. */
-  export interface SubscriptionUpdateAttributesWebhookAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesWebhookAttributes extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }
