@@ -15,8 +15,8 @@
  */
 
 /* eslint-disable no-console */
-const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const { readExternalSources } = require('ibm-cloud-sdk-core');
+const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const authHelper = require('../resources/auth-helper.js');
 
 // testcase timeout value (200s).
@@ -43,7 +43,7 @@ describe('EventNotificationsV1_integration', () => {
 
   let eventNotificationsService;
 
-  test('Initialise service', async() => {
+  test('Initialise service', async () => {
     eventNotificationsService = EventNotificationsV1.newInstance({});
 
     expect(eventNotificationsService).not.toBeNull();
@@ -51,7 +51,7 @@ describe('EventNotificationsV1_integration', () => {
     const config = readExternalSources(EventNotificationsV1.DEFAULT_SERVICE_NAME);
     expect(config).not.toBeNull();
     instanceId = config.guid;
-  
+
     eventNotificationsService.enableRetries();
   });
 
@@ -206,7 +206,7 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('getTopic()', async () => {
-     const params = {
+    const params = {
       instanceId,
       id: topicId,
     };
@@ -228,8 +228,8 @@ describe('EventNotificationsV1_integration', () => {
   test('replaceTopic()', async () => {
     // Request models needed by this operation.
 
-     // Rules
-     const rulesModel = {
+    // Rules
+    const rulesModel = {
       enabled: true,
       event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
       notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
@@ -425,53 +425,53 @@ describe('EventNotificationsV1_integration', () => {
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
-   const subscriptionCreateAttributesModel = {
-    signing_enabled: false,
-  };
+    const subscriptionCreateAttributesModel = {
+      signing_enabled: false,
+    };
 
-  const name = 'subscription_web';
-  const description = 'Subscription for web';
-  const params = {
-    instanceId,
-    name,
-    destinationId,
-    topicId,
-    attributes: subscriptionCreateAttributesModel,
-    description,
-  };
+    const name = 'subscription_web';
+    const description = 'Subscription for web';
+    const params = {
+      instanceId,
+      name,
+      destinationId,
+      topicId,
+      attributes: subscriptionCreateAttributesModel,
+      description,
+    };
 
-  const res = await eventNotificationsService.createSubscription(params);
-  expect(res).toBeDefined();
-  expect(res.status).toBe(201);
-  expect(res.result).toBeDefined();
-  expect(res.result.name).toBe(name);
-  expect(res.result.description).toBe(description);
-  subscriptionId = res.result.id;
+    const res = await eventNotificationsService.createSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+    expect(res.result.name).toBe(name);
+    expect(res.result.description).toBe(description);
+    subscriptionId = res.result.id;
 
-  // second subscription
-  const subscriptionCreateAttributesModelSecond = {
-    to: ['tester1@gmail.com', 'tester3@ibm.com'],
-    add_notification_payload: true,
-  };
+    // second subscription
+    const subscriptionCreateAttributesModelSecond = {
+      to: ['tester1@gmail.com', 'tester3@ibm.com'],
+      add_notification_payload: true,
+    };
 
-  const nameSecond = 'subscription_web_2';
-  const descriptionSecond = 'Subscription 2 for web';
-  const paramsSecond = {
-    instanceId,
-    name: nameSecond,
-    destinationId: destinationId2,
-    topicId,
-    attributes: subscriptionCreateAttributesModelSecond,
-    description: descriptionSecond,
-  };
+    const nameSecond = 'subscription_web_2';
+    const descriptionSecond = 'Subscription 2 for web';
+    const paramsSecond = {
+      instanceId,
+      name: nameSecond,
+      destinationId: destinationId2,
+      topicId,
+      attributes: subscriptionCreateAttributesModelSecond,
+      description: descriptionSecond,
+    };
 
-  const resSecond = await eventNotificationsService.createSubscription(paramsSecond);
-  expect(resSecond).toBeDefined();
-  expect(resSecond.status).toBe(201);
-  expect(resSecond.result).toBeDefined();
-  expect(resSecond.result.name).toBe(nameSecond);
-  expect(resSecond.result.description).toBe(descriptionSecond);
-  subscriptionId2 = resSecond.result.id;
+    const resSecond = await eventNotificationsService.createSubscription(paramsSecond);
+    expect(resSecond).toBeDefined();
+    expect(resSecond.status).toBe(201);
+    expect(resSecond.result).toBeDefined();
+    expect(resSecond.result.name).toBe(nameSecond);
+    expect(resSecond.result.description).toBe(descriptionSecond);
+    subscriptionId2 = resSecond.result.id;
 
     //
     // The following status codes aren't covered by tests.
