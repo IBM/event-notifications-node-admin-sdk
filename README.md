@@ -369,7 +369,7 @@ eventNotificationsService
 ### Create Subscription
 
 ```js
-While Creating Subscription use any of one option from webhook, email or SMS
+While Creating Subscription use any of one option from webhook or email
 
 // SubscriptionCreateAttributesWebhookAttributes
 const subscriptionCreateAttributesModel = {

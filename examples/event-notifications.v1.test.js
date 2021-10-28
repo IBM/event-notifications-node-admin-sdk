@@ -68,7 +68,6 @@ describe('EventNotificationsV1', () => {
   instanceId = config.guid;
 
   let eventNotificationsService;
-
   test('Initialize services', async () => {
     // begin-common
 
@@ -446,7 +445,6 @@ describe('EventNotificationsV1', () => {
 
     // Request models needed by this operation.
 
-    // SubscriptionCreateAttributesSMSAttributes
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
     };

@@ -25,7 +25,7 @@ const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = 
 
 const eventNotificationsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
-  url: 'https://us-south.containers.appdomain.cloud/event-notifications',
+  url: 'https://us-south.event-notifications.cloud.ibm.com/event-notifications',
 };
 
 const eventNotificationsService = new EventNotificationsV1(eventNotificationsServiceOptions);
@@ -1275,9 +1275,11 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // SubscriptionCreateAttributesSMSAttributes
+      // SubscriptionCreateAttributesEmailAttributes
       const subscriptionCreateAttributesModel = {
         to: ['testString'],
+        add_notification_payload: false,
+        reply_to: 'testString',
       };
 
       function __createSubscriptionTest() {
@@ -1664,9 +1666,11 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // SubscriptionUpdateAttributesSMSAttributes
+      // SubscriptionUpdateAttributesEmailAttributes
       const subscriptionUpdateAttributesModel = {
         to: ['testString'],
+        add_notification_payload: false,
+        reply_to: 'testString',
       };
 
       function __updateSubscriptionTest() {

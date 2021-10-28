@@ -37,7 +37,7 @@ import { getSdkHeaders } from '../lib/common';
 
 class EventNotificationsV1 extends BaseService {
   static DEFAULT_SERVICE_URL: string =
-    'https://notifications-dev-02072d4876b4d118c3c99d947398ca94-0001.us-south.containers.appdomain.cloud/event-notifications';
+    'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
 
   static DEFAULT_SERVICE_NAME: string = 'event_notifications';
 
@@ -1349,7 +1349,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type Email/Webhook. */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -1377,7 +1377,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type Email/Webhook. */
     type: string;
     /** Subscription count. */
     subscription_count: number;
@@ -1407,7 +1407,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type Email/Webhook. */
     type: string;
     /** Payload describing a destination configuration. */
     config: DestinationConfig;
@@ -1661,14 +1661,6 @@ namespace EventNotificationsV1 {
     recipient_selection: string;
   }
 
-  /** SMS attributes object. */
-  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
-    /** The recipient selection method. */
-    recipient_selection: string;
-  }
-
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
     /** Signing webhook attributes. */
@@ -1688,12 +1680,6 @@ namespace EventNotificationsV1 {
     reply_to?: string;
   }
 
-  /** SMS attributes object. */
-  export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
-  }
-
   /** The attributes for a webhook notification. */
   export interface SubscriptionCreateAttributesWebhookAttributes
     extends SubscriptionCreateAttributes {
@@ -1710,12 +1696,6 @@ namespace EventNotificationsV1 {
     add_notification_payload: boolean;
     /** The email address to reply to. */
     reply_to?: string;
-  }
-
-  /** SMS attributes object. */
-  export interface SubscriptionUpdateAttributesSMSAttributes extends SubscriptionUpdateAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
   }
 
   /** The attributes for a webhook notification. */

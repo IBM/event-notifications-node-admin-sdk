@@ -15,7 +15,6 @@
  */
 
 /* eslint-disable no-console */
-
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const authHelper = require('../resources/auth-helper.js');
@@ -42,8 +41,7 @@ let subscriptionId2 = '';
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
 
-  // TODO remove
-  let eventNotificationsService = EventNotificationsV1.newInstance({});
+  let eventNotificationsService;
 
   test('Initialise service', async () => {
     eventNotificationsService = EventNotificationsV1.newInstance({});
@@ -427,7 +425,6 @@ describe('EventNotificationsV1_integration', () => {
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
-    // SubscriptionCreateAttributesSMSAttributes
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
     };
@@ -542,7 +539,6 @@ describe('EventNotificationsV1_integration', () => {
   test('updateSubscription()', async () => {
     // Request models needed by this operation.
 
-    // SubscriptionUpdateAttributesSMSAttributes
     const subscriptionUpdateAttributesModel = {
       signing_enabled: true,
     };
