@@ -452,6 +452,9 @@ describe('EventNotificationsV1_integration', () => {
     const subscriptionCreateAttributesModelSecond = {
       to: ['tester1@gmail.com', 'tester3@ibm.com'],
       add_notification_payload: true,
+      reply_to_mail: 'tester1@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
     };
 
     const nameSecond = 'subscription_web_2';

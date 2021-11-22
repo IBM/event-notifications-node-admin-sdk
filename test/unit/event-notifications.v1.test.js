@@ -1275,11 +1275,9 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // SubscriptionCreateAttributesEmailAttributes
+      // SubscriptionCreateAttributesSMSAttributes
       const subscriptionCreateAttributesModel = {
         to: ['testString'],
-        add_notification_payload: false,
-        reply_to: 'testString',
       };
 
       function __createSubscriptionTest() {
@@ -1666,11 +1664,9 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // SubscriptionUpdateAttributesEmailAttributes
+      // SubscriptionUpdateAttributesSMSAttributes
       const subscriptionUpdateAttributesModel = {
         to: ['testString'],
-        add_notification_payload: false,
-        reply_to: 'testString',
       };
 
       function __updateSubscriptionTest() {
