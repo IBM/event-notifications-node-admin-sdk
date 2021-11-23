@@ -1,3 +1,10 @@
+## [0.0.4](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.3...v0.0.4) (2021-11-23)
+
+
+### Bug Fixes
+
+* add sms and email(from_name, to_mail, to_name) ([#10](https://github.com/IBM/event-notifications-node-admin-sdk/issues/10)) ([6803776](https://github.com/IBM/event-notifications-node-admin-sdk/commit/6803776f0eea57ffded44eebab6bfc26e5575e01))
+
 ## [0.0.3](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.2...v0.0.3) (2021-10-28)
 
 
