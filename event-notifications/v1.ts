@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.41.0-f1ef0102-20211018-193503
+ * IBM OpenAPI SDK Code Generator Version: 3.42.0-8746aaa4-20211102-213344
  */
 
 import * as extend from 'extend';
@@ -1349,7 +1349,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/Webhook. */
+    /** Destination type Email/SMS/Webhook. */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -1377,7 +1377,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/Webhook. */
+    /** Destination type Email/SMS/Webhook. */
     type: string;
     /** Subscription count. */
     subscription_count: number;
@@ -1407,7 +1407,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/Webhook. */
+    /** Destination type Email/SMS/Webhook. */
     type: string;
     /** Payload describing a destination configuration. */
     config: DestinationConfig;
@@ -1656,7 +1656,19 @@ namespace EventNotificationsV1 {
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
-    reply_to: string;
+    reply_to_mail: string;
+    /** The email name to reply to. */
+    reply_to_name?: string;
+    /** The email name of From. */
+    from_name?: string;
+    /** The recipient selection method. */
+    recipient_selection: string;
+  }
+
+  /** SMS attributes object. */
+  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
+    /** The phone number to send the SMS to. */
+    to: string[];
     /** The recipient selection method. */
     recipient_selection: string;
   }
@@ -1677,7 +1689,17 @@ namespace EventNotificationsV1 {
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
-    reply_to?: string;
+    reply_to_mail?: string;
+    /** The email name to reply to. */
+    reply_to_name?: string;
+    /** The email name of From. */
+    from_name?: string;
+  }
+
+  /** SMS attributes object. */
+  export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
+    /** The phone number to send the SMS to. */
+    to: string[];
   }
 
   /** The attributes for a webhook notification. */
@@ -1695,7 +1717,17 @@ namespace EventNotificationsV1 {
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
-    reply_to?: string;
+    reply_to_mail?: string;
+    /** The email name to reply to. */
+    reply_to_name?: string;
+    /** The email name of From. */
+    from_name?: string;
+  }
+
+  /** SMS attributes object. */
+  export interface SubscriptionUpdateAttributesSMSAttributes extends SubscriptionUpdateAttributes {
+    /** The phone number to send the SMS to. */
+    to: string[];
   }
 
   /** The attributes for a webhook notification. */
