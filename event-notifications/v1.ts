@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.42.0-8746aaa4-20211102-213344
+ * IBM OpenAPI SDK Code Generator Version: 3.43.0-49eab5c7-20211117-152138
  */
 
 import * as extend from 'extend';
@@ -1415,6 +1415,20 @@ namespace EventNotificationsV1 {
     created_at: string;
   }
 
+  /** The email ids. */
+  export interface EmailUpdateAttributesTo {
+    /** The email ids. */
+    add?: string[];
+    /** The email ids for removal. */
+    remove?: string[];
+  }
+
+  /** The email ids. */
+  export interface EmailUpdateAttributesUnsubscribed {
+    /** The email ids unsubscribed. */
+    remove?: string[];
+  }
+
   /** Rule object. */
   export interface Rules {
     /** Whether the rule is enabled or not. */
@@ -1517,7 +1531,10 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionAttributes. */
-  export interface SubscriptionAttributes {}
+  export interface SubscriptionAttributes {
+    /** SubscriptionAttributes accepts additional properties. */
+    [propName: string]: any;
+  }
 
   /** SubscriptionCreateAttributes. */
   export interface SubscriptionCreateAttributes {}
@@ -1649,29 +1666,11 @@ namespace EventNotificationsV1 {
     sensitive_headers?: string[];
   }
 
-  /** The attributes for an email notification. */
-  export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {
-    /** The email id string. */
-    to: string[];
-    /** Whether to add the notification payload to the email. */
-    add_notification_payload: boolean;
-    /** The email address to reply to. */
-    reply_to_mail: string;
-    /** The email name to reply to. */
-    reply_to_name?: string;
-    /** The email name of From. */
-    from_name?: string;
-    /** The recipient selection method. */
-    recipient_selection: string;
-  }
+  /** The attributes reponse for an email destination. */
+  export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {}
 
   /** SMS attributes object. */
-  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
-    /** The phone number to send the SMS to. */
-    to: string[];
-    /** The recipient selection method. */
-    recipient_selection: string;
-  }
+  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {}
 
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
@@ -1689,11 +1688,11 @@ namespace EventNotificationsV1 {
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
-    reply_to_mail?: string;
+    reply_to_mail: string;
     /** The email name to reply to. */
-    reply_to_name?: string;
+    reply_to_name: string;
     /** The email name of From. */
-    from_name?: string;
+    from_name: string;
   }
 
   /** SMS attributes object. */
@@ -1710,18 +1709,22 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesEmailAttributes
+  export interface SubscriptionUpdateAttributesEmailUpdateAttributes
     extends SubscriptionUpdateAttributes {
-    /** The email id string. */
-    to: string[];
+    /** The email ids. */
+    to: EmailUpdateAttributesTo;
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
-    reply_to_mail?: string;
+    reply_to_mail: string;
     /** The email name to reply to. */
-    reply_to_name?: string;
+    reply_to_name: string;
     /** The email name of From. */
-    from_name?: string;
+    from_name: string;
+    /** The email ids invited. */
+    invited?: string[];
+    /** The email ids. */
+    unsubscribed?: EmailUpdateAttributesUnsubscribed;
   }
 
   /** SMS attributes object. */

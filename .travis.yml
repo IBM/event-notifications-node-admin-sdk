@@ -15,9 +15,6 @@ script:
 - npm run check-packages
 # - sh scripts/typedoc/generate_typedoc.sh currently in progress
 
-after_success:
-- npm run report-coverage
-
 # To enable semantic-release, uncomment this section.
 deploy:
 - provider: script
