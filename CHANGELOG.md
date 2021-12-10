@@ -1,3 +1,10 @@
+## [0.0.5](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.4...v0.0.5) (2021-12-10)
+
+
+### Bug Fixes
+
+* add email schema changes ([#11](https://github.com/IBM/event-notifications-node-admin-sdk/issues/11)) ([fd51339](https://github.com/IBM/event-notifications-node-admin-sdk/commit/fd51339b5c4b954b6e0736fc42288d27b4c55dae))
+
 ## [0.0.4](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.3...v0.0.4) (2021-11-23)
 
 
