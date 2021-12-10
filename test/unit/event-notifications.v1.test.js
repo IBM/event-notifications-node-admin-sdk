@@ -21,7 +21,12 @@ const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
-const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
+const {
+  getOptions,
+  checkUrlAndMethod,
+  checkMediaHeaders,
+  expectToBePromise,
+} = unitTestUtils;
 
 const eventNotificationsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
@@ -102,10 +107,10 @@ describe('EventNotificationsV1', () => {
         const offset = 0;
         const search = 'testString';
         const params = {
-          instanceId,
-          limit,
-          offset,
-          search,
+          instanceId: instanceId,
+          limit: limit,
+          offset: offset,
+          search: search,
         };
 
         const listSourcesResult = eventNotificationsService.listSources(params);
@@ -192,8 +197,8 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const params = {
-          instanceId,
-          id,
+          instanceId: instanceId,
+          id: id,
         };
 
         const getSourceResult = eventNotificationsService.getSource(params);
@@ -280,8 +285,8 @@ describe('EventNotificationsV1', () => {
       // Rules
       const rulesModel = {
         enabled: true,
-        event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
-        notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+        event_type_filter: '$.notification_event_info.event_type == \'cert_manager\'',
+        notification_filter: '$.notification.findings[0].severity == \'MODERATE\'',
       };
 
       // TopicUpdateSourcesItem
@@ -297,10 +302,10 @@ describe('EventNotificationsV1', () => {
         const description = 'testString';
         const sources = [topicUpdateSourcesItemModel];
         const params = {
-          instanceId,
-          name,
-          description,
-          sources,
+          instanceId: instanceId,
+          name: name,
+          description: description,
+          sources: sources,
         };
 
         const createTopicResult = eventNotificationsService.createTopic(params);
@@ -391,10 +396,10 @@ describe('EventNotificationsV1', () => {
         const offset = 0;
         const search = 'testString';
         const params = {
-          instanceId,
-          limit,
-          offset,
-          search,
+          instanceId: instanceId,
+          limit: limit,
+          offset: offset,
+          search: search,
         };
 
         const listTopicsResult = eventNotificationsService.listTopics(params);
@@ -482,9 +487,9 @@ describe('EventNotificationsV1', () => {
         const id = 'testString';
         const include = 'testString';
         const params = {
-          instanceId,
-          id,
-          include,
+          instanceId: instanceId,
+          id: id,
+          include: include,
         };
 
         const getTopicResult = eventNotificationsService.getTopic(params);
@@ -572,8 +577,8 @@ describe('EventNotificationsV1', () => {
       // Rules
       const rulesModel = {
         enabled: true,
-        event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
-        notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+        event_type_filter: '$.notification_event_info.event_type == \'cert_manager\'',
+        notification_filter: '$.notification.findings[0].severity == \'MODERATE\'',
       };
 
       // TopicUpdateSourcesItem
@@ -590,11 +595,11 @@ describe('EventNotificationsV1', () => {
         const description = 'testString';
         const sources = [topicUpdateSourcesItemModel];
         const params = {
-          instanceId,
-          id,
-          name,
-          description,
-          sources,
+          instanceId: instanceId,
+          id: id,
+          name: name,
+          description: description,
+          sources: sources,
         };
 
         const replaceTopicResult = eventNotificationsService.replaceTopic(params);
@@ -684,8 +689,8 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const params = {
-          instanceId,
-          id,
+          instanceId: instanceId,
+          id: id,
         };
 
         const deleteTopicResult = eventNotificationsService.deleteTopic(params);
@@ -790,11 +795,11 @@ describe('EventNotificationsV1', () => {
         const description = 'testString';
         const config = destinationConfigModel;
         const params = {
-          instanceId,
-          name,
-          type,
-          description,
-          config,
+          instanceId: instanceId,
+          name: name,
+          type: type,
+          description: description,
+          config: config,
         };
 
         const createDestinationResult = eventNotificationsService.createDestination(params);
@@ -888,10 +893,10 @@ describe('EventNotificationsV1', () => {
         const offset = 0;
         const search = 'testString';
         const params = {
-          instanceId,
-          limit,
-          offset,
-          search,
+          instanceId: instanceId,
+          limit: limit,
+          offset: offset,
+          search: search,
         };
 
         const listDestinationsResult = eventNotificationsService.listDestinations(params);
@@ -978,8 +983,8 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const params = {
-          instanceId,
-          id,
+          instanceId: instanceId,
+          id: id,
         };
 
         const getDestinationResult = eventNotificationsService.getDestination(params);
@@ -992,11 +997,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1088,11 +1089,11 @@ describe('EventNotificationsV1', () => {
         const description = 'testString';
         const config = destinationConfigModel;
         const params = {
-          instanceId,
-          id,
-          name,
-          description,
-          config,
+          instanceId: instanceId,
+          id: id,
+          name: name,
+          description: description,
+          config: config,
         };
 
         const updateDestinationResult = eventNotificationsService.updateDestination(params);
@@ -1105,11 +1106,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1186,8 +1183,8 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const params = {
-          instanceId,
-          id,
+          instanceId: instanceId,
+          id: id,
         };
 
         const deleteDestinationResult = eventNotificationsService.deleteDestination(params);
@@ -1200,11 +1197,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1289,12 +1282,12 @@ describe('EventNotificationsV1', () => {
         const attributes = subscriptionCreateAttributesModel;
         const description = 'testString';
         const params = {
-          instanceId,
-          name,
-          destinationId,
-          topicId,
-          attributes,
-          description,
+          instanceId: instanceId,
+          name: name,
+          destinationId: destinationId,
+          topicId: topicId,
+          attributes: attributes,
+          description: description,
         };
 
         const createSubscriptionResult = eventNotificationsService.createSubscription(params);
@@ -1393,10 +1386,10 @@ describe('EventNotificationsV1', () => {
         const limit = 1;
         const search = 'testString';
         const params = {
-          instanceId,
-          offset,
-          limit,
-          search,
+          instanceId: instanceId,
+          offset: offset,
+          limit: limit,
+          search: search,
         };
 
         const listSubscriptionsResult = eventNotificationsService.listSubscriptions(params);
@@ -1483,8 +1476,8 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const params = {
-          instanceId,
-          id,
+          instanceId: instanceId,
+          id: id,
         };
 
         const getSubscriptionResult = eventNotificationsService.getSubscription(params);
@@ -1497,11 +1490,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/subscriptions/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/subscriptions/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1575,8 +1564,8 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const params = {
-          instanceId,
-          id,
+          instanceId: instanceId,
+          id: id,
         };
 
         const deleteSubscriptionResult = eventNotificationsService.deleteSubscription(params);
@@ -1589,11 +1578,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/subscriptions/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/subscriptions/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1677,11 +1662,11 @@ describe('EventNotificationsV1', () => {
         const description = 'testString';
         const attributes = subscriptionUpdateAttributesModel;
         const params = {
-          instanceId,
-          id,
-          name,
-          description,
-          attributes,
+          instanceId: instanceId,
+          id: id,
+          name: name,
+          description: description,
+          attributes: attributes,
         };
 
         const updateSubscriptionResult = eventNotificationsService.updateSubscription(params);
@@ -1694,11 +1679,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/subscriptions/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/subscriptions/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);

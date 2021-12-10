@@ -36,6 +36,8 @@ let topicId2 = '';
 let destinationId = '';
 let destinationId2 = '';
 let subscriptionId = '';
+let destinationIDSMS  = '';
+let subscriptionIDSMS  = '';
 let subscriptionId2 = '';
 
 describe('EventNotificationsV1_integration', () => {
@@ -340,6 +342,8 @@ describe('EventNotificationsV1_integration', () => {
       const destination = res.result.destinations[0];
       if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
         destinationId2 = destination.id;
+      } else if (destination.id !== destinationId && destination.type === 'sms_ibm') {
+        destinationIDSMS = destination.id;
       }
       offset += 1;
       if (res.result.total_count <= offset) {
@@ -449,7 +453,7 @@ describe('EventNotificationsV1_integration', () => {
     subscriptionId = res.result.id;
 
     // second subscription
-    const subscriptionCreateAttributesModelSecond = {
+    var subscriptionCreateAttributesModelSecond = {
       to: ['tester1@gmail.com', 'tester3@ibm.com'],
       add_notification_payload: true,
       reply_to_mail: 'tester1@gmail.com',
@@ -457,9 +461,9 @@ describe('EventNotificationsV1_integration', () => {
       from_name: 'IBM',
     };
 
-    const nameSecond = 'subscription_web_2';
-    const descriptionSecond = 'Subscription 2 for web';
-    const paramsSecond = {
+    var nameSecond = 'subscription_web_2';
+    var descriptionSecond = 'Subscription 2 for web';
+    var paramsSecond = {
       instanceId,
       name: nameSecond,
       destinationId: destinationId2,
@@ -468,13 +472,37 @@ describe('EventNotificationsV1_integration', () => {
       description: descriptionSecond,
     };
 
-    const resSecond = await eventNotificationsService.createSubscription(paramsSecond);
+    var resSecond = await eventNotificationsService.createSubscription(paramsSecond);
     expect(resSecond).toBeDefined();
     expect(resSecond.status).toBe(201);
     expect(resSecond.result).toBeDefined();
     expect(resSecond.result.name).toBe(nameSecond);
     expect(resSecond.result.description).toBe(descriptionSecond);
     subscriptionId2 = resSecond.result.id;
+
+    // third subscription
+    subscriptionCreateAttributesModelSecond = {
+      to: ["+12048089972", "+12014222730"],
+    };
+
+     nameSecond = 'subscription_sms';
+     descriptionSecond = 'Subscription for sms';
+     paramsSecond = {
+      instanceId,
+      name: nameSecond,
+      destinationId: destinationIDSMS,
+      topicId,
+      attributes: subscriptionCreateAttributesModelSecond,
+      description: descriptionSecond,
+    };
+
+     resSecond = await eventNotificationsService.createSubscription(paramsSecond);
+    expect(resSecond).toBeDefined();
+    expect(resSecond.status).toBe(201);
+    expect(resSecond.result).toBeDefined();
+    expect(resSecond.result.name).toBe(nameSecond);
+    expect(resSecond.result.description).toBe(descriptionSecond);
+    subscriptionIDSMS = resSecond.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -542,13 +570,13 @@ describe('EventNotificationsV1_integration', () => {
   test('updateSubscription()', async () => {
     // Request models needed by this operation.
 
-    const subscriptionUpdateAttributesModel = {
+    var subscriptionUpdateAttributesModel = {
       signing_enabled: true,
     };
 
-    const name = 'GCM_sub_updated';
-    const description = 'Update GCM subscription';
-    const params = {
+    var name = 'GCM_sub_updated';
+    var description = 'Update GCM subscription';
+    var params = {
       instanceId,
       id: subscriptionId,
       name,
@@ -556,7 +584,61 @@ describe('EventNotificationsV1_integration', () => {
       attributes: subscriptionUpdateAttributesModel,
     };
 
-    const res = await eventNotificationsService.updateSubscription(params);
+    var res = await eventNotificationsService.updateSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+    expect(res.result.name).toBe(name);
+    expect(res.result.description).toBe(description);
+
+    // update email 
+    subscriptionUpdateAttributesModel = {
+      to: {
+        add: ["testereq1@gmail.com", "tester553@ibm.com"], 
+        remove: ["tester1@gmail.com"],
+      },
+      add_notification_payload: true,
+      reply_to_mail: 'tester1@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
+      unsubscribed: {
+        remove: ["tester3@ibm.com"]
+      }
+    };
+
+    name = 'subscription_email_3';
+    description = 'Update email subscription';
+    params = {
+      instanceId,
+      id: subscriptionId2,
+      name,
+      description,
+      attributes: subscriptionUpdateAttributesModel,
+    };
+
+    res = await eventNotificationsService.updateSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+    expect(res.result.name).toBe(name);
+    expect(res.result.description).toBe(description);
+
+    // update sms
+    subscriptionUpdateAttributesModel = {
+      to: ["+120480009972", "+1201499990"]
+    };
+
+    name = 'subscription_sms+1';
+    description = "update Subscription for sms";
+    params = {
+      instanceId,
+      id: subscriptionIDSMS,
+      name,
+      description,
+      attributes: subscriptionUpdateAttributesModel,
+    };
+
+    res = await eventNotificationsService.updateSubscription(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
@@ -589,6 +671,16 @@ describe('EventNotificationsV1_integration', () => {
     params = {
       instanceId,
       id: subscriptionId2,
+    };
+
+    res = await eventNotificationsService.deleteSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    params = {
+      instanceId,
+      id: subscriptionIDSMS,
     };
 
     res = await eventNotificationsService.deleteSubscription(params);
