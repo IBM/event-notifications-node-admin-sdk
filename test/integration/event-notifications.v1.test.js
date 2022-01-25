@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,44 +15,52 @@
  */
 
 /* eslint-disable no-console */
-const { readExternalSources } = require('ibm-cloud-sdk-core');
+
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
+const { readExternalSources } = require('ibm-cloud-sdk-core');
 const authHelper = require('../resources/auth-helper.js');
 
 // testcase timeout value (200s).
 const timeout = 200000;
 
 // Location of our config file.
-const configFile = `${__dirname}/../../event_notifications.env`;
+const configFile = `${__dirname}/../../event_notifications_v1.env`;
 
 const describe = authHelper.prepareTests(configFile);
 
 // EN test configuration values
 let instanceId = '';
-const topicName = 'Admin Topic Compliance';
+const topicName = 'WebhookTopic';
 let sourceId = '';
 let topicId = '';
 let topicId2 = '';
+let topicId3 = '';
 let destinationId = '';
 let destinationId2 = '';
+let destinationId3 = '';
+let destinationDeviceID = '';
 let subscriptionId = '';
-let destinationIDSMS = '';
-let subscriptionIDSMS = '';
 let subscriptionId2 = '';
+let subscriptionId3 = '';
+let	fcmServerKey = '';
+let	fcmSenderId = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
 
   let eventNotificationsService;
 
-  test('Initialise service', async () => {
+  test('Initialise service', async() => {
     eventNotificationsService = EventNotificationsV1.newInstance({});
 
     expect(eventNotificationsService).not.toBeNull();
 
     const config = readExternalSources(EventNotificationsV1.DEFAULT_SERVICE_NAME);
     expect(config).not.toBeNull();
+
     instanceId = config.guid;
+    fcmSenderId = config.fcmId
+    fcmServerKey = config.fcmKey
 
     eventNotificationsService.enableRetries();
   });
@@ -128,8 +136,7 @@ describe('EventNotificationsV1_integration', () => {
       rules: [rulesModel],
     };
 
-    let description =
-      'This topic is used for routing all compliance related notifications to the appropriate destinations';
+    let description = 'Topic for Webhook notifications';
     const params = {
       instanceId,
       name: topicName,
@@ -147,9 +154,9 @@ describe('EventNotificationsV1_integration', () => {
 
     // Second topic
     description = 'Topic 2 for GCM notifications';
-    const name = `${topicName}_2`;
+    let name = `${topicName}_2`;
 
-    const paramsSecond = {
+    let paramsSecond = {
       instanceId,
       name,
       description,
@@ -163,6 +170,25 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result.name).toBe(name);
     expect(resSecond.result.description).toBe(description);
     topicId2 = resSecond.result.id;
+
+    // third topic
+    description = 'This topic is used for routing all compliance related notifications to the appropriate destinations';
+    name = `FCM_topic`;
+
+    paramsSecond = {
+      instanceId,
+      name,
+      description,
+      sources: [topicUpdateSourcesItemModel],
+    };
+
+    const resThird = await eventNotificationsService.createTopic(paramsSecond);
+    expect(resThird).toBeDefined();
+    expect(resThird.status).toBe(201);
+    expect(resThird.result).toBeDefined();
+    expect(resThird.result.name).toBe(name);
+    expect(resThird.result.description).toBe(description);
+    topicId3 = resThird.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -208,7 +234,7 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('getTopic()', async () => {
-    const params = {
+   const params = {
       instanceId,
       id: topicId,
     };
@@ -289,10 +315,10 @@ describe('EventNotificationsV1_integration', () => {
       params: destinationConfigParamsModel,
     };
 
-    const name = 'GCM_destination';
-    const description = 'GCM  Destination';
-    const type = 'webhook';
-    const params = {
+    let name = 'GCM_destination';
+    let description = 'GCM  Destination';
+    let type = 'webhook';
+    let params = {
       instanceId,
       name,
       type,
@@ -309,6 +335,39 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
     destinationId = res.result.id;
+
+    // second destination 
+
+    const destinationConfigParamsModelFCM = {
+      server_key: fcmServerKey,
+      sender_id: fcmSenderId,
+    };
+
+    // DestinationConfig
+    const destinationConfigModelFCM = {
+      params: destinationConfigParamsModelFCM,
+    };
+
+    name = 'FCM_destination';
+    description = 'FCM Destination';
+    type = 'push_android';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelFCM,
+    };
+
+    const resNew = await eventNotificationsService.createDestination(params);
+    expect(resNew).toBeDefined();
+    expect(resNew.status).toBe(201);
+    expect(resNew.result).toBeDefined();
+
+    expect(resNew.result.type).toBe(type);
+    expect(resNew.result.name).toBe(name);
+    expect(resNew.result.description).toBe(description);
+    destinationId3 = resNew.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -342,8 +401,6 @@ describe('EventNotificationsV1_integration', () => {
       const destination = res.result.destinations[0];
       if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
         destinationId2 = destination.id;
-      } else if (destination.id !== destinationId && destination.type === 'sms_ibm') {
-        destinationIDSMS = destination.id;
       }
       offset += 1;
       if (res.result.total_count <= offset) {
@@ -426,6 +483,201 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+  test('createDestinationDevices()', async () => {
+
+    let deviceId = "9bb4b029-a684-4a2e-baf5-19275e4002fd"
+		let deviceToken = "9bb4b029-a684-4a2e-baf5-19275e4002fd"
+		let userId = "example_user"
+
+   const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: deviceId,
+      token: deviceToken,
+      platform: 'G',
+      userId: userId,
+    };
+
+    const res = await eventNotificationsService.createDestinationDevices(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+
+    destinationDeviceID = res.result.id
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 409
+    // 415
+    // 500
+    //
+  });
+  test('listDestinationDevices()', async () => {
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      limit: 1,
+      offset: 0,
+      search: '',
+    };
+
+    const res = await eventNotificationsService.listDestinationDevices(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 404
+    // 500
+    //
+  });
+  test('getDestinationDevicesReport()', async () => {
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      days: 1,
+    };
+
+    const res = await eventNotificationsService.getDestinationDevicesReport(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 404
+    // 500
+    //
+  });
+  test('getDestinationDevice()', async () => {
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: destinationDeviceID,
+    };
+
+    const res = await eventNotificationsService.getDestinationDevice(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 404
+    // 500
+    //
+  });
+  test('updateDestinationDevices()', async () => {
+
+    let newDeviceToken = "9bb4b029-a684-4a2e-baf5-19275e4002fd-fds"
+		let newUserId = "new_userId"
+
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: destinationDeviceID,
+      newToken: newDeviceToken,
+      newPlatform: 'G',
+      newUserId: newUserId,
+    };
+
+    const res = await eventNotificationsService.updateDestinationDevices(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 409
+    // 415
+    // 500
+    //
+  });
+  test('createTagsSubscription()', async () => {
+
+    let tagName = "IBM_test"
+
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: destinationDeviceID,
+      tagName: tagName,
+    };
+
+    const res = await eventNotificationsService.createTagsSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 409
+    // 415
+    // 500
+    //
+  });
+  test('listTagsSubscription()', async () => {
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+    };
+
+    const res = await eventNotificationsService.listTagsSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 500
+    //
+  });
+  
+  test('listTagsSubscriptionsDevice()', async () => {
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: destinationDeviceID,
+    };
+
+    const res = await eventNotificationsService.listTagsSubscriptionsDevice(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 500
+    //
+  });
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
@@ -453,7 +705,7 @@ describe('EventNotificationsV1_integration', () => {
     subscriptionId = res.result.id;
 
     // second subscription
-    let subscriptionCreateAttributesModelSecond = {
+    const subscriptionCreateAttributesModelSecond = {
       to: ['tester1@gmail.com', 'tester3@ibm.com'],
       add_notification_payload: true,
       reply_to_mail: 'tester1@gmail.com',
@@ -472,7 +724,7 @@ describe('EventNotificationsV1_integration', () => {
       description: descriptionSecond,
     };
 
-    let resSecond = await eventNotificationsService.createSubscription(paramsSecond);
+    const resSecond = await eventNotificationsService.createSubscription(paramsSecond);
     expect(resSecond).toBeDefined();
     expect(resSecond.status).toBe(201);
     expect(resSecond.result).toBeDefined();
@@ -480,29 +732,24 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result.description).toBe(descriptionSecond);
     subscriptionId2 = resSecond.result.id;
 
-    // third subscription
-    subscriptionCreateAttributesModelSecond = {
-      to: ['+12048089972', '+12014222730'],
-    };
 
-    nameSecond = 'subscription_sms';
-    descriptionSecond = 'Subscription for sms';
+    nameSecond = 'FCM subscription';
+    descriptionSecond = 'Subscription for the FCM';
     paramsSecond = {
       instanceId,
       name: nameSecond,
-      destinationId: destinationIDSMS,
-      topicId,
-      attributes: subscriptionCreateAttributesModelSecond,
+      destinationId: destinationId3,
+      topicId: topicId3,
       description: descriptionSecond,
     };
 
-    resSecond = await eventNotificationsService.createSubscription(paramsSecond);
-    expect(resSecond).toBeDefined();
-    expect(resSecond.status).toBe(201);
-    expect(resSecond.result).toBeDefined();
-    expect(resSecond.result.name).toBe(nameSecond);
-    expect(resSecond.result.description).toBe(descriptionSecond);
-    subscriptionIDSMS = resSecond.result.id;
+    const resThird = await eventNotificationsService.createSubscription(paramsSecond);
+    expect(resThird).toBeDefined();
+    expect(resThird.status).toBe(201);
+    expect(resThird.result).toBeDefined();
+    expect(resThird.result.name).toBe(nameSecond);
+    expect(resThird.result.description).toBe(descriptionSecond);
+    subscriptionId3 = resThird.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -557,7 +804,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -570,13 +816,13 @@ describe('EventNotificationsV1_integration', () => {
   test('updateSubscription()', async () => {
     // Request models needed by this operation.
 
-    let subscriptionUpdateAttributesModel = {
+    const subscriptionUpdateAttributesModel = {
       signing_enabled: true,
     };
 
-    let name = 'GCM_sub_updated';
-    let description = 'Update GCM subscription';
-    let params = {
+    const name = 'GCM_sub_updated';
+    const description = 'Update GCM subscription';
+    const params = {
       instanceId,
       id: subscriptionId,
       name,
@@ -584,61 +830,7 @@ describe('EventNotificationsV1_integration', () => {
       attributes: subscriptionUpdateAttributesModel,
     };
 
-    let res = await eventNotificationsService.updateSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-    expect(res.result.name).toBe(name);
-    expect(res.result.description).toBe(description);
-
-    // update email
-    subscriptionUpdateAttributesModel = {
-      to: {
-        add: ['testereq1@gmail.com', 'tester553@ibm.com'],
-        remove: ['tester1@gmail.com'],
-      },
-      add_notification_payload: true,
-      reply_to_mail: 'tester1@gmail.com',
-      reply_to_name: 'US news',
-      from_name: 'IBM',
-      unsubscribed: {
-        remove: ['tester3@ibm.com'],
-      },
-    };
-
-    name = 'subscription_email_3';
-    description = 'Update email subscription';
-    params = {
-      instanceId,
-      id: subscriptionId2,
-      name,
-      description,
-      attributes: subscriptionUpdateAttributesModel,
-    };
-
-    res = await eventNotificationsService.updateSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-    expect(res.result.name).toBe(name);
-    expect(res.result.description).toBe(description);
-
-    // update sms
-    subscriptionUpdateAttributesModel = {
-      to: ['+120480009972', '+1201499990'],
-    };
-
-    name = 'subscription_sms+1';
-    description = 'update Subscription for sms';
-    params = {
-      instanceId,
-      id: subscriptionIDSMS,
-      name,
-      description,
-      attributes: subscriptionUpdateAttributesModel,
-    };
-
-    res = await eventNotificationsService.updateSubscription(params);
+    const res = await eventNotificationsService.updateSubscription(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
@@ -657,6 +849,98 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
+  test('sendNotifications()', async () => {
+    // Request models needed by this operation.
+
+    // NotificationFCMDevices
+    const notificationFcmDevicesModel = {
+      user_ids: ["userId"],
+    };
+
+    // Lights
+    const lightsModel = {
+      led_argb: 'RED',
+      led_on_ms: 0,
+      led_off_ms: '20',
+    };
+
+    // Style
+    const styleModel = {
+      type: 'picture_notification',
+      title: 'hello',
+      url: 'url.ibm.com',
+    };
+
+    // NotificationFCMBodyMessageData
+    const notificationFcmBodyMessageDataModel = {
+      alert: 'Alert message',
+      collapse_key: 'collapse_key',
+      interactive_category: 'category_test',
+      icon: 'test.png',
+      delay_while_idle: true,
+      sync: true,
+      visibility: '0',
+      redact: 'redact test alert',
+      payload: { 'item': 'test message' },
+      priority: 'MIN',
+      sound: 'newSound',
+      time_to_live: 0,
+      lights: lightsModel,
+      android_title: 'IBM test title',
+      group_id: 'Group_ID_1',
+      style: styleModel,
+      type: 'DEFAULT',
+    };
+
+    // NotificationFCMBodyMessage
+    const notificationFcmBodyMessageModel = {
+      data: notificationFcmBodyMessageDataModel,
+    };
+
+    // NotificationFCMBody
+    const notificationFcmBodyModel = {
+      message: notificationFcmBodyMessageModel,
+    };
+
+    let notificationID = "1234-1234-sdfs-234"
+		let notificationSubject = "FCM_Subject"
+		let notificationSeverity = "MEDIUM"
+		let typeValue = "com.acme.offer:new"
+		let notificationsSouce = "1234-1234-sdfs-234:test"
+
+    const params = {
+      instanceId: instanceId,
+      subject: notificationSubject,
+      severity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      enSourceId: sourceId,
+      type: typeValue,
+      time: '2019-01-01T12:00:00.000Z',
+      data: {},
+      pushTo: notificationFcmDevicesModel,
+      messageFcmBody: notificationFcmBodyModel,
+      datacontenttype: 'application/json',
+      specversion: '1.0',
+    };
+
+    const res = await eventNotificationsService.sendNotifications(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(202);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 415
+    // 500
+    //
+  });
+
   test('deleteSubscription()', async () => {
     let params = {
       instanceId,
@@ -680,7 +964,7 @@ describe('EventNotificationsV1_integration', () => {
 
     params = {
       instanceId,
-      id: subscriptionIDSMS,
+      id: subscriptionId3,
     };
 
     res = await eventNotificationsService.deleteSubscription(params);
@@ -697,6 +981,7 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
   test('deleteTopic()', async () => {
     let params = {
       instanceId,
@@ -718,6 +1003,17 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
 
+
+    params = {
+      instanceId,
+      id: topicId3,
+    };
+
+    res = await eventNotificationsService.deleteTopic(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -727,13 +1023,70 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  test('deleteDestination()', async () => {
+
+  test('deleteTagsSubscription()', async () => {
+
     const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: destinationDeviceID,
+      tagName: 'IBM_test',
+    };
+
+    const res = await eventNotificationsService.deleteTagsSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 404
+    // 500
+    //
+  });
+  
+  test('deleteDestinationDevices()', async () => {
+    const params = {
+      instanceId: instanceId,
+      id: destinationId3,
+      deviceId: destinationDeviceID,
+    };
+
+    const res = await eventNotificationsService.deleteDestinationDevices(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 404
+    // 500
+    //
+  });
+
+  test('deleteDestination()', async () => {
+    let params = {
       instanceId,
       id: destinationId,
     };
 
-    const res = await eventNotificationsService.deleteDestination(params);
+    let res = await eventNotificationsService.deleteDestination(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    params = {
+      instanceId,
+      id: destinationId3,
+    };
+
+    res = await eventNotificationsService.deleteDestination(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();

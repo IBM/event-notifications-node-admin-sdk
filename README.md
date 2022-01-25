@@ -82,12 +82,24 @@ SDK Methods to consume
 	- [Get Destination](#get-destination)
 	- [Update Destination](#update-destination)
 	- [Delete Destination](#delete-destination)
+- [Destination Devices](#destination-device)
+	- [Create Destination device](#create-destination-device)
+	- [List Destination device](#list-destination-devices)
+	- [Get Destination device report](#get-destination-device-report)
+	- [Get Destination device](#get-destination-device)
+	- [Update Destination device](#update-destination-device)
+	- [Delete Destination device](#delete-destination-device)
+	- [Create Destination tag subscription](#create-destination-tag-subscription)
+	- [List Destination tag subscription](#list-destination-tag-subscription)
+	- [List Destination device tag subscriptions](#list-destination-device-tag-subscriptions)
+	- [Delete Destination device tag subscription](#delete-destination-device-tag-subscription)
 - [Subscriptions](#subscriptions)
 	- [Create Subscription](#create-subscription)
 	- [List Subscriptions](#list-subscriptions)
 	- [Get Subscription](#get-subscription)
 	- [Update Subscription](#update-subscription)
 	- [Delete Subscription](#delete-subscription)
+- [Send Notifications](#send-notifications)
 
 
 ## Source 
@@ -364,6 +376,192 @@ eventNotificationsService
     console.warn(err);
   });
 ```
+
+## Destination Devices
+
+### Create Destination device
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <device-id>,
+  token: <device-token>,
+  platform: <device-platform>, 
+  userId: <user-id>,
+};
+
+try {
+  const res = await eventNotificationsService.createDestinationDevices(params);
+  console.log(JSON.stringify(res.result, null, 2));
+  destinationDeviceID = res.result.id;
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### List Destination device
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.listDestinationDevices(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Destination device report
+
+```js
+
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.getDestinationDevicesReport(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Destination device
+
+```js
+
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <destination-device-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.getDestinationDevice(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Update Destination device
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <device-id>,
+  newToken: <device-token>,
+  newPlatform: <device-platform>,
+  newUserId: <device-platform>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.updateDestinationDevices(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Delete Destination device
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <device-id>,
+};
+
+try {
+  await eventNotificationsService.deleteDestinationDevices(params);
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Create Destination tag subscription
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <device-id>,
+  tagName: <tag-name>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.createTagsSubscription(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### List Destination tag subscription
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.listTagsSubscription(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### List Destination device tag subscriptions
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <device-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.listTagsSubscriptionsDevice(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Delete Destination device tag subscription
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+  deviceId: <device-id>,
+  tagName: <tag-name>
+};
+
+try {
+  await eventNotificationsService.deleteTagsSubscription(params);
+} catch (err) {
+  console.warn(err);
+}
+```
+
 ## Subscriptions 
 
 ### Create Subscription
@@ -469,16 +667,106 @@ eventNotificationsService
   });
 ```
 
+## Send Notifications
+
+```js
+// NotificationFCMDevices
+    const notificationFcmDevicesModel = {
+      user_ids: ['<user-ids>'],
+      fcm_devices: ['<device-ids>'],
+      tags: ['<tag-names>'],
+      platforms: ['<device-platforms>'],
+    };
+    
+    // Lights
+    const lightsModel = {
+      led_argb: '<color-name>',
+      led_on_ms: <color-on-ms>,
+      led_off_ms: '<color-off-ms>',
+    };
+
+    // Style
+    const styleModel = {
+      type: '<notification-style>',
+      title: '<notification-title>',
+      url: '<notification-url>',
+    };
+
+    // NotificationFCMBodyMessageData
+    const notificationFcmBodyMessageDataModel = {
+      alert: '<notification-message>',
+      collapse_key: '<notification-collapse_key>',
+      interactive_category: '<notification-category>',
+      icon: '<notification-icon>',
+      delay_while_idle: true,
+      sync: true,
+      visibility: '<notification-visibility>',
+      redact: '<notification-redact>',
+      payload: { <notification-key-value-pair> },
+      priority: '<notification-priority>',
+      sound: '<notification-sound>',
+      time_to_live: 0,
+      lights: lightsModel,
+      android_title: '<notification-title>',
+      group_id: '<notification-group>',
+      style: styleModel,
+      type: '<notification--type>',
+    };
+
+    // NotificationFCMBodyMessage
+    const notificationFcmBodyMessageModel = {
+      data: notificationFcmBodyMessageDataModel,
+    };
+
+    // NotificationFCMBody
+    const notificationFcmBodyModel = {
+      message: notificationFcmBodyMessageModel,
+    };
+
+    let notificationID = "<notification-id>"
+    let notificationSubject = "<notification-subject>"
+    let notificationSeverity = "<notification-severity>"
+    let typeValue = "<notification-type>"
+    let notificationsSouce = "<notification-source>"
+
+    const params = {
+      instanceId: instanceId,
+      subject: notificationSubject,
+      severity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      enSourceId: sourceId,
+      type: typeValue,
+      time: '<notification-time>',
+      data: {},
+      pushTo: notificationFcmDevicesModel,
+      messageFcmBody: notificationFcmBodyModel,
+      datacontenttype: 'application/json',
+      specversion: '1.0',
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.sendNotifications(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+```
+
+
 ## Set Environment
 
-Find [event_notifications.env.hide](https://github.com/IBM/event-notifications-node-admin-sdk/blob/main/event_notifications.env.hide) in the repo and rename it to `event_notifications.env`. After that add the values for,
+Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notifications-node-admin-sdk/blob/main/event_notifications_v1.env.hide) in the repo and rename it to `event_notifications_v1.env`. After that add the values for,
 
 - `EVENT_NOTIFICATIONS_URL` - Add the Event Notifications service instance Url.
 - `EVENT_NOTIFICATIONS_APIKEY` - Add the Event Notifications service instance apikey.
 - `EVENT_NOTIFICATIONS_GUID` - Add the Event Notifications service instance GUID.
 
-Optional 
+**Optional** 
 - `EVENT_NOTIFICATIONS_AUTH_URL` - Add the IAM url if you are using IBM test cloud.
+- `EVENT_NOTIFICATIONS_FCM_KEY` - Add firebase server key for Android FCM destination.
+- `EVENT_NOTIFICATIONS_FCM_ID` - Add firebase sender Id for Android FCM destination.
 
 
 ## Questions
