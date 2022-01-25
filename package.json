@@ -44,8 +44,8 @@
   "devDependencies": {
     "@semantic-release/changelog": "6.0.0",
     "@semantic-release/git": "10.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.24.0",
-    "@typescript-eslint/parser": "^4.24.0",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
     "axios": "^0.25.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.26.0",

@@ -50,12 +50,12 @@ let topicId = '';
 let destinationId = '';
 let subscriptionId = '';
 let destinationDeviceID = '';
-let	fcmServerKey = '';
-let	fcmSenderId = '';
+let fcmServerKey = '';
+let fcmSenderId = '';
 
 // Save original console.log
 const originalLog = console.log;
-const originalWarn = console.warn;    
+const originalWarn = console.warn;
 
 // Mocks for console.log and console.warn
 const consoleLogMock = jest.spyOn(console, 'log');
@@ -69,19 +69,19 @@ describe('EventNotificationsV1', () => {
   expect(config).not.toBeNull();
 
   instanceId = config.guid;
-  fcmSenderId = config.fcmId
-  fcmServerKey = config.fcmKey
+  fcmSenderId = config.fcmId;
+  fcmServerKey = config.fcmKey;
 
-  var eventNotificationsService = EventNotificationsV1.newInstance({});
+  let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
-  // begin-common
+    // begin-common
 
     eventNotificationsService = EventNotificationsV1.newInstance({});
 
-  // end-common
+    // end-common
   });
-  
+
   test('listSources request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -259,7 +259,7 @@ describe('EventNotificationsV1', () => {
     // Rules
     const rulesModel = {
       enabled: true,
-      event_type_filter: "$.*",
+      event_type_filter: '$.*',
     };
 
     // TopicUpdateSourcesItem
@@ -420,13 +420,13 @@ describe('EventNotificationsV1', () => {
       config: destinationConfigModel,
     };
 
-  let res;
-  try {
-    res = await eventNotificationsService.updateDestination(params);
-    console.log(JSON.stringify(res.result, null, 2));
-  } catch (err) {
-    console.warn(err);
-  }
+    let res;
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
 
     // end-update_destination
   });
@@ -442,19 +442,19 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('createDestinationDevices() result:');
-    let deviceId = "9bb4b029-a684-4a2e-baf5-19275e4002fd"
-		let deviceToken = "9bb4b029-a684-4a2e-baf5-19275e4002fd"
-		let userId = "example_user"
+    const deviceId = '9bb4b029-a684-4a2e-baf5-19275e4002fd';
+    const deviceToken = '9bb4b029-a684-4a2e-baf5-19275e4002fd';
+    const userId = 'example_user';
 
     // begin-create_destination_devices
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
-      deviceId: deviceId,
+      deviceId,
       token: deviceToken,
       platform: 'G',
-      userId: userId,
+      userId,
     };
 
     let res;
@@ -483,7 +483,7 @@ describe('EventNotificationsV1', () => {
     // begin-list_destination_devices
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
     };
 
@@ -512,7 +512,7 @@ describe('EventNotificationsV1', () => {
     // begin-get_destination_devices_report
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
     };
 
@@ -541,7 +541,7 @@ describe('EventNotificationsV1', () => {
     // begin-get_destination_device
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
       deviceId: destinationDeviceID,
     };
@@ -568,18 +568,18 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('updateDestinationDevices() result:');
-    let newDeviceToken = "9bb4b029-a684-4a2e-baf5-19275e4002fd-fds"
-		let newUserId = "new_userId"
+    const newDeviceToken = '9bb4b029-a684-4a2e-baf5-19275e4002fd-fds';
+    const newUserId = 'new_userId';
 
     // begin-update_destination_devices
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
       deviceId: destinationDeviceID,
       newToken: newDeviceToken,
       newPlatform: 'G',
-      newUserId: newUserId,
+      newUserId,
     };
 
     let res;
@@ -604,15 +604,15 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('createTagsSubscription() result:');
-    let tagName = "IBM_test"
+    const tagName = 'IBM_test';
 
     // begin-create_tags_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
       deviceId: destinationDeviceID,
-      tagName: tagName,
+      tagName,
     };
 
     let res;
@@ -640,7 +640,7 @@ describe('EventNotificationsV1', () => {
     // begin-list_tags_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
     };
 
@@ -669,7 +669,7 @@ describe('EventNotificationsV1', () => {
     // begin-list_tags_subscriptions_device
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
       deviceId: destinationDeviceID,
     };
@@ -696,15 +696,15 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('createSubscription() result:');
-    let subscriptionName = "FCM subscription"
-    let subscriptionDescription = "Subscription for the FCM"
+    const subscriptionName = 'FCM subscription';
+    const subscriptionDescription = 'Subscription for the FCM';
     // begin-create_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       name: subscriptionName,
-      destinationId: destinationId,
-      topicId: topicId,
+      destinationId,
+      topicId,
       description: subscriptionDescription,
     };
 
@@ -712,7 +712,7 @@ describe('EventNotificationsV1', () => {
     try {
       res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
-      subscriptionId = res.result.id
+      subscriptionId = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -734,7 +734,7 @@ describe('EventNotificationsV1', () => {
     // begin-list_subscriptions
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
     };
 
     let res;
@@ -762,7 +762,7 @@ describe('EventNotificationsV1', () => {
     // begin-get_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: subscriptionId,
     };
 
@@ -788,12 +788,12 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('updateSubscription() result:');
-    let subscriptionName = "Update_FCM_subscription"
-    let subscriptionDescription = "Update FCM subscription"
+    const subscriptionName = 'Update_FCM_subscription';
+    const subscriptionDescription = 'Update FCM subscription';
     // begin-update_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: subscriptionId,
       name: subscriptionName,
       description: subscriptionDescription,
@@ -822,15 +822,14 @@ describe('EventNotificationsV1', () => {
 
     originalLog('sendNotifications() result:');
 
-    let notificationID = "1234-1234-sdfs-234"
-		let notificationSubject = "FCM_Subject"
-		let notificationSeverity = "MEDIUM"
-		let typeValue = "com.acme.offer:new"
-		let date = "2019-01-01T12:00:00.000Z"
-		let userId = "userId"
-		let alertMessage = "Message"
-		let notificationsSouce = "1234-1234-sdfs-234:test"
-
+    const notificationID = '1234-1234-sdfs-234';
+    const notificationSubject = 'FCM_Subject';
+    const notificationSeverity = 'MEDIUM';
+    const typeValue = 'com.acme.offer:new';
+    const date = '2019-01-01T12:00:00.000Z';
+    const userId = 'userId';
+    const alertMessage = 'Message';
+    const notificationsSouce = '1234-1234-sdfs-234:test';
 
     // begin-send_notifications
 
@@ -856,7 +855,7 @@ describe('EventNotificationsV1', () => {
     };
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       subject: notificationSubject,
       severity: notificationSeverity,
       id: notificationID,
@@ -892,7 +891,7 @@ describe('EventNotificationsV1', () => {
     // begin-delete_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: subscriptionId,
     };
 
@@ -918,7 +917,7 @@ describe('EventNotificationsV1', () => {
     // begin-delete_topic
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: topicId,
     };
 
@@ -941,15 +940,15 @@ describe('EventNotificationsV1', () => {
       expect(true).toBeFalsy();
     });
 
-    let tagName = "IBM_test"
+    const tagName = 'IBM_test';
 
     // begin-delete_tags_subscription
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
       deviceId: destinationDeviceID,
-      tagName: tagName
+      tagName,
     };
 
     try {
@@ -974,7 +973,7 @@ describe('EventNotificationsV1', () => {
     // begin-delete_destination_devices
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
       deviceId: destinationDeviceID,
     };
@@ -1001,7 +1000,7 @@ describe('EventNotificationsV1', () => {
     // begin-delete_destination
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId,
     };
 

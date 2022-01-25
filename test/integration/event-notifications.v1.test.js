@@ -16,8 +16,8 @@
 
 /* eslint-disable no-console */
 
-const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const { readExternalSources } = require('ibm-cloud-sdk-core');
+const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 const authHelper = require('../resources/auth-helper.js');
 
 // testcase timeout value (200s).
@@ -42,15 +42,15 @@ let destinationDeviceID = '';
 let subscriptionId = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
-let	fcmServerKey = '';
-let	fcmSenderId = '';
+let fcmServerKey = '';
+let fcmSenderId = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
 
   let eventNotificationsService;
 
-  test('Initialise service', async() => {
+  test('Initialise service', async () => {
     eventNotificationsService = EventNotificationsV1.newInstance({});
 
     expect(eventNotificationsService).not.toBeNull();
@@ -59,8 +59,8 @@ describe('EventNotificationsV1_integration', () => {
     expect(config).not.toBeNull();
 
     instanceId = config.guid;
-    fcmSenderId = config.fcmId
-    fcmServerKey = config.fcmKey
+    fcmSenderId = config.fcmId;
+    fcmServerKey = config.fcmKey;
 
     eventNotificationsService.enableRetries();
   });
@@ -172,7 +172,8 @@ describe('EventNotificationsV1_integration', () => {
     topicId2 = resSecond.result.id;
 
     // third topic
-    description = 'This topic is used for routing all compliance related notifications to the appropriate destinations';
+    description =
+      'This topic is used for routing all compliance related notifications to the appropriate destinations';
     name = `FCM_topic`;
 
     paramsSecond = {
@@ -234,7 +235,7 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('getTopic()', async () => {
-   const params = {
+    const params = {
       instanceId,
       id: topicId,
     };
@@ -336,7 +337,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
     destinationId = res.result.id;
 
-    // second destination 
+    // second destination
 
     const destinationConfigParamsModelFCM = {
       server_key: fcmServerKey,
@@ -484,18 +485,17 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('createDestinationDevices()', async () => {
+    const deviceId = '9bb4b029-a684-4a2e-baf5-19275e4002fd';
+    const deviceToken = '9bb4b029-a684-4a2e-baf5-19275e4002fd';
+    const userId = 'example_user';
 
-    let deviceId = "9bb4b029-a684-4a2e-baf5-19275e4002fd"
-		let deviceToken = "9bb4b029-a684-4a2e-baf5-19275e4002fd"
-		let userId = "example_user"
-
-   const params = {
-      instanceId: instanceId,
+    const params = {
+      instanceId,
       id: destinationId3,
-      deviceId: deviceId,
+      deviceId,
       token: deviceToken,
       platform: 'G',
-      userId: userId,
+      userId,
     };
 
     const res = await eventNotificationsService.createDestinationDevices(params);
@@ -503,7 +503,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.status).toBe(201);
     expect(res.result).toBeDefined();
 
-    destinationDeviceID = res.result.id
+    destinationDeviceID = res.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -518,7 +518,7 @@ describe('EventNotificationsV1_integration', () => {
   });
   test('listDestinationDevices()', async () => {
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       limit: 1,
       offset: 0,
@@ -541,7 +541,7 @@ describe('EventNotificationsV1_integration', () => {
   });
   test('getDestinationDevicesReport()', async () => {
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       days: 1,
     };
@@ -562,7 +562,7 @@ describe('EventNotificationsV1_integration', () => {
   });
   test('getDestinationDevice()', async () => {
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       deviceId: destinationDeviceID,
     };
@@ -582,17 +582,16 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('updateDestinationDevices()', async () => {
-
-    let newDeviceToken = "9bb4b029-a684-4a2e-baf5-19275e4002fd-fds"
-		let newUserId = "new_userId"
+    const newDeviceToken = '9bb4b029-a684-4a2e-baf5-19275e4002fd-fds';
+    const newUserId = 'new_userId';
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       deviceId: destinationDeviceID,
       newToken: newDeviceToken,
       newPlatform: 'G',
-      newUserId: newUserId,
+      newUserId,
     };
 
     const res = await eventNotificationsService.updateDestinationDevices(params);
@@ -612,14 +611,13 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('createTagsSubscription()', async () => {
-
-    let tagName = "IBM_test"
+    const tagName = 'IBM_test';
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       deviceId: destinationDeviceID,
-      tagName: tagName,
+      tagName,
     };
 
     const res = await eventNotificationsService.createTagsSubscription(params);
@@ -640,7 +638,7 @@ describe('EventNotificationsV1_integration', () => {
   });
   test('listTagsSubscription()', async () => {
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
     };
 
@@ -657,10 +655,10 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  
+
   test('listTagsSubscriptionsDevice()', async () => {
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       deviceId: destinationDeviceID,
     };
@@ -731,7 +729,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result.name).toBe(nameSecond);
     expect(resSecond.result.description).toBe(descriptionSecond);
     subscriptionId2 = resSecond.result.id;
-
 
     nameSecond = 'FCM subscription';
     descriptionSecond = 'Subscription for the FCM';
@@ -855,7 +852,7 @@ describe('EventNotificationsV1_integration', () => {
 
     // NotificationFCMDevices
     const notificationFcmDevicesModel = {
-      user_ids: ["userId"],
+      user_ids: ['userId'],
     };
 
     // Lights
@@ -903,14 +900,14 @@ describe('EventNotificationsV1_integration', () => {
       message: notificationFcmBodyMessageModel,
     };
 
-    let notificationID = "1234-1234-sdfs-234"
-		let notificationSubject = "FCM_Subject"
-		let notificationSeverity = "MEDIUM"
-		let typeValue = "com.acme.offer:new"
-		let notificationsSouce = "1234-1234-sdfs-234:test"
+    const notificationID = '1234-1234-sdfs-234';
+    const notificationSubject = 'FCM_Subject';
+    const notificationSeverity = 'MEDIUM';
+    const typeValue = 'com.acme.offer:new';
+    const notificationsSouce = '1234-1234-sdfs-234:test';
 
     const params = {
-      instanceId: instanceId,
+      instanceId,
       subject: notificationSubject,
       severity: notificationSeverity,
       id: notificationID,
@@ -1003,7 +1000,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
 
-
     params = {
       instanceId,
       id: topicId3,
@@ -1025,9 +1021,8 @@ describe('EventNotificationsV1_integration', () => {
   });
 
   test('deleteTagsSubscription()', async () => {
-
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       deviceId: destinationDeviceID,
       tagName: 'IBM_test',
@@ -1047,10 +1042,10 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  
+
   test('deleteDestinationDevices()', async () => {
     const params = {
-      instanceId: instanceId,
+      instanceId,
       id: destinationId3,
       deviceId: destinationDeviceID,
     };
