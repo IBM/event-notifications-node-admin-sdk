@@ -38,7 +38,6 @@ let topicId3 = '';
 let destinationId = '';
 let destinationId2 = '';
 let destinationId3 = '';
-let destinationDeviceID = '';
 let subscriptionId = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
@@ -484,38 +483,6 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  test('createDestinationDevices()', async () => {
-    const deviceId = '9bb4b029-a684-4a2e-baf5-19275e4002fd';
-    const deviceToken = '9bb4b029-a684-4a2e-baf5-19275e4002fd';
-    const userId = 'example_user';
-
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId,
-      token: deviceToken,
-      platform: 'G',
-      userId,
-    };
-
-    const res = await eventNotificationsService.createDestinationDevices(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(201);
-    expect(res.result).toBeDefined();
-
-    destinationDeviceID = res.result.id;
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 400
-    // 401
-    // 409
-    // 415
-    // 500
-    //
-  });
   test('listDestinationDevices()', async () => {
     const params = {
       instanceId,
@@ -557,122 +524,6 @@ describe('EventNotificationsV1_integration', () => {
     //
     // 401
     // 404
-    // 500
-    //
-  });
-  test('getDestinationDevice()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId: destinationDeviceID,
-    };
-
-    const res = await eventNotificationsService.getDestinationDevice(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 404
-    // 500
-    //
-  });
-  test('updateDestinationDevices()', async () => {
-    const newDeviceToken = '9bb4b029-a684-4a2e-baf5-19275e4002fd-fds';
-    const newUserId = 'new_userId';
-
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId: destinationDeviceID,
-      newToken: newDeviceToken,
-      newPlatform: 'G',
-      newUserId,
-    };
-
-    const res = await eventNotificationsService.updateDestinationDevices(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 400
-    // 401
-    // 409
-    // 415
-    // 500
-    //
-  });
-  test('createTagsSubscription()', async () => {
-    const tagName = 'IBM_test';
-
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId: destinationDeviceID,
-      tagName,
-    };
-
-    const res = await eventNotificationsService.createTagsSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(201);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 400
-    // 401
-    // 409
-    // 415
-    // 500
-    //
-  });
-  test('listTagsSubscription()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-    };
-
-    const res = await eventNotificationsService.listTagsSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 500
-    //
-  });
-
-  test('listTagsSubscriptionsDevice()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId: destinationDeviceID,
-    };
-
-    const res = await eventNotificationsService.listTagsSubscriptionsDevice(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
     // 500
     //
   });
@@ -1019,52 +870,6 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-
-  test('deleteTagsSubscription()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId: destinationDeviceID,
-      tagName: 'IBM_test',
-    };
-
-    const res = await eventNotificationsService.deleteTagsSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 404
-    // 500
-    //
-  });
-
-  test('deleteDestinationDevices()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-      deviceId: destinationDeviceID,
-    };
-
-    const res = await eventNotificationsService.deleteDestinationDevices(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 404
-    // 500
-    //
-  });
-
   test('deleteDestination()', async () => {
     let params = {
       instanceId,

@@ -36,8 +36,7 @@ import { getSdkHeaders } from '../lib/common';
  */
 
 class EventNotificationsV1 extends BaseService {
-  static DEFAULT_SERVICE_URL: string =
-    'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
+  static DEFAULT_SERVICE_URL: string = 'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
 
   static DEFAULT_SERVICE_NAME: string = 'event_notifications';
 
@@ -123,32 +122,8 @@ class EventNotificationsV1 extends BaseService {
     params: EventNotificationsV1.SendNotificationsParams
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>> {
     const _params = { ...params };
-    const _requiredParams = [
-      'instanceId',
-      'subject',
-      'severity',
-      'id',
-      'source',
-      'enSourceId',
-      'type',
-      'time',
-    ];
-    const _validParams = [
-      'instanceId',
-      'subject',
-      'severity',
-      'id',
-      'source',
-      'enSourceId',
-      'type',
-      'time',
-      'data',
-      'pushTo',
-      'messageFcmBody',
-      'datacontenttype',
-      'specversion',
-      'headers',
-    ];
+    const _requiredParams = ['instanceId', 'subject', 'severity', 'id', 'source', 'enSourceId', 'type', 'time'];
+    const _validParams = ['instanceId', 'subject', 'severity', 'id', 'source', 'enSourceId', 'type', 'time', 'data', 'pushTo', 'messageFcmBody', 'datacontenttype', 'specversion', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -297,7 +272,11 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getSource');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSource'
+    );
 
     const parameters = {
       options: {
@@ -420,7 +399,11 @@ class EventNotificationsV1 extends BaseService {
       'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'listTopics');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTopics'
+    );
 
     const parameters = {
       options: {
@@ -476,7 +459,11 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getTopic');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTopic'
+    );
 
     const parameters = {
       options: {
@@ -605,7 +592,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -901,7 +894,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -976,73 +975,6 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Create a new Destination device.
-   *
-   * Create a new Destination device.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} params.deviceId - Unique identifier of the device.
-   * @param {string} params.token - Destination device token.
-   * @param {string} params.platform - Destination platform.
-   * @param {string} [params.userId] - Destination userId.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationDeviceResponse>>}
-   */
-  public createDestinationDevices(
-    params: EventNotificationsV1.CreateDestinationDevicesParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationDeviceResponse>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'deviceId', 'token', 'platform'];
-    const _validParams = ['instanceId', 'id', 'deviceId', 'token', 'platform', 'userId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'device_id': _params.deviceId,
-      'token': _params.token,
-      'platform': _params.platform,
-      'user_id': _params.userId,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'createDestinationDevices'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/devices',
-        method: 'POST',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
    * Retrieves report of destination devices registered.
    *
    * Retrieves report of destination devices registered.
@@ -1103,190 +1035,75 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
-
-  /**
-   * Get details of a Destination device.
-   *
-   * Get details of a Destination device.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} params.deviceId - DeviceID of the destination.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationDevice>>}
-   */
-  public getDestinationDevice(
-    params: EventNotificationsV1.GetDestinationDeviceParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationDevice>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'deviceId'];
-    const _validParams = ['instanceId', 'id', 'deviceId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-      'device_id': _params.deviceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getDestinationDevice'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/devices/{device_id}',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Update a Destination device.
-   *
-   * Update a Destination device.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} params.deviceId - DeviceID of the destination.
-   * @param {string} params.newToken - Destination device token.
-   * @param {string} params.newPlatform - Destination platform.
-   * @param {string} [params.newUserId] - Destination userId.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationDevice>>}
-   */
-  public updateDestinationDevices(
-    params: EventNotificationsV1.UpdateDestinationDevicesParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationDevice>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'deviceId', 'newToken', 'newPlatform'];
-    const _validParams = [
-      'instanceId',
-      'id',
-      'deviceId',
-      'newToken',
-      'newPlatform',
-      'newUserId',
-      'headers',
-    ];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'device_id': _params.deviceId,
-      'token': _params.newToken,
-      'platform': _params.newPlatform,
-      'user_id': _params.newUserId,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-      'device_id': _params.deviceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateDestinationDevices'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/devices/{device_id}',
-        method: 'PUT',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Delete a Destination device.
-   *
-   * Delete a Destination device.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} params.deviceId - DeviceID of the destination.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
-   */
-  public deleteDestinationDevices(
-    params: EventNotificationsV1.DeleteDestinationDevicesParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'deviceId'];
-    const _validParams = ['instanceId', 'id', 'deviceId', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-      'device_id': _params.deviceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'deleteDestinationDevices'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/devices/{device_id}',
-        method: 'DELETE',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
   /*************************
    * destinationTagsSubscriptions
    ************************/
+
+  /**
+   * List all Tag Subscriptions for a device.
+   *
+   * List all Tag Subscriptions for a device.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Destination.
+   * @param {string} params.deviceId - DeviceID of the destination.
+   * @param {string} [params.tagName] - TagName of the subscription.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>>}
+   */
+  public listTagsSubscriptionsDevice(
+    params: EventNotificationsV1.ListTagsSubscriptionsDeviceParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'deviceId'];
+    const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'limit', 'offset', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'tag_name': _params.tagName,
+      'limit': _params.limit,
+      'offset': _params.offset,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+      'device_id': _params.deviceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTagsSubscriptionsDevice'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions/devices/{device_id}',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 
   /**
    * List all Tag Subscriptions.
@@ -1310,17 +1127,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = [
-      'instanceId',
-      'id',
-      'deviceId',
-      'userId',
-      'tagName',
-      'limit',
-      'offset',
-      'search',
-      'headers',
-    ];
+    const _validParams = ['instanceId', 'id', 'deviceId', 'userId', 'tagName', 'limit', 'offset', 'search', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1383,9 +1190,7 @@ class EventNotificationsV1 extends BaseService {
    */
   public createTagsSubscription(
     params: EventNotificationsV1.CreateTagsSubscriptionParams
-  ): Promise<
-    EventNotificationsV1.Response<EventNotificationsV1.DestinationTagsSubscriptionResponse>
-  > {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationTagsSubscriptionResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id', 'deviceId', 'tagName'];
     const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'headers'];
@@ -1481,70 +1286,10 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * List all Tag Subscriptions for a device.
-   *
-   * List all Tag Subscriptions for a device.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} params.deviceId - DeviceID of the destination.
-   * @param {string} [params.tagName] - TagName of the subscription.
-   * @param {number} [params.limit] - Page limit for paginated results.
-   * @param {number} [params.offset] - offset for paginated results.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>>}
-   */
-  public listTagsSubscriptionsDevice(
-    params: EventNotificationsV1.ListTagsSubscriptionsDeviceParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'deviceId'];
-    const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'limit', 'offset', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const query = {
-      'tag_name': _params.tagName,
-      'limit': _params.limit,
-      'offset': _params.offset,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-      'device_id': _params.deviceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTagsSubscriptionsDevice'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions/devices/{device_id}',
-        method: 'GET',
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
           true,
           sdkHeaders,
           {
-            'Accept': 'application/json',
           },
           _params.headers
         ),
@@ -1577,15 +1322,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Subscription>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'destinationId', 'topicId'];
-    const _validParams = [
-      'instanceId',
-      'name',
-      'destinationId',
-      'topicId',
-      'description',
-      'attributes',
-      'headers',
-    ];
+    const _validParams = ['instanceId', 'name', 'destinationId', 'topicId', 'description', 'attributes', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1788,7 +1525,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -2088,32 +1831,6 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `createDestinationDevices` operation. */
-  export interface CreateDestinationDevicesParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for Destination. */
-    id: string;
-    /** Unique identifier of the device. */
-    deviceId: string;
-    /** Destination device token. */
-    token: string;
-    /** Destination platform. */
-    platform: CreateDestinationDevicesConstants.Platform | string;
-    /** Destination userId. */
-    userId?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `createDestinationDevices` operation. */
-  export namespace CreateDestinationDevicesConstants {
-    /** Destination platform. */
-    export enum Platform {
-      WEBHOOK = 'webhook',
-      G = 'G',
-    }
-  }
-
   /** Parameters for the `getDestinationDevicesReport` operation. */
   export interface GetDestinationDevicesReportParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -2125,51 +1842,20 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `getDestinationDevice` operation. */
-  export interface GetDestinationDeviceParams {
+  /** Parameters for the `listTagsSubscriptionsDevice` operation. */
+  export interface ListTagsSubscriptionsDeviceParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
     /** Unique identifier for Destination. */
     id: string;
     /** DeviceID of the destination. */
     deviceId: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `updateDestinationDevices` operation. */
-  export interface UpdateDestinationDevicesParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for Destination. */
-    id: string;
-    /** DeviceID of the destination. */
-    deviceId: string;
-    /** Destination device token. */
-    newToken: string;
-    /** Destination platform. */
-    newPlatform: UpdateDestinationDevicesConstants.Platform | string;
-    /** Destination userId. */
-    newUserId?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `updateDestinationDevices` operation. */
-  export namespace UpdateDestinationDevicesConstants {
-    /** Destination platform. */
-    export enum Platform {
-      WEBHOOK = 'webhook',
-      G = 'G',
-    }
-  }
-
-  /** Parameters for the `deleteDestinationDevices` operation. */
-  export interface DeleteDestinationDevicesParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for Destination. */
-    id: string;
-    /** DeviceID of the destination. */
-    deviceId: string;
+    /** TagName of the subscription. */
+    tagName?: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2217,23 +1903,6 @@ namespace EventNotificationsV1 {
     deviceId?: string;
     /** TagName of the subscription. */
     tagName?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `listTagsSubscriptionsDevice` operation. */
-  export interface ListTagsSubscriptionsDeviceParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for Destination. */
-    id: string;
-    /** DeviceID of the destination. */
-    deviceId: string;
-    /** TagName of the subscription. */
-    tagName?: string;
-    /** Page limit for paginated results. */
-    limit?: number;
-    /** offset for paginated results. */
-    offset?: number;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2328,32 +1997,7 @@ namespace EventNotificationsV1 {
   }
 
   /** DestinationConfigParams. */
-  export interface DestinationConfigParams {}
-
-  /** Response describing a destination device. */
-  export interface DestinationDevice {
-    /** device ID. */
-    id: string;
-    /** user ID. */
-    user_id?: string;
-    /** Destination platform. */
-    platform: string;
-    /** Destination device token. */
-    token: string;
-    /** Updated at. */
-    updated_at: string;
-  }
-
-  /** Response describing a destination device create request. */
-  export interface DestinationDeviceResponse {
-    /** device ID. */
-    id: string;
-    /** user ID. */
-    user_id?: string;
-    /** Destination device token. */
-    token: string;
-    /** Last updated time. */
-    created_at: string;
+  export interface DestinationConfigParams {
   }
 
   /** Payload describing a destination devices list request. */
@@ -2717,7 +2361,8 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionCreateAttributes. */
-  export interface SubscriptionCreateAttributes {}
+  export interface SubscriptionCreateAttributes {
+  }
 
   /** Subscription list object. */
   export interface SubscriptionList {
@@ -2754,7 +2399,8 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionUpdateAttributes. */
-  export interface SubscriptionUpdateAttributes {}
+  export interface SubscriptionUpdateAttributes {
+  }
 
   /** Payload describing a tags list request. */
   export interface TagsSubscriptionList {
@@ -2871,10 +2517,12 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes reponse for an email destination. */
-  export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {}
+  export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {
+  }
 
   /** SMS attributes object. */
-  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {}
+  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
+  }
 
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
@@ -2885,8 +2533,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesEmailAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesEmailAttributes extends SubscriptionCreateAttributes {
     /** The email id string. */
     to: string[];
     /** Whether to add the notification payload to the email. */
@@ -2900,7 +2547,8 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an FCM notification. */
-  export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {}
+  export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {
+  }
 
   /** SMS attributes object. */
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
@@ -2909,15 +2557,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionCreateAttributesWebhookAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesWebhookAttributes extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesEmailUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesEmailUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids. */
     to: EmailUpdateAttributesTo;
     /** Whether to add the notification payload to the email. */
@@ -2941,8 +2587,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionUpdateAttributesWebhookAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesWebhookAttributes extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }

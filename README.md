@@ -83,12 +83,8 @@ SDK Methods to consume
 	- [Update Destination](#update-destination)
 	- [Delete Destination](#delete-destination)
 - [Destination Devices](#destination-device)
-	- [Create Destination device](#create-destination-device)
 	- [List Destination device](#list-destination-devices)
 	- [Get Destination device report](#get-destination-device-report)
-	- [Get Destination device](#get-destination-device)
-	- [Update Destination device](#update-destination-device)
-	- [Delete Destination device](#delete-destination-device)
 	- [Create Destination tag subscription](#create-destination-tag-subscription)
 	- [List Destination tag subscription](#list-destination-tag-subscription)
 	- [List Destination device tag subscriptions](#list-destination-device-tag-subscriptions)
@@ -379,27 +375,6 @@ eventNotificationsService
 
 ## Destination Devices
 
-### Create Destination device
-
-```js
-const params = {
-  instanceId: <instance-id>,
-  id: <destination-id>,
-  deviceId: <device-id>,
-  token: <device-token>,
-  platform: <device-platform>, 
-  userId: <user-id>,
-};
-
-try {
-  const res = await eventNotificationsService.createDestinationDevices(params);
-  console.log(JSON.stringify(res.result, null, 2));
-  destinationDeviceID = res.result.id;
-} catch (err) {
-  console.warn(err);
-}
-```
-
 ### List Destination device
 
 ```js
@@ -430,62 +405,6 @@ let res;
 try {
   res = await eventNotificationsService.getDestinationDevicesReport(params);
   console.log(JSON.stringify(res.result, null, 2));
-} catch (err) {
-  console.warn(err);
-}
-```
-
-### Get Destination device
-
-```js
-
-const params = {
-  instanceId: <instance-id>,
-  id: <destination-id>,
-  deviceId: <destination-device-id>,
-};
-
-let res;
-try {
-  res = await eventNotificationsService.getDestinationDevice(params);
-  console.log(JSON.stringify(res.result, null, 2));
-} catch (err) {
-  console.warn(err);
-}
-```
-
-### Update Destination device
-
-```js
-const params = {
-  instanceId: <instance-id>,
-  id: <destination-id>,
-  deviceId: <device-id>,
-  newToken: <device-token>,
-  newPlatform: <device-platform>,
-  newUserId: <device-platform>,
-};
-
-let res;
-try {
-  res = await eventNotificationsService.updateDestinationDevices(params);
-  console.log(JSON.stringify(res.result, null, 2));
-} catch (err) {
-  console.warn(err);
-}
-```
-
-### Delete Destination device
-
-```js
-const params = {
-  instanceId: <instance-id>,
-  id: <destination-id>,
-  deviceId: <device-id>,
-};
-
-try {
-  await eventNotificationsService.deleteDestinationDevices(params);
 } catch (err) {
   console.warn(err);
 }
