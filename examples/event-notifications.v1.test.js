@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ const authHelper = require('../test/resources/auth-helper.js');
 // in a configuration file and then:
 // export IBM_CREDENTIALS_FILE=<name of configuration file>
 //
-const configFile = `${__dirname}/../event_notifications.env`;
+const configFile = `${__dirname}/../event_notifications_v1.env`;
 
 const describe = authHelper.prepareTests(configFile);
 
@@ -49,6 +49,8 @@ let sourceId = '';
 let topicId = '';
 let destinationId = '';
 let subscriptionId = '';
+let fcmServerKey = '';
+let fcmSenderId = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -66,8 +68,11 @@ describe('EventNotificationsV1', () => {
   expect(config).not.toBeNull();
 
   instanceId = config.guid;
+  fcmSenderId = config.fcmId;
+  fcmServerKey = config.fcmKey;
 
-  let eventNotificationsService;
+  let eventNotificationsService = EventNotificationsV1.newInstance({});
+
   test('Initialize services', async () => {
     // begin-common
 
@@ -253,8 +258,7 @@ describe('EventNotificationsV1', () => {
     // Rules
     const rulesModel = {
       enabled: true,
-      event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
-      notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+      event_type_filter: '$.*',
     };
 
     // TopicUpdateSourcesItem
@@ -267,7 +271,7 @@ describe('EventNotificationsV1', () => {
       instanceId,
       id: topicId,
       name: 'Updated Admin Topic Compliance',
-      description: 'Updated Topic for GCM notifications',
+      description: 'Updated Topic for FCM notifications',
       sources: [topicUpdateSourcesItemModel],
     };
 
@@ -297,10 +301,8 @@ describe('EventNotificationsV1', () => {
 
     // DestinationConfigParamsWebhookDestinationConfig
     const destinationConfigParamsModel = {
-      url: 'https://gcm.com',
-      verb: 'get',
-      custom_headers: { 'Authorization': 'aaa-r-t-fdsfs-55kfjsd-fsdfs' },
-      sensitive_headers: ['Authorization'],
+      server_key: fcmServerKey,
+      sender_id: fcmSenderId,
     };
 
     // DestinationConfig
@@ -311,8 +313,8 @@ describe('EventNotificationsV1', () => {
     const params = {
       instanceId,
       name: 'GCM_destination',
-      type: 'webhook',
-      description: 'GCM  Destination',
+      type: 'push_android',
+      description: 'GCM Destination',
       config: destinationConfigModel,
     };
 
@@ -400,9 +402,8 @@ describe('EventNotificationsV1', () => {
 
     // DestinationConfigParamsWebhookDestinationConfig
     const destinationConfigParamsModel = {
-      url: 'https://cloud.ibm.com/nhwebhook/sendwebhook',
-      verb: 'post',
-      sensitive_headers: ['authorization'],
+      server_key: fcmServerKey,
+      sender_id: fcmSenderId,
     };
 
     // DestinationConfig
@@ -413,9 +414,8 @@ describe('EventNotificationsV1', () => {
     const params = {
       instanceId,
       id: destinationId,
-      name: 'Admin Webhook Compliance',
-      description:
-        'This destination is for creating admin webhook to receive compliance notifications',
+      name: 'Admin FCM Compliance',
+      description: 'This destination is for creating admin FCM to receive compliance notifications',
       config: destinationConfigModel,
     };
 
@@ -430,6 +430,64 @@ describe('EventNotificationsV1', () => {
     // end-update_destination
   });
 
+  test('listDestinationDevices request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listDestinationDevices() result:');
+    // begin-list_destination_devices
+
+    const params = {
+      instanceId,
+      id: destinationId,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.listDestinationDevices(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // end-list_destination_devices
+  });
+
+  test('getDestinationDevicesReport request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getDestinationDevicesReport() result:');
+    // begin-get_destination_devices_report
+
+    const params = {
+      instanceId,
+      id: destinationId,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.getDestinationDevicesReport(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // end-get_destination_devices_report
+  });
+
   test('createSubscription request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -441,21 +499,16 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('createSubscription() result:');
+    const subscriptionName = 'FCM subscription';
+    const subscriptionDescription = 'Subscription for the FCM';
     // begin-create_subscription
-
-    // Request models needed by this operation.
-
-    const subscriptionCreateAttributesModel = {
-      signing_enabled: false,
-    };
 
     const params = {
       instanceId,
-      name: 'subscription_web',
+      name: subscriptionName,
       destinationId,
       topicId,
-      attributes: subscriptionCreateAttributesModel,
-      description: 'Subscription for the web',
+      description: subscriptionDescription,
     };
 
     let res;
@@ -538,18 +591,15 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('updateSubscription() result:');
+    const subscriptionName = 'Update_FCM_subscription';
+    const subscriptionDescription = 'Update FCM subscription';
     // begin-update_subscription
-
-    const subscriptionUpdateAttributesModel = {
-      signing_enabled: true,
-    };
 
     const params = {
       instanceId,
       id: subscriptionId,
-      name: 'GCM_sub_updated',
-      description: 'Update GCM subscription',
-      attributes: subscriptionUpdateAttributesModel,
+      name: subscriptionName,
+      description: subscriptionDescription,
     };
 
     let res;
@@ -561,6 +611,74 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-update_subscription
+  });
+
+  test('sendNotifications request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('sendNotifications() result:');
+
+    const notificationID = '1234-1234-sdfs-234';
+    const notificationSubject = 'FCM_Subject';
+    const notificationSeverity = 'MEDIUM';
+    const typeValue = 'com.acme.offer:new';
+    const date = '2019-01-01T12:00:00.000Z';
+    const userId = 'userId';
+    const alertMessage = 'Message';
+    const notificationsSouce = '1234-1234-sdfs-234:test';
+
+    // begin-send_notifications
+
+    // NotificationFCMDevices
+    const notificationFcmDevicesModel = {
+      user_ids: [userId],
+    };
+    // NotificationFCMBodyMessageData
+    const notificationFcmBodyMessageDataModel = {
+      alert: 'testString',
+      delay_while_idle: true,
+      time_to_live: 100,
+    };
+
+    // NotificationFCMBodyMessage
+    const notificationFcmBodyMessageModel = {
+      data: notificationFcmBodyMessageDataModel,
+    };
+
+    // NotificationFCMBody
+    const notificationFcmBodyModel = {
+      message: notificationFcmBodyMessageModel,
+    };
+
+    const params = {
+      instanceId,
+      subject: notificationSubject,
+      severity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      enSourceId: sourceId,
+      type: typeValue,
+      time: date,
+      pushTo: notificationFcmDevicesModel,
+      messageFcmBody: notificationFcmBodyModel,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.sendNotifications(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // end-send_notifications
   });
 
   test('deleteSubscription request example', async () => {
@@ -614,7 +732,6 @@ describe('EventNotificationsV1', () => {
 
     // end-delete_topic
   });
-
   test('deleteDestination request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
