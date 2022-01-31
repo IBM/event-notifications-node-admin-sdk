@@ -1,3 +1,10 @@
+## [0.0.6](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.5...v0.0.6) (2022-01-31)
+
+
+### Bug Fixes
+
+* enable fcm push notifications ([#12](https://github.com/IBM/event-notifications-node-admin-sdk/issues/12)) ([9ef4c80](https://github.com/IBM/event-notifications-node-admin-sdk/commit/9ef4c801f2004698c731241e3e54aca98579fb78))
+
 ## [0.0.5](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.4...v0.0.5) (2021-12-10)
 
 
