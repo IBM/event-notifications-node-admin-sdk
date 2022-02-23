@@ -590,57 +590,31 @@ eventNotificationsService
 
 ```js
 // NotificationFCMDevices
-    const notificationFcmDevicesModel = {
+    const notificationDevicesModel = {
       user_ids: ['<user-ids>'],
-      fcm_devices: ['<device-ids>'],
+      fcm_devices: ['<fcm-device-ids>'],
+      apns_devices: ['<apns-device-ids>'],
       tags: ['<tag-names>'],
       platforms: ['<device-platforms>'],
     };
     
-    // Lights
-    const lightsModel = {
-      led_argb: '<color-name>',
-      led_on_ms: <color-on-ms>,
-      led_off_ms: '<color-off-ms>',
+    const notificationApnsBodyModel = {
+      aps: {
+        alert: '<notification-message>',
+        badge: 5,
+      },
     };
 
-    // Style
-    const styleModel = {
-      type: '<notification-style>',
-      title: '<notification-title>',
-      url: '<notification-url>',
-    };
-
-    // NotificationFCMBodyMessageData
-    const notificationFcmBodyMessageDataModel = {
-      alert: '<notification-message>',
-      collapse_key: '<notification-collapse_key>',
-      interactive_category: '<notification-category>',
-      icon: '<notification-icon>',
-      delay_while_idle: true,
-      sync: true,
-      visibility: '<notification-visibility>',
-      redact: '<notification-redact>',
-      payload: { <notification-key-value-pair> },
-      priority: '<notification-priority>',
-      sound: '<notification-sound>',
-      time_to_live: 0,
-      lights: lightsModel,
-      android_title: '<notification-title>',
-      group_id: '<notification-group>',
-      style: styleModel,
-      type: '<notification--type>',
-    };
-
-    // NotificationFCMBodyMessage
-    const notificationFcmBodyMessageModel = {
-      data: notificationFcmBodyMessageDataModel,
-    };
-
-    // NotificationFCMBody
     const notificationFcmBodyModel = {
-      message: notificationFcmBodyMessageModel,
+      notification: {
+        title: '<notification-title>',
+        badge: '<notification-message>',
+      },
     };
+
+   const notificationApnsHeaders = {
+     "apns-collapse-id": "<apns-apns-collapse-id-value>"
+    }
 
     let notificationID = "<notification-id>"
     let notificationSubject = "<notification-subject>"
@@ -658,8 +632,10 @@ eventNotificationsService
       type: typeValue,
       time: '<notification-time>',
       data: {},
-      pushTo: notificationFcmDevicesModel,
+      pushTo: notificationDevicesModel,
       messageFcmBody: notificationFcmBodyModel,
+      messageApnsBody: notificationApnsBodyModel,
+      messageApnsHeaders: apnsHeaders,
       datacontenttype: 'application/json',
       specversion: '1.0',
     };
@@ -678,48 +654,14 @@ eventNotificationsService
 
 - **FCM Target NotificationFcmDevices** - Set up the the push notifications tragets.
   - *user_ids* (Array of **String**) - Send notification to the specified userIds.
-  - *fcm_devices* (Array of **String**) - Send notification to the list of specified devices.
+  - *fcm_devices* (Array of **String**) - Send notification to the list of specified fcm devices.
+  - *apns_devices* (Array of **String**) - Send notification to the list of specified iOS devices.
   - *tags* (Array of **String**) - Send notification to the devices that have subscribed to any of
 these tags.
-  - *platforms* (Array of **String**) - Send notification to the devices of the specified platforms. Pass 'G' for google (Android) devices.
-- **Android Lights** - Allows setting the notification LED color on receiving push notification.
-  - *led_argb* (**String**) - The color of the led. The hardware will do its best approximation. Ex: `Red`
-  - *led_on_ms* (**Integer**) - The number of milliseconds for the LED to be on while it's flashing. The hardware will do its best approximation.
-  - *led_off_ms* (**String**) - The number of milliseconds for the LED to be off while it's flashing. The hardware will do its best approximation.
-- **Android Style** - Options to specify for Android expandable notifications. The types of expandable notifications are *picture_notification*, *bigtext_notification*, and *inbox_notification*.
-  - *type* (**String**) - Specifies the type of expandable notifications. The possible values are *picture_notification*, *bigtext_notification*, and *inbox_notification*
-  - *title* (**String**) - Specifies the title of the notification. The title is displayed when the notification is expanded. Title must be specified for all three expandable notification.
-  - *url* (**String**) - An URL from which the picture has to be obtained for the notification. Must be specified for *picture_notification*.
-  - *text* (**String**) - The big text that needs to be displayed on expanding a *bigtext_notification*. Must be specified for *bigtext_notification*.
-  - *lines* (**String**) - An array of strings that is to be displayed in inbox style for inbox_notification. Must be specified for inbox_notification.
-- **Android NotificationFcmBodyMessageData** - Settings specific to Android platform payload.
-  - *alert* (**String**) - The notification message to be shown to the user.
-  - *collapse_key* (**String**) - Dozed devices to display only the latest notification and discard old low priority notifications.
-  - *interactive_category* (**String**) - The category identifier to be used for the interactive push notifications.
-  - *icon* (**String**) - Specify the name of the icon to be displayed for the notification. Make sure the icon is already packaged with the client application.
-  - *delay_while_idle* (**Bool**) - When this parameter is set to true, it indicates that the
-message should not be sent until the device becomes active.
-  - *sync* (**Bool**) - Device group messaging makes it possible for every app instance in a group to reflect the latest messaging state
-  - *visibility* (**String**) - private/public - Visibility of this notification, which affects how and when the notifications are revealed on a secure locked screen.
-  - *redact* (**String**) - Content specified will show up on a secure locked screen on the device when visibility is set to Private
-  - *payload* (**map[string]interface{}**) - 	
-Custom JSON payload that will be sent as part of the notification message.
-  - *priority* (**String**) - A string value that indicates the priority of this notification. Allowed values are 'max', 'high', 'default', 'low' and 'min'. High/Max priority notifications along with 'sound' field may be used for Heads up notification in Android 5.0 or higher.sampleval='low'.
-  - *sound* (**String**) - The sound file (on device) that will be attempted to play when the notification arrives on the device.
-  - *time_to_live* (**Integer**) - This parameter specifies how long (in seconds) the message
-should be kept in GCM storage if the device is offline.
-  - *lights* (**Lights**) - Allows setting the notification LED color on receiving push notification.
-  - *android_title* (**String**) - The title of Rich Push notifications.
-  - *group_id* (**String**) - Set this notification to be part of a group of notifications sharing the same key. Grouped notifications may display in a cluster or stack on devices which support such rendering.
-  - *style* (**Style**) - Options to specify for Android expandable notifications. The types of expandable notifications are *picture_notification*, *bigtext_notification*, and *inbox_notification*..
-  - *type* (**String**) - The notification Type value. The types are *DEFAULT* and *SILENT* .
-
-- **FCM NotificationFcmBodyMessage** - Settings specific to Android platform data field.
-  - *data* (**NotificationFcmBodyMessageData**) - The `data` field for FCM notifications [Refer this FCM official [link](https://firebase.google.com/docs/cloud-messaging/concept-options)].
-
-- **FCM NotificationFcmBody** - Settings specific to Android platform data field.
-  - *message* (**NotificationFcmBodyMessage**) - The `message` field for FCM notifications [Refer this FCM official [link](https://firebase.google.com/docs/cloud-messaging/concept-options)] 
-
+  - *platforms* (Array of **String**) - Send notification to the devices of the specified platforms. Pass 'G' for google (Android) devices. Pass 'A' for iOS  devices.
+- **FCM messageFcmBody** - Set payload specific to Android platform [Refer this FCM official [link](https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support)]. We support `notification` and `data` keys in FCM.
+- **iOS messageApnsBody** - Set payload specific to iOS platform [Refer this APNs official doc [link](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CreatingtheNotificationPayload.html)].
+- **APNs messageApnsHeaders** - Set headers required for the APNs message [Refer this APNs official [link](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)(Table 1 Header fields for a POST request)].
 - **Event Notificaitons SendNotificationsOptions** - Event Notificaitons Send notificaitons method. 
   - *instanceId* (**String**) - Event Notificaitons instance AppGUID. 
   - *subject* (**String**) - Subject for the notifications. 
@@ -729,9 +671,11 @@ should be kept in GCM storage if the device is offline.
   - *enSourceId* (**String**) - Event Notificaitons instance Source ID. 
   - *type* (**String**) - Type for the notifications. 
   - *time* (**String**) - Time of the notifications. 
-  - *data* (**map[string]interface{}**) - Data for the notifications. Supported only for `Webhook` destination. 
+  - *data* (**JSON**) - Data for the notifications. Supported only for `Webhook` destination. 
   - *pushTo* (**NotificationFcmDevices**) - Targets for the FCM notifications. 
-  - *messageFcmBody* (**NotificationFcmBodyMessage**) - Message body for the FCM notifications. 
+  - *messageFcmBody* (**notificationFcmBodyModel**) - Message body for the FCM notifications. 
+  - *messageApnsBody* (**notificationApnsBodyModel**) - Message body for the APNs notifications. 
+  - *messageApnsHeaders* (**JSON**) - Headers for the APNs notifications. 
   - *datacontenttype* (**String**) - Data content type of the notifications. 
   - *specversion* (**String**) - Spec version of the Event Notificaitons. Default value is `1.0`. 
 

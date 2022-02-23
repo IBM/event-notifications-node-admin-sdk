@@ -97,9 +97,10 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // NotificationFCMDevices
-      const notificationFcmDevicesModel = {
+      // NotificationDevices
+      const notificationDevicesModel = {
         fcm_devices: ['testString'],
+        apns_devices: ['testString'],
         user_ids: ['testString'],
         tags: ['testString'],
         platforms: ['testString'],
@@ -143,14 +144,39 @@ describe('EventNotificationsV1', () => {
         type: 'DEFAULT',
       };
 
-      // NotificationFCMBodyMessage
-      const notificationFcmBodyMessageModel = {
-        data: notificationFcmBodyMessageDataModel,
+      // NotificationFCMBodyMessageENData
+      const notificationFcmBodyModel = {
+        en_data: notificationFcmBodyMessageDataModel,
+        foo: 'testString',
       };
 
-      // NotificationFCMBody
-      const notificationFcmBodyModel = {
-        message: notificationFcmBodyMessageModel,
+      // NotificationAPNSBodyMessageData
+      const notificationApnsBodyMessageDataModel = {
+        alert: 'testString',
+        badge: 38,
+        interactiveCategory: 'testString',
+        iosActionKey: 'testString',
+        payload: { foo: 'bar' },
+        sound: 'testString',
+        titleLocKey: 'testString',
+        locKey: 'testString',
+        launchImage: 'testString',
+        titleLocArgs: ['testString'],
+        locArgs: ['testString'],
+        title: 'testString',
+        subtitle: 'testString',
+        attachmentUrl: 'testString',
+        type: 'DEFAULT',
+        apnsCollapseId: 'testString',
+        apnsThreadId: 'testString',
+        apnsGroupSummaryArg: 'testString',
+        apnsGroupSummaryArgCount: 38,
+      };
+
+      // NotificationAPNSBodyMessageENData
+      const notificationApnsBodyModel = {
+        en_data: notificationApnsBodyMessageDataModel,
+        foo: 'testString',
       };
 
       function __sendNotificationsTest() {
@@ -164,8 +190,10 @@ describe('EventNotificationsV1', () => {
         const type = 'testString';
         const time = '2019-01-01T12:00:00.000Z';
         const data = { 'key1': 'testString' };
-        const pushTo = notificationFcmDevicesModel;
+        const pushTo = notificationDevicesModel;
         const messageFcmBody = notificationFcmBodyModel;
+        const messageApnsHeaders = { 'key1': 'testString' };
+        const messageApnsBody = notificationApnsBodyModel;
         const datacontenttype = 'application/json';
         const specversion = '1.0';
         const sendNotificationsParams = {
@@ -180,6 +208,8 @@ describe('EventNotificationsV1', () => {
           data,
           pushTo,
           messageFcmBody,
+          messageApnsHeaders,
+          messageApnsBody,
           datacontenttype,
           specversion,
         };
@@ -207,8 +237,10 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.body.type).toEqual(type);
         expect(mockRequestOptions.body.time).toEqual(time);
         expect(mockRequestOptions.body.data).toEqual(data);
-        // expect(mockRequestOptions.body.push_to).toEqual(pushTo);
-        // expect(mockRequestOptions.body.message_fcm_body).toEqual(messageFcmBody);
+        expect(mockRequestOptions.body.push_to).toEqual(pushTo);
+        expect(mockRequestOptions.body.message_fcm_body).toEqual(messageFcmBody);
+        expect(mockRequestOptions.body.message_apns_headers).toEqual(messageApnsHeaders);
+        expect(mockRequestOptions.body.message_apns_body).toEqual(messageApnsBody);
         expect(mockRequestOptions.body.datacontenttype).toEqual(datacontenttype);
         expect(mockRequestOptions.body.specversion).toEqual(specversion);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
@@ -981,12 +1013,16 @@ describe('EventNotificationsV1', () => {
         const type = 'webhook';
         const description = 'testString';
         const config = destinationConfigModel;
+        const certificate = Buffer.from('This is a mock file.');
+        const certificateContentType = 'testString';
         const createDestinationParams = {
           instanceId,
           name,
           type,
           description,
           config,
+          certificate,
+          certificateContentType,
         };
 
         const createDestinationResult =
@@ -1002,12 +1038,14 @@ describe('EventNotificationsV1', () => {
 
         checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations', 'POST');
         const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
+        const expectedContentType = 'multipart/form-data';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.name).toEqual(name);
-        expect(mockRequestOptions.body.type).toEqual(type);
-        expect(mockRequestOptions.body.description).toEqual(description);
-        expect(mockRequestOptions.body.config).toEqual(config);
+        expect(mockRequestOptions.formData.name).toEqual(name);
+        expect(mockRequestOptions.formData.type).toEqual(type);
+        expect(mockRequestOptions.formData.description).toEqual(description);
+        expect(mockRequestOptions.formData.config).toEqual(config);
+        expect(mockRequestOptions.formData.certificate.data).toEqual(certificate);
+        expect(mockRequestOptions.formData.certificate.contentType).toEqual(certificateContentType);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -1281,12 +1319,16 @@ describe('EventNotificationsV1', () => {
         const name = 'testString';
         const description = 'testString';
         const config = destinationConfigModel;
+        const certificate = Buffer.from('This is a mock file.');
+        const certificateContentType = 'testString';
         const updateDestinationParams = {
           instanceId,
           id,
           name,
           description,
           config,
+          certificate,
+          certificateContentType,
         };
 
         const updateDestinationResult =
@@ -1306,11 +1348,13 @@ describe('EventNotificationsV1', () => {
           'PATCH'
         );
         const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
+        const expectedContentType = 'multipart/form-data';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.name).toEqual(name);
-        expect(mockRequestOptions.body.description).toEqual(description);
-        expect(mockRequestOptions.body.config).toEqual(config);
+        expect(mockRequestOptions.formData.name).toEqual(name);
+        expect(mockRequestOptions.formData.description).toEqual(description);
+        expect(mockRequestOptions.formData.config).toEqual(config);
+        expect(mockRequestOptions.formData.certificate.data).toEqual(certificate);
+        expect(mockRequestOptions.formData.certificate.contentType).toEqual(certificateContentType);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.id).toEqual(id);
       }
