@@ -18,6 +18,7 @@
  */
 
 /* eslint-disable no-console */
+
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const EventNotificationsV1 = require('../dist/event-notifications/v1');
 // eslint-disable-next-line node/no-unpublished-require
@@ -80,7 +81,6 @@ describe('EventNotificationsV1', () => {
 
     // end-common
   });
-
   test('listSources request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -612,7 +612,6 @@ describe('EventNotificationsV1', () => {
 
     // end-update_subscription
   });
-
   test('sendNotifications request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -640,21 +639,23 @@ describe('EventNotificationsV1', () => {
     const notificationFcmDevicesModel = {
       user_ids: [userId],
     };
-    // NotificationFCMBodyMessageData
-    const notificationFcmBodyMessageDataModel = {
-      alert: 'testString',
-      delay_while_idle: true,
-      time_to_live: 100,
+
+    const notificationApnsBodyModel = {
+      aps: {
+        alert: 'Game Request',
+        badge: 5,
+      },
     };
 
-    // NotificationFCMBodyMessage
-    const notificationFcmBodyMessageModel = {
-      data: notificationFcmBodyMessageDataModel,
-    };
-
-    // NotificationFCMBody
     const notificationFcmBodyModel = {
-      message: notificationFcmBodyMessageModel,
+      notification: {
+        title: 'Portugal vs. Denmark',
+        badge: 'great match!',
+      },
+    };
+
+    const apnsHeaders = {
+      'apns-collapse-id': '123',
     };
 
     const params = {
@@ -668,6 +669,8 @@ describe('EventNotificationsV1', () => {
       time: date,
       pushTo: notificationFcmDevicesModel,
       messageFcmBody: notificationFcmBodyModel,
+      messageApnsBody: notificationApnsBodyModel,
+      messageApnsHeaders: apnsHeaders,
     };
 
     let res;
@@ -732,6 +735,7 @@ describe('EventNotificationsV1', () => {
 
     // end-delete_topic
   });
+
   test('deleteDestination request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);

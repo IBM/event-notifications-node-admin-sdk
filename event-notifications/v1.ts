@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.43.4-432d779b-20220119-173927
+ * IBM OpenAPI SDK Code Generator Version: 3.45.1-632ec580-20220210-190638
  */
 
 import * as extend from 'extend';
@@ -112,8 +112,10 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.type - The Notifications type.
    * @param {string} params.time - The Notifications time.
    * @param {JsonObject} [params.data] - The Notifications data for webhook.
-   * @param {NotificationFCMDevices} [params.pushTo] - Payload describing a FCM Notifications targets.
-   * @param {NotificationFCMBody} [params.messageFcmBody] - Payload describing a FCM Notifications body.
+   * @param {NotificationDevices} [params.pushTo] - Payload describing a FCM Notifications targets.
+   * @param {NotificationFCMBody} [params.messageFcmBody] -
+   * @param {JsonObject} [params.messageApnsHeaders] - The attributes for an FCM/APNs notification.
+   * @param {NotificationAPNSBody} [params.messageApnsBody] - Payload describing a APNs Notifications body.
    * @param {string} [params.datacontenttype] - The Notifications content type.
    * @param {string} [params.specversion] - The Notifications specversion.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
@@ -145,6 +147,8 @@ class EventNotificationsV1 extends BaseService {
       'data',
       'pushTo',
       'messageFcmBody',
+      'messageApnsHeaders',
+      'messageApnsBody',
       'datacontenttype',
       'specversion',
       'headers',
@@ -154,9 +158,6 @@ class EventNotificationsV1 extends BaseService {
       return Promise.reject(_validationErrors);
     }
 
-    if (_params.data == null) {
-      _params.data = {};
-    }
     const body = {
       'subject': _params.subject,
       'severity': _params.severity,
@@ -168,6 +169,8 @@ class EventNotificationsV1 extends BaseService {
       'data': _params.data,
       'push_to': JSON.stringify(_params.pushTo),
       'message_fcm_body': JSON.stringify(_params.messageFcmBody),
+      'message_apns_headers': JSON.stringify(_params.messageApnsHeaders),
+      'message_apns_body': JSON.stringify(_params.messageApnsBody),
       'datacontenttype': 'application/json',
       'specversion': '1.0',
     };
@@ -626,6 +629,8 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.type - The type of Destination Webhook.
    * @param {string} [params.description] - The Destination description.
    * @param {DestinationConfig} [params.config] - Payload describing a destination configuration.
+   * @param {NodeJS.ReadableStream | Buffer} [params.certificate] - Certificate for APNS.
+   * @param {string} [params.certificateContentType] - The content type of certificate.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>>}
    */
@@ -634,17 +639,30 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'type'];
-    const _validParams = ['instanceId', 'name', 'type', 'description', 'config', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'name',
+      'type',
+      'description',
+      'config',
+      'certificate',
+      'certificateContentType',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
-    const body = {
+    const formData = {
       'name': _params.name,
       'type': _params.type,
       'description': _params.description,
       'config': _params.config,
+      'certificate': {
+        data: _params.certificate,
+        contentType: _params.certificateContentType,
+      },
     };
 
     const path = {
@@ -661,8 +679,8 @@ class EventNotificationsV1 extends BaseService {
       options: {
         url: '/v1/instances/{instance_id}/destinations',
         method: 'POST',
-        body,
         path,
+        formData,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -670,7 +688,7 @@ class EventNotificationsV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
           _params.headers
         ),
@@ -807,6 +825,8 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} [params.name] - Destination name.
    * @param {string} [params.description] - Destination description.
    * @param {DestinationConfig} [params.config] - Payload describing a destination configuration.
+   * @param {NodeJS.ReadableStream | Buffer} [params.certificate] - Certificate for APNS.
+   * @param {string} [params.certificateContentType] - The content type of certificate.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Destination>>}
    */
@@ -815,16 +835,29 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Destination>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'name', 'description', 'config', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'id',
+      'name',
+      'description',
+      'config',
+      'certificate',
+      'certificateContentType',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
-    const body = {
+    const formData = {
       'name': _params.name,
       'description': _params.description,
       'config': _params.config,
+      'certificate': {
+        data: _params.certificate,
+        contentType: _params.certificateContentType,
+      },
     };
 
     const path = {
@@ -842,8 +875,8 @@ class EventNotificationsV1 extends BaseService {
       options: {
         url: '/v1/instances/{instance_id}/destinations/{id}',
         method: 'PATCH',
-        body,
         path,
+        formData,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -851,7 +884,7 @@ class EventNotificationsV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
           _params.headers
         ),
@@ -1662,9 +1695,12 @@ namespace EventNotificationsV1 {
     /** The Notifications data for webhook. */
     data?: JsonObject;
     /** Payload describing a FCM Notifications targets. */
-    pushTo?: NotificationFCMDevices;
-    /** Payload describing a FCM Notifications body. */
+    pushTo?: NotificationDevices;
     messageFcmBody?: NotificationFCMBody;
+    /** The attributes for an FCM/APNs notification. */
+    messageApnsHeaders?: JsonObject;
+    /** Payload describing a APNs Notifications body. */
+    messageApnsBody?: NotificationAPNSBody;
     /** The Notifications content type. */
     datacontenttype?: string;
     /** The Notifications specversion. */
@@ -1767,6 +1803,10 @@ namespace EventNotificationsV1 {
     description?: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
+    /** Certificate for APNS. */
+    certificate?: NodeJS.ReadableStream | Buffer;
+    /** The content type of certificate. */
+    certificateContentType?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -1776,6 +1816,7 @@ namespace EventNotificationsV1 {
     export enum Type {
       WEBHOOK = 'webhook',
       PUSH_ANDROID = 'push_android',
+      PUSH_IOS = 'push_ios',
     }
   }
 
@@ -1813,6 +1854,10 @@ namespace EventNotificationsV1 {
     description?: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
+    /** Certificate for APNS. */
+    certificate?: NodeJS.ReadableStream | Buffer;
+    /** The content type of certificate. */
+    certificateContentType?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2140,16 +2185,81 @@ namespace EventNotificationsV1 {
     led_off_ms?: string;
   }
 
-  /** Payload describing a FCM Notifications body. */
-  export interface NotificationFCMBody {
-    /** Payload describing a fcm notifications body message. */
-    message: NotificationFCMBodyMessage;
+  /** Payload describing a APNs Notifications body. */
+  export interface NotificationAPNSBody {
+    /** NotificationAPNSBody accepts additional properties. */
+    [propName: string]: any;
   }
 
-  /** Payload describing a fcm notifications body message. */
-  export interface NotificationFCMBodyMessage {
-    /** Payload describing a fcm notifications body message Data. */
-    data: NotificationFCMBodyMessageData;
+  /** Payload describing a apns notifications body message Data. */
+  export interface NotificationAPNSBodyMessageData {
+    /** The notification message to be shown to the user. */
+    alert: string;
+    /** The number to display as the badge of the application icon. */
+    badge?: number;
+    /** The category identifier to be used for the interactive push notifications. */
+    interactiveCategory?: string;
+    /** The title for the Action key. */
+    iosActionKey?: string;
+    /** Custom JSON payload that will be sent as part of the notification message. */
+    payload?: JsonObject;
+    /** The name of the sound file in the application bundle. The sound of this file is played as an alert. */
+    sound?: string;
+    /** The key to a title string in the Localizable.strings file for the current localization. The key string can
+     *  be formatted with %@ and %n$@ specifiers to take the variables specified in the titleLocArgs array.
+     */
+    titleLocKey?: string;
+    /** A key to an alert-message string in a Localizabl.strings file for the current localization (which is set by
+     *  the userÃ¢â‚¬â„¢s language preference).
+     *    The key string can be formatted with %@ and %n$@ specifiers to take the variables specified in the locArgs
+     *  array.
+     */
+    locKey?: string;
+    /** The filename of an image file in the app bundle, with or without the filename extension. The image is used
+     *  as the launch image when users tap the action button or move the action slider.
+     */
+    launchImage?: string;
+    /** Variable string values to appear in place of the format specifiers in title-loc-key. */
+    titleLocArgs?: string[];
+    /** Variable string values to appear in place of the format specifiers in locKey. */
+    locArgs?: string[];
+    /** The title of Rich Push notifications (Supported only on iOS 10 and above). */
+    title?: string;
+    /** The subtitle of the Rich Notifications.(Supported only on iOS 10 and above). */
+    subtitle?: string;
+    /** The link to the iOS notifications media (video, audio, GIF, images - Supported only on iOS 10 and above). */
+    attachmentUrl?: string;
+    type?: string;
+    /** Multiple notifications with the same collapse identifier are displayed to the user as a single notification. */
+    apnsCollapseId?: string;
+    /** An app-specific identifier for grouping related notifications. This value corresponds to the
+     *  threadIdentifier property in the UNNotificationContent object.
+     */
+    apnsThreadId?: string;
+    /** The string the notification adds to the category's summary format string. */
+    apnsGroupSummaryArg?: string;
+    /** The number of items the notification adds to the category's summary format string. */
+    apnsGroupSummaryArgCount?: number;
+  }
+
+  /** Payload describing a FCM Notifications targets. */
+  export interface NotificationDevices {
+    /** List of FCM deviceIds. */
+    fcm_devices?: string[];
+    /** List of APNs deviceIds. */
+    apns_devices?: string[];
+    /** List of userIds. */
+    user_ids?: string[];
+    /** List of tags. */
+    tags?: string[];
+    /** List of platforms. */
+    platforms?: string[];
+  }
+
+  /** NotificationFCMBody. */
+  export interface NotificationFCMBody {
+    /** NotificationFCMBody accepts additional properties. */
+    [propName: string]: any;
   }
 
   /** Payload describing a fcm notifications body message Data. */
@@ -2207,22 +2317,12 @@ namespace EventNotificationsV1 {
     type?: string;
   }
 
-  /** Payload describing a FCM Notifications targets. */
-  export interface NotificationFCMDevices {
-    /** List of deviceIds. */
-    fcm_devices?: string[];
-    /** List of userIds. */
-    user_ids?: string[];
-    /** List of tags. */
-    tags?: string[];
-    /** List of platforms. */
-    platforms?: string[];
-  }
-
   /** Payload describing a notifications response. */
   export interface NotificationResponse {
     /** Notification ID. */
     notification_id: string;
+    /** NotificationResponse accepts additional properties. */
+    [propName: string]: any;
   }
 
   /** Rule object. */
@@ -2510,6 +2610,22 @@ namespace EventNotificationsV1 {
     sender_id: string;
   }
 
+  /** Payload describing a IOS destination configuration. */
+  export interface DestinationConfigParamsIOSDestinationConfig extends DestinationConfigParams {
+    /** Authentication type (p8 or p12). */
+    cert_type: string;
+    /** Sandbox mode for IOS destinations. */
+    is_sandbox: boolean;
+    /** Password for certificate (Required when cert_type is p12). */
+    password?: string;
+    /** Key ID for token (Required when cert_type is p8). */
+    key_id?: string;
+    /** Team ID for token (Required when cert_type is p8). */
+    team_id?: string;
+    /** Bundle ID for token (Required when cert_type is p8). */
+    bundle_id?: string;
+  }
+
   /** Payload describing a webhook destination configuration. */
   export interface DestinationConfigParamsWebhookDestinationConfig extends DestinationConfigParams {
     /** URL of webhook. */
@@ -2521,6 +2637,24 @@ namespace EventNotificationsV1 {
     /** List of sensitive headers from custom headers. */
     sensitive_headers?: string[];
   }
+
+  /** Payload describing a fcm notifications body message. */
+  export interface NotificationAPNSBodyMessageENData extends NotificationAPNSBody {
+    /** Payload describing a apns notifications body message Data. */
+    en_data?: NotificationAPNSBodyMessageData;
+  }
+
+  /** The attributes for an FCM/APNs notification. */
+  export interface NotificationAPNSBodyNotificationPayload extends NotificationAPNSBody {}
+
+  /** Payload describing a fcm notifications body message. */
+  export interface NotificationFCMBodyMessageENData extends NotificationFCMBody {
+    /** Payload describing a fcm notifications body message Data. */
+    en_data?: NotificationFCMBodyMessageData;
+  }
+
+  /** The attributes for an FCM/APNs notification. */
+  export interface NotificationFCMBodyNotificationPayload extends NotificationFCMBody {}
 
   /** The attributes reponse for an email destination. */
   export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {}

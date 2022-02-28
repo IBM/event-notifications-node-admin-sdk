@@ -47,7 +47,7 @@ let fcmSenderId = '';
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
 
-  let eventNotificationsService;
+  let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialise service', async () => {
     eventNotificationsService = EventNotificationsV1.newInstance({});
@@ -63,7 +63,6 @@ describe('EventNotificationsV1_integration', () => {
 
     eventNotificationsService.enableRetries();
   });
-
   test('listSources()', async () => {
     let offset = 0;
     const limit = 1;
@@ -527,6 +526,81 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+  /*
+  test('listTagsSubscriptionsDevice()', async () => {
+    const params = {
+      instanceId: 'testString',
+      id: 'testString',
+      deviceId: 'testString',
+      tagName: 'testString',
+      limit: 1,
+      offset: 0,
+    };
+
+    const res = await eventNotificationsService.listTagsSubscriptionsDevice(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 500
+    //
+  });
+  test('listTagsSubscription()', async () => {
+    const params = {
+      instanceId: 'testString',
+      id: 'testString',
+      deviceId: 'testString',
+      userId: 'testString',
+      tagName: 'testString',
+      limit: 1,
+      offset: 0,
+      search: 'testString',
+    };
+
+    const res = await eventNotificationsService.listTagsSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 500
+    //
+  });
+  test('createTagsSubscription()', async () => {
+    const params = {
+      instanceId: 'testString',
+      id: 'testString',
+      deviceId: 'testString',
+      tagName: 'testString',
+    };
+
+    const res = await eventNotificationsService.createTagsSubscription(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 409
+    // 415
+    // 500
+    //
+  });
+  */
+
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
@@ -562,8 +636,8 @@ describe('EventNotificationsV1_integration', () => {
       from_name: 'IBM',
     };
 
-    let nameSecond = 'subscription_web_2';
-    let descriptionSecond = 'Subscription 2 for web';
+    let nameSecond = 'subscription_email';
+    let descriptionSecond = 'Subscription for email';
     let paramsSecond = {
       instanceId,
       name: nameSecond,
@@ -634,7 +708,6 @@ describe('EventNotificationsV1_integration', () => {
       }
     } while (hasMore);
 
-    //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -652,6 +725,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -664,6 +738,7 @@ describe('EventNotificationsV1_integration', () => {
   test('updateSubscription()', async () => {
     // Request models needed by this operation.
 
+    // SubscriptionUpdateAttributesSMSAttributes
     const subscriptionUpdateAttributesModel = {
       signing_enabled: true,
     };
@@ -741,14 +816,36 @@ describe('EventNotificationsV1_integration', () => {
       type: 'DEFAULT',
     };
 
-    // NotificationFCMBodyMessage
-    const notificationFcmBodyMessageModel = {
-      data: notificationFcmBodyMessageDataModel,
+    // notificationFcmBodyModel
+    const notificationFcmBodyModel = {
+      en_data: notificationFcmBodyMessageDataModel,
     };
 
-    // NotificationFCMBody
-    const notificationFcmBodyModel = {
-      message: notificationFcmBodyMessageModel,
+    const notificationApnsBodyMessageDataModel = {
+      alert: 'testString',
+      badge: 38,
+      interactiveCategory: 'testString',
+      iosActionKey: 'testString',
+      payload: { foo: 'bar' },
+      sound: 'testString',
+      titleLocKey: 'testString',
+      locKey: 'testString',
+      launchImage: 'testString',
+      titleLocArgs: ['testString'],
+      locArgs: ['testString'],
+      title: 'testString',
+      subtitle: 'testString',
+      attachmentUrl: 'testString',
+      type: 'DEFAULT',
+      apnsCollapseId: 'testString',
+      apnsThreadId: 'testString',
+      apnsGroupSummaryArg: 'testString',
+      apnsGroupSummaryArgCount: 38,
+    };
+
+    // NotificationAPNSBodyMessageENData
+    const notificationApnsBodyModel = {
+      en_data: notificationApnsBodyMessageDataModel,
     };
 
     const notificationID = '1234-1234-sdfs-234';
@@ -769,6 +866,8 @@ describe('EventNotificationsV1_integration', () => {
       data: {},
       pushTo: notificationFcmDevicesModel,
       messageFcmBody: notificationFcmBodyModel,
+      messageApnsHeaders: { 'key1': 'testString' },
+      messageApnsBody: notificationApnsBodyModel,
       datacontenttype: 'application/json',
       specversion: '1.0',
     };
@@ -777,6 +876,47 @@ describe('EventNotificationsV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(202);
     expect(res.result).toBeDefined();
+
+    const apnsOptions = {
+      aps: {
+        alert: 'Game Request',
+        badge: 5,
+      },
+    };
+
+    const fcmOptions = {
+      notification: {
+        title: 'Portugal vs. Denmark',
+        badge: 'great match!',
+      },
+    };
+
+    const apnsHeaders = {
+      'apns-collapse-id': '123',
+    };
+
+    const newParams = {
+      instanceId,
+      subject: notificationSubject,
+      severity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      enSourceId: sourceId,
+      type: typeValue,
+      time: '2019-01-01T12:00:00.000Z',
+      data: {},
+      pushTo: notificationFcmDevicesModel,
+      messageFcmBody: fcmOptions,
+      messageApnsHeaders: apnsHeaders,
+      messageApnsBody: apnsOptions,
+      datacontenttype: 'application/json',
+      specversion: '1.0',
+    };
+
+    const rewRes = await eventNotificationsService.sendNotifications(newParams);
+    expect(rewRes).toBeDefined();
+    expect(rewRes.status).toBe(202);
+    expect(rewRes.result).toBeDefined();
 
     //
     // The following status codes aren't covered by tests.
@@ -788,7 +928,6 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-
   test('deleteSubscription()', async () => {
     let params = {
       instanceId,
@@ -829,7 +968,6 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-
   test('deleteTopic()', async () => {
     let params = {
       instanceId,
