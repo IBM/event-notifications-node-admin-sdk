@@ -1,6 +1,6 @@
 {
   "name": "@ibm-cloud/event-notifications-node-admin-sdk",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "IBM Cloud Event Notifications Admin Node.js SDK",
   "repository": {
     "type": "git",

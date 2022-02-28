@@ -1,3 +1,10 @@
+## [0.0.7](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.6...v0.0.7) (2022-02-28)
+
+
+### Bug Fixes
+
+* enable apns support ([53b382a](https://github.com/IBM/event-notifications-node-admin-sdk/commit/53b382a879342c69a8337df366a16112105a9c88))
+
 ## [0.0.6](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.5...v0.0.6) (2022-01-31)
 
 
