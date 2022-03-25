@@ -56,10 +56,11 @@ const authenticator = new IamAuthenticator({
   apikey: <apikey>,  // Event notifications service instance APIKey
 });
 
-const eventNotificationsService = EventNotificationsV1.newInstance({
-  authenticator,
+const initParameters = {
+   authenticator,
   serviceUrl: "https://" + region + ".event-notifications.cloud.ibm.com/event-notifications"
-});
+}
+const eventNotificationsService = EventNotificationsV1.newInstance(initParameters);
 ```
 - region : Region of the Event Notifications Instance
 
@@ -68,8 +69,11 @@ const eventNotificationsService = EventNotificationsV1.newInstance({
 SDK Methods to consume
 
 - [Source](#source)
-	- [List Sources](#list-sources)
-	- [Get Source](#get-sources)
+  - [Create Source](#create-source)
+  - [List Sources](#list-sources)
+  - [Get Source](#get-source)
+  - [Update Source](#update-source)
+  - [Delete Source](#delete-source)
 - [Topics](#topics)
 	- [Create Topics](#create-topic)
 	- [List Topics](#list-topics)
@@ -100,6 +104,26 @@ SDK Methods to consume
 
 ## Source 
 
+### Create Source 
+
+```js
+ const params = {
+    instanceId: <instance-id>, // Event notifications service instance GUID
+    name: '<source-name>',
+    description: '<source-description>',
+    enabled: false,
+  };
+
+  let res;
+  try {
+    res = await eventNotificationsService.createSources(params);
+    console.log(JSON.stringify(res.result, null, 2));
+    sourceId = res.result.id;
+  } catch (err) {
+    console.warn(err);
+  }
+
+```
 ### List Sources
 
 ```js
@@ -117,7 +141,7 @@ eventNotificationsService
   });
 ```
 
-### Get Sources
+### Get Source
 
 ```js
 const params = {
@@ -133,6 +157,40 @@ eventNotificationsService
   .catch((err) => {
     console.warn(err);
   });
+```
+### Update Source 
+
+```js
+const params = {
+    instanceId: <instance-id>, // Event notifications service instance GUID
+    id: <sourceId>,
+    name: '<source-updated-name>',
+    description: '<source-updated-description>',
+    enabled: true,
+  };
+
+    let res;
+    try {
+      res = await eventNotificationsService.updateSource(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+```
+
+### Delete Source 
+
+```js
+ const params = {
+    instanceId: <instance-id>, // Event notifications service instance GUID
+    id: <sourceId>,
+  };
+
+  try {
+    await eventNotificationsService.deleteSource(params);
+  } catch (err) {
+    console.warn(err);
+  }
 ```
 
 ## Topics 
@@ -625,24 +683,25 @@ eventNotificationsService
     const params = {
       instanceId: instanceId,
       subject: notificationSubject,
-      severity: notificationSeverity,
+      ibmenseverity: notificationSeverity,
       id: notificationID,
       source: notificationsSouce,
-      enSourceId: sourceId,
+      ibmensourceid: sourceId,
       type: typeValue,
       time: '<notification-time>',
       data: {},
-      pushTo: notificationDevicesModel,
-      messageFcmBody: notificationFcmBodyModel,
-      messageApnsBody: notificationApnsBodyModel,
-      messageApnsHeaders: apnsHeaders,
+      ibmenpushto: notificationDevicesModel,
+      ibmenfcmbody: notificationFcmBodyModel,
+      ibmenapnsbody: notificationApnsBodyModel,
+      ibmenapnsheaders: apnsHeaders,
       datacontenttype: 'application/json',
       specversion: '1.0',
     };
 
     let res;
     try {
-      res = await eventNotificationsService.sendNotifications(params);
+      const sendNotifications = SendNotifications.newInstance(initParameters) // same `initParameters` used in the SDK initialization step.
+      res = await sendNotifications.sendNotifications(params);
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);
@@ -665,17 +724,17 @@ these tags.
 - **Event Notificaitons SendNotificationsOptions** - Event Notificaitons Send notificaitons method. 
   - *instanceId* (**String**) - Event Notificaitons instance AppGUID. 
   - *subject* (**String**) - Subject for the notifications. 
-  - *severity* (**String**) - Severity for the notifications. 
+  - *ibmenseverity* (**String**) - Severity for the notifications. 
   - *id* (**ID**) - ID for the notifications. 
   - *source* (**String**) - Source of the notifications. 
-  - *enSourceId* (**String**) - Event Notificaitons instance Source ID. 
+  - *ibmensourceid* (**String**) - Event Notificaitons instance Source ID. 
   - *type* (**String**) - Type for the notifications. 
   - *time* (**String**) - Time of the notifications. 
   - *data* (**JSON**) - Data for the notifications. Supported only for `Webhook` destination. 
-  - *pushTo* (**NotificationFcmDevices**) - Targets for the FCM notifications. 
-  - *messageFcmBody* (**notificationFcmBodyModel**) - Message body for the FCM notifications. 
-  - *messageApnsBody* (**notificationApnsBodyModel**) - Message body for the APNs notifications. 
-  - *messageApnsHeaders* (**JSON**) - Headers for the APNs notifications. 
+  - *ibmenpushto* (**NotificationFcmDevices**) - Targets for the FCM notifications. 
+  - *ibmenfcmbody* (**notificationFcmBodyModel**) - Message body for the FCM notifications. 
+  - *ibmenapnsbody* (**notificationApnsBodyModel**) - Message body for the APNs notifications. 
+  - *ibmenapnsheaders* (**JSON**) - Headers for the APNs notifications. 
   - *datacontenttype* (**String**) - Data content type of the notifications. 
   - *specversion* (**String**) - Spec version of the Event Notificaitons. Default value is `1.0`. 
 
