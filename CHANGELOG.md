@@ -1,3 +1,10 @@
+## [0.0.8](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.7...v0.0.8) (2022-03-25)
+
+
+### Bug Fixes
+
+* add source creation apis and new send notification payload ([c29ca6d](https://github.com/IBM/event-notifications-node-admin-sdk/commit/c29ca6d5933c109c163b58af24c470ba24d2e83f))
+
 ## [0.0.7](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.6...v0.0.7) (2022-02-28)
 
 
