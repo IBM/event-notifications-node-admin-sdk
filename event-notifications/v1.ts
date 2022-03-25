@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.45.1-632ec580-20220210-190638
+ * IBM OpenAPI SDK Code Generator Version: 3.46.1-a5569134-20220316-164819
  */
 
 import * as extend from 'extend';
@@ -94,85 +94,37 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /*************************
-   * sendNotifications
+   * sources
    ************************/
 
   /**
-   * Send a notification.
+   * Create a new API Source.
    *
-   * Send a notification.
+   * Create a new API Source.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.subject - The Notifications subject.
-   * @param {string} params.severity - The Notifications severity.
-   * @param {string} params.id - The Notifications id.
-   * @param {string} params.source - The source of Notifications.
-   * @param {string} params.enSourceId - The Event Notifications source id.
-   * @param {string} params.type - The Notifications type.
-   * @param {string} params.time - The Notifications time.
-   * @param {JsonObject} [params.data] - The Notifications data for webhook.
-   * @param {NotificationDevices} [params.pushTo] - Payload describing a FCM Notifications targets.
-   * @param {NotificationFCMBody} [params.messageFcmBody] -
-   * @param {JsonObject} [params.messageApnsHeaders] - The attributes for an FCM/APNs notification.
-   * @param {NotificationAPNSBody} [params.messageApnsBody] - Payload describing a APNs Notifications body.
-   * @param {string} [params.datacontenttype] - The Notifications content type.
-   * @param {string} [params.specversion] - The Notifications specversion.
+   * @param {string} params.name - Name of the source.
+   * @param {string} params.description - Description of the source.
+   * @param {boolean} [params.enabled] - Whether the source is enabled or not.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>>}
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>>}
    */
-  public sendNotifications(
-    params: EventNotificationsV1.SendNotificationsParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>> {
+  public createSources(
+    params: EventNotificationsV1.CreateSourcesParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>> {
     const _params = { ...params };
-    const _requiredParams = [
-      'instanceId',
-      'subject',
-      'severity',
-      'id',
-      'source',
-      'enSourceId',
-      'type',
-      'time',
-    ];
-    const _validParams = [
-      'instanceId',
-      'subject',
-      'severity',
-      'id',
-      'source',
-      'enSourceId',
-      'type',
-      'time',
-      'data',
-      'pushTo',
-      'messageFcmBody',
-      'messageApnsHeaders',
-      'messageApnsBody',
-      'datacontenttype',
-      'specversion',
-      'headers',
-    ];
+    const _requiredParams = ['instanceId', 'name', 'description'];
+    const _validParams = ['instanceId', 'name', 'description', 'enabled', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
     const body = {
-      'subject': _params.subject,
-      'severity': _params.severity,
-      'id': _params.id,
-      'source': _params.source,
-      'en_source_id': _params.enSourceId,
-      'type': _params.type,
-      'time': _params.time,
-      'data': _params.data,
-      'push_to': JSON.stringify(_params.pushTo),
-      'message_fcm_body': JSON.stringify(_params.messageFcmBody),
-      'message_apns_headers': JSON.stringify(_params.messageApnsHeaders),
-      'message_apns_body': JSON.stringify(_params.messageApnsBody),
-      'datacontenttype': 'application/json',
-      'specversion': '1.0',
+      'name': _params.name,
+      'description': _params.description,
+      'enabled': _params.enabled,
     };
 
     const path = {
@@ -182,12 +134,12 @@ class EventNotificationsV1 extends BaseService {
     const sdkHeaders = getSdkHeaders(
       EventNotificationsV1.DEFAULT_SERVICE_NAME,
       'v1',
-      'sendNotifications'
+      'createSources'
     );
 
     const parameters = {
       options: {
-        url: '/v1/instances/{instance_id}/notifications',
+        url: '/v1/instances/{instance_id}/sources',
         method: 'POST',
         body,
         path,
@@ -207,9 +159,6 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
-  /*************************
-   * sources
-   ************************/
 
   /**
    * List all Sources.
@@ -314,6 +263,118 @@ class EventNotificationsV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a Source.
+   *
+   * Delete a Source.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Source.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
+   */
+  public deleteSource(
+    params: EventNotificationsV1.DeleteSourceParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteSource'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/sources/{id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update details of a Source.
+   *
+   * Update details of a Source.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Source.
+   * @param {string} [params.name] - Name of the source.
+   * @param {string} [params.description] - Description of the source.
+   * @param {boolean} [params.enabled] - Whether the source is enabled or not.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Source>>}
+   */
+  public updateSource(
+    params: EventNotificationsV1.UpdateSourceParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Source>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'name', 'description', 'enabled', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+      'description': _params.description,
+      'enabled': _params.enabled,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSource'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/sources/{id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
           _params.headers
         ),
@@ -1674,37 +1735,16 @@ namespace EventNotificationsV1 {
    * request interfaces
    ************************/
 
-  /** Parameters for the `sendNotifications` operation. */
-  export interface SendNotificationsParams {
+  /** Parameters for the `createSources` operation. */
+  export interface CreateSourcesParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
-    /** The Notifications subject. */
-    subject: string;
-    /** The Notifications severity. */
-    severity: string;
-    /** The Notifications id. */
-    id: string;
-    /** The source of Notifications. */
-    source: string;
-    /** The Event Notifications source id. */
-    enSourceId: string;
-    /** The Notifications type. */
-    type: string;
-    /** The Notifications time. */
-    time: string;
-    /** The Notifications data for webhook. */
-    data?: JsonObject;
-    /** Payload describing a FCM Notifications targets. */
-    pushTo?: NotificationDevices;
-    messageFcmBody?: NotificationFCMBody;
-    /** The attributes for an FCM/APNs notification. */
-    messageApnsHeaders?: JsonObject;
-    /** Payload describing a APNs Notifications body. */
-    messageApnsBody?: NotificationAPNSBody;
-    /** The Notifications content type. */
-    datacontenttype?: string;
-    /** The Notifications specversion. */
-    specversion?: string;
+    /** Name of the source. */
+    name: string;
+    /** Description of the source. */
+    description: string;
+    /** Whether the source is enabled or not. */
+    enabled?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -1727,6 +1767,30 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for Source. */
     id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteSource` operation. */
+  export interface DeleteSourceParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Source. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSource` operation. */
+  export interface UpdateSourceParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Source. */
+    id: string;
+    /** Name of the source. */
+    name?: string;
+    /** Description of the source. */
+    description?: string;
+    /** Whether the source is enabled or not. */
+    enabled?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2171,160 +2235,6 @@ namespace EventNotificationsV1 {
     remove?: string[];
   }
 
-  /** Allows setting the notification LED color on receiving push notification . */
-  export interface Lights {
-    /** The color of the led. The hardware will do its best approximation. */
-    led_argb?: string;
-    /** The number of milliseconds for the LED to be on while it's flashing. The hardware will do its best
-     *  approximation.
-     */
-    led_on_ms?: number;
-    /** The number of milliseconds for the LED to be off while it's flashing. The hardware will do its best
-     *  approximation.
-     */
-    led_off_ms?: string;
-  }
-
-  /** Payload describing a APNs Notifications body. */
-  export interface NotificationAPNSBody {
-    /** NotificationAPNSBody accepts additional properties. */
-    [propName: string]: any;
-  }
-
-  /** Payload describing a apns notifications body message Data. */
-  export interface NotificationAPNSBodyMessageData {
-    /** The notification message to be shown to the user. */
-    alert: string;
-    /** The number to display as the badge of the application icon. */
-    badge?: number;
-    /** The category identifier to be used for the interactive push notifications. */
-    interactiveCategory?: string;
-    /** The title for the Action key. */
-    iosActionKey?: string;
-    /** Custom JSON payload that will be sent as part of the notification message. */
-    payload?: JsonObject;
-    /** The name of the sound file in the application bundle. The sound of this file is played as an alert. */
-    sound?: string;
-    /** The key to a title string in the Localizable.strings file for the current localization. The key string can
-     *  be formatted with %@ and %n$@ specifiers to take the variables specified in the titleLocArgs array.
-     */
-    titleLocKey?: string;
-    /** A key to an alert-message string in a Localizabl.strings file for the current localization (which is set by
-     *  the userÃ¢â‚¬â„¢s language preference).
-     *    The key string can be formatted with %@ and %n$@ specifiers to take the variables specified in the locArgs
-     *  array.
-     */
-    locKey?: string;
-    /** The filename of an image file in the app bundle, with or without the filename extension. The image is used
-     *  as the launch image when users tap the action button or move the action slider.
-     */
-    launchImage?: string;
-    /** Variable string values to appear in place of the format specifiers in title-loc-key. */
-    titleLocArgs?: string[];
-    /** Variable string values to appear in place of the format specifiers in locKey. */
-    locArgs?: string[];
-    /** The title of Rich Push notifications (Supported only on iOS 10 and above). */
-    title?: string;
-    /** The subtitle of the Rich Notifications.(Supported only on iOS 10 and above). */
-    subtitle?: string;
-    /** The link to the iOS notifications media (video, audio, GIF, images - Supported only on iOS 10 and above). */
-    attachmentUrl?: string;
-    type?: string;
-    /** Multiple notifications with the same collapse identifier are displayed to the user as a single notification. */
-    apnsCollapseId?: string;
-    /** An app-specific identifier for grouping related notifications. This value corresponds to the
-     *  threadIdentifier property in the UNNotificationContent object.
-     */
-    apnsThreadId?: string;
-    /** The string the notification adds to the category's summary format string. */
-    apnsGroupSummaryArg?: string;
-    /** The number of items the notification adds to the category's summary format string. */
-    apnsGroupSummaryArgCount?: number;
-  }
-
-  /** Payload describing a FCM Notifications targets. */
-  export interface NotificationDevices {
-    /** List of FCM deviceIds. */
-    fcm_devices?: string[];
-    /** List of APNs deviceIds. */
-    apns_devices?: string[];
-    /** List of userIds. */
-    user_ids?: string[];
-    /** List of tags. */
-    tags?: string[];
-    /** List of platforms. */
-    platforms?: string[];
-  }
-
-  /** NotificationFCMBody. */
-  export interface NotificationFCMBody {
-    /** NotificationFCMBody accepts additional properties. */
-    [propName: string]: any;
-  }
-
-  /** Payload describing a fcm notifications body message Data. */
-  export interface NotificationFCMBodyMessageData {
-    /** The notification message to be shown to the user. */
-    alert: string;
-    /** Dozed devices to display only the latest notification and discard old low priority notifications. */
-    collapse_key?: string;
-    /** The category identifier to be used for the interactive push notifications. */
-    interactive_category?: string;
-    /** Specify the name of the icon to be displayed for the notification. Make sure the icon is already packaged
-     *  with the client application.
-     */
-    icon?: string;
-    /** When this parameter is set to true, it indicates that the
-     *    message should not be sent until the device becomes active.
-     */
-    delay_while_idle?: boolean;
-    /** Device group messaging makes it possible for every app instance in a group to reflect the latest messaging
-     *  state.
-     */
-    sync?: boolean;
-    /** private/public - Visibility of this notification, which affects how and when the notifications are revealed
-     *  on a secure locked screen.
-     */
-    visibility?: string;
-    /** Content specified will show up on a secure locked screen on the device when visibility is set to Private. */
-    redact?: string;
-    /** Custom JSON payload that will be sent as part of the notification message. */
-    payload?: JsonObject;
-    /** A string value that indicates the priority of this notification. Allowed values are 'max', 'high',
-     *  'default', 'low' and 'min'. High/Max priority notifications along with 'sound' field may be used for Heads up
-     *  notification in Android 5.0 or higher.sampleval='low'.
-     */
-    priority?: string;
-    /** The sound file (on device) that will be attempted to play when the notification arrives on the device. */
-    sound?: string;
-    /** This parameter specifies how long (in seconds) the message
-     *    should be kept in GCM storage if the device is offline.
-     */
-    time_to_live?: number;
-    /** Allows setting the notification LED color on receiving push notification . */
-    lights?: Lights;
-    /** The title of Rich Push notifications. */
-    android_title?: string;
-    /** Set this notification to be part of a group of notifications sharing the same key. Grouped notifications may
-     *  display in a cluster or stack on devices which support such rendering.
-     */
-    group_id?: string;
-    /** Options to specify for Android expandable notifications. The types of expandable notifications are
-     *  picture_notification, bigtext_notification, inbox_notification.
-     */
-    style?: Style;
-    /** Notification type. */
-    type?: string;
-  }
-
-  /** Payload describing a notifications response. */
-  export interface NotificationResponse {
-    /** Notification ID. */
-    notification_id: string;
-    /** NotificationResponse accepts additional properties. */
-    [propName: string]: any;
-  }
-
   /** Rule object. */
   export interface Rules {
     /** Whether the rule is enabled or not. */
@@ -2399,6 +2309,20 @@ namespace EventNotificationsV1 {
     topic_count: number;
   }
 
+  /** Payload describing a source. */
+  export interface SourceResponse {
+    /** ID of the source. */
+    id: string;
+    /** Name of the source. */
+    name: string;
+    /** Description of the source. */
+    description: string;
+    /** Whether the source is enabled or not. */
+    enabled: boolean;
+    /** Time of the created. */
+    created_at: string;
+  }
+
   /** SourcesListItem. */
   export interface SourcesListItem {
     /** ID of the source. */
@@ -2407,32 +2331,6 @@ namespace EventNotificationsV1 {
     name: string;
     /** List of rules. */
     rules: RulesGet[];
-  }
-
-  /** Options to specify for Android expandable notifications. The types of expandable notifications are picture_notification, bigtext_notification, inbox_notification. */
-  export interface Style {
-    /** Specifies the type of expandable notifications.  The possible values are bigtext_notification,
-     *  picture_notification, inbox_notification.
-     */
-    type?: string;
-    /** Specifies the title of the notification.  The title is displayed when the notification is expanded.  Title
-     *  must be specified for all three expandable notification.
-     */
-    title?: string;
-    /** An URL from which the picture has to be obtained for the notification.  Must be specified for
-     *  picture_notification.
-     */
-    url?: string;
-    /** The big text that needs to be displayed on expanding a bigtext_notification.  Must be specified for
-     *  bigtext_notification.
-     */
-    text?: string;
-    /** An array of strings that is to be displayed in inbox style for inbox_notification.  Must be specified for
-     *  inbox_notification.
-     */
-    lines?: string[];
-    /** Style accepts additional properties. */
-    [propName: string]: any;
   }
 
   /** Subscription object. */
@@ -2637,24 +2535,6 @@ namespace EventNotificationsV1 {
     /** List of sensitive headers from custom headers. */
     sensitive_headers?: string[];
   }
-
-  /** Payload describing a fcm notifications body message. */
-  export interface NotificationAPNSBodyMessageENData extends NotificationAPNSBody {
-    /** Payload describing a apns notifications body message Data. */
-    en_data?: NotificationAPNSBodyMessageData;
-  }
-
-  /** The attributes for an FCM/APNs notification. */
-  export interface NotificationAPNSBodyNotificationPayload extends NotificationAPNSBody {}
-
-  /** Payload describing a fcm notifications body message. */
-  export interface NotificationFCMBodyMessageENData extends NotificationFCMBody {
-    /** Payload describing a fcm notifications body message Data. */
-    en_data?: NotificationFCMBodyMessageData;
-  }
-
-  /** The attributes for an FCM/APNs notification. */
-  export interface NotificationFCMBodyNotificationPayload extends NotificationFCMBody {}
 
   /** The attributes reponse for an email destination. */
   export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {}

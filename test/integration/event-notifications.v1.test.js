@@ -18,6 +18,8 @@
 
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
+const SendNotifications = require('../../dist/event-notifications/sendNotification');
+
 const authHelper = require('../resources/auth-helper.js');
 
 // testcase timeout value (200s).
@@ -63,6 +65,33 @@ describe('EventNotificationsV1_integration', () => {
 
     eventNotificationsService.enableRetries();
   });
+  test('createSources()', async () => {
+    const params = {
+      instanceId,
+      name: 'Event Notification Create Source Acme',
+      description: 'This source is used for Acme Bank',
+      enabled: false,
+    };
+
+    const res = await eventNotificationsService.createSources(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+
+    sourceId = res.result.id;
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 404
+    // 409
+    // 415
+    // 500
+    //
+  });
   test('listSources()', async () => {
     let offset = 0;
     const limit = 1;
@@ -80,10 +109,6 @@ describe('EventNotificationsV1_integration', () => {
       expect(res).toBeDefined();
       expect(res.status).toBe(200);
       expect(res.result).toBeDefined();
-
-      if (sourceId === '') {
-        sourceId = res.result.sources[0].id;
-      }
       offset += 1;
       if (res.result.total_count <= offset) {
         hasMore = false;
@@ -115,6 +140,32 @@ describe('EventNotificationsV1_integration', () => {
     //
     // 401
     // 404
+    // 500
+    //
+  });
+  test('updateSource()', async () => {
+    const params = {
+      instanceId,
+      id: sourceId,
+      name: 'Event Notification update Source Acme',
+      description: 'This source is used for updated Acme Bank',
+      enabled: true,
+    };
+
+    const res = await eventNotificationsService.updateSource(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 404
+    // 409
+    // 415
     // 500
     //
   });
@@ -526,80 +577,6 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  /*
-  test('listTagsSubscriptionsDevice()', async () => {
-    const params = {
-      instanceId: 'testString',
-      id: 'testString',
-      deviceId: 'testString',
-      tagName: 'testString',
-      limit: 1,
-      offset: 0,
-    };
-
-    const res = await eventNotificationsService.listTagsSubscriptionsDevice(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 500
-    //
-  });
-  test('listTagsSubscription()', async () => {
-    const params = {
-      instanceId: 'testString',
-      id: 'testString',
-      deviceId: 'testString',
-      userId: 'testString',
-      tagName: 'testString',
-      limit: 1,
-      offset: 0,
-      search: 'testString',
-    };
-
-    const res = await eventNotificationsService.listTagsSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 500
-    //
-  });
-  test('createTagsSubscription()', async () => {
-    const params = {
-      instanceId: 'testString',
-      id: 'testString',
-      deviceId: 'testString',
-      tagName: 'testString',
-    };
-
-    const res = await eventNotificationsService.createTagsSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(201);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 400
-    // 401
-    // 409
-    // 415
-    // 500
-    //
-  });
-  */
 
   test('createSubscription()', async () => {
     // Request models needed by this operation.
@@ -857,22 +834,24 @@ describe('EventNotificationsV1_integration', () => {
     const params = {
       instanceId,
       subject: notificationSubject,
-      severity: notificationSeverity,
+      ibmenseverity: notificationSeverity,
       id: notificationID,
       source: notificationsSouce,
-      enSourceId: sourceId,
+      ibmensourceid: sourceId,
       type: typeValue,
       time: '2019-01-01T12:00:00.000Z',
       data: {},
-      pushTo: notificationFcmDevicesModel,
-      messageFcmBody: notificationFcmBodyModel,
-      messageApnsHeaders: { 'key1': 'testString' },
-      messageApnsBody: notificationApnsBodyModel,
+      ibmenpushto: notificationFcmDevicesModel,
+      ibmenfcmbody: notificationFcmBodyModel,
+      ibmenapnsbody: notificationApnsBodyModel,
+      ibmenapnsheaders: { 'key1': 'testString' },
       datacontenttype: 'application/json',
       specversion: '1.0',
     };
 
-    const res = await eventNotificationsService.sendNotifications(params);
+    const sendNotifications = SendNotifications.newInstance({});
+    const res = await sendNotifications.sendNotifications(params);
+
     expect(res).toBeDefined();
     expect(res.status).toBe(202);
     expect(res.result).toBeDefined();
@@ -898,22 +877,22 @@ describe('EventNotificationsV1_integration', () => {
     const newParams = {
       instanceId,
       subject: notificationSubject,
-      severity: notificationSeverity,
+      ibmenseverity: notificationSeverity,
       id: notificationID,
       source: notificationsSouce,
-      enSourceId: sourceId,
+      ibmensourceid: sourceId,
       type: typeValue,
       time: '2019-01-01T12:00:00.000Z',
       data: {},
-      pushTo: notificationFcmDevicesModel,
-      messageFcmBody: fcmOptions,
-      messageApnsHeaders: apnsHeaders,
-      messageApnsBody: apnsOptions,
+      ibmenpushto: notificationFcmDevicesModel,
+      ibmenfcmbody: fcmOptions,
+      ibmenapnsbody: apnsOptions,
+      ibmenapnsheaders: apnsHeaders,
       datacontenttype: 'application/json',
       specversion: '1.0',
     };
 
-    const rewRes = await eventNotificationsService.sendNotifications(newParams);
+    const rewRes = await sendNotifications.sendNotifications(newParams);
     expect(rewRes).toBeDefined();
     expect(rewRes.status).toBe(202);
     expect(rewRes.result).toBeDefined();
@@ -1025,6 +1004,26 @@ describe('EventNotificationsV1_integration', () => {
     };
 
     res = await eventNotificationsService.deleteDestination(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 401
+    // 404
+    // 500
+    //
+  });
+  test('deleteSource()', async () => {
+    const params = {
+      instanceId,
+      id: sourceId,
+    };
+
+    const res = await eventNotificationsService.deleteSource(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();

@@ -81,5 +81,7 @@ secrets.tar
 .project
 .classpath
 
+package-lock.json
+
 # SDK generator
 .openapi-generator*

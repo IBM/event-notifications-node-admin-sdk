@@ -93,202 +93,74 @@ describe('EventNotificationsV1', () => {
       expect(testInstance.baseOptions.serviceUrl).toBe(EventNotificationsV1.DEFAULT_SERVICE_URL);
     });
   });
-  describe('sendNotifications', () => {
+  describe('createSources', () => {
     describe('positive tests', () => {
-      // Request models needed by this operation.
-
-      // NotificationDevices
-      const notificationDevicesModel = {
-        fcm_devices: ['testString'],
-        apns_devices: ['testString'],
-        user_ids: ['testString'],
-        tags: ['testString'],
-        platforms: ['testString'],
-      };
-
-      // Lights
-      const lightsModel = {
-        led_argb: 'testString',
-        led_on_ms: 0,
-        led_off_ms: 'testString',
-      };
-
-      // Style
-      const styleModel = {
-        type: 'testString',
-        title: 'testString',
-        url: 'testString',
-        text: 'testString',
-        lines: ['testString'],
-        foo: 'testString',
-      };
-
-      // NotificationFCMBodyMessageData
-      const notificationFcmBodyMessageDataModel = {
-        alert: 'testString',
-        collapse_key: 'testString',
-        interactive_category: 'testString',
-        icon: 'testString',
-        delay_while_idle: true,
-        sync: true,
-        visibility: 'testString',
-        redact: 'testString',
-        payload: { 'key1': 'testString' },
-        priority: 'testString',
-        sound: 'testString',
-        time_to_live: 0,
-        lights: lightsModel,
-        android_title: 'testString',
-        group_id: 'testString',
-        style: styleModel,
-        type: 'DEFAULT',
-      };
-
-      // NotificationFCMBodyMessageENData
-      const notificationFcmBodyModel = {
-        en_data: notificationFcmBodyMessageDataModel,
-        foo: 'testString',
-      };
-
-      // NotificationAPNSBodyMessageData
-      const notificationApnsBodyMessageDataModel = {
-        alert: 'testString',
-        badge: 38,
-        interactiveCategory: 'testString',
-        iosActionKey: 'testString',
-        payload: { foo: 'bar' },
-        sound: 'testString',
-        titleLocKey: 'testString',
-        locKey: 'testString',
-        launchImage: 'testString',
-        titleLocArgs: ['testString'],
-        locArgs: ['testString'],
-        title: 'testString',
-        subtitle: 'testString',
-        attachmentUrl: 'testString',
-        type: 'DEFAULT',
-        apnsCollapseId: 'testString',
-        apnsThreadId: 'testString',
-        apnsGroupSummaryArg: 'testString',
-        apnsGroupSummaryArgCount: 38,
-      };
-
-      // NotificationAPNSBodyMessageENData
-      const notificationApnsBodyModel = {
-        en_data: notificationApnsBodyMessageDataModel,
-        foo: 'testString',
-      };
-
-      function __sendNotificationsTest() {
-        // Construct the params object for operation sendNotifications
+      function __createSourcesTest() {
+        // Construct the params object for operation createSources
         const instanceId = 'testString';
-        const subject = 'testString';
-        const severity = 'testString';
-        const id = 'testString';
-        const source = 'testString';
-        const enSourceId = 'testString';
-        const type = 'testString';
-        const time = '2019-01-01T12:00:00.000Z';
-        const data = { 'key1': 'testString' };
-        const pushTo = notificationDevicesModel;
-        const messageFcmBody = notificationFcmBodyModel;
-        const messageApnsHeaders = { 'key1': 'testString' };
-        const messageApnsBody = notificationApnsBodyModel;
-        const datacontenttype = 'application/json';
-        const specversion = '1.0';
-        const sendNotificationsParams = {
+        const name = 'testString';
+        const description = 'testString';
+        const enabled = true;
+        const createSourcesParams = {
           instanceId,
-          subject,
-          severity,
-          id,
-          source,
-          enSourceId,
-          type,
-          time,
-          data,
-          pushTo,
-          messageFcmBody,
-          messageApnsHeaders,
-          messageApnsBody,
-          datacontenttype,
-          specversion,
+          name,
+          description,
+          enabled,
         };
 
-        const sendNotificationsResult =
-          eventNotificationsService.sendNotifications(sendNotificationsParams);
+        const createSourcesResult = eventNotificationsService.createSources(createSourcesParams);
 
         // all methods should return a Promise
-        expectToBePromise(sendNotificationsResult);
+        expectToBePromise(createSourcesResult);
 
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/notifications', 'POST');
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/sources', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.subject).toEqual(subject);
-        expect(mockRequestOptions.body.severity).toEqual(severity);
-        expect(mockRequestOptions.body.id).toEqual(id);
-        expect(mockRequestOptions.body.source).toEqual(source);
-        expect(mockRequestOptions.body.en_source_id).toEqual(enSourceId);
-        expect(mockRequestOptions.body.type).toEqual(type);
-        expect(mockRequestOptions.body.time).toEqual(time);
-        expect(mockRequestOptions.body.data).toEqual(data);
-        // expect(mockRequestOptions.body.push_to).toEqual(pushTo);
-        // expect(mockRequestOptions.body.message_fcm_body).toEqual(messageFcmBody);
-        // expect(mockRequestOptions.body.message_apns_headers).toEqual(messageApnsHeaders);
-        // expect(mockRequestOptions.body.message_apns_body).toEqual(messageApnsBody);
-        expect(mockRequestOptions.body.datacontenttype).toEqual(datacontenttype);
-        expect(mockRequestOptions.body.specversion).toEqual(specversion);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
         // baseline test
-        __sendNotificationsTest();
+        __createSourcesTest();
 
         // enable retries and test again
         createRequestMock.mockClear();
         eventNotificationsService.enableRetries();
-        __sendNotificationsTest();
+        __createSourcesTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
         eventNotificationsService.disableRetries();
-        __sendNotificationsTest();
+        __createSourcesTest();
       });
 
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const subject = 'testString';
-        const severity = 'testString';
-        const id = 'testString';
-        const source = 'testString';
-        const enSourceId = 'testString';
-        const type = 'testString';
-        const time = '2019-01-01T12:00:00.000Z';
+        const name = 'testString';
+        const description = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const sendNotificationsParams = {
+        const createSourcesParams = {
           instanceId,
-          subject,
-          severity,
-          id,
-          source,
-          enSourceId,
-          type,
-          time,
+          name,
+          description,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
           },
         };
 
-        eventNotificationsService.sendNotifications(sendNotificationsParams);
+        eventNotificationsService.createSources(createSourcesParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -297,7 +169,7 @@ describe('EventNotificationsV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await eventNotificationsService.sendNotifications({});
+          await eventNotificationsService.createSources({});
         } catch (e) {
           err = e;
         }
@@ -308,7 +180,7 @@ describe('EventNotificationsV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await eventNotificationsService.sendNotifications();
+          await eventNotificationsService.createSources();
         } catch (e) {
           err = e;
         }
@@ -489,6 +361,191 @@ describe('EventNotificationsV1', () => {
         let err;
         try {
           await eventNotificationsService.getSource();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('deleteSource', () => {
+    describe('positive tests', () => {
+      function __deleteSourceTest() {
+        // Construct the params object for operation deleteSource
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deleteSourceParams = {
+          instanceId,
+          id,
+        };
+
+        const deleteSourceResult = eventNotificationsService.deleteSource(deleteSourceParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteSourceResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/sources/{id}', 'DELETE');
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteSourceTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __deleteSourceTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __deleteSourceTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteSourceParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.deleteSource(deleteSourceParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteSource({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteSource();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+  describe('updateSource', () => {
+    describe('positive tests', () => {
+      function __updateSourceTest() {
+        // Construct the params object for operation updateSource
+        const instanceId = 'testString';
+        const id = 'testString';
+        const name = 'testString';
+        const description = 'testString';
+        const enabled = true;
+        const updateSourceParams = {
+          instanceId,
+          id,
+          name,
+          description,
+          enabled,
+        };
+
+        const updateSourceResult = eventNotificationsService.updateSource(updateSourceParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateSourceResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/sources/{id}', 'PATCH');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateSourceTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateSourceTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateSourceTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateSourceParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateSource(updateSourceParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSource({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSource();
         } catch (e) {
           err = e;
         }

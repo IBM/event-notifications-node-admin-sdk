@@ -21,6 +21,8 @@
 
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const EventNotificationsV1 = require('../dist/event-notifications/v1');
+const SendNotifications = require('../dist/event-notifications/sendNotification');
+
 // eslint-disable-next-line node/no-unpublished-require
 const authHelper = require('../test/resources/auth-helper.js');
 // You can use the readExternalSources method to access additional configuration values
@@ -81,6 +83,36 @@ describe('EventNotificationsV1', () => {
 
     // end-common
   });
+  test('createSources request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('createSources() result:');
+    // begin-create_sources
+
+    const params = {
+      instanceId,
+      name: 'Event Notification Create Source Acme',
+      description: 'This source is used for Acme Bank',
+      enabled: false,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.createSources(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      sourceId = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-create_sources
+  });
   test('listSources request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -102,7 +134,6 @@ describe('EventNotificationsV1', () => {
     try {
       res = await eventNotificationsService.listSources(params);
       console.log(JSON.stringify(res.result, null, 2));
-      sourceId = res.result.sources[0].id;
     } catch (err) {
       console.warn(err);
     }
@@ -138,7 +169,37 @@ describe('EventNotificationsV1', () => {
 
     // end-get_source
   });
+  test('updateSource request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
 
+    originalLog('updateSource() result:');
+    // begin-update_source
+
+    const params = {
+      instanceId,
+      id: sourceId,
+      name: 'Event Notification update Source Acme',
+      description: 'This source is used for updated Acme Bank',
+      enabled: true,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.updateSource(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // end-update_source
+  });
   test('createTopic request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -661,22 +722,22 @@ describe('EventNotificationsV1', () => {
     const params = {
       instanceId,
       subject: notificationSubject,
-      severity: notificationSeverity,
+      ibmenseverity: notificationSeverity,
       id: notificationID,
       source: notificationsSouce,
-      enSourceId: sourceId,
+      ibmensourceid: sourceId,
       type: typeValue,
       time: date,
-      pushTo: notificationFcmDevicesModel,
-      messageFcmBody: notificationFcmBodyModel,
-      messageApnsBody: notificationApnsBodyModel,
-      messageApnsHeaders: apnsHeaders,
+      ibmenpushto: notificationFcmDevicesModel,
+      ibmenfcmbody: notificationFcmBodyModel,
+      ibmenapnsbody: notificationApnsBodyModel,
+      ibmenapnsheaders: apnsHeaders,
     };
 
     let res;
     try {
-      res = await eventNotificationsService.sendNotifications(params);
-      console.log(JSON.stringify(res.result, null, 2));
+      const sendNotifications = SendNotifications.newInstance({});
+      res = await sendNotifications.sendNotifications(params);
     } catch (err) {
       console.warn(err);
     }
@@ -760,5 +821,31 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-delete_destination
+  });
+
+  test('deleteSource request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    // begin-delete_source
+
+    const params = {
+      instanceId,
+      id: sourceId,
+    };
+
+    try {
+      await eventNotificationsService.deleteSource(params);
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // end-delete_source
   });
 });
