@@ -682,26 +682,22 @@ eventNotificationsService
 
     const params = {
       instanceId: instanceId,
-      subject: notificationSubject,
-      ibmenseverity: notificationSeverity,
-      id: notificationID,
-      source: notificationsSouce,
-      ibmensourceid: sourceId,
-      type: typeValue,
-      time: '<notification-time>',
-      data: {},
-      ibmenpushto: notificationDevicesModel,
-      ibmenfcmbody: notificationFcmBodyModel,
-      ibmenapnsbody: notificationApnsBodyModel,
-      ibmenapnsheaders: apnsHeaders,
-      datacontenttype: 'application/json',
-      specversion: '1.0',
+      ceIbmenseverity: notificationSeverity,
+      ceId: notificationID,
+      ceSource: notificationsSouce,
+      ceIbmensourceid: sourceId,
+      ceType: typeValue,
+      ceTime: '<notification-time>',
+      ceIbmenpushto: notificationDevicesModel,
+      ceIbmenfcmbody: notificationFcmBodyModel,
+      ceIbmenapnsbody: notificationApnsBodyModel,
+      ceIbmenapnsheaders: apnsHeaders,
+      cespecversion: '1.0',
     };
 
     let res;
     try {
-      const sendNotifications = SendNotifications.newInstance(initParameters) // same `initParameters` used in the SDK initialization step.
-      res = await sendNotifications.sendNotifications(params);
+      res = await eventNotificationsService.sendNotifications(params);
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);

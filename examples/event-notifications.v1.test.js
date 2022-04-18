@@ -21,7 +21,6 @@
 
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const EventNotificationsV1 = require('../dist/event-notifications/v1');
-const SendNotifications = require('../dist/event-notifications/sendNotification');
 
 // eslint-disable-next-line node/no-unpublished-require
 const authHelper = require('../test/resources/auth-helper.js');
@@ -686,7 +685,6 @@ describe('EventNotificationsV1', () => {
     originalLog('sendNotifications() result:');
 
     const notificationID = '1234-1234-sdfs-234';
-    const notificationSubject = 'FCM_Subject';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
     const date = '2019-01-01T12:00:00.000Z';
@@ -721,23 +719,22 @@ describe('EventNotificationsV1', () => {
 
     const params = {
       instanceId,
-      subject: notificationSubject,
-      ibmenseverity: notificationSeverity,
-      id: notificationID,
-      source: notificationsSouce,
-      ibmensourceid: sourceId,
-      type: typeValue,
-      time: date,
-      ibmenpushto: notificationFcmDevicesModel,
-      ibmenfcmbody: notificationFcmBodyModel,
-      ibmenapnsbody: notificationApnsBodyModel,
-      ibmenapnsheaders: apnsHeaders,
+      ceIbmenseverity: notificationSeverity,
+      ceId: notificationID,
+      ceSource: notificationsSouce,
+      ceIbmensourceid: sourceId,
+      ceType: typeValue,
+      ceTime: date,
+      ceIbmenpushto: notificationFcmDevicesModel,
+      ceIbmenfcmbody: notificationFcmBodyModel,
+      ceIbmenapnsbody: notificationApnsBodyModel,
+      ceIbmenapnsheaders: apnsHeaders,
+      ceSpecversion: '1.0',
     };
 
     let res;
     try {
-      const sendNotifications = SendNotifications.newInstance({});
-      res = await sendNotifications.sendNotifications(params);
+      res = await eventNotificationsService.sendNotifications(params);
     } catch (err) {
       console.warn(err);
     }

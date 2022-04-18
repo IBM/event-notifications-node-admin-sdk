@@ -21,7 +21,8 @@ const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
-const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
+const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise, checkUserHeader } =
+  unitTestUtils;
 
 const eventNotificationsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
@@ -91,6 +92,144 @@ describe('EventNotificationsV1', () => {
       const testInstance = new EventNotificationsV1(options);
 
       expect(testInstance.baseOptions.serviceUrl).toBe(EventNotificationsV1.DEFAULT_SERVICE_URL);
+    });
+  });
+  describe('sendNotifications', () => {
+    describe('positive tests', () => {
+      function __sendNotificationsTest() {
+        // Construct the params object for operation sendNotifications
+        const instanceId = 'testString';
+        const body = { 'key1': 'testString' };
+        const ceIbmenseverity = 'testString';
+        const ceIbmendefaultshort = 'testString';
+        const ceIbmendefaultlong = 'testString';
+        // const ceIbmenfcmbody = notificationFcmBodyModel;
+        // const ceIbmenapnsbody = notificationApnsBodyModel;
+        // const ceIbmenpushto = notificationDevicesModel;
+        const ceIbmenapnsheaders = { 'key1': 'testString' };
+        // const ceIbmenchromebody = notificationChromeBodyModel;
+        // const ceIbmenfirefoxbody = notificationFirefoxBodyModel;
+        const ceIbmenchromeheaders = { 'key1': 'testString' };
+        const ceIbmenfirefoxheaders = { 'key1': 'testString' };
+        const ceIbmensourceid = 'testString';
+        const ceId = 'testString';
+        const ceSource = 'testString';
+        const ceType = 'testString';
+        const ceSpecversion = '1.0';
+        const ceTime = '2019-01-01T12:00:00.000Z';
+        const sendNotificationsParams = {
+          instanceId,
+          body,
+          ceIbmenseverity,
+          ceIbmendefaultshort,
+          ceIbmendefaultlong,
+          // ceIbmenfcmbody,
+          // ceIbmenapnsbody,
+          // ceIbmenpushto,
+          ceIbmenapnsheaders,
+          // ceIbmenchromebody,
+          // ceIbmenfirefoxbody,
+          ceIbmenchromeheaders,
+          ceIbmenfirefoxheaders,
+          ceIbmensourceid,
+          ceId,
+          ceSource,
+          ceType,
+          ceSpecversion,
+          ceTime,
+        };
+
+        const sendNotificationsResult =
+          eventNotificationsService.sendNotifications(sendNotificationsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(sendNotificationsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/notifications', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'ce-ibmenseverity', ceIbmenseverity);
+        checkUserHeader(createRequestMock, 'ce-ibmendefaultshort', ceIbmendefaultshort);
+        checkUserHeader(createRequestMock, 'ce-ibmendefaultlong', ceIbmendefaultlong);
+        // checkUserHeader(createRequestMock, 'ce-ibmenfcmbody', ceIbmenfcmbody);
+        // checkUserHeader(createRequestMock, 'ce-ibmenapnsbody', ceIbmenapnsbody);
+        // checkUserHeader(createRequestMock, 'ce-ibmenpushto', ceIbmenpushto);
+        checkUserHeader(createRequestMock, 'ce-ibmenapnsheaders', ceIbmenapnsheaders);
+        // checkUserHeader(createRequestMock, 'ce-ibmenchromebody', ceIbmenchromebody);
+        // checkUserHeader(createRequestMock, 'ce-ibmenfirefoxbody', ceIbmenfirefoxbody);
+        checkUserHeader(createRequestMock, 'ce-ibmenchromeheaders', ceIbmenchromeheaders);
+        checkUserHeader(createRequestMock, 'ce-ibmenfirefoxheaders', ceIbmenfirefoxheaders);
+        checkUserHeader(createRequestMock, 'ce-ibmensourceid', ceIbmensourceid);
+        checkUserHeader(createRequestMock, 'ce-id', ceId);
+        checkUserHeader(createRequestMock, 'ce-source', ceSource);
+        checkUserHeader(createRequestMock, 'ce-type', ceType);
+        checkUserHeader(createRequestMock, 'ce-specversion', ceSpecversion);
+        checkUserHeader(createRequestMock, 'ce-time', ceTime);
+        expect(mockRequestOptions.body).toEqual(body);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __sendNotificationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __sendNotificationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __sendNotificationsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const sendNotificationsParams = {
+          instanceId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.sendNotifications(sendNotificationsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.sendNotifications({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.sendNotifications();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
     });
   });
   describe('createSources', () => {

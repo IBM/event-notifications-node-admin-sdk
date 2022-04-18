@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.46.1-a5569134-20220316-164819
+ * IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
  */
 
 import * as extend from 'extend';
@@ -93,6 +93,120 @@ class EventNotificationsV1 extends BaseService {
     }
   }
 
+  /*************************
+   * sendNotifications
+   ************************/
+
+  /**
+   * Send a notification.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {JsonObject} [params.body] -
+   * @param {string} [params.ceIbmenseverity] - The Notification severity.
+   * @param {string} [params.ceIbmendefaultshort] - The Notification default short text.
+   * @param {string} [params.ceIbmendefaultlong] - The Notification default long text.
+   * @param {NotificationFCMBody} [params.ceIbmenfcmbody] - The FCM Notification body.
+   * @param {NotificationAPNSBody} [params.ceIbmenapnsbody] - The APNS Notification body.
+   * @param {NotificationDevices} [params.ceIbmenpushto] - Push Notifications Targets.
+   * @param {JsonObject} [params.ceIbmenapnsheaders] - Push Notifications APNS Headers.
+   * @param {NotificationChromeBody} [params.ceIbmenchromebody] - Push Notifications Chrome body.
+   * @param {NotificationFirefoxBody} [params.ceIbmenfirefoxbody] - Push Notifications Firefox body.
+   * @param {JsonObject} [params.ceIbmenchromeheaders] - Push Notifications Chrome Headers.
+   * @param {JsonObject} [params.ceIbmenfirefoxheaders] - Push Notifications Firefox Headers.
+   * @param {string} [params.ceIbmensourceid] - Event Notifications Target source ID.
+   * @param {string} [params.ceId] - custom ID to track notifications from client side (Mandatory identifier for the
+   * binary mode).
+   * @param {string} [params.ceSource] - custom source odentifier from the client side.
+   * @param {string} [params.ceType] - Type identifier for source filters.
+   * @param {string} [params.ceSpecversion] - Version of the Cloud Event specification (Mandatory header to make the
+   * request Binary Mode).
+   * @param {string} [params.ceTime] - The time of the notification.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>>}
+   */
+  public sendNotifications(
+    params: EventNotificationsV1.SendNotificationsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = [
+      'instanceId',
+      'body',
+      'ceIbmenseverity',
+      'ceIbmendefaultshort',
+      'ceIbmendefaultlong',
+      'ceIbmenfcmbody',
+      'ceIbmenapnsbody',
+      'ceIbmenpushto',
+      'ceIbmenapnsheaders',
+      'ceIbmenchromebody',
+      'ceIbmenfirefoxbody',
+      'ceIbmenchromeheaders',
+      'ceIbmenfirefoxheaders',
+      'ceIbmensourceid',
+      'ceId',
+      'ceSource',
+      'ceType',
+      'ceSpecversion',
+      'ceTime',
+      'headers',
+    ];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const { body } = _params;
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'sendNotifications'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/notifications',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'ce-ibmenseverity': _params.ceIbmenseverity,
+            'ce-ibmendefaultshort': _params.ceIbmendefaultshort,
+            'ce-ibmendefaultlong': _params.ceIbmendefaultlong,
+            'ce-ibmenfcmbody': _params.ceIbmenfcmbody,
+            'ce-ibmenapnsbody': _params.ceIbmenapnsbody,
+            'ce-ibmenpushto': _params.ceIbmenpushto,
+            'ce-ibmenapnsheaders': _params.ceIbmenapnsheaders,
+            'ce-ibmenchromebody': _params.ceIbmenchromebody,
+            'ce-ibmenfirefoxbody': _params.ceIbmenfirefoxbody,
+            'ce-ibmenchromeheaders': _params.ceIbmenchromeheaders,
+            'ce-ibmenfirefoxheaders': _params.ceIbmenfirefoxheaders,
+            'ce-ibmensourceid': _params.ceIbmensourceid,
+            'ce-id': _params.ceId,
+            'ce-source': _params.ceSource,
+            'ce-type': _params.ceType,
+            'ce-specversion': _params.ceSpecversion,
+            'ce-time': _params.ceTime,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * sources
    ************************/
@@ -1735,6 +1849,48 @@ namespace EventNotificationsV1 {
    * request interfaces
    ************************/
 
+  /** Parameters for the `sendNotifications` operation. */
+  export interface SendNotificationsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    body?: JsonObject;
+    /** The Notification severity. */
+    ceIbmenseverity?: string;
+    /** The Notification default short text. */
+    ceIbmendefaultshort?: string;
+    /** The Notification default long text. */
+    ceIbmendefaultlong?: string;
+    /** The FCM Notification body. */
+    ceIbmenfcmbody?: NotificationFCMBody;
+    /** The APNS Notification body. */
+    ceIbmenapnsbody?: NotificationAPNSBody;
+    /** Push Notifications Targets. */
+    ceIbmenpushto?: NotificationDevices;
+    /** Push Notifications APNS Headers. */
+    ceIbmenapnsheaders?: JsonObject;
+    /** Push Notifications Chrome body. */
+    ceIbmenchromebody?: NotificationChromeBody;
+    /** Push Notifications Firefox body. */
+    ceIbmenfirefoxbody?: NotificationFirefoxBody;
+    /** Push Notifications Chrome Headers. */
+    ceIbmenchromeheaders?: JsonObject;
+    /** Push Notifications Firefox Headers. */
+    ceIbmenfirefoxheaders?: JsonObject;
+    /** Event Notifications Target source ID. */
+    ceIbmensourceid?: string;
+    /** custom ID to track notifications from client side (Mandatory identifier for the binary mode). */
+    ceId?: string;
+    /** custom source odentifier from the client side. */
+    ceSource?: string;
+    /** Type identifier for source filters. */
+    ceType?: string;
+    /** Version of the Cloud Event specification (Mandatory header to make the request Binary Mode). */
+    ceSpecversion?: string;
+    /** The time of the notification. */
+    ceTime?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `createSources` operation. */
   export interface CreateSourcesParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -1881,6 +2037,8 @@ namespace EventNotificationsV1 {
       WEBHOOK = 'webhook',
       PUSH_ANDROID = 'push_android',
       PUSH_IOS = 'push_ios',
+      PUSH_CHROME = 'push_chrome',
+      PUSH_FIREFOX = 'push_firefox',
     }
   }
 
@@ -2235,6 +2393,202 @@ namespace EventNotificationsV1 {
     remove?: string[];
   }
 
+  /** Allows setting the notification LED color on receiving push notification . */
+  export interface Lights {
+    /** The color of the led. The hardware will do its best approximation. */
+    led_argb?: string;
+    /** The number of milliseconds for the LED to be on while it's flashing. The hardware will do its best
+     *  approximation.
+     */
+    led_on_ms?: number;
+    /** The number of milliseconds for the LED to be off while it's flashing. The hardware will do its best
+     *  approximation.
+     */
+    led_off_ms?: string;
+  }
+
+  /** Payload describing a APNs Notifications body. */
+  export interface NotificationAPNSBody {
+    /** NotificationAPNSBody accepts additional properties. */
+    [propName: string]: any;
+  }
+
+  /** Payload describing a apns notifications body message Data. */
+  export interface NotificationAPNSBodyMessageData {
+    /** The notification message to be shown to the user. */
+    alert: string;
+    /** The number to display as the badge of the application icon. */
+    badge?: number;
+    /** The category identifier to be used for the interactive push notifications. */
+    interactive_category?: string;
+    /** The title for the Action key. */
+    ios_action_key?: string;
+    /** Custom JSON payload that will be sent as part of the notification message. */
+    payload?: JsonObject;
+    /** The name of the sound file in the application bundle. The sound of this file is played as an alert. */
+    sound?: string;
+    /** The key to a title string in the Localizable.strings file for the current localization. The key string can
+     *  be formatted with %@ and %n$@ specifiers to take the variables specified in the titleLocArgs array.
+     */
+    title_loc_key?: string;
+    /** A key to an alert-message string in a Localizabl.strings file for the current localization (which is set by
+     *  the userÃ¢â‚¬â„¢s language preference).
+     *    The key string can be formatted with %@ and %n$@ specifiers to take the variables specified in the locArgs
+     *  array.
+     */
+    loc_key?: string;
+    /** The filename of an image file in the app bundle, with or without the filename extension. The image is used
+     *  as the launch image when users tap the action button or move the action slider.
+     */
+    launch_image?: string;
+    /** Variable string values to appear in place of the format specifiers in title-loc-key. */
+    title_loc_args?: string[];
+    /** Variable string values to appear in place of the format specifiers in locKey. */
+    loc_args?: string[];
+    /** The title of Rich Push notifications (Supported only on iOS 10 and above). */
+    title?: string;
+    /** The subtitle of the Rich Notifications.(Supported only on iOS 10 and above). */
+    subtitle?: string;
+    /** The link to the iOS notifications media (video, audio, GIF, images - Supported only on iOS 10 and above). */
+    attachment_url?: string;
+    type?: string;
+    /** Multiple notifications with the same collapse identifier are displayed to the user as a single notification. */
+    apns_collapse_id?: string;
+    /** An app-specific identifier for grouping related notifications. This value corresponds to the
+     *  threadIdentifier property in the UNNotificationContent object.
+     */
+    apns_thread_id?: string;
+    /** The string the notification adds to the category's summary format string. */
+    apns_group_summary_arg?: string;
+    /** The number of items the notification adds to the category's summary format string. */
+    apns_group_summary_arg_count?: number;
+  }
+
+  /** NotificationChromeBody. */
+  export interface NotificationChromeBody {
+    /** NotificationChromeBody accepts additional properties. */
+    [propName: string]: any;
+  }
+
+  /** Payload describing a chrome notifications body message Data. */
+  export interface NotificationChromeBodyMessageData {
+    /** The notification message to be shown to the user. */
+    alert: string;
+    /** The title of Push notifications. */
+    title?: string;
+    /** The URL of the icon to be set for the WebPush Notification. */
+    iconUrl?: string;
+    /** This parameter specifies how long (in seconds) the message
+     *    should be kept in FCM storage if the device is offline.
+     */
+    time_to_live?: number;
+    /** Custom JSON payload that will be sent as part of the notification message. */
+    payload?: JsonObject;
+  }
+
+  /** Payload describing a FCM Notifications targets. */
+  export interface NotificationDevices {
+    /** List of FCM deviceIds. */
+    fcm_devices?: string[];
+    /** List of APNs deviceIds. */
+    apns_devices?: string[];
+    /** List of userIds. */
+    user_ids?: string[];
+    /** List of tags. */
+    tags?: string[];
+    /** List of platforms. */
+    platforms?: string[];
+  }
+
+  /** NotificationFCMBody. */
+  export interface NotificationFCMBody {
+    /** NotificationFCMBody accepts additional properties. */
+    [propName: string]: any;
+  }
+
+  /** Payload describing a fcm notifications body message Data. */
+  export interface NotificationFCMBodyMessageData {
+    /** The notification message to be shown to the user. */
+    alert: string;
+    /** Dozed devices to display only the latest notification and discard old low priority notifications. */
+    collapse_key?: string;
+    /** The category identifier to be used for the interactive push notifications. */
+    interactive_category?: string;
+    /** Specify the name of the icon to be displayed for the notification. Make sure the icon is already packaged
+     *  with the client application.
+     */
+    icon?: string;
+    /** When this parameter is set to true, it indicates that the
+     *    message should not be sent until the device becomes active.
+     */
+    delay_while_idle?: boolean;
+    /** Device group messaging makes it possible for every app instance in a group to reflect the latest messaging
+     *  state.
+     */
+    sync?: boolean;
+    /** private/public - Visibility of this notification, which affects how and when the notifications are revealed
+     *  on a secure locked screen.
+     */
+    visibility?: string;
+    /** Content specified will show up on a secure locked screen on the device when visibility is set to Private. */
+    redact?: string;
+    /** Custom JSON payload that will be sent as part of the notification message. */
+    payload?: JsonObject;
+    /** A string value that indicates the priority of this notification. Allowed values are 'max', 'high',
+     *  'default', 'low' and 'min'. High/Max priority notifications along with 'sound' field may be used for Heads up
+     *  notification in Android 5.0 or higher.sampleval='low'.
+     */
+    priority?: string;
+    /** The sound file (on device) that will be attempted to play when the notification arrives on the device. */
+    sound?: string;
+    /** This parameter specifies how long (in seconds) the message
+     *    should be kept in FCM storage if the device is offline.
+     */
+    time_to_live?: number;
+    /** Allows setting the notification LED color on receiving push notification . */
+    lights?: Lights;
+    /** The title of Rich Push notifications. */
+    android_title?: string;
+    /** Set this notification to be part of a group of notifications sharing the same key. Grouped notifications may
+     *  display in a cluster or stack on devices which support such rendering.
+     */
+    group_id?: string;
+    /** Options to specify for Android expandable notifications. The types of expandable notifications are
+     *  picture_notification, bigtext_notification, inbox_notification.
+     */
+    style?: Style;
+    /** Notification type. */
+    type?: string;
+  }
+
+  /** NotificationFirefoxBody. */
+  export interface NotificationFirefoxBody {
+    /** NotificationFirefoxBody accepts additional properties. */
+    [propName: string]: any;
+  }
+
+  /** Payload describing a firefox notifications body message Data. */
+  export interface NotificationFirefoxBodyMessageData {
+    /** The notification message to be shown to the user. */
+    alert: string;
+    /** The title of Push notifications. */
+    title?: string;
+    /** The URL of the icon to be set for the WebPush Notification. */
+    iconUrl?: string;
+    /** This parameter specifies how long (in seconds) the message
+     *    should be kept in FCM storage if the device is offline.
+     */
+    time_to_live?: number;
+    /** Custom JSON payload that will be sent as part of the notification message. */
+    payload?: JsonObject;
+  }
+
+  /** Payload describing a notifications response. */
+  export interface NotificationResponse {
+    /** Notification ID. */
+    notification_id?: string;
+  }
+
   /** Rule object. */
   export interface Rules {
     /** Whether the rule is enabled or not. */
@@ -2331,6 +2685,32 @@ namespace EventNotificationsV1 {
     name: string;
     /** List of rules. */
     rules: RulesGet[];
+  }
+
+  /** Options to specify for Android expandable notifications. The types of expandable notifications are picture_notification, bigtext_notification, inbox_notification. */
+  export interface Style {
+    /** Specifies the type of expandable notifications.  The possible values are bigtext_notification,
+     *  picture_notification, inbox_notification.
+     */
+    type?: string;
+    /** Specifies the title of the notification.  The title is displayed when the notification is expanded.  Title
+     *  must be specified for all three expandable notification.
+     */
+    title?: string;
+    /** An URL from which the picture has to be obtained for the notification.  Must be specified for
+     *  picture_notification.
+     */
+    url?: string;
+    /** The big text that needs to be displayed on expanding a bigtext_notification.  Must be specified for
+     *  bigtext_notification.
+     */
+    text?: string;
+    /** An array of strings that is to be displayed in inbox style for inbox_notification.  Must be specified for
+     *  inbox_notification.
+     */
+    lines?: string[];
+    /** Style accepts additional properties. */
+    [propName: string]: any;
   }
 
   /** Subscription object. */
@@ -2500,12 +2880,30 @@ namespace EventNotificationsV1 {
     subscription_count: number;
   }
 
+  /** Payload describing a Chrome destination configuration. */
+  export interface DestinationConfigParamsChromeDestinationConfig extends DestinationConfigParams {
+    /** FCM api_key. */
+    api_key: string;
+    /** Website url. */
+    website_url: string;
+    /** Chrome VAPID public key. */
+    public_key?: string;
+  }
+
   /** Payload describing a FCM destination configuration. */
   export interface DestinationConfigParamsFCMDestinationConfig extends DestinationConfigParams {
     /** FCM server_key. */
     server_key: string;
     /** FCM sender_id. */
     sender_id: string;
+  }
+
+  /** Payload describing a Firefox destination configuration. */
+  export interface DestinationConfigParamsFirefoxDestinationConfig extends DestinationConfigParams {
+    /** Website url. */
+    website_url: string;
+    /** Chrome VAPID public key. */
+    public_key?: string;
   }
 
   /** Payload describing a IOS destination configuration. */
@@ -2535,6 +2933,42 @@ namespace EventNotificationsV1 {
     /** List of sensitive headers from custom headers. */
     sensitive_headers?: string[];
   }
+
+  /** Payload describing a fcm notifications body message. */
+  export interface NotificationAPNSBodyMessageENData extends NotificationAPNSBody {
+    /** Payload describing a apns notifications body message Data. */
+    en_data?: NotificationAPNSBodyMessageData;
+  }
+
+  /** The attributes for an FCM/APNs notification. */
+  export interface NotificationAPNSBodyNotificationPayload extends NotificationAPNSBody {}
+
+  /** Payload describing a Chrome notifications body message. */
+  export interface NotificationChromeBodyMessageENData extends NotificationChromeBody {
+    /** Payload describing a chrome notifications body message Data. */
+    en_data?: NotificationChromeBodyMessageData;
+  }
+
+  /** The attributes for an FCM/APNs notification. */
+  export interface NotificationChromeBodyNotificationPayload extends NotificationChromeBody {}
+
+  /** Payload describing a fcm notifications body message. */
+  export interface NotificationFCMBodyMessageENData extends NotificationFCMBody {
+    /** Payload describing a fcm notifications body message Data. */
+    en_data?: NotificationFCMBodyMessageData;
+  }
+
+  /** The attributes for an FCM/APNs notification. */
+  export interface NotificationFCMBodyNotificationPayload extends NotificationFCMBody {}
+
+  /** Payload describing a Firefox notifications body message. */
+  export interface NotificationFirefoxBodyMessageENData extends NotificationFirefoxBody {
+    /** Payload describing a firefox notifications body message Data. */
+    en_data?: NotificationFirefoxBodyMessageData;
+  }
+
+  /** The attributes for an FCM/APNs notification. */
+  export interface NotificationFirefoxBodyNotificationPayload extends NotificationFirefoxBody {}
 
   /** The attributes reponse for an email destination. */
   export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {}
