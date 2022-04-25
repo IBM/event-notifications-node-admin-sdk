@@ -36,7 +36,8 @@ import { getSdkHeaders } from '../lib/common';
  */
 
 class EventNotificationsV1 extends BaseService {
-  static DEFAULT_SERVICE_URL: string = 'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
+  static DEFAULT_SERVICE_URL: string =
+    'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
 
   static DEFAULT_SERVICE_NAME: string = 'event_notifications';
 
@@ -129,13 +130,34 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId'];
-    const _validParams = ['instanceId', 'body', 'ceIbmenseverity', 'ceIbmendefaultshort', 'ceIbmendefaultlong', 'ceIbmenfcmbody', 'ceIbmenapnsbody', 'ceIbmenpushto', 'ceIbmenapnsheaders', 'ceIbmenchromebody', 'ceIbmenfirefoxbody', 'ceIbmenchromeheaders', 'ceIbmenfirefoxheaders', 'ceIbmensourceid', 'ceId', 'ceSource', 'ceType', 'ceSpecversion', 'ceTime', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'body',
+      'ceIbmenseverity',
+      'ceIbmendefaultshort',
+      'ceIbmendefaultlong',
+      'ceIbmenfcmbody',
+      'ceIbmenapnsbody',
+      'ceIbmenpushto',
+      'ceIbmenapnsheaders',
+      'ceIbmenchromebody',
+      'ceIbmenfirefoxbody',
+      'ceIbmenchromeheaders',
+      'ceIbmenfirefoxheaders',
+      'ceIbmensourceid',
+      'ceId',
+      'ceSource',
+      'ceType',
+      'ceSpecversion',
+      'ceTime',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
     }
 
-    const body = _params.body;
+    const { body } = _params;
     const path = {
       'instance_id': _params.instanceId,
     };
@@ -341,11 +363,7 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getSource'
-    );
+    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getSource');
 
     const parameters = {
       options: {
@@ -408,13 +426,7 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -586,11 +598,7 @@ class EventNotificationsV1 extends BaseService {
       'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listTopics'
-    );
+    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'listTopics');
 
     const parameters = {
       options: {
@@ -646,11 +654,7 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTopic'
-    );
+    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getTopic');
 
     const parameters = {
       options: {
@@ -779,13 +783,7 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -816,7 +814,16 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'type'];
-    const _validParams = ['instanceId', 'name', 'type', 'description', 'config', 'certificate', 'certificateContentType', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'name',
+      'type',
+      'description',
+      'config',
+      'certificate',
+      'certificateContentType',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -848,7 +855,7 @@ class EventNotificationsV1 extends BaseService {
         url: '/v1/instances/{instance_id}/destinations',
         method: 'POST',
         path,
-        formData
+        formData,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -1003,7 +1010,16 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Destination>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'name', 'description', 'config', 'certificate', 'certificateContentType', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'id',
+      'name',
+      'description',
+      'config',
+      'certificate',
+      'certificateContentType',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1035,7 +1051,7 @@ class EventNotificationsV1 extends BaseService {
         url: '/v1/instances/{instance_id}/destinations/{id}',
         method: 'PATCH',
         path,
-        formData
+        formData,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -1093,13 +1109,7 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -1326,7 +1336,17 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'deviceId', 'userId', 'tagName', 'limit', 'offset', 'search', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'id',
+      'deviceId',
+      'userId',
+      'tagName',
+      'limit',
+      'offset',
+      'search',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1389,7 +1409,9 @@ class EventNotificationsV1 extends BaseService {
    */
   public createTagsSubscription(
     params: EventNotificationsV1.CreateTagsSubscriptionParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationTagsSubscriptionResponse>> {
+  ): Promise<
+    EventNotificationsV1.Response<EventNotificationsV1.DestinationTagsSubscriptionResponse>
+  > {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id', 'deviceId', 'tagName'];
     const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'headers'];
@@ -1485,13 +1507,7 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -1521,7 +1537,15 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Subscription>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'destinationId', 'topicId'];
-    const _validParams = ['instanceId', 'name', 'destinationId', 'topicId', 'description', 'attributes', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'name',
+      'destinationId',
+      'topicId',
+      'description',
+      'attributes',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1724,13 +1748,7 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-          },
-          _params.headers
-        ),
+        headers: extend(true, sdkHeaders, {}, _params.headers),
       }),
     };
 
@@ -2255,8 +2273,7 @@ namespace EventNotificationsV1 {
   }
 
   /** DestinationConfigParams. */
-  export interface DestinationConfigParams {
-  }
+  export interface DestinationConfigParams {}
 
   /** Payload describing a destination devices list request. */
   export interface DestinationDevicesList {
@@ -2560,8 +2577,7 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionCreateAttributes. */
-  export interface SubscriptionCreateAttributes {
-  }
+  export interface SubscriptionCreateAttributes {}
 
   /** Subscription list object. */
   export interface SubscriptionList {
@@ -2598,8 +2614,7 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionUpdateAttributes. */
-  export interface SubscriptionUpdateAttributes {
-  }
+  export interface SubscriptionUpdateAttributes {}
 
   /** Payload describing a tags list request. */
   export interface TagsSubscriptionList {
@@ -2750,12 +2765,10 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes reponse for an email destination. */
-  export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {
-  }
+  export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {}
 
   /** SMS attributes object. */
-  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
-  }
+  export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {}
 
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
@@ -2766,7 +2779,8 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesEmailAttributes extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesEmailAttributes
+    extends SubscriptionCreateAttributes {
     /** The email id string. */
     to: string[];
     /** Whether to add the notification payload to the email. */
@@ -2780,8 +2794,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an FCM notification. */
-  export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {
-  }
+  export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {}
 
   /** SMS attributes object. */
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
@@ -2790,13 +2803,15 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionCreateAttributesWebhookAttributes extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesWebhookAttributes
+    extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesEmailUpdateAttributes extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesEmailUpdateAttributes
+    extends SubscriptionUpdateAttributes {
     /** The email ids. */
     to: EmailUpdateAttributesTo;
     /** Whether to add the notification payload to the email. */
@@ -2820,7 +2835,8 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionUpdateAttributesWebhookAttributes extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesWebhookAttributes
+    extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }

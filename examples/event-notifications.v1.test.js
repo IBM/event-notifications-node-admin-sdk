@@ -685,12 +685,10 @@ describe('EventNotificationsV1', () => {
     originalLog('sendNotifications() result:');
 
     const notificationID = '1234-1234-sdfs-234';
-    const notificationSubject = 'FCM_Subject';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
     const date = '2019-01-01T12:00:00.000Z';
     const userId = 'userId';
-    const alertMessage = 'Message';
     const notificationsSouce = '1234-1234-sdfs-234:test';
 
     // begin-send_notifications
@@ -726,10 +724,10 @@ describe('EventNotificationsV1', () => {
       ceIbmensourceid: sourceId,
       ceType: typeValue,
       ceTime: date,
-      ceIbmenpushto: notificationFcmDevicesModel,
-      ceIbmenfcmbody: notificationFcmBodyModel,
-      ceIbmenapnsbody: notificationApnsBodyModel,
-      ceIbmenapnsheaders: apnsHeaders,
+      ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
+      ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
       ceSpecversion: '1.0',
     };
 
