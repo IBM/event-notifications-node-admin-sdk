@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.8...v0.1.0) (2022-04-29)
+
+
+### Features
+
+* Support for Web push destinations (Chrome and Firefox)  BREAKING CHANGE: SendNotifications accepts json string for the `CeIbmenpushto`, `CeIbmenfcmbody`, `CeIbmenapnsbody`, `CeIbmenapnsheaders` fields. ([c58ee9c](https://github.com/IBM/event-notifications-node-admin-sdk/commit/c58ee9c9b4fe9e0efcbfd38539843e540ec7fc3a))
+
 ## [0.0.8](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.7...v0.0.8) (2022-03-25)
 
 
