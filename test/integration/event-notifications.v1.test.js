@@ -18,7 +18,6 @@
 
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
-const SendNotifications = require('../../dist/event-notifications/sendNotification');
 
 const authHelper = require('../resources/auth-helper.js');
 
@@ -826,31 +825,26 @@ describe('EventNotificationsV1_integration', () => {
     };
 
     const notificationID = '1234-1234-sdfs-234';
-    const notificationSubject = 'FCM_Subject';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
     const notificationsSouce = '1234-1234-sdfs-234:test';
 
     const params = {
       instanceId,
-      subject: notificationSubject,
-      ibmenseverity: notificationSeverity,
-      id: notificationID,
-      source: notificationsSouce,
-      ibmensourceid: sourceId,
-      type: typeValue,
-      time: '2019-01-01T12:00:00.000Z',
-      data: {},
-      ibmenpushto: notificationFcmDevicesModel,
-      ibmenfcmbody: notificationFcmBodyModel,
-      ibmenapnsbody: notificationApnsBodyModel,
-      ibmenapnsheaders: { 'key1': 'testString' },
-      datacontenttype: 'application/json',
-      specversion: '1.0',
+      ceIbmenseverity: notificationSeverity,
+      ceId: notificationID,
+      ceSource: notificationsSouce,
+      ceIbmensourceid: sourceId,
+      ceType: typeValue,
+      ceTime: '2019-01-01T12:00:00.000Z',
+      ceIbmenpushto: notificationFcmDevicesModel,
+      ceIbmenfcmbody: notificationFcmBodyModel,
+      ceIbmenapnsbody: notificationApnsBodyModel,
+      ceIbmenapnsheaders: { 'key1': 'testString' },
+      ceSpecversion: '1.0',
     };
 
-    const sendNotifications = SendNotifications.newInstance({});
-    const res = await sendNotifications.sendNotifications(params);
+    const res = await eventNotificationsService.sendNotifications(params);
 
     expect(res).toBeDefined();
     expect(res.status).toBe(202);
@@ -876,23 +870,20 @@ describe('EventNotificationsV1_integration', () => {
 
     const newParams = {
       instanceId,
-      subject: notificationSubject,
-      ibmenseverity: notificationSeverity,
-      id: notificationID,
-      source: notificationsSouce,
-      ibmensourceid: sourceId,
-      type: typeValue,
-      time: '2019-01-01T12:00:00.000Z',
-      data: {},
-      ibmenpushto: notificationFcmDevicesModel,
-      ibmenfcmbody: fcmOptions,
-      ibmenapnsbody: apnsOptions,
-      ibmenapnsheaders: apnsHeaders,
-      datacontenttype: 'application/json',
-      specversion: '1.0',
+      ceIbmenseverity: notificationSeverity,
+      ceId: notificationID,
+      ceSource: notificationsSouce,
+      ceIbmensourceid: sourceId,
+      ceType: typeValue,
+      ceTime: '2019-01-01T12:00:00.000Z',
+      ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ceIbmenfcmbody: JSON.stringify(fcmOptions),
+      ceIbmenapnsbody: JSON.stringify(apnsOptions),
+      ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
+      ceSpecversion: '1.0',
     };
 
-    const rewRes = await sendNotifications.sendNotifications(newParams);
+    const rewRes = await eventNotificationsService.sendNotifications(newParams);
     expect(rewRes).toBeDefined();
     expect(rewRes.status).toBe(202);
     expect(rewRes.result).toBeDefined();

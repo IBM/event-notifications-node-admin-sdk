@@ -8,6 +8,10 @@ node_js:
 - 12
 - 14
 
+before_install:
+- npm i -g npm@8
+- npm --version
+
 script:
 - npm run build
 - npm run test-unit-travis || travis_terminate 1

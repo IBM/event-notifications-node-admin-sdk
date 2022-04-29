@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.46.1-a5569134-20220316-164819
+ * IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
  */
 
 import * as extend from 'extend';
@@ -93,6 +93,120 @@ class EventNotificationsV1 extends BaseService {
     }
   }
 
+  /*************************
+   * sendNotifications
+   ************************/
+
+  /**
+   * Send a notification.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {NotificationCreate} [params.body] -
+   * @param {string} [params.ceIbmenseverity] - The Notification severity.
+   * @param {string} [params.ceIbmendefaultshort] - The Notification default short text.
+   * @param {string} [params.ceIbmendefaultlong] - The Notification default long text.
+   * @param {string} [params.ceIbmenfcmbody] - The FCM Notification body.
+   * @param {string} [params.ceIbmenapnsbody] - The APNS Notification body.
+   * @param {string} [params.ceIbmenpushto] - Push Notifications Targets.
+   * @param {string} [params.ceIbmenapnsheaders] - Push Notifications APNS Headers.
+   * @param {string} [params.ceIbmenchromebody] - Push Notifications Chrome body.
+   * @param {string} [params.ceIbmenfirefoxbody] - Push Notifications Firefox body.
+   * @param {string} [params.ceIbmenchromeheaders] - Push Notifications Chrome Headers.
+   * @param {string} [params.ceIbmenfirefoxheaders] - Push Notifications Firefox Headers.
+   * @param {string} [params.ceIbmensourceid] - Event Notifications Target source ID.
+   * @param {string} [params.ceId] - custom ID to track notifications from client side (Mandatory identifier for the
+   * binary mode).
+   * @param {string} [params.ceSource] - custom source odentifier from the client side.
+   * @param {string} [params.ceType] - Type identifier for source filters.
+   * @param {string} [params.ceSpecversion] - Version of the Cloud Event specification (Mandatory header to make the
+   * request Binary Mode).
+   * @param {string} [params.ceTime] - The time of the notification.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>>}
+   */
+  public sendNotifications(
+    params: EventNotificationsV1.SendNotificationsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.NotificationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = [
+      'instanceId',
+      'body',
+      'ceIbmenseverity',
+      'ceIbmendefaultshort',
+      'ceIbmendefaultlong',
+      'ceIbmenfcmbody',
+      'ceIbmenapnsbody',
+      'ceIbmenpushto',
+      'ceIbmenapnsheaders',
+      'ceIbmenchromebody',
+      'ceIbmenfirefoxbody',
+      'ceIbmenchromeheaders',
+      'ceIbmenfirefoxheaders',
+      'ceIbmensourceid',
+      'ceId',
+      'ceSource',
+      'ceType',
+      'ceSpecversion',
+      'ceTime',
+      'headers',
+    ];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const { body } = _params;
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'sendNotifications'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/notifications',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'ce-ibmenseverity': _params.ceIbmenseverity,
+            'ce-ibmendefaultshort': _params.ceIbmendefaultshort,
+            'ce-ibmendefaultlong': _params.ceIbmendefaultlong,
+            'ce-ibmenfcmbody': _params.ceIbmenfcmbody,
+            'ce-ibmenapnsbody': _params.ceIbmenapnsbody,
+            'ce-ibmenpushto': _params.ceIbmenpushto,
+            'ce-ibmenapnsheaders': _params.ceIbmenapnsheaders,
+            'ce-ibmenchromebody': _params.ceIbmenchromebody,
+            'ce-ibmenfirefoxbody': _params.ceIbmenfirefoxbody,
+            'ce-ibmenchromeheaders': _params.ceIbmenchromeheaders,
+            'ce-ibmenfirefoxheaders': _params.ceIbmenfirefoxheaders,
+            'ce-ibmensourceid': _params.ceIbmensourceid,
+            'ce-id': _params.ceId,
+            'ce-source': _params.ceSource,
+            'ce-type': _params.ceType,
+            'ce-specversion': _params.ceSpecversion,
+            'ce-time': _params.ceTime,
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * sources
    ************************/
@@ -1735,6 +1849,48 @@ namespace EventNotificationsV1 {
    * request interfaces
    ************************/
 
+  /** Parameters for the `sendNotifications` operation. */
+  export interface SendNotificationsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    body?: NotificationCreate;
+    /** The Notification severity. */
+    ceIbmenseverity?: string;
+    /** The Notification default short text. */
+    ceIbmendefaultshort?: string;
+    /** The Notification default long text. */
+    ceIbmendefaultlong?: string;
+    /** The FCM Notification body. */
+    ceIbmenfcmbody?: string;
+    /** The APNS Notification body. */
+    ceIbmenapnsbody?: string;
+    /** Push Notifications Targets. */
+    ceIbmenpushto?: string;
+    /** Push Notifications APNS Headers. */
+    ceIbmenapnsheaders?: string;
+    /** Push Notifications Chrome body. */
+    ceIbmenchromebody?: string;
+    /** Push Notifications Firefox body. */
+    ceIbmenfirefoxbody?: string;
+    /** Push Notifications Chrome Headers. */
+    ceIbmenchromeheaders?: string;
+    /** Push Notifications Firefox Headers. */
+    ceIbmenfirefoxheaders?: string;
+    /** Event Notifications Target source ID. */
+    ceIbmensourceid?: string;
+    /** custom ID to track notifications from client side (Mandatory identifier for the binary mode). */
+    ceId?: string;
+    /** custom source odentifier from the client side. */
+    ceSource?: string;
+    /** Type identifier for source filters. */
+    ceType?: string;
+    /** Version of the Cloud Event specification (Mandatory header to make the request Binary Mode). */
+    ceSpecversion?: string;
+    /** The time of the notification. */
+    ceTime?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `createSources` operation. */
   export interface CreateSourcesParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -1881,6 +2037,8 @@ namespace EventNotificationsV1 {
       WEBHOOK = 'webhook',
       PUSH_ANDROID = 'push_android',
       PUSH_IOS = 'push_ios',
+      PUSH_CHROME = 'push_chrome',
+      PUSH_FIREFOX = 'push_firefox',
     }
   }
 
@@ -2235,6 +2393,58 @@ namespace EventNotificationsV1 {
     remove?: string[];
   }
 
+  /** Payload describing a notification create request. */
+  export interface NotificationCreate {
+    /** The Notifications data for webhook. */
+    data?: JsonObject;
+    /** The Notifications id. */
+    ibmenseverity?: string;
+    /** The Notifications FCM body. */
+    ibmenfcmbody?: string;
+    /** The Notifications APNS body. */
+    ibmenapnsbody?: string;
+    /** Payload describing a FCM Notifications targets. */
+    ibmenpushto?: string;
+    /** Headers for an APNs notification. */
+    ibmenapnsheaders?: string;
+    /** Default short text for the message. */
+    ibmendefaultshort?: string;
+    /** Default long text for the message. */
+    ibmendefaultlong?: string;
+    /** The Notifications Chrome body. */
+    ibmenchromebody?: string;
+    /** The Notifications Firefox body. */
+    ibmenfirefoxbody?: string;
+    /** Headers for a Chrome notification. */
+    ibmenchromeheaders?: string;
+    /** Headers for an FireFox notification. */
+    ibmenfirefoxheaders?: string;
+    /** The Event Notifications source id. */
+    ibmensourceid?: string;
+    /** The Notifications content type. */
+    datacontenttype?: string;
+    /** The Notifications subject. */
+    subject?: string;
+    /** The Notifications id. */
+    id?: string;
+    /** The source of Notifications. */
+    source?: string;
+    /** The Notifications type. */
+    type?: string;
+    /** The Notifications specversion. */
+    specversion?: string;
+    /** The Notifications time. */
+    time?: string;
+    /** NotificationCreate accepts additional properties. */
+    [propName: string]: any;
+  }
+
+  /** Payload describing a notifications response. */
+  export interface NotificationResponse {
+    /** Notification ID. */
+    notification_id?: string;
+  }
+
   /** Rule object. */
   export interface Rules {
     /** Whether the rule is enabled or not. */
@@ -2500,12 +2710,30 @@ namespace EventNotificationsV1 {
     subscription_count: number;
   }
 
+  /** Payload describing a Chrome destination configuration. */
+  export interface DestinationConfigParamsChromeDestinationConfig extends DestinationConfigParams {
+    /** FCM api_key. */
+    api_key: string;
+    /** Website url. */
+    website_url: string;
+    /** Chrome VAPID public key. */
+    public_key?: string;
+  }
+
   /** Payload describing a FCM destination configuration. */
   export interface DestinationConfigParamsFCMDestinationConfig extends DestinationConfigParams {
     /** FCM server_key. */
     server_key: string;
     /** FCM sender_id. */
     sender_id: string;
+  }
+
+  /** Payload describing a Firefox destination configuration. */
+  export interface DestinationConfigParamsFirefoxDestinationConfig extends DestinationConfigParams {
+    /** Website url. */
+    website_url: string;
+    /** Chrome VAPID public key. */
+    public_key?: string;
   }
 
   /** Payload describing a IOS destination configuration. */

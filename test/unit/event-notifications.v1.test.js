@@ -21,7 +21,8 @@ const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
-const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
+const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise, checkUserHeader } =
+  unitTestUtils;
 
 const eventNotificationsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
@@ -91,6 +92,173 @@ describe('EventNotificationsV1', () => {
       const testInstance = new EventNotificationsV1(options);
 
       expect(testInstance.baseOptions.serviceUrl).toBe(EventNotificationsV1.DEFAULT_SERVICE_URL);
+    });
+  });
+  describe('sendNotifications', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // NotificationCreate
+      const notificationCreateModel = {
+        data: { 'key1': 'testString' },
+        ibmenseverity: 'testString',
+        ibmenfcmbody: 'testString',
+        ibmenapnsbody: 'testString',
+        ibmenpushto:
+          '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}',
+        ibmenapnsheaders: 'testString',
+        ibmendefaultshort: 'testString',
+        ibmendefaultlong: 'testString',
+        ibmenchromebody: 'testString',
+        ibmenfirefoxbody: 'testString',
+        ibmenchromeheaders: 'testString',
+        ibmenfirefoxheaders: 'testString',
+        ibmensourceid: 'testString',
+        datacontenttype: 'application/json',
+        subject: 'testString',
+        id: 'testString',
+        source: 'testString',
+        type: 'testString',
+        specversion: '1.0',
+        time: 'testString',
+        foo: 'testString',
+      };
+
+      function __sendNotificationsTest() {
+        // Construct the params object for operation sendNotifications
+        const instanceId = 'testString';
+        const body = notificationCreateModel;
+        const ceIbmenseverity = 'testString';
+        const ceIbmendefaultshort = 'testString';
+        const ceIbmendefaultlong = 'testString';
+        const ceIbmenfcmbody = 'testString';
+        const ceIbmenapnsbody = 'testString';
+        const ceIbmenpushto =
+          '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}';
+        const ceIbmenapnsheaders = 'testString';
+        const ceIbmenchromebody = 'testString';
+        const ceIbmenfirefoxbody = 'testString';
+        const ceIbmenchromeheaders = 'testString';
+        const ceIbmenfirefoxheaders = 'testString';
+        const ceIbmensourceid = 'testString';
+        const ceId = 'testString';
+        const ceSource = 'testString';
+        const ceType = 'testString';
+        const ceSpecversion = '1.0';
+        const ceTime = 'testString';
+        const sendNotificationsParams = {
+          instanceId,
+          body,
+          ceIbmenseverity,
+          ceIbmendefaultshort,
+          ceIbmendefaultlong,
+          ceIbmenfcmbody,
+          ceIbmenapnsbody,
+          ceIbmenpushto,
+          ceIbmenapnsheaders,
+          ceIbmenchromebody,
+          ceIbmenfirefoxbody,
+          ceIbmenchromeheaders,
+          ceIbmenfirefoxheaders,
+          ceIbmensourceid,
+          ceId,
+          ceSource,
+          ceType,
+          ceSpecversion,
+          ceTime,
+        };
+
+        const sendNotificationsResult =
+          eventNotificationsService.sendNotifications(sendNotificationsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(sendNotificationsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/notifications', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        checkUserHeader(createRequestMock, 'ce-ibmenseverity', ceIbmenseverity);
+        checkUserHeader(createRequestMock, 'ce-ibmendefaultshort', ceIbmendefaultshort);
+        checkUserHeader(createRequestMock, 'ce-ibmendefaultlong', ceIbmendefaultlong);
+        checkUserHeader(createRequestMock, 'ce-ibmenfcmbody', ceIbmenfcmbody);
+        checkUserHeader(createRequestMock, 'ce-ibmenapnsbody', ceIbmenapnsbody);
+        checkUserHeader(createRequestMock, 'ce-ibmenpushto', ceIbmenpushto);
+        checkUserHeader(createRequestMock, 'ce-ibmenapnsheaders', ceIbmenapnsheaders);
+        checkUserHeader(createRequestMock, 'ce-ibmenchromebody', ceIbmenchromebody);
+        checkUserHeader(createRequestMock, 'ce-ibmenfirefoxbody', ceIbmenfirefoxbody);
+        checkUserHeader(createRequestMock, 'ce-ibmenchromeheaders', ceIbmenchromeheaders);
+        checkUserHeader(createRequestMock, 'ce-ibmenfirefoxheaders', ceIbmenfirefoxheaders);
+        checkUserHeader(createRequestMock, 'ce-ibmensourceid', ceIbmensourceid);
+        checkUserHeader(createRequestMock, 'ce-id', ceId);
+        checkUserHeader(createRequestMock, 'ce-source', ceSource);
+        checkUserHeader(createRequestMock, 'ce-type', ceType);
+        checkUserHeader(createRequestMock, 'ce-specversion', ceSpecversion);
+        checkUserHeader(createRequestMock, 'ce-time', ceTime);
+        expect(mockRequestOptions.body).toEqual(body);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __sendNotificationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __sendNotificationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __sendNotificationsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const sendNotificationsParams = {
+          instanceId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.sendNotifications(sendNotificationsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.sendNotifications({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.sendNotifications();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
     });
   });
   describe('createSources', () => {
