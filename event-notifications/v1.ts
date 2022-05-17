@@ -207,6 +207,63 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+
+  /**
+   * Send Bulk notification.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {NotificationCreate[]} [params.bulkMessages] - List of notifications body.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.BulkNotificationResponse>>}
+   */
+  public sendBulkNotifications(
+    params: EventNotificationsV1.SendBulkNotificationsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.BulkNotificationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'bulkMessages', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'bulk_messages': _params.bulkMessages,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'sendBulkNotifications'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/notifications/bulk',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * sources
    ************************/
@@ -1891,6 +1948,15 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `sendBulkNotifications` operation. */
+  export interface SendBulkNotificationsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** List of notifications body. */
+    bulkMessages?: NotificationCreate[];
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `createSources` operation. */
   export interface CreateSourcesParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -2039,6 +2105,7 @@ namespace EventNotificationsV1 {
       PUSH_IOS = 'push_ios',
       PUSH_CHROME = 'push_chrome',
       PUSH_FIREFOX = 'push_firefox',
+      SLACK = 'slack',
     }
   }
 
@@ -2247,6 +2314,14 @@ namespace EventNotificationsV1 {
    * model interfaces
    ************************/
 
+  /** Payload describing a notifications response. */
+  export interface BulkNotificationResponse {
+    /** Bulk Notification ID. */
+    bulk_notification_id?: string;
+    /** List of Notifications. */
+    bulk_messages?: any[];
+  }
+
   /** Payload describing a destination get request. */
   export interface Destination {
     /** Destination ID. */
@@ -2403,7 +2478,10 @@ namespace EventNotificationsV1 {
     ibmenfcmbody?: string;
     /** The Notifications APNS body. */
     ibmenapnsbody?: string;
-    /** Payload describing a FCM Notifications targets. */
+    /** This field should not be empty. The allowed fields are fcm_devices, apns_devices, chrome_devices,
+     *  firefox_devices, platforms, tags and user_ids. If platforms or tags or user_ids are being used then do not use
+     *  fcm_devices / apns_devices / chrome_devices / firefox_devices with it.
+     */
     ibmenpushto?: string;
     /** Headers for an APNs notification. */
     ibmenapnsheaders?: string;
@@ -2752,6 +2830,12 @@ namespace EventNotificationsV1 {
     bundle_id?: string;
   }
 
+  /** Payload describing a slack destination configuration. */
+  export interface DestinationConfigParamsSlackDestinationConfig extends DestinationConfigParams {
+    /** URL of Slack Incoming Webhook. */
+    url: string;
+  }
+
   /** Payload describing a webhook destination configuration. */
   export interface DestinationConfigParamsWebhookDestinationConfig extends DestinationConfigParams {
     /** URL of webhook. */
@@ -2769,6 +2853,12 @@ namespace EventNotificationsV1 {
 
   /** SMS attributes object. */
   export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {}
+
+  /** The attributes for a slack notification. */
+  export interface SubscriptionAttributesSlackAttributesResponse extends SubscriptionAttributes {
+    /** Attachment Color for Slack Notification. */
+    attachment_color: string;
+  }
 
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
@@ -2800,6 +2890,13 @@ namespace EventNotificationsV1 {
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
     /** The phone number to send the SMS to. */
     to: string[];
+  }
+
+  /** The attributes for a slack notification. */
+  export interface SubscriptionCreateAttributesSlackAttributes
+    extends SubscriptionCreateAttributes {
+    /** Attachment Color for the slack message. */
+    attachment_color: string;
   }
 
   /** The attributes for a webhook notification. */
