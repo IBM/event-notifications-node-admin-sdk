@@ -261,6 +261,126 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+  describe('sendBulkNotifications', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // NotificationCreate
+      const notificationCreateModel = {
+        data: { 'key1': 'testString' },
+        ibmenseverity: 'testString',
+        ibmenfcmbody: 'testString',
+        ibmenapnsbody: 'testString',
+        ibmenpushto:
+          '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}',
+        ibmenapnsheaders: 'testString',
+        ibmendefaultshort: 'testString',
+        ibmendefaultlong: 'testString',
+        ibmenchromebody: 'testString',
+        ibmenfirefoxbody: 'testString',
+        ibmenchromeheaders: 'testString',
+        ibmenfirefoxheaders: 'testString',
+        ibmensourceid: 'testString',
+        datacontenttype: 'application/json',
+        subject: 'testString',
+        id: 'testString',
+        source: 'testString',
+        type: 'testString',
+        specversion: '1.0',
+        time: 'testString',
+        foo: 'testString',
+      };
+
+      function __sendBulkNotificationsTest() {
+        // Construct the params object for operation sendBulkNotifications
+        const instanceId = 'testString';
+        const bulkMessages = [notificationCreateModel];
+        const sendBulkNotificationsParams = {
+          instanceId,
+          bulkMessages,
+        };
+
+        const sendBulkNotificationsResult = eventNotificationsService.sendBulkNotifications(
+          sendBulkNotificationsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(sendBulkNotificationsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/notifications/bulk',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.bulk_messages).toEqual(bulkMessages);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __sendBulkNotificationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __sendBulkNotificationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __sendBulkNotificationsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const sendBulkNotificationsParams = {
+          instanceId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.sendBulkNotifications(sendBulkNotificationsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.sendBulkNotifications({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.sendBulkNotifications();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
   describe('createSources', () => {
     describe('positive tests', () => {
       function __createSourcesTest() {

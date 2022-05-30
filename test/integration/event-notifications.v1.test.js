@@ -39,9 +39,13 @@ let topicId3 = '';
 let destinationId = '';
 let destinationId2 = '';
 let destinationId3 = '';
+let destinationId4 = '';
+
 let subscriptionId = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
+const subscriptionId4 = '';
+
 let fcmServerKey = '';
 let fcmSenderId = '';
 
@@ -417,6 +421,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(resNew.result.name).toBe(name);
     expect(resNew.result.description).toBe(description);
     destinationId3 = resNew.result.id;
+
+    // slack
+    const destinationConfigModelSlack = {
+      params: {
+        url: 'https://api.slack.com/myslack',
+      },
+    };
+
+    name = 'slack_destination';
+    description = 'Slack Destination';
+    type = 'slack';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelSlack,
+    };
+
+    const resslack = await eventNotificationsService.createDestination(params);
+    expect(resslack).toBeDefined();
+    expect(resslack.status).toBe(201);
+    expect(resslack.result).toBeDefined();
+
+    expect(resslack.result.type).toBe(type);
+    expect(resslack.result.name).toBe(name);
+    expect(resslack.result.description).toBe(description);
+    destinationId4 = resslack.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -837,10 +869,9 @@ describe('EventNotificationsV1_integration', () => {
       ceIbmensourceid: sourceId,
       ceType: typeValue,
       ceTime: '2019-01-01T12:00:00.000Z',
-      ceIbmenpushto: notificationFcmDevicesModel,
-      ceIbmenfcmbody: notificationFcmBodyModel,
-      ceIbmenapnsbody: notificationApnsBodyModel,
-      ceIbmenapnsheaders: { 'key1': 'testString' },
+      ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
+      ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
       ceSpecversion: '1.0',
     };
 
@@ -898,6 +929,88 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
+  test('sendBulkNotifications()', async () => {
+    // Request models needed by this operation.
+
+    // NotificationFCMDevices
+    const notificationFcmDevicesModel = {
+      user_ids: ['userId'],
+    };
+
+    // Lights
+    const lightsModel = {
+      led_argb: 'RED',
+      led_on_ms: 0,
+      led_off_ms: '20',
+    };
+
+    // Style
+    const styleModel = {
+      type: 'picture_notification',
+      title: 'hello',
+      url: 'url.ibm.com',
+    };
+
+    const apnsOptions = {
+      aps: {
+        alert: 'Game Request',
+        badge: 5,
+      },
+    };
+
+    const fcmOptions = {
+      notification: {
+        title: 'Portugal vs. Denmark',
+        badge: 'great match!',
+      },
+    };
+
+    const apnsHeaders = {
+      'apns-collapse-id': '123',
+    };
+
+    const notificationID = '1234-1234-sdfs-234';
+    const notificationSeverity = 'MEDIUM';
+    const typeValue = 'com.acme.offer:new';
+    const notificationsSouce = '1234-1234-sdfs-234:test';
+
+    // NotificationCreate
+    const notificationCreateModel = {
+      ibmenseverity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      ibmensourceid: sourceId,
+      type: typeValue,
+      time: '2019-01-01T12:00:00.000Z',
+      ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ibmenfcmbody: JSON.stringify(fcmOptions),
+      ibmenapnsbody: JSON.stringify(apnsOptions),
+      specversion: '1.0',
+    };
+
+    const params = {
+      instanceId,
+      bulkMessages: [notificationCreateModel],
+    };
+
+    const res = await eventNotificationsService.sendBulkNotifications(params);
+
+    expect(res).toBeDefined();
+    expect(res.status).toBe(202);
+    expect(res.result).toBeDefined();
+
+    //
+    // The following status codes aren't covered by tests.
+    // Please provide integration tests for these too.
+    //
+    // 400
+    // 401
+    // 415
+    // 500
+    //
+  });
+
   test('deleteSubscription()', async () => {
     let params = {
       instanceId,
@@ -992,6 +1105,16 @@ describe('EventNotificationsV1_integration', () => {
     params = {
       instanceId,
       id: destinationId3,
+    };
+
+    res = await eventNotificationsService.deleteDestination(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    params = {
+      instanceId,
+      id: destinationId4,
     };
 
     res = await eventNotificationsService.deleteDestination(params);
