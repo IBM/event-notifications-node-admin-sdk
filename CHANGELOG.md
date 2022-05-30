@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.0...v0.1.1) (2022-05-30)
+
+
+### Bug Fixes
+
+* add slack destination support ([2510367](https://github.com/IBM/event-notifications-node-admin-sdk/commit/2510367055d16996b5b1c8e218090e7c1e460313))
+
 # [0.1.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.0.8...v0.1.0) (2022-04-29)
 
 
