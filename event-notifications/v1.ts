@@ -108,6 +108,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} [params.ceIbmendefaultlong] - The Notification default long text.
    * @param {string} [params.ceIbmenfcmbody] - The FCM Notification body.
    * @param {string} [params.ceIbmenapnsbody] - The APNS Notification body.
+   * @param {string} [params.ceIbmensafaribody] - The safari Notification body.
    * @param {string} [params.ceIbmenpushto] - Push Notifications Targets.
    * @param {string} [params.ceIbmenapnsheaders] - Push Notifications APNS Headers.
    * @param {string} [params.ceIbmenchromebody] - Push Notifications Chrome body.
@@ -138,6 +139,7 @@ class EventNotificationsV1 extends BaseService {
       'ceIbmendefaultlong',
       'ceIbmenfcmbody',
       'ceIbmenapnsbody',
+      'ceIbmensafaribody',
       'ceIbmenpushto',
       'ceIbmenapnsheaders',
       'ceIbmenchromebody',
@@ -187,6 +189,7 @@ class EventNotificationsV1 extends BaseService {
             'ce-ibmendefaultlong': _params.ceIbmendefaultlong,
             'ce-ibmenfcmbody': _params.ceIbmenfcmbody,
             'ce-ibmenapnsbody': _params.ceIbmenapnsbody,
+            'ce-ibmensafaribody': _params.ceIbmensafaribody,
             'ce-ibmenpushto': _params.ceIbmenpushto,
             'ce-ibmenapnsheaders': _params.ceIbmenapnsheaders,
             'ce-ibmenchromebody': _params.ceIbmenchromebody,
@@ -863,6 +866,18 @@ class EventNotificationsV1 extends BaseService {
    * @param {DestinationConfig} [params.config] - Payload describing a destination configuration.
    * @param {NodeJS.ReadableStream | Buffer} [params.certificate] - Certificate for APNS.
    * @param {string} [params.certificateContentType] - The content type of certificate.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon16x16] - Safari icon 16x16.
+   * @param {string} [params.icon16x16ContentType] - The content type of icon16x16.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon16x162x] - Safari icon 16x16@2x.
+   * @param {string} [params.icon16x162xContentType] - The content type of icon16x162x.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon32x32] - Safari icon 32x32.
+   * @param {string} [params.icon32x32ContentType] - The content type of icon32x32.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon32x322x] - Safari icon 32x32@2x.
+   * @param {string} [params.icon32x322xContentType] - The content type of icon32x322x.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon128x128] - Safari icon 128x128.
+   * @param {string} [params.icon128x128ContentType] - The content type of icon128x128.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon128x1282x] - Safari icon 128x128@2x.
+   * @param {string} [params.icon128x1282xContentType] - The content type of icon128x1282x.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>>}
    */
@@ -879,6 +894,18 @@ class EventNotificationsV1 extends BaseService {
       'config',
       'certificate',
       'certificateContentType',
+      'icon16x16',
+      'icon16x16ContentType',
+      'icon16x162x',
+      'icon16x162xContentType',
+      'icon32x32',
+      'icon32x32ContentType',
+      'icon32x322x',
+      'icon32x322xContentType',
+      'icon128x128',
+      'icon128x128ContentType',
+      'icon128x1282x',
+      'icon128x1282xContentType',
       'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
@@ -894,6 +921,30 @@ class EventNotificationsV1 extends BaseService {
       'certificate': {
         data: _params.certificate,
         contentType: _params.certificateContentType,
+      },
+      'icon_16x16': {
+        data: _params.icon16x16,
+        contentType: _params.icon16x16ContentType,
+      },
+      'icon_16x16@2x': {
+        data: _params.icon16x162x,
+        contentType: _params.icon16x162xContentType,
+      },
+      'icon_32x32': {
+        data: _params.icon32x32,
+        contentType: _params.icon32x32ContentType,
+      },
+      'icon_32x32@2x': {
+        data: _params.icon32x322x,
+        contentType: _params.icon32x322xContentType,
+      },
+      'icon_128x128': {
+        data: _params.icon128x128,
+        contentType: _params.icon128x128ContentType,
+      },
+      'icon_128x128@2x': {
+        data: _params.icon128x1282x,
+        contentType: _params.icon128x1282xContentType,
       },
     };
 
@@ -1059,6 +1110,18 @@ class EventNotificationsV1 extends BaseService {
    * @param {DestinationConfig} [params.config] - Payload describing a destination configuration.
    * @param {NodeJS.ReadableStream | Buffer} [params.certificate] - Certificate for APNS.
    * @param {string} [params.certificateContentType] - The content type of certificate.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon16x16] - Safari icon 16x16.
+   * @param {string} [params.icon16x16ContentType] - The content type of icon16x16.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon16x162x] - Safari icon 16x16@2x.
+   * @param {string} [params.icon16x162xContentType] - The content type of icon16x162x.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon32x32] - Safari icon 32x32.
+   * @param {string} [params.icon32x32ContentType] - The content type of icon32x32.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon32x322x] - Safari icon 32x32@2x.
+   * @param {string} [params.icon32x322xContentType] - The content type of icon32x322x.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon128x128] - Safari icon 128x128.
+   * @param {string} [params.icon128x128ContentType] - The content type of icon128x128.
+   * @param {NodeJS.ReadableStream | Buffer} [params.icon128x1282x] - Safari icon 128x128@2x.
+   * @param {string} [params.icon128x1282xContentType] - The content type of icon128x1282x.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Destination>>}
    */
@@ -1075,6 +1138,18 @@ class EventNotificationsV1 extends BaseService {
       'config',
       'certificate',
       'certificateContentType',
+      'icon16x16',
+      'icon16x16ContentType',
+      'icon16x162x',
+      'icon16x162xContentType',
+      'icon32x32',
+      'icon32x32ContentType',
+      'icon32x322x',
+      'icon32x322xContentType',
+      'icon128x128',
+      'icon128x128ContentType',
+      'icon128x1282x',
+      'icon128x1282xContentType',
       'headers',
     ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
@@ -1089,6 +1164,30 @@ class EventNotificationsV1 extends BaseService {
       'certificate': {
         data: _params.certificate,
         contentType: _params.certificateContentType,
+      },
+      'icon_16x16': {
+        data: _params.icon16x16,
+        contentType: _params.icon16x16ContentType,
+      },
+      'icon_16x16@2x': {
+        data: _params.icon16x162x,
+        contentType: _params.icon16x162xContentType,
+      },
+      'icon_32x32': {
+        data: _params.icon32x32,
+        contentType: _params.icon32x32ContentType,
+      },
+      'icon_32x32@2x': {
+        data: _params.icon32x322x,
+        contentType: _params.icon32x322xContentType,
+      },
+      'icon_128x128': {
+        data: _params.icon128x128,
+        contentType: _params.icon128x128ContentType,
+      },
+      'icon_128x128@2x': {
+        data: _params.icon128x1282x,
+        contentType: _params.icon128x1282xContentType,
       },
     };
 
@@ -1921,6 +2020,8 @@ namespace EventNotificationsV1 {
     ceIbmenfcmbody?: string;
     /** The APNS Notification body. */
     ceIbmenapnsbody?: string;
+    /** The safari Notification body. */
+    ceIbmensafaribody?: string;
     /** Push Notifications Targets. */
     ceIbmenpushto?: string;
     /** Push Notifications APNS Headers. */
@@ -2093,6 +2194,30 @@ namespace EventNotificationsV1 {
     certificate?: NodeJS.ReadableStream | Buffer;
     /** The content type of certificate. */
     certificateContentType?: string;
+    /** Safari icon 16x16. */
+    icon16x16?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon16x16. */
+    icon16x16ContentType?: string;
+    /** Safari icon 16x16@2x. */
+    icon16x162x?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon16x162x. */
+    icon16x162xContentType?: string;
+    /** Safari icon 32x32. */
+    icon32x32?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon32x32. */
+    icon32x32ContentType?: string;
+    /** Safari icon 32x32@2x. */
+    icon32x322x?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon32x322x. */
+    icon32x322xContentType?: string;
+    /** Safari icon 128x128. */
+    icon128x128?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon128x128. */
+    icon128x128ContentType?: string;
+    /** Safari icon 128x128@2x. */
+    icon128x1282x?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon128x1282x. */
+    icon128x1282xContentType?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2106,6 +2231,7 @@ namespace EventNotificationsV1 {
       PUSH_CHROME = 'push_chrome',
       PUSH_FIREFOX = 'push_firefox',
       SLACK = 'slack',
+      PUSH_SAFARI = 'push_safari',
     }
   }
 
@@ -2147,6 +2273,30 @@ namespace EventNotificationsV1 {
     certificate?: NodeJS.ReadableStream | Buffer;
     /** The content type of certificate. */
     certificateContentType?: string;
+    /** Safari icon 16x16. */
+    icon16x16?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon16x16. */
+    icon16x16ContentType?: string;
+    /** Safari icon 16x16@2x. */
+    icon16x162x?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon16x162x. */
+    icon16x162xContentType?: string;
+    /** Safari icon 32x32. */
+    icon32x32?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon32x32. */
+    icon32x32ContentType?: string;
+    /** Safari icon 32x32@2x. */
+    icon32x322x?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon32x322x. */
+    icon32x322xContentType?: string;
+    /** Safari icon 128x128. */
+    icon128x128?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon128x128. */
+    icon128x128ContentType?: string;
+    /** Safari icon 128x128@2x. */
+    icon128x1282x?: NodeJS.ReadableStream | Buffer;
+    /** The content type of icon128x1282x. */
+    icon128x1282xContentType?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2414,7 +2564,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type. */
     type: string;
     /** Subscription count. */
     subscription_count: number;
@@ -2432,7 +2582,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook. */
+    /** Destination type. */
     type: string;
     /** Payload describing a destination configuration. */
     config: DestinationConfig;
@@ -2478,6 +2628,8 @@ namespace EventNotificationsV1 {
     ibmenfcmbody?: string;
     /** The Notifications APNS body. */
     ibmenapnsbody?: string;
+    /** The Notifications safari body. */
+    ibmensafaribody?: string;
     /** This field should not be empty. The allowed fields are fcm_devices, apns_devices, chrome_devices,
      *  firefox_devices, platforms, tags and user_ids. If platforms or tags or user_ids are being used then do not use
      *  fcm_devices / apns_devices / chrome_devices / firefox_devices with it.
@@ -2828,6 +2980,22 @@ namespace EventNotificationsV1 {
     team_id?: string;
     /** Bundle ID for token (Required when cert_type is p8). */
     bundle_id?: string;
+  }
+
+  /** Payload describing a safari destination configuration. */
+  export interface DestinationConfigParamsSafariDestinationConfig extends DestinationConfigParams {
+    /** Authentication type p12. */
+    cert_type?: string;
+    /** Password for certificate (Required when cert_type is p12). */
+    password: string;
+    /** Websire url. */
+    website_url: string;
+    /** Websire url. */
+    website_name: string;
+    /** Websire url. */
+    url_format_string: string;
+    /** Websire url. */
+    website_push_id: string;
   }
 
   /** Payload describing a slack destination configuration. */

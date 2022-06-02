@@ -20,6 +20,7 @@
 /* eslint-disable no-console */
 
 const { readExternalSources } = require('ibm-cloud-sdk-core');
+const fs = require('fs');
 const EventNotificationsV1 = require('../dist/event-notifications/v1');
 
 // eslint-disable-next-line node/no-unpublished-require
@@ -50,9 +51,11 @@ const topicName = 'Admin Topic Compliance';
 let sourceId = '';
 let topicId = '';
 let destinationId = '';
+let destinationId5 = '';
 let subscriptionId = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
+let safariCertificatePath = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -72,6 +75,7 @@ describe('EventNotificationsV1', () => {
   instanceId = config.guid;
   fcmSenderId = config.fcmId;
   fcmServerKey = config.fcmKey;
+  safariCertificatePath = config.safariCertificate;
 
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
@@ -387,6 +391,43 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const destinationConfigModelSafari = {
+      params: {
+        cert_type: 'p12',
+        password: 'safari',
+        website_url: 'https://ensafaripush.mybluemix.net',
+        website_name: 'NodeJS Starter Application',
+        url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
+        website_push_id: 'web.net.mybluemix.ensafaripush',
+      },
+    };
+
+    let readStream = '';
+    try {
+      readStream = fs.createReadStream(safariCertificatePath);
+      console.log(readStream);
+    } catch (err) {
+      console.error(err);
+    }
+
+    const description = 'Safari Destination';
+    const type = 'push_safari';
+    const safariparams = {
+      instanceId,
+      name: 'safari_destination',
+      type,
+      description,
+      config: destinationConfigModelSafari,
+      certificate: readStream,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(safariparams);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId5 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -471,7 +512,7 @@ describe('EventNotificationsV1', () => {
       params: destinationConfigParamsModel,
     };
 
-    const params = {
+    let params = {
       instanceId,
       id: destinationId,
       name: 'Admin FCM Compliance',
@@ -487,6 +528,42 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const safariDestinationConfigModel = {
+      params: {
+        cert_type: 'p12',
+        password: 'safari',
+        website_url: 'https://ensafaripush.mybluemix.net',
+        website_name: 'NodeJS Starter Application',
+        url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
+        website_push_id: 'web.net.mybluemix.ensafaripush',
+      },
+    };
+
+    const description = 'This Destination is for safari';
+
+    let readStream = '';
+    try {
+      readStream = fs.createReadStream(safariCertificatePath);
+      console.log(readStream);
+    } catch (err) {
+      console.error(err);
+    }
+
+    params = {
+      instanceId,
+      id: destinationId5,
+      name: 'safari_Dest',
+      description,
+      config: safariDestinationConfigModel,
+      certificate: readStream,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 
@@ -716,6 +793,13 @@ describe('EventNotificationsV1', () => {
       'apns-collapse-id': '123',
     };
 
+    const notificationSafariBodymodel = {
+      saf: {
+        alert: 'Game Request',
+        badge: 5,
+      },
+    };
+
     const params = {
       instanceId,
       ceIbmenseverity: notificationSeverity,
@@ -727,6 +811,7 @@ describe('EventNotificationsV1', () => {
       ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
       ceSpecversion: '1.0',
     };
@@ -777,6 +862,13 @@ describe('EventNotificationsV1', () => {
       'apns-collapse-id': '123',
     };
 
+    const notificationSafariBodymodel = {
+      saf: {
+        alert: 'Game Request',
+        badge: 5,
+      },
+    };
+
     const notificationID = '1234-1234-sdfs-234';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
@@ -793,6 +885,7 @@ describe('EventNotificationsV1', () => {
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenfcmbody: JSON.stringify(fcmOptions),
       ibmenapnsbody: JSON.stringify(apnsOptions),
+      ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
       specversion: '1.0',
     };
 
@@ -875,11 +968,21 @@ describe('EventNotificationsV1', () => {
 
     // begin-delete_destination
 
-    const params = {
+    let params = {
       instanceId,
       id: destinationId,
     };
 
+    try {
+      await eventNotificationsService.deleteDestination(params);
+    } catch (err) {
+      console.warn(err);
+    }
+
+    params = {
+      instanceId,
+      id: destinationId5,
+    };
     try {
       await eventNotificationsService.deleteDestination(params);
     } catch (err) {

@@ -674,6 +674,13 @@ eventNotificationsService
      "apns-collapse-id": "<apns-apns-collapse-id-value>"
     }
 
+   const notificationSafariBodymodel = {
+      saf: {
+          alert: 'Game Request',
+          badge: 5,
+      },
+    }
+
     let notificationID = "<notification-id>"
     let notificationSubject = "<notification-subject>"
     let notificationSeverity = "<notification-severity>"
@@ -691,6 +698,7 @@ eventNotificationsService
       ceIbmenpushto: JSON.stringify(notificationDevicesModel),
       ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
       ceSpecversion: '1.0',
     };
@@ -730,6 +738,7 @@ eventNotificationsService
   - *CeIbmenpushto* (**string**) - Targets for the FCM notifications. 
   - *CeIbmenfcmbody* (**string**) - Set payload string specific to Android platform [Refer this FCM official [link](https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support)]. 
   - *CeIbmenapnsbody* (**string**) - Set payload string specific to iOS platform [Refer this APNs official doc [link](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CreatingtheNotificationPayload.html)].
+  - *CeIbmensafaribody* (**string**) - Set payload string specific to safari notifications [Refer this Safari official doc [link](https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CreatingtheNotificationPayload.html)].
   - *CeIbmenapnsheaders* (**string**) - Set headers required for the APNs message [Refer this APNs official [link](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns)(Table 1 Header fields for a POST request)]
   - *CeIbmenchromebody* (**string**) - Message body for the Chrome notifications. Refer [this official documentation](https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification) for more.
   - *CeIbmenfirefoxbody* (**string**) - Message body for the Firefox notifications. Refer [this official documentation](https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification) for more.
