@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.1...v0.1.2) (2022-06-03)
+
+
+### Bug Fixes
+
+* add safari destination support ([7a18635](https://github.com/IBM/event-notifications-node-admin-sdk/commit/7a18635e3886ee38e0a81eb3fea2d6facb8c4e69))
+
 ## [0.1.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.0...v0.1.1) (2022-05-30)
 
 
