@@ -17,6 +17,7 @@
 /* eslint-disable no-console */
 
 const { readExternalSources } = require('ibm-cloud-sdk-core');
+const fs = require('fs');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
 const authHelper = require('../resources/auth-helper.js');
@@ -40,6 +41,7 @@ let destinationId = '';
 let destinationId2 = '';
 let destinationId3 = '';
 let destinationId4 = '';
+let destinationId5 = '';
 
 let subscriptionId = '';
 let subscriptionId2 = '';
@@ -48,6 +50,7 @@ const subscriptionId4 = '';
 
 let fcmServerKey = '';
 let fcmSenderId = '';
+let safariCertificatePath = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -65,6 +68,7 @@ describe('EventNotificationsV1_integration', () => {
     instanceId = config.guid;
     fcmSenderId = config.fcmId;
     fcmServerKey = config.fcmKey;
+    safariCertificatePath = config.safariCertificate;
 
     eventNotificationsService.enableRetries();
   });
@@ -450,6 +454,47 @@ describe('EventNotificationsV1_integration', () => {
     expect(resslack.result.description).toBe(description);
     destinationId4 = resslack.result.id;
 
+    const destinationConfigModelSafari = {
+      params: {
+        cert_type: 'p12',
+        password: 'safari',
+        website_url: 'https://ensafaripush.mybluemix.net',
+        website_name: 'NodeJS Starter Application',
+        url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
+        website_push_id: 'web.net.mybluemix.ensafaripush',
+      },
+    };
+
+    let readStream = '';
+    try {
+      readStream = fs.createReadStream(safariCertificatePath);
+      console.log(readStream);
+    } catch (err) {
+      console.error(err);
+    }
+
+    name = 'safari_destination';
+    description = 'Safari Destination';
+    type = 'push_safari';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelSafari,
+      certificate: readStream,
+    };
+
+    const ressafari = await eventNotificationsService.createDestination(params);
+    expect(ressafari).toBeDefined();
+    expect(ressafari.status).toBe(201);
+    expect(ressafari.result).toBeDefined();
+
+    expect(ressafari.result.type).toBe(type);
+    expect(ressafari.result.name).toBe(name);
+    expect(ressafari.result.description).toBe(description);
+    destinationId5 = ressafari.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -527,17 +572,17 @@ describe('EventNotificationsV1_integration', () => {
       custom_headers: { authorization: 'xxx-tye67-yyy' },
       sensitive_headers: ['authorization'],
     };
-
+    let readStream = '';
     // DestinationConfig
     const destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
 
-    const name = 'Admin Webhook Compliance';
-    const description =
+    let name = 'Admin Webhook Compliance';
+    let description =
       'This destination is for creating admin webhook to receive compliance notifications';
 
-    const params = {
+    let params = {
       instanceId,
       id: destinationId,
       name,
@@ -551,6 +596,43 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result).toBeDefined();
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
+
+    const safariDestinationConfigModel = {
+      params: {
+        cert_type: 'p12',
+        password: 'safari',
+        website_url: 'https://ensafaripush.mybluemix.net',
+        website_name: 'NodeJS Starter Application',
+        url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
+        website_push_id: 'web.net.mybluemix.ensafaripush',
+      },
+    };
+
+    name = 'safari_Dest';
+    description = 'This Destination is for safari';
+
+    try {
+      readStream = fs.createReadStream(safariCertificatePath);
+      console.log(readStream);
+    } catch (err) {
+      console.error(err);
+    }
+
+    params = {
+      instanceId,
+      id: destinationId5,
+      name,
+      description,
+      config: safariDestinationConfigModel,
+      certificate: readStream,
+    };
+
+    const safariRes = await eventNotificationsService.updateDestination(params);
+    expect(safariRes).toBeDefined();
+    expect(safariRes.status).toBe(200);
+    expect(safariRes.result).toBeDefined();
+    expect(safariRes.result.name).toBe(name);
+    expect(safariRes.result.description).toBe(description);
 
     //
     // The following status codes aren't covered by tests.
@@ -856,6 +938,13 @@ describe('EventNotificationsV1_integration', () => {
       en_data: notificationApnsBodyMessageDataModel,
     };
 
+    const notificationSafariBodymodel = {
+      saf: {
+        alert: 'Game Request',
+        badge: 5,
+      },
+    };
+
     const notificationID = '1234-1234-sdfs-234';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
@@ -872,6 +961,7 @@ describe('EventNotificationsV1_integration', () => {
       ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ceSpecversion: '1.0',
     };
 
@@ -911,6 +1001,7 @@ describe('EventNotificationsV1_integration', () => {
       ceIbmenfcmbody: JSON.stringify(fcmOptions),
       ceIbmenapnsbody: JSON.stringify(apnsOptions),
       ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
+      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ceSpecversion: '1.0',
     };
 
@@ -970,6 +1061,13 @@ describe('EventNotificationsV1_integration', () => {
       'apns-collapse-id': '123',
     };
 
+    const notificationSafariBodymodel = {
+      saf: {
+        alert: 'Game Request',
+        badge: 5,
+      },
+    };
+
     const notificationID = '1234-1234-sdfs-234';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
@@ -986,6 +1084,7 @@ describe('EventNotificationsV1_integration', () => {
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenfcmbody: JSON.stringify(fcmOptions),
       ibmenapnsbody: JSON.stringify(apnsOptions),
+      ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
       specversion: '1.0',
     };
 
@@ -1115,6 +1214,16 @@ describe('EventNotificationsV1_integration', () => {
     params = {
       instanceId,
       id: destinationId4,
+    };
+
+    res = await eventNotificationsService.deleteDestination(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    params = {
+      instanceId,
+      id: destinationId5,
     };
 
     res = await eventNotificationsService.deleteDestination(params);

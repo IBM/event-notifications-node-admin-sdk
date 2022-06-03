@@ -104,6 +104,7 @@ describe('EventNotificationsV1', () => {
         ibmenseverity: 'testString',
         ibmenfcmbody: 'testString',
         ibmenapnsbody: 'testString',
+        ibmensafaribody: 'testString',
         ibmenpushto:
           '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}',
         ibmenapnsheaders: 'testString',
@@ -133,6 +134,7 @@ describe('EventNotificationsV1', () => {
         const ceIbmendefaultlong = 'testString';
         const ceIbmenfcmbody = 'testString';
         const ceIbmenapnsbody = 'testString';
+        const ceIbmensafaribody = 'testString';
         const ceIbmenpushto =
           '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}';
         const ceIbmenapnsheaders = 'testString';
@@ -154,6 +156,7 @@ describe('EventNotificationsV1', () => {
           ceIbmendefaultlong,
           ceIbmenfcmbody,
           ceIbmenapnsbody,
+          ceIbmensafaribody,
           ceIbmenpushto,
           ceIbmenapnsheaders,
           ceIbmenchromebody,
@@ -188,6 +191,7 @@ describe('EventNotificationsV1', () => {
         checkUserHeader(createRequestMock, 'ce-ibmendefaultlong', ceIbmendefaultlong);
         checkUserHeader(createRequestMock, 'ce-ibmenfcmbody', ceIbmenfcmbody);
         checkUserHeader(createRequestMock, 'ce-ibmenapnsbody', ceIbmenapnsbody);
+        checkUserHeader(createRequestMock, 'ce-ibmensafaribody', ceIbmensafaribody);
         checkUserHeader(createRequestMock, 'ce-ibmenpushto', ceIbmenpushto);
         checkUserHeader(createRequestMock, 'ce-ibmenapnsheaders', ceIbmenapnsheaders);
         checkUserHeader(createRequestMock, 'ce-ibmenchromebody', ceIbmenchromebody);
@@ -271,6 +275,7 @@ describe('EventNotificationsV1', () => {
         ibmenseverity: 'testString',
         ibmenfcmbody: 'testString',
         ibmenapnsbody: 'testString',
+        ibmensafaribody: 'testString',
         ibmenpushto:
           '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}',
         ibmenapnsheaders: 'testString',
@@ -1360,6 +1365,18 @@ describe('EventNotificationsV1', () => {
         const config = destinationConfigModel;
         const certificate = Buffer.from('This is a mock file.');
         const certificateContentType = 'testString';
+        const icon16x16 = Buffer.from('This is a mock file.');
+        const icon16x16ContentType = 'testString';
+        const icon16x162x = Buffer.from('This is a mock file.');
+        const icon16x162xContentType = 'testString';
+        const icon32x32 = Buffer.from('This is a mock file.');
+        const icon32x32ContentType = 'testString';
+        const icon32x322x = Buffer.from('This is a mock file.');
+        const icon32x322xContentType = 'testString';
+        const icon128x128 = Buffer.from('This is a mock file.');
+        const icon128x128ContentType = 'testString';
+        const icon128x1282x = Buffer.from('This is a mock file.');
+        const icon128x1282xContentType = 'testString';
         const createDestinationParams = {
           instanceId,
           name,
@@ -1368,6 +1385,18 @@ describe('EventNotificationsV1', () => {
           config,
           certificate,
           certificateContentType,
+          icon16x16,
+          icon16x16ContentType,
+          icon16x162x,
+          icon16x162xContentType,
+          icon32x32,
+          icon32x32ContentType,
+          icon32x322x,
+          icon32x322xContentType,
+          icon128x128,
+          icon128x128ContentType,
+          icon128x1282x,
+          icon128x1282xContentType,
         };
 
         const createDestinationResult =
@@ -1391,6 +1420,26 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.formData.config).toEqual(config);
         expect(mockRequestOptions.formData.certificate.data).toEqual(certificate);
         expect(mockRequestOptions.formData.certificate.contentType).toEqual(certificateContentType);
+        expect(mockRequestOptions.formData.icon_16x16.data).toEqual(icon16x16);
+        expect(mockRequestOptions.formData.icon_16x16.contentType).toEqual(icon16x16ContentType);
+        expect(mockRequestOptions.formData['icon_16x16@2x'].data).toEqual(icon16x162x);
+        expect(mockRequestOptions.formData['icon_16x16@2x'].contentType).toEqual(
+          icon16x162xContentType
+        );
+        expect(mockRequestOptions.formData.icon_32x32.data).toEqual(icon32x32);
+        expect(mockRequestOptions.formData.icon_32x32.contentType).toEqual(icon32x32ContentType);
+        expect(mockRequestOptions.formData['icon_32x32@2x'].data).toEqual(icon32x322x);
+        expect(mockRequestOptions.formData['icon_32x32@2x'].contentType).toEqual(
+          icon32x322xContentType
+        );
+        expect(mockRequestOptions.formData.icon_128x128.data).toEqual(icon128x128);
+        expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(
+          icon128x128ContentType
+        );
+        expect(mockRequestOptions.formData['icon_128x128@2x'].data).toEqual(icon128x1282x);
+        expect(mockRequestOptions.formData['icon_128x128@2x'].contentType).toEqual(
+          icon128x1282xContentType
+        );
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -1666,6 +1715,18 @@ describe('EventNotificationsV1', () => {
         const config = destinationConfigModel;
         const certificate = Buffer.from('This is a mock file.');
         const certificateContentType = 'testString';
+        const icon16x16 = Buffer.from('This is a mock file.');
+        const icon16x16ContentType = 'testString';
+        const icon16x162x = Buffer.from('This is a mock file.');
+        const icon16x162xContentType = 'testString';
+        const icon32x32 = Buffer.from('This is a mock file.');
+        const icon32x32ContentType = 'testString';
+        const icon32x322x = Buffer.from('This is a mock file.');
+        const icon32x322xContentType = 'testString';
+        const icon128x128 = Buffer.from('This is a mock file.');
+        const icon128x128ContentType = 'testString';
+        const icon128x1282x = Buffer.from('This is a mock file.');
+        const icon128x1282xContentType = 'testString';
         const updateDestinationParams = {
           instanceId,
           id,
@@ -1674,6 +1735,18 @@ describe('EventNotificationsV1', () => {
           config,
           certificate,
           certificateContentType,
+          icon16x16,
+          icon16x16ContentType,
+          icon16x162x,
+          icon16x162xContentType,
+          icon32x32,
+          icon32x32ContentType,
+          icon32x322x,
+          icon32x322xContentType,
+          icon128x128,
+          icon128x128ContentType,
+          icon128x1282x,
+          icon128x1282xContentType,
         };
 
         const updateDestinationResult =
@@ -1700,6 +1773,26 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.formData.config).toEqual(config);
         expect(mockRequestOptions.formData.certificate.data).toEqual(certificate);
         expect(mockRequestOptions.formData.certificate.contentType).toEqual(certificateContentType);
+        expect(mockRequestOptions.formData.icon_16x16.data).toEqual(icon16x16);
+        expect(mockRequestOptions.formData.icon_16x16.contentType).toEqual(icon16x16ContentType);
+        expect(mockRequestOptions.formData['icon_16x16@2x'].data).toEqual(icon16x162x);
+        expect(mockRequestOptions.formData['icon_16x16@2x'].contentType).toEqual(
+          icon16x162xContentType
+        );
+        expect(mockRequestOptions.formData.icon_32x32.data).toEqual(icon32x32);
+        expect(mockRequestOptions.formData.icon_32x32.contentType).toEqual(icon32x32ContentType);
+        expect(mockRequestOptions.formData['icon_32x32@2x'].data).toEqual(icon32x322x);
+        expect(mockRequestOptions.formData['icon_32x32@2x'].contentType).toEqual(
+          icon32x322xContentType
+        );
+        expect(mockRequestOptions.formData.icon_128x128.data).toEqual(icon128x128);
+        expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(
+          icon128x128ContentType
+        );
+        expect(mockRequestOptions.formData['icon_128x128@2x'].data).toEqual(icon128x1282x);
+        expect(mockRequestOptions.formData['icon_128x128@2x'].contentType).toEqual(
+          icon128x1282xContentType
+        );
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.id).toEqual(id);
       }
