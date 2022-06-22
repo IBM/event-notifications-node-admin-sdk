@@ -2232,7 +2232,6 @@ namespace EventNotificationsV1 {
       PUSH_FIREFOX = 'push_firefox',
       SLACK = 'slack',
       PUSH_SAFARI = 'push_safari',
-      MSTEAMS = 'msteams',
     }
   }
 
@@ -2481,7 +2480,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook/FCM/Slack/MSTeams. */
+    /** Destination type Email/SMS/Webhook/FCM. */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -2565,7 +2564,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination typeEmail/SMS/Webhook/Slack/Safari/MSTeams. */
+    /** Destination type. */
     type: string;
     /** Subscription count. */
     subscription_count: number;
@@ -2981,12 +2980,6 @@ namespace EventNotificationsV1 {
     team_id?: string;
     /** Bundle ID for token (Required when cert_type is p8). */
     bundle_id?: string;
-  }
-
-  /** Payload describing a MS Teams destination configuration. */
-  export interface DestinationConfigParamsMSTeamsDestinationConfig extends DestinationConfigParams {
-    /** URL of MS Teams Incoming Webhook. */
-    url: string;
   }
 
   /** Payload describing a safari destination configuration. */
