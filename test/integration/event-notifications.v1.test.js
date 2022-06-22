@@ -42,6 +42,7 @@ let destinationId2 = '';
 let destinationId3 = '';
 let destinationId4 = '';
 let destinationId5 = '';
+let destinationId6 = '';
 
 let subscriptionId = '';
 let subscriptionId2 = '';
@@ -494,6 +495,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(ressafari.result.name).toBe(name);
     expect(ressafari.result.description).toBe(description);
     destinationId5 = ressafari.result.id;
+
+    // MSTeams
+    const destinationConfigModelMSTeams = {
+      params: {
+        url: 'https://teams.microsoft.com',
+      },
+    };
+
+    name = 'MSTeams_destination';
+    description = 'MSTeams Destination';
+    type = 'msteams';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelMSTeams,
+    };
+
+    const resmsteams = await eventNotificationsService.createDestination(params);
+    expect(resmsteams).toBeDefined();
+    expect(resmsteams.status).toBe(201);
+    expect(resmsteams.result).toBeDefined();
+
+    expect(resmsteams.result.type).toBe(type);
+    expect(resmsteams.result.name).toBe(name);
+    expect(resmsteams.result.description).toBe(description);
+    destinationId6 = resmsteams.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -1224,6 +1253,16 @@ describe('EventNotificationsV1_integration', () => {
     params = {
       instanceId,
       id: destinationId5,
+    };
+
+    res = await eventNotificationsService.deleteDestination(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    params = {
+      instanceId,
+      id: destinationId6,
     };
 
     res = await eventNotificationsService.deleteDestination(params);
