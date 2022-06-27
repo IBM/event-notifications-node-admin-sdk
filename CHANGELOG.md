@@ -1,3 +1,10 @@
+## [0.1.3](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.2...v0.1.3) (2022-06-27)
+
+
+### Bug Fixes
+
+* add msteams destination support ([4df6014](https://github.com/IBM/event-notifications-node-admin-sdk/commit/4df60146a8217e04acb98cad10993be17c53e1c5))
+
 ## [0.1.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.1...v0.1.2) (2022-06-03)
 
 
