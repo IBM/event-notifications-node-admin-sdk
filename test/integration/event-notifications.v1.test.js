@@ -675,41 +675,17 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  test('listDestinationDevices()', async () => {
+
+  test('getDeviceCount()', async () => {
     const params = {
       instanceId,
       id: destinationId3,
-      limit: 1,
-      offset: 0,
-      search: '',
     };
 
-    const res = await eventNotificationsService.listDestinationDevices(params);
+    const res = await eventNotificationsService.getDeviceCount(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 404
-    // 500
-    //
-  });
-  test('getDestinationDevicesReport()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-      days: 1,
-    };
-
-    const res = await eventNotificationsService.getDestinationDevicesReport(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-
+    expect(res.total_count).not.toBeNull();
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -979,22 +955,30 @@ describe('EventNotificationsV1_integration', () => {
     const typeValue = 'com.acme.offer:new';
     const notificationsSouce = '1234-1234-sdfs-234:test';
 
-    const params = {
+    const notificationCreateModel = {
       instanceId,
-      ceIbmenseverity: notificationSeverity,
-      ceId: notificationID,
-      ceSource: notificationsSouce,
-      ceIbmensourceid: sourceId,
-      ceType: typeValue,
-      ceTime: '2019-01-01T12:00:00.000Z',
-      ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
-      ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
-      ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
-      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
-      ceSpecversion: '1.0',
+      ibmenseverity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      ibmensourceid: sourceId,
+      type: typeValue,
+      time: '2019-01-01T12:00:00.000Z',
+      ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
+      ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
+      ibmendefaultshort: 'Alert on offer',
+      ibmendefaultlong: 'Offer is going to expire soon',
+      specversion: '1.0',
     };
 
-    const res = await eventNotificationsService.sendNotifications(params);
+    let body = notificationCreateModel;
+    const sendNotificationsParams = {
+      instanceId,
+      body,
+    };
+
+    const res = await eventNotificationsService.sendNotifications(sendNotificationsParams);
 
     expect(res).toBeDefined();
     expect(res.status).toBe(202);
@@ -1020,24 +1004,31 @@ describe('EventNotificationsV1_integration', () => {
 
     const newParams = {
       instanceId,
-      ceIbmenseverity: notificationSeverity,
-      ceId: notificationID,
-      ceSource: notificationsSouce,
-      ceIbmensourceid: sourceId,
-      ceType: typeValue,
-      ceTime: '2019-01-01T12:00:00.000Z',
-      ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
-      ceIbmenfcmbody: JSON.stringify(fcmOptions),
-      ceIbmenapnsbody: JSON.stringify(apnsOptions),
-      ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
-      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
-      ceSpecversion: '1.0',
+      ibmenseverity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      ibmensourceid: sourceId,
+      type: typeValue,
+      time: '2019-01-01T12:00:00.000Z',
+      ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ibmenfcmbody: JSON.stringify(fcmOptions),
+      ibmenapnsbody: JSON.stringify(apnsOptions),
+      ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
+      ibmendefaultshort: 'testString',
+      ibmendefaultlong: 'testString',
+      specversion: '1.0',
     };
 
-    const rewRes = await eventNotificationsService.sendNotifications(newParams);
-    expect(rewRes).toBeDefined();
-    expect(rewRes.status).toBe(202);
-    expect(rewRes.result).toBeDefined();
+    body = newParams;
+    const sendNotificationsParamsnew = {
+      instanceId,
+      body,
+    };
+
+    const newres = await eventNotificationsService.sendNotifications(sendNotificationsParamsnew);
+    expect(newres).toBeDefined();
+    expect(newres.status).toBe(202);
+    expect(newres.result).toBeDefined();
 
     //
     // The following status codes aren't covered by tests.
@@ -1049,7 +1040,6 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-
   test('sendBulkNotifications()', async () => {
     // Request models needed by this operation.
 
@@ -1269,7 +1259,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
-
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
