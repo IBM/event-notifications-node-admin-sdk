@@ -21,8 +21,7 @@ const { NoAuthAuthenticator, unitTestUtils } = core;
 
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
-const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise, checkUserHeader } =
-  unitTestUtils;
+const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
 
 const eventNotificationsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
@@ -31,20 +30,30 @@ const eventNotificationsServiceOptions = {
 
 const eventNotificationsService = new EventNotificationsV1(eventNotificationsServiceOptions);
 
-// dont actually create a request
-const createRequestMock = jest.spyOn(eventNotificationsService, 'createRequest');
-createRequestMock.mockImplementation(() => Promise.resolve());
+let createRequestMock = null;
+function mock_createRequest() {
+  if (!createRequestMock) {
+    createRequestMock = jest.spyOn(eventNotificationsService, 'createRequest');
+    createRequestMock.mockImplementation(() => Promise.resolve());
+  }
+}
 
 // dont actually construct an authenticator
 const getAuthenticatorMock = jest.spyOn(core, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 
-afterEach(() => {
-  createRequestMock.mockClear();
-  getAuthenticatorMock.mockClear();
-});
-
 describe('EventNotificationsV1', () => {
+  beforeEach(() => {
+    mock_createRequest();
+  });
+
+  afterEach(() => {
+    if (createRequestMock) {
+      createRequestMock.mockClear();
+    }
+    getAuthenticatorMock.mockClear();
+  });
+
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = EventNotificationsV1.newInstance();
@@ -72,6 +81,7 @@ describe('EventNotificationsV1', () => {
       expect(testInstance).toBeInstanceOf(EventNotificationsV1);
     });
   });
+
   describe('the constructor', () => {
     test('use user-given service url', () => {
       const options = {
@@ -94,34 +104,34 @@ describe('EventNotificationsV1', () => {
       expect(testInstance.baseOptions.serviceUrl).toBe(EventNotificationsV1.DEFAULT_SERVICE_URL);
     });
   });
+
   describe('sendNotifications', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
       // NotificationCreate
       const notificationCreateModel = {
-        data: { 'key1': 'testString' },
-        ibmenseverity: 'testString',
-        ibmenfcmbody: 'testString',
-        ibmenapnsbody: 'testString',
-        ibmensafaribody: 'testString',
-        ibmenpushto:
-          '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}',
-        ibmenapnsheaders: 'testString',
-        ibmendefaultshort: 'testString',
-        ibmendefaultlong: 'testString',
-        ibmenchromebody: 'testString',
-        ibmenfirefoxbody: 'testString',
-        ibmenchromeheaders: 'testString',
-        ibmenfirefoxheaders: 'testString',
-        ibmensourceid: 'testString',
-        datacontenttype: 'application/json',
-        subject: 'testString',
+        specversion: '1.0',
+        time: '2019-01-01T12:00:00.000Z',
         id: 'testString',
         source: 'testString',
         type: 'testString',
-        specversion: '1.0',
-        time: 'testString',
+        ibmenseverity: 'testString',
+        ibmensourceid: 'testString',
+        ibmendefaultshort: 'testString',
+        ibmendefaultlong: 'testString',
+        subject: 'testString',
+        data: { 'key1': 'testString' },
+        datacontenttype: 'application/json',
+        ibmenpushto: '{"platforms":["push_android"]}',
+        ibmenfcmbody: 'testString',
+        ibmenapnsbody: 'testString',
+        ibmenapnsheaders: 'testString',
+        ibmenchromebody: 'testString',
+        ibmenchromeheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmenfirefoxbody: 'testString',
+        ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmensafaribody: 'testString',
         foo: 'testString',
       };
 
@@ -129,46 +139,9 @@ describe('EventNotificationsV1', () => {
         // Construct the params object for operation sendNotifications
         const instanceId = 'testString';
         const body = notificationCreateModel;
-        const ceIbmenseverity = 'testString';
-        const ceIbmendefaultshort = 'testString';
-        const ceIbmendefaultlong = 'testString';
-        const ceIbmenfcmbody = 'testString';
-        const ceIbmenapnsbody = 'testString';
-        const ceIbmensafaribody = 'testString';
-        const ceIbmenpushto =
-          '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}';
-        const ceIbmenapnsheaders = 'testString';
-        const ceIbmenchromebody = 'testString';
-        const ceIbmenfirefoxbody = 'testString';
-        const ceIbmenchromeheaders = 'testString';
-        const ceIbmenfirefoxheaders = 'testString';
-        const ceIbmensourceid = 'testString';
-        const ceId = 'testString';
-        const ceSource = 'testString';
-        const ceType = 'testString';
-        const ceSpecversion = '1.0';
-        const ceTime = 'testString';
         const sendNotificationsParams = {
           instanceId,
           body,
-          ceIbmenseverity,
-          ceIbmendefaultshort,
-          ceIbmendefaultlong,
-          ceIbmenfcmbody,
-          ceIbmenapnsbody,
-          ceIbmensafaribody,
-          ceIbmenpushto,
-          ceIbmenapnsheaders,
-          ceIbmenchromebody,
-          ceIbmenfirefoxbody,
-          ceIbmenchromeheaders,
-          ceIbmenfirefoxheaders,
-          ceIbmensourceid,
-          ceId,
-          ceSource,
-          ceType,
-          ceSpecversion,
-          ceTime,
         };
 
         const sendNotificationsResult =
@@ -186,24 +159,6 @@ describe('EventNotificationsV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        checkUserHeader(createRequestMock, 'ce-ibmenseverity', ceIbmenseverity);
-        checkUserHeader(createRequestMock, 'ce-ibmendefaultshort', ceIbmendefaultshort);
-        checkUserHeader(createRequestMock, 'ce-ibmendefaultlong', ceIbmendefaultlong);
-        checkUserHeader(createRequestMock, 'ce-ibmenfcmbody', ceIbmenfcmbody);
-        checkUserHeader(createRequestMock, 'ce-ibmenapnsbody', ceIbmenapnsbody);
-        checkUserHeader(createRequestMock, 'ce-ibmensafaribody', ceIbmensafaribody);
-        checkUserHeader(createRequestMock, 'ce-ibmenpushto', ceIbmenpushto);
-        checkUserHeader(createRequestMock, 'ce-ibmenapnsheaders', ceIbmenapnsheaders);
-        checkUserHeader(createRequestMock, 'ce-ibmenchromebody', ceIbmenchromebody);
-        checkUserHeader(createRequestMock, 'ce-ibmenfirefoxbody', ceIbmenfirefoxbody);
-        checkUserHeader(createRequestMock, 'ce-ibmenchromeheaders', ceIbmenchromeheaders);
-        checkUserHeader(createRequestMock, 'ce-ibmenfirefoxheaders', ceIbmenfirefoxheaders);
-        checkUserHeader(createRequestMock, 'ce-ibmensourceid', ceIbmensourceid);
-        checkUserHeader(createRequestMock, 'ce-id', ceId);
-        checkUserHeader(createRequestMock, 'ce-source', ceSource);
-        checkUserHeader(createRequestMock, 'ce-type', ceType);
-        checkUserHeader(createRequestMock, 'ce-specversion', ceSpecversion);
-        checkUserHeader(createRequestMock, 'ce-time', ceTime);
         expect(mockRequestOptions.body).toEqual(body);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
@@ -265,34 +220,34 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('sendBulkNotifications', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
       // NotificationCreate
       const notificationCreateModel = {
-        data: { 'key1': 'testString' },
-        ibmenseverity: 'testString',
-        ibmenfcmbody: 'testString',
-        ibmenapnsbody: 'testString',
-        ibmensafaribody: 'testString',
-        ibmenpushto:
-          '{"fcm_devices":["9c75975a-37d0-3898-905d-3b5ee0d7c172","C9CACDF5-6EBF-49E1-AD60-E25BA23E954C"],"apns_devices":["3423-37d0-3898-905d-42342","432423-6EBF-49E1-AD60-4234"],"user_ids":["user-1","user-2"],"tags":["tag-1","tag-2"],"platforms":["push_android","push_ios","push_chrome","push_firefox"]}',
-        ibmenapnsheaders: 'testString',
-        ibmendefaultshort: 'testString',
-        ibmendefaultlong: 'testString',
-        ibmenchromebody: 'testString',
-        ibmenfirefoxbody: 'testString',
-        ibmenchromeheaders: 'testString',
-        ibmenfirefoxheaders: 'testString',
-        ibmensourceid: 'testString',
-        datacontenttype: 'application/json',
-        subject: 'testString',
+        specversion: '1.0',
+        time: '2019-01-01T12:00:00.000Z',
         id: 'testString',
         source: 'testString',
         type: 'testString',
-        specversion: '1.0',
-        time: 'testString',
+        ibmenseverity: 'testString',
+        ibmensourceid: 'testString',
+        ibmendefaultshort: 'testString',
+        ibmendefaultlong: 'testString',
+        subject: 'testString',
+        data: { 'key1': 'testString' },
+        datacontenttype: 'application/json',
+        ibmenpushto: '{"platforms":["push_android"]}',
+        ibmenfcmbody: 'testString',
+        ibmenapnsbody: 'testString',
+        ibmenapnsheaders: 'testString',
+        ibmenchromebody: 'testString',
+        ibmenchromeheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmenfirefoxbody: 'testString',
+        ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmensafaribody: 'testString',
         foo: 'testString',
       };
 
@@ -386,6 +341,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('createSources', () => {
     describe('positive tests', () => {
       function __createSourcesTest() {
@@ -482,6 +438,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('listSources', () => {
     describe('positive tests', () => {
       function __listSourcesTest() {
@@ -574,6 +531,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('getSource', () => {
     describe('positive tests', () => {
       function __getSourceTest() {
@@ -662,6 +620,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('deleteSource', () => {
     describe('positive tests', () => {
       function __deleteSourceTest() {
@@ -750,6 +709,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('updateSource', () => {
     describe('positive tests', () => {
       function __updateSourceTest() {
@@ -847,6 +807,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('createTopic', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -956,6 +917,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('listTopics', () => {
     describe('positive tests', () => {
       function __listTopicsTest() {
@@ -1048,6 +1010,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('getTopic', () => {
     describe('positive tests', () => {
       function __getTopicTest() {
@@ -1139,6 +1102,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('replaceTopic', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -1251,6 +1215,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('deleteTopic', () => {
     describe('positive tests', () => {
       function __deleteTopicTest() {
@@ -1339,6 +1304,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('createDestination', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -1422,22 +1388,22 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.formData.certificate.contentType).toEqual(certificateContentType);
         expect(mockRequestOptions.formData.icon_16x16.data).toEqual(icon16x16);
         expect(mockRequestOptions.formData.icon_16x16.contentType).toEqual(icon16x16ContentType);
-        expect(mockRequestOptions.formData['icon_16x16@2x'].data).toEqual(icon16x162x);
-        expect(mockRequestOptions.formData['icon_16x16@2x'].contentType).toEqual(
+        expect(mockRequestOptions.formData.icon_16x16_2x.data).toEqual(icon16x162x);
+        expect(mockRequestOptions.formData.icon_16x16_2x.contentType).toEqual(
           icon16x162xContentType
         );
         expect(mockRequestOptions.formData.icon_32x32.data).toEqual(icon32x32);
         expect(mockRequestOptions.formData.icon_32x32.contentType).toEqual(icon32x32ContentType);
-        expect(mockRequestOptions.formData['icon_32x32@2x'].data).toEqual(icon32x322x);
-        expect(mockRequestOptions.formData['icon_32x32@2x'].contentType).toEqual(
+        expect(mockRequestOptions.formData.icon_32x32_2x.data).toEqual(icon32x322x);
+        expect(mockRequestOptions.formData.icon_32x32_2x.contentType).toEqual(
           icon32x322xContentType
         );
         expect(mockRequestOptions.formData.icon_128x128.data).toEqual(icon128x128);
         expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(
           icon128x128ContentType
         );
-        expect(mockRequestOptions.formData['icon_128x128@2x'].data).toEqual(icon128x1282x);
-        expect(mockRequestOptions.formData['icon_128x128@2x'].contentType).toEqual(
+        expect(mockRequestOptions.formData.icon_128x128_2x.data).toEqual(icon128x1282x);
+        expect(mockRequestOptions.formData.icon_128x128_2x.contentType).toEqual(
           icon128x1282xContentType
         );
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
@@ -1504,6 +1470,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('listDestinations', () => {
     describe('positive tests', () => {
       function __listDestinationsTest() {
@@ -1597,6 +1564,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('getDestination', () => {
     describe('positive tests', () => {
       function __getDestinationTest() {
@@ -1689,6 +1657,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('updateDestination', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -1775,22 +1744,22 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.formData.certificate.contentType).toEqual(certificateContentType);
         expect(mockRequestOptions.formData.icon_16x16.data).toEqual(icon16x16);
         expect(mockRequestOptions.formData.icon_16x16.contentType).toEqual(icon16x16ContentType);
-        expect(mockRequestOptions.formData['icon_16x16@2x'].data).toEqual(icon16x162x);
-        expect(mockRequestOptions.formData['icon_16x16@2x'].contentType).toEqual(
+        expect(mockRequestOptions.formData.icon_16x16_2x.data).toEqual(icon16x162x);
+        expect(mockRequestOptions.formData.icon_16x16_2x.contentType).toEqual(
           icon16x162xContentType
         );
         expect(mockRequestOptions.formData.icon_32x32.data).toEqual(icon32x32);
         expect(mockRequestOptions.formData.icon_32x32.contentType).toEqual(icon32x32ContentType);
-        expect(mockRequestOptions.formData['icon_32x32@2x'].data).toEqual(icon32x322x);
-        expect(mockRequestOptions.formData['icon_32x32@2x'].contentType).toEqual(
+        expect(mockRequestOptions.formData.icon_32x32_2x.data).toEqual(icon32x322x);
+        expect(mockRequestOptions.formData.icon_32x32_2x.contentType).toEqual(
           icon32x322xContentType
         );
         expect(mockRequestOptions.formData.icon_128x128.data).toEqual(icon128x128);
         expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(
           icon128x128ContentType
         );
-        expect(mockRequestOptions.formData['icon_128x128@2x'].data).toEqual(icon128x1282x);
-        expect(mockRequestOptions.formData['icon_128x128@2x'].contentType).toEqual(
+        expect(mockRequestOptions.formData.icon_128x128_2x.data).toEqual(icon128x1282x);
+        expect(mockRequestOptions.formData.icon_128x128_2x.contentType).toEqual(
           icon128x1282xContentType
         );
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
@@ -1856,6 +1825,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('deleteDestination', () => {
     describe('positive tests', () => {
       function __deleteDestinationTest() {
@@ -1949,216 +1919,18 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
-  describe('listDestinationDevices', () => {
+
+  describe('getTagsSubscriptionsDevice', () => {
     describe('positive tests', () => {
-      function __listDestinationDevicesTest() {
-        // Construct the params object for operation listDestinationDevices
-        const instanceId = 'testString';
-        const id = 'testString';
-        const limit = 1;
-        const offset = 0;
-        const search = 'testString';
-        const listDestinationDevicesParams = {
-          instanceId,
-          id,
-          limit,
-          offset,
-          search,
-        };
-
-        const listDestinationDevicesResult = eventNotificationsService.listDestinationDevices(
-          listDestinationDevicesParams
-        );
-
-        // all methods should return a Promise
-        expectToBePromise(listDestinationDevicesResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/devices',
-          'GET'
-        );
-        const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.qs.limit).toEqual(limit);
-        expect(mockRequestOptions.qs.offset).toEqual(offset);
-        expect(mockRequestOptions.qs.search).toEqual(search);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.id).toEqual(id);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __listDestinationDevicesTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.enableRetries();
-        __listDestinationDevicesTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.disableRetries();
-        __listDestinationDevicesTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const id = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const listDestinationDevicesParams = {
-          instanceId,
-          id,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        eventNotificationsService.listDestinationDevices(listDestinationDevicesParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await eventNotificationsService.listDestinationDevices({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await eventNotificationsService.listDestinationDevices();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('getDestinationDevicesReport', () => {
-    describe('positive tests', () => {
-      function __getDestinationDevicesReportTest() {
-        // Construct the params object for operation getDestinationDevicesReport
-        const instanceId = 'testString';
-        const id = 'testString';
-        const days = 1;
-        const getDestinationDevicesReportParams = {
-          instanceId,
-          id,
-          days,
-        };
-
-        const getDestinationDevicesReportResult =
-          eventNotificationsService.getDestinationDevicesReport(getDestinationDevicesReportParams);
-
-        // all methods should return a Promise
-        expectToBePromise(getDestinationDevicesReportResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/devices/report',
-          'GET'
-        );
-        const expectedAccept = 'application/json';
-        const expectedContentType = undefined;
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.qs.days).toEqual(days);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.id).toEqual(id);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __getDestinationDevicesReportTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.enableRetries();
-        __getDestinationDevicesReportTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.disableRetries();
-        __getDestinationDevicesReportTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const id = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const getDestinationDevicesReportParams = {
-          instanceId,
-          id,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        eventNotificationsService.getDestinationDevicesReport(getDestinationDevicesReportParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await eventNotificationsService.getDestinationDevicesReport({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await eventNotificationsService.getDestinationDevicesReport();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-  describe('listTagsSubscriptionsDevice', () => {
-    describe('positive tests', () => {
-      function __listTagsSubscriptionsDeviceTest() {
-        // Construct the params object for operation listTagsSubscriptionsDevice
+      function __getTagsSubscriptionsDeviceTest() {
+        // Construct the params object for operation getTagsSubscriptionsDevice
         const instanceId = 'testString';
         const id = 'testString';
         const deviceId = 'testString';
         const tagName = 'testString';
         const limit = 1;
         const offset = 0;
-        const listTagsSubscriptionsDeviceParams = {
+        const getTagsSubscriptionsDeviceParams = {
           instanceId,
           id,
           deviceId,
@@ -2167,11 +1939,11 @@ describe('EventNotificationsV1', () => {
           offset,
         };
 
-        const listTagsSubscriptionsDeviceResult =
-          eventNotificationsService.listTagsSubscriptionsDevice(listTagsSubscriptionsDeviceParams);
+        const getTagsSubscriptionsDeviceResult =
+          eventNotificationsService.getTagsSubscriptionsDevice(getTagsSubscriptionsDeviceParams);
 
         // all methods should return a Promise
-        expectToBePromise(listTagsSubscriptionsDeviceResult);
+        expectToBePromise(getTagsSubscriptionsDeviceResult);
 
         // assert that create request was called
         expect(createRequestMock).toHaveBeenCalledTimes(1);
@@ -2196,17 +1968,17 @@ describe('EventNotificationsV1', () => {
 
       test('should pass the right params to createRequest with enable and disable retries', () => {
         // baseline test
-        __listTagsSubscriptionsDeviceTest();
+        __getTagsSubscriptionsDeviceTest();
 
         // enable retries and test again
         createRequestMock.mockClear();
         eventNotificationsService.enableRetries();
-        __listTagsSubscriptionsDeviceTest();
+        __getTagsSubscriptionsDeviceTest();
 
         // disable retries and test again
         createRequestMock.mockClear();
         eventNotificationsService.disableRetries();
-        __listTagsSubscriptionsDeviceTest();
+        __getTagsSubscriptionsDeviceTest();
       });
 
       test('should prioritize user-given headers', () => {
@@ -2216,7 +1988,7 @@ describe('EventNotificationsV1', () => {
         const deviceId = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
-        const listTagsSubscriptionsDeviceParams = {
+        const getTagsSubscriptionsDeviceParams = {
           instanceId,
           id,
           deviceId,
@@ -2226,7 +1998,7 @@ describe('EventNotificationsV1', () => {
           },
         };
 
-        eventNotificationsService.listTagsSubscriptionsDevice(listTagsSubscriptionsDeviceParams);
+        eventNotificationsService.getTagsSubscriptionsDevice(getTagsSubscriptionsDeviceParams);
         checkMediaHeaders(createRequestMock, userAccept, userContentType);
       });
     });
@@ -2235,7 +2007,7 @@ describe('EventNotificationsV1', () => {
       test('should enforce required parameters', async () => {
         let err;
         try {
-          await eventNotificationsService.listTagsSubscriptionsDevice({});
+          await eventNotificationsService.getTagsSubscriptionsDevice({});
         } catch (e) {
           err = e;
         }
@@ -2246,7 +2018,7 @@ describe('EventNotificationsV1', () => {
       test('should reject promise when required params are not given', async () => {
         let err;
         try {
-          await eventNotificationsService.listTagsSubscriptionsDevice();
+          await eventNotificationsService.getTagsSubscriptionsDevice();
         } catch (e) {
           err = e;
         }
@@ -2255,6 +2027,205 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
+  describe('getDeviceCount', () => {
+    describe('positive tests', () => {
+      function __getDeviceCountTest() {
+        // Construct the params object for operation getDeviceCount
+        const instanceId = 'testString';
+        const id = 'testString';
+        const getDeviceCountParams = {
+          instanceId,
+          id,
+        };
+
+        const getDeviceCountResult = eventNotificationsService.getDeviceCount(getDeviceCountParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getDeviceCountResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/devices/count',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDeviceCountTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getDeviceCountTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getDeviceCountTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDeviceCountParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getDeviceCount(getDeviceCountParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getDeviceCount({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getDeviceCount();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createTagsSubscription', () => {
+    describe('positive tests', () => {
+      function __createTagsSubscriptionTest() {
+        // Construct the params object for operation createTagsSubscription
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deviceId = 'testString';
+        const tagName = 'testString';
+        const createTagsSubscriptionParams = {
+          instanceId,
+          id,
+          deviceId,
+          tagName,
+        };
+
+        const createTagsSubscriptionResult = eventNotificationsService.createTagsSubscription(
+          createTagsSubscriptionParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createTagsSubscriptionResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.device_id).toEqual(deviceId);
+        expect(mockRequestOptions.body.tag_name).toEqual(tagName);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTagsSubscriptionTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __createTagsSubscriptionTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __createTagsSubscriptionTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deviceId = 'testString';
+        const tagName = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createTagsSubscriptionParams = {
+          instanceId,
+          id,
+          deviceId,
+          tagName,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.createTagsSubscription(createTagsSubscriptionParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createTagsSubscription({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createTagsSubscription();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('listTagsSubscription', () => {
     describe('positive tests', () => {
       function __listTagsSubscriptionTest() {
@@ -2367,110 +2338,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
-  describe('createTagsSubscription', () => {
-    describe('positive tests', () => {
-      function __createTagsSubscriptionTest() {
-        // Construct the params object for operation createTagsSubscription
-        const instanceId = 'testString';
-        const id = 'testString';
-        const deviceId = 'testString';
-        const tagName = 'testString';
-        const createTagsSubscriptionParams = {
-          instanceId,
-          id,
-          deviceId,
-          tagName,
-        };
 
-        const createTagsSubscriptionResult = eventNotificationsService.createTagsSubscription(
-          createTagsSubscriptionParams
-        );
-
-        // all methods should return a Promise
-        expectToBePromise(createTagsSubscriptionResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions',
-          'POST'
-        );
-        const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.device_id).toEqual(deviceId);
-        expect(mockRequestOptions.body.tag_name).toEqual(tagName);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.id).toEqual(id);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __createTagsSubscriptionTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.enableRetries();
-        __createTagsSubscriptionTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.disableRetries();
-        __createTagsSubscriptionTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const id = 'testString';
-        const deviceId = 'testString';
-        const tagName = 'testString';
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const createTagsSubscriptionParams = {
-          instanceId,
-          id,
-          deviceId,
-          tagName,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        eventNotificationsService.createTagsSubscription(createTagsSubscriptionParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await eventNotificationsService.createTagsSubscription({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await eventNotificationsService.createTagsSubscription();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
   describe('deleteTagsSubscription', () => {
     describe('positive tests', () => {
       function __deleteTagsSubscriptionTest() {
@@ -2571,6 +2439,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('createSubscription', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -2683,6 +2552,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('listSubscriptions', () => {
     describe('positive tests', () => {
       function __listSubscriptionsTest() {
@@ -2776,6 +2646,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('getSubscription', () => {
     describe('positive tests', () => {
       function __getSubscriptionTest() {
@@ -2869,6 +2740,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('deleteSubscription', () => {
     describe('positive tests', () => {
       function __deleteSubscriptionTest() {
@@ -2962,6 +2834,7 @@ describe('EventNotificationsV1', () => {
       });
     });
   });
+
   describe('updateSubscription', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.

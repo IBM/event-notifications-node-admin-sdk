@@ -86,12 +86,11 @@ SDK Methods to consume
 	- [Get Destination](#get-destination)
 	- [Update Destination](#update-destination)
 	- [Delete Destination](#delete-destination)
-- [Destination Devices](#destination-device)
-	- [List Destination device](#list-destination-devices)
-	- [Get Destination device report](#get-destination-device-report)
+- [Push Destination APIs](#push-destination-apis)
 	- [Create Destination tag subscription](#create-destination-tag-subscription)
 	- [List Destination tag subscription](#list-destination-tag-subscription)
 	- [List Destination device tag subscriptions](#list-destination-device-tag-subscriptions)
+  - [Get Device Count](#get-device-count)
 	- [Delete Destination device tag subscription](#delete-destination-device-tag-subscription)
 - [Subscriptions](#subscriptions)
 	- [Create Subscription](#create-subscription)
@@ -431,42 +430,7 @@ eventNotificationsService
   });
 ```
 
-## Destination Devices
-
-### List Destination device
-
-```js
-const params = {
-  instanceId: <instance-id>,
-  id: <destination-id>,
-};
-
-let res;
-try {
-  res = await eventNotificationsService.listDestinationDevices(params);
-  console.log(JSON.stringify(res.result, null, 2));
-} catch (err) {
-  console.warn(err);
-}
-```
-
-### Get Destination device report
-
-```js
-
-const params = {
-  instanceId: <instance-id>,
-  id: <destination-id>,
-};
-
-let res;
-try {
-  res = await eventNotificationsService.getDestinationDevicesReport(params);
-  console.log(JSON.stringify(res.result, null, 2));
-} catch (err) {
-  console.warn(err);
-}
-```
+## Push Destination APIs
 
 ### Create Destination tag subscription
 
@@ -520,6 +484,23 @@ try {
 } catch (err) {
   console.warn(err);
 }
+```
+
+### Get Device Count
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <destination-id>,
+};
+let res;
+try {
+  res = res = await eventNotificationsService.getDeviceCount(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+
 ```
 
 ### Delete Destination device tag subscription

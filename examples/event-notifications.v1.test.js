@@ -567,64 +567,6 @@ describe('EventNotificationsV1', () => {
     // end-update_destination
   });
 
-  test('listDestinationDevices request example', async () => {
-    consoleLogMock.mockImplementation((output) => {
-      originalLog(output);
-    });
-    consoleWarnMock.mockImplementation((output) => {
-      // if an error occurs, display the message and then fail the test
-      originalWarn(output);
-      expect(true).toBeFalsy();
-    });
-
-    originalLog('listDestinationDevices() result:');
-    // begin-list_destination_devices
-
-    const params = {
-      instanceId,
-      id: destinationId,
-    };
-
-    let res;
-    try {
-      res = await eventNotificationsService.listDestinationDevices(params);
-      console.log(JSON.stringify(res.result, null, 2));
-    } catch (err) {
-      console.warn(err);
-    }
-
-    // end-list_destination_devices
-  });
-
-  test('getDestinationDevicesReport request example', async () => {
-    consoleLogMock.mockImplementation((output) => {
-      originalLog(output);
-    });
-    consoleWarnMock.mockImplementation((output) => {
-      // if an error occurs, display the message and then fail the test
-      originalWarn(output);
-      expect(true).toBeFalsy();
-    });
-
-    originalLog('getDestinationDevicesReport() result:');
-    // begin-get_destination_devices_report
-
-    const params = {
-      instanceId,
-      id: destinationId,
-    };
-
-    let res;
-    try {
-      res = await eventNotificationsService.getDestinationDevicesReport(params);
-      console.log(JSON.stringify(res.result, null, 2));
-    } catch (err) {
-      console.warn(err);
-    }
-
-    // end-get_destination_devices_report
-  });
-
   test('createSubscription request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -800,25 +742,32 @@ describe('EventNotificationsV1', () => {
       },
     };
 
-    const params = {
+    const notificationCreateModel = {
       instanceId,
-      ceIbmenseverity: notificationSeverity,
-      ceId: notificationID,
-      ceSource: notificationsSouce,
-      ceIbmensourceid: sourceId,
-      ceType: typeValue,
-      ceTime: date,
-      ceIbmenpushto: JSON.stringify(notificationFcmDevicesModel),
-      ceIbmenfcmbody: JSON.stringify(notificationFcmBodyModel),
-      ceIbmenapnsbody: JSON.stringify(notificationApnsBodyModel),
-      ceIbmensafaribody: JSON.stringify(notificationSafariBodymodel),
-      ceIbmenapnsheaders: JSON.stringify(apnsHeaders),
-      ceSpecversion: '1.0',
+      ibmenseverity: notificationSeverity,
+      id: notificationID,
+      source: notificationsSouce,
+      ibmensourceid: sourceId,
+      type: typeValue,
+      time: date,
+      ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
+      ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
+      ibmendefaultshort: 'testString',
+      ibmendefaultlong: 'testString',
+      specversion: '1.0',
+    };
+
+    const body = notificationCreateModel;
+    const sendNotificationsParams = {
+      instanceId,
+      body,
     };
 
     let res;
     try {
-      res = await eventNotificationsService.sendNotifications(params);
+      res = await eventNotificationsService.sendNotifications(sendNotificationsParams);
     } catch (err) {
       console.warn(err);
     }
