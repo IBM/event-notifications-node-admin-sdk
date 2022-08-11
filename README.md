@@ -493,6 +493,7 @@ const params = {
   instanceId: <instance-id>,
   id: <destination-id>,
 };
+
 let res;
 try {
   res = res = await eventNotificationsService.getDeviceCount(params);
