@@ -1,3 +1,10 @@
+## [0.1.4](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.3...v0.1.4) (2022-08-11)
+
+
+### Bug Fixes
+
+* add device count API, apispeclint errors fix and binary mode separation ([#24](https://github.com/IBM/event-notifications-node-admin-sdk/issues/24)) ([08d8292](https://github.com/IBM/event-notifications-node-admin-sdk/commit/08d829268f9689e2fe4d405a48d2556147695b5c))
+
 ## [0.1.3](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.2...v0.1.3) (2022-06-27)
 
 
