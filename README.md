@@ -62,6 +62,16 @@ const initParameters = {
 }
 const eventNotificationsService = EventNotificationsV1.newInstance(initParameters);
 ```
+
+To configure service URL for Private Endpoint
+
+```js
+const initParameters = {
+   authenticator,
+  serviceUrl: "https://private." + region + ".event-notifications.cloud.ibm.com/event-notifications"
+}
+```
+
 - region : Region of the Event Notifications Instance
 
 ## Using the SDK
