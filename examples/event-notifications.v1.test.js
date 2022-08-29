@@ -52,6 +52,7 @@ let sourceId = '';
 let topicId = '';
 let destinationId = '';
 let destinationId5 = '';
+let destinationId7 = '';
 let subscriptionId = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
@@ -428,6 +429,32 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const destinationConfigModelCloudFunctions = {
+      params: {
+        url: 'https://www.ibmcfendpoint.com/',
+        api_key: '2323242342429hewihew',
+      },
+    };
+
+    const cfname = 'CloudFunctions_destination';
+    const cfdescription = 'Cloud Functions Destination';
+    const cftype = 'ibmcf';
+    const cfParams = {
+      instanceId,
+      name: cfname,
+      type: cftype,
+      description: cfdescription,
+      config: destinationConfigModelCloudFunctions,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(cfParams);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId7 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -560,6 +587,31 @@ describe('EventNotificationsV1', () => {
 
     try {
       res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationConfigModelCloudFunctions = {
+      params: {
+        url: 'https://us-south.functions.test.cloud.ibm.com/api/v1/namespaces/940dfa37-061a-46bd-9781-e584ed4bef18/actions/Action-CF',
+        api_key: 'amZzYVDnBbTSu2Bx27dUG73QYXWz0SGyR_PQE8UoZCen',
+      },
+    };
+
+    const cfname = 'Cloud Functions';
+    const cfdescription = 'This destination is for cloud functions';
+
+    const cfParams = {
+      instanceId,
+      id: destinationId7,
+      name: cfname,
+      description: cfdescription,
+      config: destinationConfigModelCloudFunctions,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(cfParams);
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);
@@ -853,6 +905,16 @@ describe('EventNotificationsV1', () => {
     params = {
       instanceId,
       id: destinationId5,
+    };
+    try {
+      await eventNotificationsService.deleteDestination(params);
+    } catch (err) {
+      console.warn(err);
+    }
+
+    params = {
+      instanceId,
+      id: destinationId7,
     };
     try {
       await eventNotificationsService.deleteDestination(params);
