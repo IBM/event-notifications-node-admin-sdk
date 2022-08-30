@@ -1,3 +1,10 @@
+## [0.1.5](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.4...v0.1.5) (2022-08-30)
+
+
+### Bug Fixes
+
+* add cloud functions destination support ([69841ed](https://github.com/IBM/event-notifications-node-admin-sdk/commit/69841edc33b17928fe6f9c8c9ba4ea1936519c80))
+
 ## [0.1.4](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.3...v0.1.4) (2022-08-11)
 
 
