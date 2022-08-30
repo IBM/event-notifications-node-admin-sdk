@@ -43,6 +43,7 @@ let destinationId3 = '';
 let destinationId4 = '';
 let destinationId5 = '';
 let destinationId6 = '';
+let destinationId7 = '';
 
 let subscriptionId = '';
 let subscriptionId2 = '';
@@ -524,6 +525,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(resmsteams.result.description).toBe(description);
     destinationId6 = resmsteams.result.id;
 
+    const destinationConfigModelCloudFunctions = {
+      params: {
+        url: 'https://www.ibmcfendpoint.com/',
+        api_key: 'efwewerwerkwer89werj',
+      },
+    };
+
+    name = 'CloudFunctions_destination';
+    description = 'Cloud Functions Destination';
+    type = 'ibmcf';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelCloudFunctions,
+    };
+
+    const rescloudfunctions = await eventNotificationsService.createDestination(params);
+    expect(rescloudfunctions).toBeDefined();
+    expect(rescloudfunctions.status).toBe(201);
+    expect(rescloudfunctions.result).toBeDefined();
+
+    expect(rescloudfunctions.result.type).toBe(type);
+    expect(rescloudfunctions.result.name).toBe(name);
+    expect(rescloudfunctions.result.description).toBe(description);
+    destinationId7 = rescloudfunctions.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -662,6 +691,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(safariRes.result).toBeDefined();
     expect(safariRes.result.name).toBe(name);
     expect(safariRes.result.description).toBe(description);
+
+    const cfDestinationConfigParamsModel = {
+      url: 'https://www.ibmcfendpoint.com/',
+      api_key: 'sdfknlsnfoejfwprpweoporw89',
+    };
+
+    // DestinationConfig
+    const cfDestinationConfigModel = {
+      params: cfDestinationConfigParamsModel,
+    };
+
+    name = 'Cloud Functions';
+    description = 'This destination is for cloud functions';
+
+    params = {
+      instanceId,
+      id: destinationId7,
+      name,
+      description,
+      config: cfDestinationConfigModel,
+    };
+
+    const cloudFcuntionsRes = await eventNotificationsService.updateDestination(params);
+    expect(cloudFcuntionsRes).toBeDefined();
+    expect(cloudFcuntionsRes.status).toBe(200);
+    expect(cloudFcuntionsRes.result).toBeDefined();
+    expect(cloudFcuntionsRes.result.name).toBe(name);
+    expect(cloudFcuntionsRes.result.description).toBe(description);
 
     //
     // The following status codes aren't covered by tests.
@@ -1253,6 +1310,16 @@ describe('EventNotificationsV1_integration', () => {
     params = {
       instanceId,
       id: destinationId6,
+    };
+
+    res = await eventNotificationsService.deleteDestination(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
+    params = {
+      instanceId,
+      id: destinationId7,
     };
 
     res = await eventNotificationsService.deleteDestination(params);

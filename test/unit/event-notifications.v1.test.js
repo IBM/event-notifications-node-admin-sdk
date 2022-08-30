@@ -2839,9 +2839,15 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // SubscriptionUpdateAttributesSMSAttributes
+      // SMSupdateAttributesTo
+      const smSupdateAttributesToModel = {
+        add: ['testString'],
+        remove: ['testString'],
+      };
+
+      // SubscriptionUpdateAttributesSMSUpdateAttributes
       const subscriptionUpdateAttributesModel = {
-        to: ['testString'],
+        to: smSupdateAttributesToModel,
       };
 
       function __updateSubscriptionTest() {
