@@ -65,12 +65,23 @@ const eventNotificationsService = EventNotificationsV1.newInstance(initParameter
 
 To configure service URL for Private Endpoint
 
+If you enabled service endpoints in your account, you can send API requests over the IBM Cloud private network. In the initialisation, the base endpoint URLs of the IAM(authenticator) & Event Notification(service) should be modified to point to private endpoints.
+1) Setting client options programmatically
 ```js
+const authenticator = new IamAuthenticator({
+    apikey: <apikey>,  // Event notifications service instance APIKey
+    url: "https://private.iam.cloud.ibm.com",
+})
+
 const initParameters = {
    authenticator,
   serviceUrl: "https://private." + region + ".event-notifications.cloud.ibm.com/event-notifications"
 }
 ```
+2) Using external configuration properties
+```js
+   EVENT_NOTIFICATIONS_AUTH_URL = https://private.iam.cloud.ibm.com/identity/token
+```   
 
 - region : Region of the Event Notifications Instance
 
