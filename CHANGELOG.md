@@ -1,10 +1,3 @@
-## [0.1.6](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.5...v0.1.6) (2022-10-14)
-
-
-### Reverts
-
-* Revert "chore: email opt in changes" ([df95c69](https://github.com/IBM/event-notifications-node-admin-sdk/commit/df95c69978b9350e1438e4234a704f315cca769d))
-
 ## [0.1.5](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.4...v0.1.5) (2022-08-30)
 
 
