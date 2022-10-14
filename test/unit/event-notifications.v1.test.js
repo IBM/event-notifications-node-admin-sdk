@@ -19,10 +19,7 @@ const core = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator, unitTestUtils } = core;
 
-const nock = require('nock');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
-
-/* eslint-disable no-await-in-loop */
 
 const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
 
@@ -38,12 +35,6 @@ function mock_createRequest() {
   if (!createRequestMock) {
     createRequestMock = jest.spyOn(eventNotificationsService, 'createRequest');
     createRequestMock.mockImplementation(() => Promise.resolve());
-  }
-}
-function unmock_createRequest() {
-  if (createRequestMock) {
-    createRequestMock.mockRestore();
-    createRequestMock = null;
   }
 }
 
@@ -539,58 +530,6 @@ describe('EventNotificationsV1', () => {
         expect(err.message).toMatch(/Missing required parameters/);
       });
     });
-
-    describe('SourcesPager tests', () => {
-      const serviceUrl = eventNotificationsServiceOptions.url;
-      const path = '/v1/instances/testString/sources';
-      const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
-      const mockPagerResponse2 =
-        '{"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
-
-      beforeEach(() => {
-        unmock_createRequest();
-        const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse2);
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
-        mock_createRequest();
-      });
-
-      test('getNext()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const allResults = [];
-        const pager = new EventNotificationsV1.SourcesPager(eventNotificationsService, params);
-        while (pager.hasNext()) {
-          const nextPage = await pager.getNext();
-          expect(nextPage).not.toBeNull();
-          allResults.push(...nextPage);
-        }
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-
-      test('getAll()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const pager = new EventNotificationsV1.SourcesPager(eventNotificationsService, params);
-        const allResults = await pager.getAll();
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-    });
   });
 
   describe('getSource', () => {
@@ -880,8 +819,8 @@ describe('EventNotificationsV1', () => {
         notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
       };
 
-      // SourcesItems
-      const sourcesItemsModel = {
+      // TopicUpdateSourcesItem
+      const topicUpdateSourcesItemModel = {
         id: 'e7c3b3ee-78d9-4e02-95c3-c001a05e6ea5:api',
         rules: [rulesModel],
       };
@@ -891,7 +830,7 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const name = 'testString';
         const description = 'testString';
-        const sources = [sourcesItemsModel];
+        const sources = [topicUpdateSourcesItemModel];
         const createTopicParams = {
           instanceId,
           name,
@@ -1070,58 +1009,6 @@ describe('EventNotificationsV1', () => {
         expect(err.message).toMatch(/Missing required parameters/);
       });
     });
-
-    describe('TopicsPager tests', () => {
-      const serviceUrl = eventNotificationsServiceOptions.url;
-      const path = '/v1/instances/testString/topics';
-      const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"topics":[{"id":"id","name":"name","description":"description","source_count":0,"sources_names":["sources_names"],"subscription_count":0}],"limit":1}';
-      const mockPagerResponse2 =
-        '{"total_count":2,"topics":[{"id":"id","name":"name","description":"description","source_count":0,"sources_names":["sources_names"],"subscription_count":0}],"limit":1}';
-
-      beforeEach(() => {
-        unmock_createRequest();
-        const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse2);
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
-        mock_createRequest();
-      });
-
-      test('getNext()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const allResults = [];
-        const pager = new EventNotificationsV1.TopicsPager(eventNotificationsService, params);
-        while (pager.hasNext()) {
-          const nextPage = await pager.getNext();
-          expect(nextPage).not.toBeNull();
-          allResults.push(...nextPage);
-        }
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-
-      test('getAll()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const pager = new EventNotificationsV1.TopicsPager(eventNotificationsService, params);
-        const allResults = await pager.getAll();
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-    });
   });
 
   describe('getTopic', () => {
@@ -1227,8 +1114,8 @@ describe('EventNotificationsV1', () => {
         notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
       };
 
-      // SourcesItems
-      const sourcesItemsModel = {
+      // TopicUpdateSourcesItem
+      const topicUpdateSourcesItemModel = {
         id: 'e7c3b3ee-78d9-4e02-95c3-c001a05e6ea5:api',
         rules: [rulesModel],
       };
@@ -1239,7 +1126,7 @@ describe('EventNotificationsV1', () => {
         const id = 'testString';
         const name = 'testString';
         const description = 'testString';
-        const sources = [sourcesItemsModel];
+        const sources = [topicUpdateSourcesItemModel];
         const replaceTopicParams = {
           instanceId,
           id,
@@ -1422,8 +1309,8 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // DestinationConfigOneOfWebhookDestinationConfig
-      const destinationConfigOneOfModel = {
+      // DestinationConfigParamsWebhookDestinationConfig
+      const destinationConfigParamsModel = {
         url: 'testString',
         verb: 'get',
         custom_headers: { 'key1': 'testString' },
@@ -1432,7 +1319,7 @@ describe('EventNotificationsV1', () => {
 
       // DestinationConfig
       const destinationConfigModel = {
-        params: destinationConfigOneOfModel,
+        params: destinationConfigParamsModel,
       };
 
       function __createDestinationTest() {
@@ -1676,58 +1563,6 @@ describe('EventNotificationsV1', () => {
         expect(err.message).toMatch(/Missing required parameters/);
       });
     });
-
-    describe('DestinationsPager tests', () => {
-      const serviceUrl = eventNotificationsServiceOptions.url;
-      const path = '/v1/instances/testString/destinations';
-      const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"destinations":[{"id":"id","name":"name","description":"description","type":"webhook","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
-      const mockPagerResponse2 =
-        '{"total_count":2,"destinations":[{"id":"id","name":"name","description":"description","type":"webhook","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
-
-      beforeEach(() => {
-        unmock_createRequest();
-        const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse2);
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
-        mock_createRequest();
-      });
-
-      test('getNext()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const allResults = [];
-        const pager = new EventNotificationsV1.DestinationsPager(eventNotificationsService, params);
-        while (pager.hasNext()) {
-          const nextPage = await pager.getNext();
-          expect(nextPage).not.toBeNull();
-          allResults.push(...nextPage);
-        }
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-
-      test('getAll()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const pager = new EventNotificationsV1.DestinationsPager(eventNotificationsService, params);
-        const allResults = await pager.getAll();
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-    });
   });
 
   describe('getDestination', () => {
@@ -1827,8 +1662,8 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // DestinationConfigOneOfWebhookDestinationConfig
-      const destinationConfigOneOfModel = {
+      // DestinationConfigParamsWebhookDestinationConfig
+      const destinationConfigParamsModel = {
         url: 'testString',
         verb: 'get',
         custom_headers: { 'key1': 'testString' },
@@ -1837,7 +1672,7 @@ describe('EventNotificationsV1', () => {
 
       // DestinationConfig
       const destinationConfigModel = {
-        params: destinationConfigOneOfModel,
+        params: destinationConfigParamsModel,
       };
 
       function __updateDestinationTest() {
@@ -2085,6 +1920,207 @@ describe('EventNotificationsV1', () => {
     });
   });
 
+  describe('getTagsSubscriptionsDevice', () => {
+    describe('positive tests', () => {
+      function __getTagsSubscriptionsDeviceTest() {
+        // Construct the params object for operation getTagsSubscriptionsDevice
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deviceId = 'testString';
+        const tagName = 'testString';
+        const limit = 1;
+        const offset = 0;
+        const getTagsSubscriptionsDeviceParams = {
+          instanceId,
+          id,
+          deviceId,
+          tagName,
+          limit,
+          offset,
+        };
+
+        const getTagsSubscriptionsDeviceResult =
+          eventNotificationsService.getTagsSubscriptionsDevice(getTagsSubscriptionsDeviceParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getTagsSubscriptionsDeviceResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions/devices/{device_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.tag_name).toEqual(tagName);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.device_id).toEqual(deviceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTagsSubscriptionsDeviceTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getTagsSubscriptionsDeviceTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getTagsSubscriptionsDeviceTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deviceId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getTagsSubscriptionsDeviceParams = {
+          instanceId,
+          id,
+          deviceId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getTagsSubscriptionsDevice(getTagsSubscriptionsDeviceParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getTagsSubscriptionsDevice({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getTagsSubscriptionsDevice();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getDeviceCount', () => {
+    describe('positive tests', () => {
+      function __getDeviceCountTest() {
+        // Construct the params object for operation getDeviceCount
+        const instanceId = 'testString';
+        const id = 'testString';
+        const getDeviceCountParams = {
+          instanceId,
+          id,
+        };
+
+        const getDeviceCountResult = eventNotificationsService.getDeviceCount(getDeviceCountParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getDeviceCountResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/devices/count',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getDeviceCountTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getDeviceCountTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getDeviceCountTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getDeviceCountParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getDeviceCount(getDeviceCountParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getDeviceCount({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getDeviceCount();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('createTagsSubscription', () => {
     describe('positive tests', () => {
       function __createTagsSubscriptionTest() {
@@ -2299,72 +2335,6 @@ describe('EventNotificationsV1', () => {
         }
 
         expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-
-    describe('TagsSubscriptionPager tests', () => {
-      const serviceUrl = eventNotificationsServiceOptions.url;
-      const path = '/v1/instances/testString/destinations/testString/tag_subscriptions';
-      const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"tag_subscriptions":[{"id":"id","device_id":"device_id","tag_name":"tag_name","user_id":"user_id","updated_at":"2019-01-01T12:00:00.000Z"}]}';
-      const mockPagerResponse2 =
-        '{"total_count":2,"limit":1,"tag_subscriptions":[{"id":"id","device_id":"device_id","tag_name":"tag_name","user_id":"user_id","updated_at":"2019-01-01T12:00:00.000Z"}]}';
-
-      beforeEach(() => {
-        unmock_createRequest();
-        const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse2);
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
-        mock_createRequest();
-      });
-
-      test('getNext()', async () => {
-        const params = {
-          instanceId: 'testString',
-          id: 'testString',
-          deviceId: 'testString',
-          userId: 'testString',
-          tagName: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const allResults = [];
-        const pager = new EventNotificationsV1.TagsSubscriptionPager(
-          eventNotificationsService,
-          params
-        );
-        while (pager.hasNext()) {
-          const nextPage = await pager.getNext();
-          expect(nextPage).not.toBeNull();
-          allResults.push(...nextPage);
-        }
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-
-      test('getAll()', async () => {
-        const params = {
-          instanceId: 'testString',
-          id: 'testString',
-          deviceId: 'testString',
-          userId: 'testString',
-          tagName: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const pager = new EventNotificationsV1.TagsSubscriptionPager(
-          eventNotificationsService,
-          params
-        );
-        const allResults = await pager.getAll();
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
       });
     });
   });
@@ -2675,64 +2645,6 @@ describe('EventNotificationsV1', () => {
         expect(err.message).toMatch(/Missing required parameters/);
       });
     });
-
-    describe('SubscriptionsPager tests', () => {
-      const serviceUrl = eventNotificationsServiceOptions.url;
-      const path = '/v1/instances/testString/subscriptions';
-      const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"subscriptions":[{"id":"id","name":"name","description":"description","destination_id":"destination_id","destination_name":"destination_name","destination_type":"sms_ibm","topic_id":"topic_id","topic_name":"topic_name","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
-      const mockPagerResponse2 =
-        '{"subscriptions":[{"id":"id","name":"name","description":"description","destination_id":"destination_id","destination_name":"destination_name","destination_type":"sms_ibm","topic_id":"topic_id","topic_name":"topic_name","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}';
-
-      beforeEach(() => {
-        unmock_createRequest();
-        const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
-          .reply(200, mockPagerResponse2);
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
-        mock_createRequest();
-      });
-
-      test('getNext()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const allResults = [];
-        const pager = new EventNotificationsV1.SubscriptionsPager(
-          eventNotificationsService,
-          params
-        );
-        while (pager.hasNext()) {
-          const nextPage = await pager.getNext();
-          expect(nextPage).not.toBeNull();
-          allResults.push(...nextPage);
-        }
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-
-      test('getAll()', async () => {
-        const params = {
-          instanceId: 'testString',
-          limit: 10,
-          search: 'testString',
-        };
-        const pager = new EventNotificationsV1.SubscriptionsPager(
-          eventNotificationsService,
-          params
-        );
-        const allResults = await pager.getAll();
-        expect(allResults).not.toBeNull();
-        expect(allResults).toHaveLength(2);
-      });
-    });
   });
 
   describe('getSubscription', () => {
@@ -2933,15 +2845,9 @@ describe('EventNotificationsV1', () => {
         remove: ['testString'],
       };
 
-      // UpdateAttributesUnsubscribed
-      const updateAttributesUnsubscribedModel = {
-        remove: ['testString'],
-      };
-
       // SubscriptionUpdateAttributesSMSUpdateAttributes
       const subscriptionUpdateAttributesModel = {
         to: smSupdateAttributesToModel,
-        unsubscribed: updateAttributesUnsubscribedModel,
       };
 
       function __updateSubscriptionTest() {

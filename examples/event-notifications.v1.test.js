@@ -51,11 +51,9 @@ const topicName = 'Admin Topic Compliance';
 let sourceId = '';
 let topicId = '';
 let destinationId = '';
-let destinationId2 = '';
 let destinationId5 = '';
 let destinationId7 = '';
 let subscriptionId = '';
-let subscriptionId2 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -486,10 +484,6 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-list_destinations
-    const destination = res.result.destinations[0];
-    if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
-      destinationId2 = destination.id;
-    }
   });
 
   test('getDestination request example', async () => {
@@ -657,32 +651,6 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    const subscriptionCreateAttributesModelSecond = {
-      invited: ['tester1@gmail.com', 'tester3@ibm.com'],
-      add_notification_payload: true,
-      reply_to_mail: 'tester1@gmail.com',
-      reply_to_name: 'US news',
-      from_name: 'IBM',
-    };
-
-    const nameSecond = 'subscription_email';
-    const descriptionSecond = 'Subscription for email';
-    const paramsSecond = {
-      instanceId,
-      name: nameSecond,
-      destinationId: destinationId2,
-      topicId,
-      attributes: subscriptionCreateAttributesModelSecond,
-      description: descriptionSecond,
-    };
-
-    try {
-      res = await eventNotificationsService.createSubscription(paramsSecond);
-      console.log(JSON.stringify(res.result, null, 2));
-      subscriptionId2 = res.result.id;
-    } catch (err) {
-      console.warn(err);
-    }
     // end-create_subscription
   });
 
@@ -768,41 +736,6 @@ describe('EventNotificationsV1', () => {
     let res;
     try {
       res = await eventNotificationsService.updateSubscription(params);
-      console.log(JSON.stringify(res.result, null, 2));
-    } catch (err) {
-      console.warn(err);
-    }
-
-    const smSupdateAttributesInvited = {
-      add: ['tester4@ibm.com'],
-    };
-
-    const smsUpdateAttributesToRemove = {
-      remove: ['tester3@ibm.com'],
-    };
-
-    const subscriptionUpdateAttributesModelSecond = {
-      invited: smSupdateAttributesInvited,
-      add_notification_payload: true,
-      reply_to_mail: 'tester1@gmail.com',
-      reply_to_name: 'US news',
-      from_name: 'IBM',
-      subscribed: smsUpdateAttributesToRemove,
-      unsubscribed: smsUpdateAttributesToRemove,
-    };
-
-    const nameSecond = 'subscription_email';
-    const descriptionSecond = 'Subscription for email';
-    const paramsSecond = {
-      instanceId,
-      name: nameSecond,
-      id: subscriptionId2,
-      attributes: subscriptionUpdateAttributesModelSecond,
-      description: descriptionSecond,
-    };
-
-    try {
-      res = await eventNotificationsService.updateSubscription(paramsSecond);
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);
