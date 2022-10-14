@@ -11,6 +11,7 @@ module.exports = {
       'rules': {
         'camelcase': 'off',
         'import/extensions': 'off',
+        'import/no-unresolved': 'off',
         'no-template-curly-in-string': 'off',
         'no-underscore-dangle': 'off',
         'prefer-const': 'error',
