@@ -18,6 +18,9 @@
  * IBM OpenAPI SDK Code Generator Version: 3.54.0-af6d2126-20220803-151219
  */
 
+/* eslint-disable max-classes-per-file */
+/* eslint-disable no-await-in-loop */
+
 import * as extend from 'extend';
 import { IncomingHttpHeaders, OutgoingHttpHeaders } from 'http';
 import {
@@ -26,6 +29,7 @@ import {
   getAuthenticatorFromEnvironment,
   validateParams,
   UserOptions,
+  getQueryParam,
 } from 'ibm-cloud-sdk-core';
 import { getSdkHeaders } from '../lib/common';
 
@@ -100,7 +104,8 @@ class EventNotificationsV1 extends BaseService {
   /**
    * Send a notification.
    *
-   * Send Notifications body from the instance.
+   * Send Notifications body from the instance. For more information on Event notifications payload, see
+   * [here](https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-spec-payload).
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -512,7 +517,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.name - Name of the topic.
    * @param {string} [params.description] - Description of the topic.
-   * @param {TopicUpdateSourcesItem[]} [params.sources] - List of sources.
+   * @param {SourcesItems[]} [params.sources] - List of sources.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TopicResponse>>}
    */
@@ -690,7 +695,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.id - Unique identifier for Topic.
    * @param {string} [params.name] - Name of the topic.
    * @param {string} [params.description] - Description of the topic.
-   * @param {TopicUpdateSourcesItem[]} [params.sources] - List of sources.
+   * @param {SourcesItems[]} [params.sources] - List of sources.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Topic>>}
    */
@@ -1216,126 +1221,6 @@ class EventNotificationsV1 extends BaseService {
   /*************************
    * pushDestinationAPIs
    ************************/
-
-  /**
-   * List all Tag Subscriptions for a device.
-   *
-   * List all Tag Subscriptions for a device.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} params.deviceId - DeviceID of the destination.
-   * @param {string} [params.tagName] - TagName of the subscription.
-   * @param {number} [params.limit] - Page limit for paginated results.
-   * @param {number} [params.offset] - offset for paginated results.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>>}
-   */
-  public getTagsSubscriptionsDevice(
-    params: EventNotificationsV1.GetTagsSubscriptionsDeviceParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'deviceId'];
-    const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'limit', 'offset', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const query = {
-      'tag_name': _params.tagName,
-      'limit': _params.limit,
-      'offset': _params.offset,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-      'device_id': _params.deviceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getTagsSubscriptionsDevice'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions/devices/{device_id}',
-        method: 'GET',
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Get Device count.
-   *
-   * Get Device count.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for Destination.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DeviceCount>>}
-   */
-  public getDeviceCount(
-    params: EventNotificationsV1.GetDeviceCountParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DeviceCount>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'getDeviceCount'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/destinations/{id}/devices/count',
-        method: 'GET',
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
 
   /**
    * Create a new Tag subscription.
@@ -1957,7 +1842,7 @@ namespace EventNotificationsV1 {
     /** Description of the topic. */
     description?: string;
     /** List of sources. */
-    sources?: TopicUpdateSourcesItem[];
+    sources?: SourcesItems[];
     headers?: OutgoingHttpHeaders;
   }
 
@@ -1996,7 +1881,7 @@ namespace EventNotificationsV1 {
     /** Description of the topic. */
     description?: string;
     /** List of sources. */
-    sources?: TopicUpdateSourcesItem[];
+    sources?: SourcesItems[];
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2135,32 +2020,6 @@ namespace EventNotificationsV1 {
 
   /** Parameters for the `deleteDestination` operation. */
   export interface DeleteDestinationParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for Destination. */
-    id: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `getTagsSubscriptionsDevice` operation. */
-  export interface GetTagsSubscriptionsDeviceParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for Destination. */
-    id: string;
-    /** DeviceID of the destination. */
-    deviceId: string;
-    /** TagName of the subscription. */
-    tagName?: string;
-    /** Page limit for paginated results. */
-    limit?: number;
-    /** offset for paginated results. */
-    offset?: number;
-    headers?: OutgoingHttpHeaders;
-  }
-
-  /** Parameters for the `getDeviceCount` operation. */
-  export interface GetDeviceCountParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
     /** Unique identifier for Destination. */
@@ -2310,11 +2169,11 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a destination configuration. */
   export interface DestinationConfig {
-    params: DestinationConfigParams;
+    params: DestinationConfigOneOf;
   }
 
-  /** DestinationConfigParams. */
-  export interface DestinationConfigParams {}
+  /** DestinationConfigOneOf. */
+  export interface DestinationConfigOneOf {}
 
   /** Payload describing a destination list request. */
   export interface DestinationList {
@@ -2326,6 +2185,12 @@ namespace EventNotificationsV1 {
     limit: number;
     /** List of destinations. */
     destinations: DestinationListItem[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
   }
 
   /** Destination object. */
@@ -2376,48 +2241,22 @@ namespace EventNotificationsV1 {
     created_at: string;
   }
 
-  /** Payload describing Device Count. */
-  export interface DeviceCount {
-    /** Total number of devices. */
-    total_count: number;
-  }
-
-  /** EmailAttributesResponseInvitedItem. */
-  export interface EmailAttributesResponseInvitedItem {
+  /** EmailAttributesResponseInvitedItems. */
+  export interface EmailAttributesResponseInvitedItems {
     /** email address. */
     email?: string;
-    /** time of addition. */
-    time?: string;
+    /** last updated time. */
+    updated_at?: string;
+    /** time of expiration. */
+    expires_at?: string;
   }
 
-  /** EmailAttributesResponseToItem. */
-  export interface EmailAttributesResponseToItem {
+  /** EmailAttributesResponseSubscribedUnsubscribedItems. */
+  export interface EmailAttributesResponseSubscribedUnsubscribedItems {
     /** email address. */
     email?: string;
-    /** time of addition. */
-    time?: string;
-  }
-
-  /** EmailAttributesResponseUnsubscribedItem. */
-  export interface EmailAttributesResponseUnsubscribedItem {
-    /** email address. */
-    email?: string;
-    /** time of addition. */
-    time?: string;
-  }
-
-  /** The email ids. */
-  export interface EmailUpdateAttributesTo {
-    /** The email ids. */
-    add?: string[];
-    /** The email ids for removal. */
-    remove?: string[];
-  }
-
-  /** The email ids. */
-  export interface EmailUpdateAttributesUnsubscribed {
-    /** The email ids unsubscribed. */
-    remove?: string[];
+    /** last updated time. */
+    updated_at?: string;
   }
 
   /** Payload describing a notification create request. */
@@ -2427,11 +2266,11 @@ namespace EventNotificationsV1 {
     /** The time notification was created. */
     time?: string;
     /** The unique identifier of the notification. */
-    id?: string;
+    id: string;
     /** The source of notifications. */
-    source?: string;
+    source: string;
     /** The notifications type. */
-    type?: string;
+    type: string;
     /** The severity of the notification. */
     ibmenseverity?: string;
     /** The source id of the notification. */
@@ -2447,24 +2286,24 @@ namespace EventNotificationsV1 {
     /** The notification content type. */
     datacontenttype?: string;
     /** If platforms or tags or user_ids is used then do not use fcm_devices / apns_devices / chrome_devices /
-     *  firefox_devices / safari_devices with it. Value should be stringified json.
+     *  firefox_devices / safari_devices with it. Value should be stringified.
      */
     ibmenpushto?: string;
-    /** Payload describing a notification FCM body. Value should be stringified json. */
+    /** Payload describing a notification FCM body. Value should be stringified. */
     ibmenfcmbody?: string;
-    /** Payload describing a notification APNs body. Value should be stringified json. */
+    /** Payload describing a notification APNs body. Value should be stringified. */
     ibmenapnsbody?: string;
-    /** Headers for iOS notification. Value should be stringified json. */
+    /** Headers for iOS notification. Value should be stringified. */
     ibmenapnsheaders?: string;
-    /** Notification payload for Chrome. Value should be stringified json. */
+    /** Notification payload for Chrome. Value should be stringified. */
     ibmenchromebody?: string;
-    /** Headers for a Chrome notification. Value should be stringified json. */
+    /** Headers for a Chrome notification. Value should be stringified. */
     ibmenchromeheaders?: string;
-    /** Notification payload for Firefox. Value should be stringified json. */
+    /** Notification payload for Firefox. Value should be stringified. */
     ibmenfirefoxbody?: string;
-    /** Headers for a Firefox notification. Value should be stringified json. */
+    /** Headers for a Firefox notification. Value should be stringified. */
     ibmenfirefoxheaders?: string;
-    /** Payload describing a notification Safari body. Value should be stringified json. */
+    /** Payload describing a notification Safari body. Value should be stringified. */
     ibmensafaribody?: string;
     /** NotificationCreate accepts additional properties. */
     [propName: string]: any;
@@ -2474,6 +2313,12 @@ namespace EventNotificationsV1 {
   export interface NotificationResponse {
     /** Notification ID. */
     notification_id?: string;
+  }
+
+  /** Response having URL of the page. */
+  export interface PageHrefResponse {
+    /** URL to the page. */
+    href: string;
   }
 
   /** Rule object. */
@@ -2500,27 +2345,11 @@ namespace EventNotificationsV1 {
     id: string;
   }
 
-  /** SMSAttributesResponseInvitedItem. */
-  export interface SMSAttributesResponseInvitedItem {
+  /** The sms attributes. */
+  export interface SMAttributesItems {
     /** Phone number. */
     phone_number?: string;
-    /** time of addition. */
-    time?: string;
-  }
-
-  /** SMSAttributesResponseToItem. */
-  export interface SMSAttributesResponseToItem {
-    /** Phone number. */
-    phone_number?: string;
-    /** time of addition. */
-    time?: string;
-  }
-
-  /** SMSAttributesResponseUnsubscribedItem. */
-  export interface SMSAttributesResponseUnsubscribedItem {
-    /** Phone number. */
-    phone_number?: string;
-    /** time of addition. */
+    /** last updated time. */
     time?: string;
   }
 
@@ -2562,6 +2391,12 @@ namespace EventNotificationsV1 {
     limit: number;
     /** List of sources. */
     sources: SourceListItem[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
   }
 
   /** Payload describing a source list item. */
@@ -2596,14 +2431,22 @@ namespace EventNotificationsV1 {
     created_at: string;
   }
 
-  /** SourcesListItem. */
-  export interface SourcesListItem {
+  /** SourcesItems. */
+  export interface SourcesItems {
+    /** ID of the source. */
+    id: string;
+    /** List of rules. */
+    rules: Rules[];
+  }
+
+  /** Payload describing a source list item. */
+  export interface SourcesListItems {
     /** ID of the source. */
     id: string;
     /** Name of the source. */
     name: string;
     /** List of rules. */
-    rules: RulesGet[];
+    rules?: RulesGet[];
   }
 
   /** Subscription object. */
@@ -2652,6 +2495,12 @@ namespace EventNotificationsV1 {
     limit: number;
     /** List of subscriptions. */
     subscriptions: SubscriptionListItem[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
   }
 
   /** Subscription list item. */
@@ -2689,6 +2538,12 @@ namespace EventNotificationsV1 {
     limit: number;
     /** List of tags. */
     tag_subscriptions: TagsSubscriptionListItem[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
   }
 
   /** Tags subscription object. */
@@ -2718,7 +2573,7 @@ namespace EventNotificationsV1 {
     /** Number of sources. */
     source_count: number;
     /** List of sources. */
-    sources: SourcesListItem[];
+    sources: SourcesListItems[];
     /** Number of subscriptions. */
     subscription_count: number;
     /** List of subscriptions. */
@@ -2735,6 +2590,12 @@ namespace EventNotificationsV1 {
     limit: number;
     /** List of topics. */
     topics: TopicsListItem[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
   }
 
   /** Topic object. */
@@ -2747,14 +2608,6 @@ namespace EventNotificationsV1 {
     description: string;
     /** Last time the topic was updated. */
     created_at: string;
-  }
-
-  /** TopicUpdateSourcesItem. */
-  export interface TopicUpdateSourcesItem {
-    /** ID of the source. */
-    id: string;
-    /** List of rules. */
-    rules: Rules[];
   }
 
   /** Topic list item object. */
@@ -2773,8 +2626,28 @@ namespace EventNotificationsV1 {
     subscription_count: number;
   }
 
+  /** The email ids or phone numbers. */
+  export interface UpdateAttributesInvited {
+    /** The email ids or phone numbers. */
+    add?: string[];
+    /** The email ids for removal. */
+    remove?: string[];
+  }
+
+  /** The email ids or phone number. */
+  export interface UpdateAttributesSubscribed {
+    /** The email ids or phone number unsubscribed. */
+    remove?: string[];
+  }
+
+  /** The phone number or Email id to send the SMS/email to. */
+  export interface UpdateAttributesUnsubscribed {
+    /** array to add new items. */
+    remove?: string[];
+  }
+
   /** Payload describing a Chrome destination configuration. */
-  export interface DestinationConfigParamsChromeDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfChromeDestinationConfig extends DestinationConfigOneOf {
     /** FCM api_key. */
     api_key: string;
     /** Website url. */
@@ -2786,7 +2659,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a FCM destination configuration. */
-  export interface DestinationConfigParamsFCMDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfFCMDestinationConfig extends DestinationConfigOneOf {
     /** FCM server_key. */
     server_key: string;
     /** FCM sender_id. */
@@ -2796,7 +2669,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a Firefox destination configuration. */
-  export interface DestinationConfigParamsFirefoxDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfFirefoxDestinationConfig extends DestinationConfigOneOf {
     /** Website url. */
     website_url: string;
     /** Chrome VAPID public key. */
@@ -2806,8 +2679,8 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a IBM Cloud Functions destination configuration. */
-  export interface DestinationConfigParamsIBMCloudFunctionsDestinationConfig
-    extends DestinationConfigParams {
+  export interface DestinationConfigOneOfIBMCloudFunctionsDestinationConfig
+    extends DestinationConfigOneOf {
     /** URL of IBM Cloud Functions Trigger EndPoint. */
     url: string;
     /** APIKey with access of IBM Cloud Functions IAM Namespace. */
@@ -2815,7 +2688,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a IOS destination configuration. */
-  export interface DestinationConfigParamsIOSDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfIOSDestinationConfig extends DestinationConfigOneOf {
     /** Authentication type (p8 or p12). */
     cert_type: string;
     /** Sandbox mode for IOS destinations. */
@@ -2833,13 +2706,13 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a MS Teams destination configuration. */
-  export interface DestinationConfigParamsMSTeamsDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfMSTeamsDestinationConfig extends DestinationConfigOneOf {
     /** URL of MS Teams Incoming Webhook. */
     url: string;
   }
 
   /** Payload describing a safari destination configuration. */
-  export interface DestinationConfigParamsSafariDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfSafariDestinationConfig extends DestinationConfigOneOf {
     /** Authentication type p12. */
     cert_type: string;
     /** Password for certificate (Required when cert_type is p12). */
@@ -2857,13 +2730,13 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a slack destination configuration. */
-  export interface DestinationConfigParamsSlackDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfSlackDestinationConfig extends DestinationConfigOneOf {
     /** URL of Slack Incoming Webhook. */
     url: string;
   }
 
   /** Payload describing a webhook destination configuration. */
-  export interface DestinationConfigParamsWebhookDestinationConfig extends DestinationConfigParams {
+  export interface DestinationConfigOneOfWebhookDestinationConfig extends DestinationConfigOneOf {
     /** URL of webhook. */
     url: string;
     /** HTTP method of webhook. */
@@ -2877,11 +2750,11 @@ namespace EventNotificationsV1 {
   /** The attributes reponse for an email destination. */
   export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {
     /** The email id string. */
-    to: EmailAttributesResponseToItem[];
+    invited?: EmailAttributesResponseInvitedItems[];
     /** The unsubscribe list. */
-    unsubscribed?: EmailAttributesResponseUnsubscribedItem[];
-    /** The invited list. */
-    invited?: EmailAttributesResponseInvitedItem[];
+    subscribed?: EmailAttributesResponseSubscribedUnsubscribedItems[];
+    /** The subscribed list. */
+    unsubscribed?: EmailAttributesResponseSubscribedUnsubscribedItems[];
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
@@ -2894,12 +2767,12 @@ namespace EventNotificationsV1 {
 
   /** SMS attributes object. */
   export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
-    /** The email id string. */
-    to: SMSAttributesResponseToItem[];
+    /** The subscribed list. */
+    to: SMAttributesItems[];
     /** The unsubscribe list. */
-    unsubscribed?: SMSAttributesResponseUnsubscribedItem[];
-    /** The invited list. */
-    invited?: SMSAttributesResponseInvitedItem[];
+    unsubscribed?: SMAttributesItems[];
+    /** The email id string. */
+    invited?: SMAttributesItems[];
   }
 
   /** The attributes for a slack notification. */
@@ -2920,7 +2793,7 @@ namespace EventNotificationsV1 {
   export interface SubscriptionCreateAttributesEmailAttributes
     extends SubscriptionCreateAttributes {
     /** The email id string. */
-    to: string[];
+    invited: string[];
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
@@ -2934,9 +2807,9 @@ namespace EventNotificationsV1 {
   /** The attributes for an FCM notification. */
   export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {}
 
-  /** The attributes for an email notification. */
+  /** The attributes for an sms notification. */
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
-    /** The email id string. */
+    /** The sms id string. */
     to: string[];
   }
 
@@ -2957,8 +2830,8 @@ namespace EventNotificationsV1 {
   /** The attributes for an email notification. */
   export interface SubscriptionUpdateAttributesEmailUpdateAttributes
     extends SubscriptionUpdateAttributes {
-    /** The email ids. */
-    to: EmailUpdateAttributesTo;
+    /** The email ids or phone numbers. */
+    invited?: UpdateAttributesInvited;
     /** Whether to add the notification payload to the email. */
     add_notification_payload: boolean;
     /** The email address to reply to. */
@@ -2967,17 +2840,19 @@ namespace EventNotificationsV1 {
     reply_to_name: string;
     /** The email name of From. */
     from_name: string;
-    /** The email ids invited. */
-    invited?: string[];
-    /** The email ids. */
-    unsubscribed?: EmailUpdateAttributesUnsubscribed;
+    /** The email ids or phone number. */
+    subscribed?: UpdateAttributesSubscribed;
+    /** The phone number or Email id to send the SMS/email to. */
+    unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
   /** SMS attributes object. */
   export interface SubscriptionUpdateAttributesSMSUpdateAttributes
     extends SubscriptionUpdateAttributes {
     /** The phone number to send the SMS to. */
-    to: SMSupdateAttributesTo;
+    to?: SMSupdateAttributesTo;
+    /** The phone number or Email id to send the SMS/email to. */
+    unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
   /** The attributes for a slack notification. */
@@ -2992,6 +2867,421 @@ namespace EventNotificationsV1 {
     extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
+  }
+
+  /*************************
+   * pager classes
+   ************************/
+
+  /**
+   * SourcesPager can be used to simplify the use of listSources().
+   */
+  export class SourcesPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListSourcesParams;
+
+    /**
+     * Construct a SourcesPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listSources()
+     * @param {Object} params - The parameters to be passed to listSources()
+     * @constructor
+     * @returns {SourcesPager}
+     */
+    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListSourcesParams) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listSources().
+     * @returns {Promise<EventNotificationsV1.SourceListItem[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.SourceListItem[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listSources(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.sources;
+    }
+
+    /**
+     * Returns all results by invoking listSources() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.SourceListItem[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.SourceListItem[]> {
+      const results: SourceListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * TopicsPager can be used to simplify the use of listTopics().
+   */
+  export class TopicsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListTopicsParams;
+
+    /**
+     * Construct a TopicsPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listTopics()
+     * @param {Object} params - The parameters to be passed to listTopics()
+     * @constructor
+     * @returns {TopicsPager}
+     */
+    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListTopicsParams) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listTopics().
+     * @returns {Promise<EventNotificationsV1.TopicsListItem[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.TopicsListItem[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listTopics(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.topics;
+    }
+
+    /**
+     * Returns all results by invoking listTopics() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.TopicsListItem[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.TopicsListItem[]> {
+      const results: TopicsListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * DestinationsPager can be used to simplify the use of listDestinations().
+   */
+  export class DestinationsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListDestinationsParams;
+
+    /**
+     * Construct a DestinationsPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listDestinations()
+     * @param {Object} params - The parameters to be passed to listDestinations()
+     * @constructor
+     * @returns {DestinationsPager}
+     */
+    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListDestinationsParams) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listDestinations().
+     * @returns {Promise<EventNotificationsV1.DestinationListItem[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.DestinationListItem[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listDestinations(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.destinations;
+    }
+
+    /**
+     * Returns all results by invoking listDestinations() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.DestinationListItem[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.DestinationListItem[]> {
+      const results: DestinationListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * TagsSubscriptionPager can be used to simplify the use of listTagsSubscription().
+   */
+  export class TagsSubscriptionPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListTagsSubscriptionParams;
+
+    /**
+     * Construct a TagsSubscriptionPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listTagsSubscription()
+     * @param {Object} params - The parameters to be passed to listTagsSubscription()
+     * @constructor
+     * @returns {TagsSubscriptionPager}
+     */
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListTagsSubscriptionParams
+    ) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listTagsSubscription().
+     * @returns {Promise<EventNotificationsV1.TagsSubscriptionListItem[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.TagsSubscriptionListItem[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listTagsSubscription(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.tag_subscriptions;
+    }
+
+    /**
+     * Returns all results by invoking listTagsSubscription() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.TagsSubscriptionListItem[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.TagsSubscriptionListItem[]> {
+      const results: TagsSubscriptionListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * SubscriptionsPager can be used to simplify the use of listSubscriptions().
+   */
+  export class SubscriptionsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListSubscriptionsParams;
+
+    /**
+     * Construct a SubscriptionsPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listSubscriptions()
+     * @param {Object} params - The parameters to be passed to listSubscriptions()
+     * @constructor
+     * @returns {SubscriptionsPager}
+     */
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListSubscriptionsParams
+    ) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listSubscriptions().
+     * @returns {Promise<EventNotificationsV1.SubscriptionListItem[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.SubscriptionListItem[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listSubscriptions(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.subscriptions;
+    }
+
+    /**
+     * Returns all results by invoking listSubscriptions() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.SubscriptionListItem[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.SubscriptionListItem[]> {
+      const results: SubscriptionListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
   }
 }
 

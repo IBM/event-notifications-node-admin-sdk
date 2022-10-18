@@ -733,26 +733,6 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
 
-  test('getDeviceCount()', async () => {
-    const params = {
-      instanceId,
-      id: destinationId3,
-    };
-
-    const res = await eventNotificationsService.getDeviceCount(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.total_count).not.toBeNull();
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 401
-    // 404
-    // 500
-    //
-  });
-
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
@@ -781,7 +761,7 @@ describe('EventNotificationsV1_integration', () => {
 
     // second subscription
     const subscriptionCreateAttributesModelSecond = {
-      to: ['tester1@gmail.com', 'tester3@ibm.com'],
+      invited: ['tester1@gmail.com', 'tester3@ibm.com'],
       add_notification_payload: true,
       reply_to_mail: 'tester1@gmail.com',
       reply_to_name: 'US news',
@@ -911,6 +891,42 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result).toBeDefined();
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
+
+    const smsUpdateAttributesInvited = {
+      add: ['tester4@ibm.com'],
+    };
+
+    const smsUpdateAttributesToRemove = {
+      remove: ['tester3@ibm.com'],
+    };
+
+    const subscriptionUpdateAttributesModelSecond = {
+      invited: smsUpdateAttributesInvited,
+      add_notification_payload: true,
+      reply_to_mail: 'tester1@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
+      subscribed: smsUpdateAttributesToRemove,
+      unsubscribed: smsUpdateAttributesToRemove,
+    };
+
+    const nameSecond = 'subscription_email';
+    const descriptionSecond = 'Subscription for email';
+    const paramsSecond = {
+      instanceId,
+      name: nameSecond,
+      id: subscriptionId2,
+      attributes: subscriptionUpdateAttributesModelSecond,
+      description: descriptionSecond,
+    };
+
+    const resSecond = await eventNotificationsService.updateSubscription(paramsSecond);
+    expect(resSecond).toBeDefined();
+    expect(resSecond.status).toBe(200);
+    expect(resSecond.result).toBeDefined();
+    expect(resSecond.result.name).toBe(nameSecond);
+    expect(resSecond.result.description).toBe(descriptionSecond);
+    subscriptionId2 = resSecond.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -1185,37 +1201,20 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-
   test('deleteSubscription()', async () => {
-    let params = {
-      instanceId,
-      id: subscriptionId,
-    };
+    const subscriptions = [subscriptionId, subscriptionId2, subscriptionId3];
 
-    let res = await eventNotificationsService.deleteSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
+    for (let i = 0; i < subscriptions.length; i += 1) {
+      const params = {
+        instanceId,
+        id: subscriptions[i],
+      };
 
-    params = {
-      instanceId,
-      id: subscriptionId2,
-    };
-
-    res = await eventNotificationsService.deleteSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    params = {
-      instanceId,
-      id: subscriptionId3,
-    };
-
-    res = await eventNotificationsService.deleteSubscription(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
+      const res = await eventNotificationsService.deleteSubscription(params);
+      expect(res).toBeDefined();
+      expect(res.status).toBe(204);
+      expect(res.result).toBeDefined();
+    }
 
     //
     // The following status codes aren't covered by tests.
@@ -1267,65 +1266,27 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('deleteDestination()', async () => {
-    let params = {
-      instanceId,
-      id: destinationId,
-    };
+    const destinations = [
+      destinationId,
+      destinationId3,
+      destinationId4,
+      destinationId5,
+      destinationId6,
+      destinationId7,
+    ];
 
-    let res = await eventNotificationsService.deleteDestination(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
+    for (let i = 0; i < destinations.length; i += 1) {
+      const params = {
+        instanceId,
+        id: destinations[i],
+      };
 
-    params = {
-      instanceId,
-      id: destinationId3,
-    };
+      const res = await eventNotificationsService.deleteDestination(params);
+      expect(res).toBeDefined();
+      expect(res.status).toBe(204);
+      expect(res.result).toBeDefined();
+    }
 
-    res = await eventNotificationsService.deleteDestination(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    params = {
-      instanceId,
-      id: destinationId4,
-    };
-
-    res = await eventNotificationsService.deleteDestination(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    params = {
-      instanceId,
-      id: destinationId5,
-    };
-
-    res = await eventNotificationsService.deleteDestination(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    params = {
-      instanceId,
-      id: destinationId6,
-    };
-
-    res = await eventNotificationsService.deleteDestination(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
-
-    params = {
-      instanceId,
-      id: destinationId7,
-    };
-
-    res = await eventNotificationsService.deleteDestination(params);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(204);
-    expect(res.result).toBeDefined();
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
