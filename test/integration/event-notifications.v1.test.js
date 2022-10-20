@@ -564,7 +564,7 @@ describe('EventNotificationsV1_integration', () => {
         website_url: 'https://cloud.ibm.com',
         api_key: 'efwewerwerkwer89werj',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -594,7 +594,7 @@ describe('EventNotificationsV1_integration', () => {
       params: {
         website_url: 'https://cloud.ibm.com',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -870,7 +870,7 @@ describe('EventNotificationsV1_integration', () => {
         website_url: 'https://cloud.ibm.com',
         api_key: 'efwewerwerkwer89werj',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -897,7 +897,7 @@ describe('EventNotificationsV1_integration', () => {
       params: {
         website_url: 'https://cloud.ibm.com',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -1361,7 +1361,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(fireRes.result).toBeDefined();
     expect(fireRes.result.name).toBe(name);
     expect(fireRes.result.description).toBe(description);
-    //
+    
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //

@@ -372,13 +372,12 @@ describe('EventNotificationsV1', () => {
     originalLog('createDestination() result:');
     // begin-create_destination
 
-    // DestinationConfigParamsWebhookDestinationConfig
+    // FCM
     const destinationConfigParamsModel = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
-    // FCM
     const destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
@@ -551,7 +550,7 @@ describe('EventNotificationsV1', () => {
         website_url: 'https://cloud.ibm.com',
         api_key: 'efwewerwerkwer89werj',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -579,7 +578,7 @@ describe('EventNotificationsV1', () => {
       params: {
         website_url: 'https://cloud.ibm.com',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -726,7 +725,7 @@ describe('EventNotificationsV1', () => {
       id: destinationId3,
       name,
       description,
-      config: destinationConfigModel,
+      config: webDestinationConfigModel,
     };
 
     try {
@@ -851,7 +850,7 @@ describe('EventNotificationsV1', () => {
         website_url: 'https://cloud.ibm.com',
         api_key: 'efwewerwerkwer89werj',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -877,7 +876,7 @@ describe('EventNotificationsV1', () => {
       params: {
         website_url: 'https://cloud.ibm.com',
         public_key: 'ksddkasjdaksd',
-        preProd: false,
+        pre_prod: false,
       },
     };
 
@@ -968,7 +967,7 @@ describe('EventNotificationsV1', () => {
     params = {
       instanceId,
       name,
-      destinationId3,
+      destinationId: destinationId3,
       topicId,
       attributes: subscriptionCreateAttributesModel,
       description,
