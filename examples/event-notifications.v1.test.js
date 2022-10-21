@@ -1235,7 +1235,7 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-
+    // end-delete_subscription
     const subscriptions = [subscriptionId2, subscriptionId3];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -1250,8 +1250,6 @@ describe('EventNotificationsV1', () => {
         console.warn(err);
       }
     }
-
-    // end-delete_subscription
   });
 
   test('deleteTopic request example', async () => {

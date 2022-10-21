@@ -1361,7 +1361,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(fireRes.result).toBeDefined();
     expect(fireRes.result.name).toBe(name);
     expect(fireRes.result.description).toBe(description);
-    
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
