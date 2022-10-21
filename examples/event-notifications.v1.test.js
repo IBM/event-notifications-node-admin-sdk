@@ -52,10 +52,16 @@ let sourceId = '';
 let topicId = '';
 let destinationId = '';
 let destinationId2 = '';
+let destinationId3 = '';
+let destinationId4 = '';
 let destinationId5 = '';
+let destinationId6 = '';
 let destinationId7 = '';
+let destinationId8 = '';
+let destinationId9 = '';
 let subscriptionId = '';
 let subscriptionId2 = '';
+let subscriptionId3 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -366,22 +372,21 @@ describe('EventNotificationsV1', () => {
     originalLog('createDestination() result:');
     // begin-create_destination
 
-    // DestinationConfigParamsWebhookDestinationConfig
+    // FCM
     const destinationConfigParamsModel = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
-    // DestinationConfig
     const destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
 
-    const params = {
+    let params = {
       instanceId,
-      name: 'GCM_destination',
+      name: 'FCM_destination',
       type: 'push_android',
-      description: 'GCM Destination',
+      description: 'FCM Destination',
       config: destinationConfigModel,
     };
 
@@ -394,6 +399,62 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    // webhook
+    const webDestinationConfigParamsModel = {
+      url: 'https://gcm.com',
+      verb: 'get',
+      custom_headers: { 'Authorization': 'aaa-r-t-fdsfs-55kfjsd-fsdfs' },
+      sensitive_headers: ['Authorization'],
+    };
+
+    const webDestinationConfigModel = {
+      params: webDestinationConfigParamsModel,
+    };
+
+    let name = 'GCM_destination';
+    let description = 'GCM  Destination';
+    let type = 'webhook';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: webDestinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId3 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // slack
+    const destinationConfigModelSlack = {
+      params: {
+        url: 'https://api.slack.com/myslack',
+      },
+    };
+
+    name = 'slack_destination';
+    description = 'Slack Destination';
+    type = 'slack';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelSlack,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId4 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // safari
     const destinationConfigModelSafari = {
       params: {
         cert_type: 'p12',
@@ -413,8 +474,8 @@ describe('EventNotificationsV1', () => {
       console.error(err);
     }
 
-    const description = 'Safari Destination';
-    const type = 'push_safari';
+    description = 'Safari Destination';
+    type = 'push_safari';
     const safariparams = {
       instanceId,
       name: 'safari_destination',
@@ -431,7 +492,32 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+    // MSTeams
+    const destinationConfigModelMSTeams = {
+      params: {
+        url: 'https://teams.microsoft.com',
+      },
+    };
 
+    name = 'MSTeams_destination';
+    description = 'MSTeams Destination';
+    type = 'msteams';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelMSTeams,
+    };
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId6 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // cloud functions
     const destinationConfigModelCloudFunctions = {
       params: {
         url: 'https://www.ibmcfendpoint.com/',
@@ -457,6 +543,64 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    // chrome
+    const destinationConfigModelChrome = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        api_key: 'efwewerwerkwer89werj',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Chrome_destination';
+    description = 'Chrome Destination';
+    type = 'push_chrome';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelChrome,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId8 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // Firefox
+    const destinationConfigModelFirefox = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Firefox_destination';
+    description = 'Firefox Destination';
+    type = 'push_firefox';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelFirefox,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId9 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
     // end-create_destination
   });
 
@@ -540,7 +684,7 @@ describe('EventNotificationsV1', () => {
       sender_id: fcmSenderId,
     };
 
-    // DestinationConfig
+    // FCM
     const destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
@@ -560,7 +704,60 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+    // webhook
+    const webDestinationConfigParamsModel = {
+      url: 'https://cloud.ibm.com/nhwebhook/sendwebhook',
+      verb: 'post',
+      custom_headers: { authorization: 'xxx-tye67-yyy' },
+      sensitive_headers: ['authorization'],
+    };
 
+    const webDestinationConfigModel = {
+      params: webDestinationConfigParamsModel,
+    };
+
+    let name = 'Admin Webhook Compliance';
+    let description =
+      'This destination is for creating admin webhook to receive compliance notifications';
+
+    params = {
+      instanceId,
+      id: destinationId3,
+      name,
+      description,
+      config: webDestinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // slack
+    const destinationConfigModelSlack = {
+      params: {
+        url: 'https://api.slack.com/myslack',
+      },
+    };
+
+    name = 'slack_destination_update';
+    description = 'Slack Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId4,
+      name,
+      description,
+      config: destinationConfigModelSlack,
+    };
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // safari
     const safariDestinationConfigModel = {
       params: {
         cert_type: 'p12',
@@ -572,7 +769,7 @@ describe('EventNotificationsV1', () => {
       },
     };
 
-    const description = 'This Destination is for safari';
+    description = 'This Destination is for safari';
 
     let readStream = '';
     try {
@@ -598,6 +795,31 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    // MSTeams
+    const destinationConfigModelMSTeams = {
+      params: {
+        url: 'https://teams.microsoft.com',
+      },
+    };
+
+    name = 'MSTeams_destination_update';
+    description = 'MSTeams Destination_updated';
+
+    params = {
+      instanceId,
+      id: destinationId6,
+      name,
+      description,
+      config: destinationConfigModelMSTeams,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // cloud functions
     const destinationConfigModelCloudFunctions = {
       params: {
         url: 'https://us-south.functions.test.cloud.ibm.com/api/v1/namespaces/940dfa37-061a-46bd-9781-e584ed4bef18/actions/Action-CF',
@@ -622,6 +844,58 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+    // chrome
+    const destinationConfigModelChrome = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        api_key: 'efwewerwerkwer89werj',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Chrome_destination_update';
+    description = 'Chrome Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId8,
+      name,
+      description,
+      config: destinationConfigModelChrome,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // Firefox
+    const destinationConfigModelFirefox = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Firefox_destination';
+    description = 'Firefox Destination';
+
+    params = {
+      instanceId,
+      id: destinationId9,
+      name,
+      description,
+      config: destinationConfigModelFirefox,
+    };
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 
@@ -640,7 +914,7 @@ describe('EventNotificationsV1', () => {
     const subscriptionDescription = 'Subscription for the FCM';
     // begin-create_subscription
 
-    const params = {
+    let params = {
       instanceId,
       name: subscriptionName,
       destinationId,
@@ -665,21 +939,44 @@ describe('EventNotificationsV1', () => {
       from_name: 'IBM',
     };
 
-    const nameSecond = 'subscription_email';
-    const descriptionSecond = 'Subscription for email';
-    const paramsSecond = {
+    let name = 'subscription_email';
+    let description = 'Subscription for email';
+    params = {
       instanceId,
-      name: nameSecond,
+      name,
       destinationId: destinationId2,
       topicId,
       attributes: subscriptionCreateAttributesModelSecond,
-      description: descriptionSecond,
+      description,
     };
 
     try {
-      res = await eventNotificationsService.createSubscription(paramsSecond);
+      res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
       subscriptionId2 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const subscriptionCreateAttributesModel = {
+      signing_enabled: false,
+    };
+
+    name = 'subscription_web';
+    description = 'Subscription for web';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId3,
+      topicId,
+      attributes: subscriptionCreateAttributesModel,
+      description,
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId3 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -758,7 +1055,7 @@ describe('EventNotificationsV1', () => {
     const subscriptionDescription = 'Update FCM subscription';
     // begin-update_subscription
 
-    const params = {
+    let params = {
       instanceId,
       id: subscriptionId,
       name: subscriptionName,
@@ -791,18 +1088,40 @@ describe('EventNotificationsV1', () => {
       unsubscribed: smsUpdateAttributesToRemove,
     };
 
-    const nameSecond = 'subscription_email';
-    const descriptionSecond = 'Subscription for email';
-    const paramsSecond = {
+    let name = 'subscription_email';
+    let description = 'Subscription for email';
+    params = {
       instanceId,
-      name: nameSecond,
+      name,
       id: subscriptionId2,
       attributes: subscriptionUpdateAttributesModelSecond,
-      description: descriptionSecond,
+      description,
     };
 
     try {
-      res = await eventNotificationsService.updateSubscription(paramsSecond);
+      res = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // webhook
+    const subscriptionUpdateAttributesModel = {
+      signing_enabled: true,
+    };
+
+    name = 'webhook_sub_updated';
+    description = 'Update webhook subscription';
+    params = {
+      instanceId,
+      id: subscriptionId3,
+      name,
+      description,
+      attributes: subscriptionUpdateAttributesModel,
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);
@@ -906,7 +1225,7 @@ describe('EventNotificationsV1', () => {
 
     // begin-delete_subscription
 
-    const params = {
+    let params = {
       instanceId,
       id: subscriptionId,
     };
@@ -916,8 +1235,21 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-
     // end-delete_subscription
+    const subscriptions = [subscriptionId2, subscriptionId3];
+
+    for (let i = 0; i < subscriptions.length; i += 1) {
+      params = {
+        instanceId,
+        id: subscriptions[i],
+      };
+
+      try {
+        await eventNotificationsService.deleteSubscription(params);
+      } catch (err) {
+        console.warn(err);
+      }
+    }
   });
 
   test('deleteTopic request example', async () => {
@@ -968,28 +1300,30 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-
-    params = {
-      instanceId,
-      id: destinationId5,
-    };
-    try {
-      await eventNotificationsService.deleteDestination(params);
-    } catch (err) {
-      console.warn(err);
-    }
-
-    params = {
-      instanceId,
-      id: destinationId7,
-    };
-    try {
-      await eventNotificationsService.deleteDestination(params);
-    } catch (err) {
-      console.warn(err);
-    }
-
     // end-delete_destination
+
+    const destinations = [
+      destinationId3,
+      destinationId4,
+      destinationId5,
+      destinationId6,
+      destinationId7,
+      destinationId8,
+      destinationId9,
+    ];
+
+    for (let i = 0; i < destinations.length; i += 1) {
+      params = {
+        instanceId,
+        id: destinations[i],
+      };
+
+      try {
+        await eventNotificationsService.deleteDestination(params);
+      } catch (err) {
+        console.warn(err);
+      }
+    }
   });
 
   test('deleteSource request example', async () => {

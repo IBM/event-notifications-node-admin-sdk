@@ -44,12 +44,18 @@ let destinationId4 = '';
 let destinationId5 = '';
 let destinationId6 = '';
 let destinationId7 = '';
+let destinationId8 = '';
+let destinationId9 = '';
 
 let subscriptionId = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
-const subscriptionId4 = '';
-
+let subscriptionId4 = '';
+let subscriptionId5 = '';
+let subscriptionId6 = '';
+let subscriptionId7 = '';
+let subscriptionId8 = '';
+let subscriptionId9 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -369,7 +375,6 @@ describe('EventNotificationsV1_integration', () => {
       sensitive_headers: ['Authorization'],
     };
 
-    // DestinationConfig
     const destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
@@ -395,14 +400,13 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
     destinationId = res.result.id;
 
-    // second destination
+    // FCM
 
     const destinationConfigParamsModelFCM = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
-    // DestinationConfig
     const destinationConfigModelFCM = {
       params: destinationConfigParamsModelFCM,
     };
@@ -456,6 +460,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(resslack.result.description).toBe(description);
     destinationId4 = resslack.result.id;
 
+    // Safari
     const destinationConfigModelSafari = {
       params: {
         cert_type: 'p12',
@@ -553,6 +558,67 @@ describe('EventNotificationsV1_integration', () => {
     expect(rescloudfunctions.result.description).toBe(description);
     destinationId7 = rescloudfunctions.result.id;
 
+    // chrome
+    const destinationConfigModelChrome = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        api_key: 'efwewerwerkwer89werj',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Chrome_destination';
+    description = 'Chrome Destination';
+    type = 'push_chrome';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelChrome,
+    };
+
+    const resChrome = await eventNotificationsService.createDestination(params);
+    expect(resChrome).toBeDefined();
+    expect(resChrome.status).toBe(201);
+    expect(resChrome.result).toBeDefined();
+
+    expect(resChrome.result.type).toBe(type);
+    expect(resChrome.result.name).toBe(name);
+    expect(resChrome.result.description).toBe(description);
+    destinationId8 = resChrome.result.id;
+
+    // Firefox
+    const destinationConfigModelFirefox = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Firefox_destination';
+    description = 'Firefox Destination';
+    type = 'push_firefox';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelFirefox,
+    };
+
+    const fireRes = await eventNotificationsService.createDestination(params);
+    expect(fireRes).toBeDefined();
+    expect(fireRes.status).toBe(201);
+    expect(fireRes.result).toBeDefined();
+
+    expect(fireRes.result.type).toBe(type);
+    expect(fireRes.result.name).toBe(name);
+    expect(fireRes.result.description).toBe(description);
+    destinationId9 = fireRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -631,7 +697,6 @@ describe('EventNotificationsV1_integration', () => {
       sensitive_headers: ['authorization'],
     };
     let readStream = '';
-    // DestinationConfig
     const destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
@@ -655,6 +720,60 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
 
+    // FCM
+    const destinationConfigParamsModelFCM = {
+      server_key: fcmServerKey,
+      sender_id: fcmSenderId,
+    };
+
+    const destinationConfigModelFCM = {
+      params: destinationConfigParamsModelFCM,
+    };
+
+    name = 'FCM_destination_update';
+    description = 'FCM Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId3,
+      name,
+      description,
+      config: destinationConfigModelFCM,
+    };
+
+    const fcmRes = await eventNotificationsService.updateDestination(params);
+    expect(fcmRes).toBeDefined();
+    expect(fcmRes.status).toBe(200);
+    expect(fcmRes.result).toBeDefined();
+    expect(fcmRes.result.name).toBe(name);
+    expect(fcmRes.result.description).toBe(description);
+
+    // slack
+    const destinationConfigModelSlack = {
+      params: {
+        url: 'https://api.slack.com/myslack',
+      },
+    };
+
+    name = 'slack_destination_update';
+    description = 'Slack Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId4,
+      name,
+      description,
+      config: destinationConfigModelSlack,
+    };
+
+    const slackRes = await eventNotificationsService.updateDestination(params);
+    expect(slackRes).toBeDefined();
+    expect(slackRes.status).toBe(200);
+    expect(slackRes.result).toBeDefined();
+    expect(slackRes.result.name).toBe(name);
+    expect(slackRes.result.description).toBe(description);
+
+    // safari
     const safariDestinationConfigModel = {
       params: {
         cert_type: 'p12',
@@ -692,12 +811,37 @@ describe('EventNotificationsV1_integration', () => {
     expect(safariRes.result.name).toBe(name);
     expect(safariRes.result.description).toBe(description);
 
+    // MSTeams
+    const destinationConfigModelMSTeams = {
+      params: {
+        url: 'https://teams.microsoft.com',
+      },
+    };
+
+    name = 'MSTeams_destination_update';
+    description = 'MSTeams Destination_updated';
+
+    params = {
+      instanceId,
+      id: destinationId6,
+      name,
+      description,
+      config: destinationConfigModelMSTeams,
+    };
+
+    const teamsRes = await eventNotificationsService.updateDestination(params);
+    expect(teamsRes).toBeDefined();
+    expect(teamsRes.status).toBe(200);
+    expect(teamsRes.result).toBeDefined();
+    expect(teamsRes.result.name).toBe(name);
+    expect(teamsRes.result.description).toBe(description);
+
+    // cloud functions
     const cfDestinationConfigParamsModel = {
       url: 'https://www.ibmcfendpoint.com/',
       api_key: 'sdfknlsnfoejfwprpweoporw89',
     };
 
-    // DestinationConfig
     const cfDestinationConfigModel = {
       params: cfDestinationConfigParamsModel,
     };
@@ -720,6 +864,61 @@ describe('EventNotificationsV1_integration', () => {
     expect(cloudFcuntionsRes.result.name).toBe(name);
     expect(cloudFcuntionsRes.result.description).toBe(description);
 
+    // Chrome
+    const destinationConfigModelChrome = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        api_key: 'efwewerwerkwer89werj',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Chrome_destination_update';
+    description = 'Chrome Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId8,
+      name,
+      description,
+      config: destinationConfigModelChrome,
+    };
+
+    const chromeRes = await eventNotificationsService.updateDestination(params);
+    expect(chromeRes).toBeDefined();
+    expect(chromeRes.status).toBe(200);
+    expect(chromeRes.result).toBeDefined();
+    expect(chromeRes.result.name).toBe(name);
+    expect(chromeRes.result.description).toBe(description);
+
+    // Firefox
+    const destinationConfigModelFirefox = {
+      params: {
+        website_url: 'https://cloud.ibm.com',
+        public_key: 'ksddkasjdaksd',
+        pre_prod: false,
+      },
+    };
+
+    name = 'Firefox_destination';
+    description = 'Firefox Destination';
+
+    params = {
+      instanceId,
+      id: destinationId9,
+      name,
+      description,
+      config: destinationConfigModelFirefox,
+    };
+
+    const fireRes = await eventNotificationsService.updateDestination(params);
+    expect(fireRes).toBeDefined();
+    expect(fireRes.status).toBe(200);
+    expect(fireRes.result).toBeDefined();
+    expect(fireRes.result.name).toBe(name);
+    expect(fireRes.result.description).toBe(description);
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -736,13 +935,14 @@ describe('EventNotificationsV1_integration', () => {
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
+    // webhook
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
     };
 
-    const name = 'subscription_web';
-    const description = 'Subscription for web';
-    const params = {
+    let name = 'subscription_web';
+    let description = 'Subscription for web';
+    let params = {
       instanceId,
       name,
       destinationId,
@@ -759,7 +959,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
     subscriptionId = res.result.id;
 
-    // second subscription
+    // Email
     const subscriptionCreateAttributesModelSecond = {
       invited: ['tester1@gmail.com', 'tester3@ibm.com'],
       add_notification_payload: true,
@@ -768,42 +968,157 @@ describe('EventNotificationsV1_integration', () => {
       from_name: 'IBM',
     };
 
-    let nameSecond = 'subscription_email';
-    let descriptionSecond = 'Subscription for email';
-    let paramsSecond = {
+    name = 'subscription_email';
+    description = 'Subscription for email';
+    params = {
       instanceId,
-      name: nameSecond,
+      name,
       destinationId: destinationId2,
       topicId,
       attributes: subscriptionCreateAttributesModelSecond,
-      description: descriptionSecond,
+      description,
     };
 
-    const resSecond = await eventNotificationsService.createSubscription(paramsSecond);
+    const resSecond = await eventNotificationsService.createSubscription(params);
     expect(resSecond).toBeDefined();
     expect(resSecond.status).toBe(201);
     expect(resSecond.result).toBeDefined();
-    expect(resSecond.result.name).toBe(nameSecond);
-    expect(resSecond.result.description).toBe(descriptionSecond);
+    expect(resSecond.result.name).toBe(name);
+    expect(resSecond.result.description).toBe(description);
     subscriptionId2 = resSecond.result.id;
 
-    nameSecond = 'FCM subscription';
-    descriptionSecond = 'Subscription for the FCM';
-    paramsSecond = {
+    // FCM
+    name = 'FCM subscription';
+    description = 'Subscription for the FCM';
+    params = {
       instanceId,
-      name: nameSecond,
+      name,
       destinationId: destinationId3,
       topicId: topicId3,
-      description: descriptionSecond,
+      description,
     };
 
-    const resThird = await eventNotificationsService.createSubscription(paramsSecond);
+    const resThird = await eventNotificationsService.createSubscription(params);
     expect(resThird).toBeDefined();
     expect(resThird.status).toBe(201);
     expect(resThird.result).toBeDefined();
-    expect(resThird.result.name).toBe(nameSecond);
-    expect(resThird.result.description).toBe(descriptionSecond);
+    expect(resThird.result.name).toBe(name);
+    expect(resThird.result.description).toBe(description);
     subscriptionId3 = resThird.result.id;
+
+    // slack
+    name = 'slack subscription';
+    description = 'Subscription for the slack';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId4,
+      topicId,
+      description,
+    };
+
+    const slackRes = await eventNotificationsService.createSubscription(params);
+    expect(slackRes).toBeDefined();
+    expect(slackRes.status).toBe(201);
+    expect(slackRes.result).toBeDefined();
+    expect(slackRes.result.name).toBe(name);
+    expect(slackRes.result.description).toBe(description);
+    subscriptionId4 = slackRes.result.id;
+
+    // safari
+    name = 'safari subscription';
+    description = 'Subscription for the safari';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId5,
+      topicId,
+      description,
+    };
+
+    const safariRes = await eventNotificationsService.createSubscription(params);
+    expect(safariRes).toBeDefined();
+    expect(safariRes.status).toBe(201);
+    expect(safariRes.result).toBeDefined();
+    expect(safariRes.result.name).toBe(name);
+    expect(safariRes.result.description).toBe(description);
+    subscriptionId5 = safariRes.result.id;
+
+    // MSTeams
+    name = 'MSTeams subscription';
+    description = 'Subscription for the MSTeams';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId6,
+      topicId,
+      description,
+    };
+
+    const teamsRes = await eventNotificationsService.createSubscription(params);
+    expect(teamsRes).toBeDefined();
+    expect(teamsRes.status).toBe(201);
+    expect(teamsRes.result).toBeDefined();
+    expect(teamsRes.result.name).toBe(name);
+    expect(teamsRes.result.description).toBe(description);
+    subscriptionId6 = teamsRes.result.id;
+
+    // cloudfunctions
+    name = 'cloud functions subscription';
+    description = 'Subscription for the cloud functions';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId7,
+      topicId,
+      description,
+    };
+
+    const cfRes = await eventNotificationsService.createSubscription(params);
+    expect(cfRes).toBeDefined();
+    expect(cfRes.status).toBe(201);
+    expect(cfRes.result).toBeDefined();
+    expect(cfRes.result.name).toBe(name);
+    expect(cfRes.result.description).toBe(description);
+    subscriptionId7 = cfRes.result.id;
+
+    // chrome
+    name = 'chrome subscription';
+    description = 'Subscription for the chrome';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId8,
+      topicId,
+      description,
+    };
+
+    const chromeRes = await eventNotificationsService.createSubscription(params);
+    expect(chromeRes).toBeDefined();
+    expect(chromeRes.status).toBe(201);
+    expect(chromeRes.result).toBeDefined();
+    expect(chromeRes.result.name).toBe(name);
+    expect(chromeRes.result.description).toBe(description);
+    subscriptionId8 = chromeRes.result.id;
+
+    // Firefox
+    name = 'Firefox subscription';
+    description = 'Subscription for the Firefox';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId9,
+      topicId,
+      description,
+    };
+
+    const fireRes = await eventNotificationsService.createSubscription(params);
+    expect(fireRes).toBeDefined();
+    expect(fireRes.status).toBe(201);
+    expect(fireRes.result).toBeDefined();
+    expect(fireRes.result.name).toBe(name);
+    expect(fireRes.result.description).toBe(description);
+    subscriptionId9 = fireRes.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -870,14 +1185,14 @@ describe('EventNotificationsV1_integration', () => {
   test('updateSubscription()', async () => {
     // Request models needed by this operation.
 
-    // SubscriptionUpdateAttributesSMSAttributes
+    // webhook
     const subscriptionUpdateAttributesModel = {
       signing_enabled: true,
     };
 
-    const name = 'GCM_sub_updated';
-    const description = 'Update GCM subscription';
-    const params = {
+    let name = 'GCM_sub_updated';
+    let description = 'Update GCM subscription';
+    let params = {
       instanceId,
       id: subscriptionId,
       name,
@@ -892,6 +1207,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
 
+    // email
     const smsUpdateAttributesInvited = {
       add: ['tester4@ibm.com'],
     };
@@ -926,9 +1242,126 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result).toBeDefined();
     expect(resSecond.result.name).toBe(nameSecond);
     expect(resSecond.result.description).toBe(descriptionSecond);
-    subscriptionId2 = resSecond.result.id;
 
-    //
+    // FCM
+    name = 'FCM subscription update';
+    description = 'Subscription for the FCM update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId3,
+      description,
+    };
+
+    const fcmRes = await eventNotificationsService.updateSubscription(params);
+    expect(fcmRes).toBeDefined();
+    expect(fcmRes.status).toBe(200);
+    expect(fcmRes.result).toBeDefined();
+    expect(fcmRes.result.name).toBe(name);
+    expect(fcmRes.result.description).toBe(description);
+
+    // slack
+    name = 'slack subscription update';
+    description = 'Subscription for the slack update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId4,
+      description,
+    };
+
+    const slackRes = await eventNotificationsService.updateSubscription(params);
+    expect(slackRes).toBeDefined();
+    expect(slackRes.status).toBe(200);
+    expect(slackRes.result).toBeDefined();
+    expect(slackRes.result.name).toBe(name);
+    expect(slackRes.result.description).toBe(description);
+
+    // safari
+    name = 'safari subscription update';
+    description = 'Subscription for the safari update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId5,
+      description,
+    };
+
+    const safariRes = await eventNotificationsService.updateSubscription(params);
+    expect(safariRes).toBeDefined();
+    expect(safariRes.status).toBe(200);
+    expect(safariRes.result).toBeDefined();
+    expect(safariRes.result.name).toBe(name);
+    expect(safariRes.result.description).toBe(description);
+
+    // MSTeams
+    name = 'MSTeams subscription update';
+    description = 'Subscription for the MSTeams update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId6,
+      description,
+    };
+
+    const teamsRes = await eventNotificationsService.updateSubscription(params);
+    expect(teamsRes).toBeDefined();
+    expect(teamsRes.status).toBe(200);
+    expect(teamsRes.result).toBeDefined();
+    expect(teamsRes.result.name).toBe(name);
+    expect(teamsRes.result.description).toBe(description);
+
+    // cloud functions
+    name = 'cloud funstions subscription update';
+    description = 'Subscription for the cloud functions update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId7,
+      description,
+    };
+
+    const cfRes = await eventNotificationsService.updateSubscription(params);
+    expect(cfRes).toBeDefined();
+    expect(cfRes.status).toBe(200);
+    expect(cfRes.result).toBeDefined();
+    expect(cfRes.result.name).toBe(name);
+    expect(cfRes.result.description).toBe(description);
+
+    // chrome
+    name = 'chrome subscription update';
+    description = 'Subscription for the chrome update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId8,
+      description,
+    };
+
+    const chromeRes = await eventNotificationsService.updateSubscription(params);
+    expect(chromeRes).toBeDefined();
+    expect(chromeRes.status).toBe(200);
+    expect(chromeRes.result).toBeDefined();
+    expect(chromeRes.result.name).toBe(name);
+    expect(chromeRes.result.description).toBe(description);
+
+    // Firefox
+    name = 'cloud funstions subscription update';
+    description = 'Subscription for the cloud functions update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId9,
+      description,
+    };
+
+    const fireRes = await eventNotificationsService.updateSubscription(params);
+    expect(fireRes).toBeDefined();
+    expect(fireRes.status).toBe(200);
+    expect(fireRes.result).toBeDefined();
+    expect(fireRes.result.name).toBe(name);
+    expect(fireRes.result.description).toBe(description);
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -1202,7 +1635,17 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('deleteSubscription()', async () => {
-    const subscriptions = [subscriptionId, subscriptionId2, subscriptionId3];
+    const subscriptions = [
+      subscriptionId,
+      subscriptionId2,
+      subscriptionId3,
+      subscriptionId4,
+      subscriptionId5,
+      subscriptionId6,
+      subscriptionId7,
+      subscriptionId8,
+      subscriptionId9,
+    ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
       const params = {
@@ -1273,6 +1716,8 @@ describe('EventNotificationsV1_integration', () => {
       destinationId5,
       destinationId6,
       destinationId7,
+      destinationId8,
+      destinationId9,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
