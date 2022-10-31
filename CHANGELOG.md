@@ -1,3 +1,10 @@
+## [0.1.7](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.6...v0.1.7) (2022-10-31)
+
+
+### Bug Fixes
+
+* sms opt in changes ([13f0c1c](https://github.com/IBM/event-notifications-node-admin-sdk/commit/13f0c1c9bd7016ced962066a819b760eff8f1b0a))
+
 ## [0.1.6](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.5...v0.1.6) (2022-10-18)
 
 
