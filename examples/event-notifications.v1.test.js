@@ -1324,7 +1324,7 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-delete_subscription
-    const subscriptions = [subscriptionId2, subscriptionId3];
+    const subscriptions = [subscriptionId1, subscriptionId2, subscriptionId3];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
       params = {
