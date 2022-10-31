@@ -2476,7 +2476,7 @@ describe('EventNotificationsV1', () => {
 
       // SubscriptionCreateAttributesSMSAttributes
       const subscriptionCreateAttributesModel = {
-        to: ['testString'],
+        invited: ['testString'],
       };
 
       function __createSubscriptionTest() {
@@ -2927,9 +2927,14 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // SMSupdateAttributesTo
-      const smSupdateAttributesToModel = {
+      // UpdateAttributesInvited
+      const updateAttributesInvitedModel = {
         add: ['testString'],
+        remove: ['testString'],
+      };
+
+      // UpdateAttributesSubscribed
+      const updateAttributesSubscribedModel = {
         remove: ['testString'],
       };
 
@@ -2940,7 +2945,8 @@ describe('EventNotificationsV1', () => {
 
       // SubscriptionUpdateAttributesSMSUpdateAttributes
       const subscriptionUpdateAttributesModel = {
-        to: smSupdateAttributesToModel,
+        invited: updateAttributesInvitedModel,
+        subscribed: updateAttributesSubscribedModel,
         unsubscribed: updateAttributesUnsubscribedModel,
       };
 

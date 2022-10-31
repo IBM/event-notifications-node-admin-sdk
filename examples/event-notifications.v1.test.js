@@ -51,6 +51,7 @@ const topicName = 'Admin Topic Compliance';
 let sourceId = '';
 let topicId = '';
 let destinationId = '';
+let destinationId1 = '';
 let destinationId2 = '';
 let destinationId3 = '';
 let destinationId4 = '';
@@ -60,6 +61,7 @@ let destinationId7 = '';
 let destinationId8 = '';
 let destinationId9 = '';
 let subscriptionId = '';
+let subscriptionId1 = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
 let fcmServerKey = '';
@@ -617,7 +619,7 @@ describe('EventNotificationsV1', () => {
     originalLog('listDestinations() result:');
     // begin-list_destinations
 
-    const params = {
+    let params = {
       instanceId,
     };
 
@@ -630,10 +632,41 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-list_destinations
-    const destination = res.result.destinations[0];
-    if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
-      destinationId2 = destination.id;
-    }
+    let offset = 0;
+    const limit = 1;
+    let hasMore = true;
+    const search = '';
+    do {
+      params = {
+        instanceId,
+        limit,
+        offset,
+        search,
+      };
+
+      res = await eventNotificationsService.listDestinations(params);
+      expect(res).toBeDefined();
+      expect(res.status).toBe(200);
+      expect(res.result).toBeDefined();
+
+      const destination = res.result.destinations[0];
+      if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
+        destinationId2 = destination.id;
+        if (destinationId1 !== '') {
+          break;
+        }
+      }
+      if (destination.type === 'sms_ibm') {
+        destinationId1 = destination.id;
+        if (destinationId2 !== '') {
+          break;
+        }
+      }
+      offset += 1;
+      if (res.result.total_count <= offset) {
+        hasMore = false;
+      }
+    } while (hasMore);
   });
 
   test('getDestination request example', async () => {
@@ -958,6 +991,29 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const subscriptionCreateAttributesModelSMS = {
+      invited: ['+12064563059', '+12267054625'],
+    };
+
+    name = 'subscription_sms';
+    description = 'Subscription for sms';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId1,
+      topicId,
+      attributes: subscriptionCreateAttributesModelSMS,
+      description,
+    };
+
+    const resSMS = await eventNotificationsService.createSubscription(params);
+    expect(resSMS).toBeDefined();
+    expect(resSMS.status).toBe(201);
+    expect(resSMS.result).toBeDefined();
+    expect(resSMS.result.name).toBe(name);
+    expect(resSMS.result.description).toBe(description);
+    subscriptionId1 = resSMS.result.id;
+
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
     };
@@ -1070,22 +1126,22 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    const smSupdateAttributesInvited = {
+    const emailUpdateAttributesInvited = {
       add: ['tester4@ibm.com'],
     };
 
-    const smsUpdateAttributesToRemove = {
+    const emailUpdateAttributesToRemove = {
       remove: ['tester3@ibm.com'],
     };
 
     const subscriptionUpdateAttributesModelSecond = {
-      invited: smSupdateAttributesInvited,
+      invited: emailUpdateAttributesInvited,
       add_notification_payload: true,
       reply_to_mail: 'tester1@gmail.com',
       reply_to_name: 'US news',
       from_name: 'IBM',
-      subscribed: smsUpdateAttributesToRemove,
-      unsubscribed: smsUpdateAttributesToRemove,
+      subscribed: emailUpdateAttributesToRemove,
+      unsubscribed: emailUpdateAttributesToRemove,
     };
 
     let name = 'subscription_email';
@@ -1104,6 +1160,38 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    // SMS
+    const smsUpdateAttributesInvited = {
+      add: ['+12064512559'],
+    };
+
+    const smsUpdateAttributesToRemove = {
+      remove: ['+12064512559'],
+    };
+
+    const subscriptionUpdateAttributesModelSMS = {
+      invited: smsUpdateAttributesInvited,
+      subscribed: smsUpdateAttributesToRemove,
+      unsubscribed: smsUpdateAttributesToRemove,
+    };
+
+    const nameSMS = 'subscription_sms_update';
+    const descriptionSMS = 'Subscription for sms update';
+    params = {
+      instanceId,
+      name: nameSMS,
+      id: subscriptionId1,
+      attributes: subscriptionUpdateAttributesModelSMS,
+      description: descriptionSMS,
+    };
+
+    const resSMS = await eventNotificationsService.updateSubscription(params);
+    expect(resSMS).toBeDefined();
+    expect(resSMS.status).toBe(200);
+    expect(resSMS.result).toBeDefined();
+    expect(resSMS.result.name).toBe(nameSMS);
+    expect(resSMS.result.description).toBe(descriptionSMS);
 
     // webhook
     const subscriptionUpdateAttributesModel = {

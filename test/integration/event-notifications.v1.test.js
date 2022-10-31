@@ -38,6 +38,7 @@ let topicId = '';
 let topicId2 = '';
 let topicId3 = '';
 let destinationId = '';
+let destinationId1 = '';
 let destinationId2 = '';
 let destinationId3 = '';
 let destinationId4 = '';
@@ -48,6 +49,7 @@ let destinationId8 = '';
 let destinationId9 = '';
 
 let subscriptionId = '';
+let subscriptionId1 = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
 let subscriptionId4 = '';
@@ -651,6 +653,15 @@ describe('EventNotificationsV1_integration', () => {
       const destination = res.result.destinations[0];
       if (destination.id !== destinationId && destination.type === 'smtp_ibm') {
         destinationId2 = destination.id;
+        if (destinationId1 !== '') {
+          break;
+        }
+      }
+      if (destination.type === 'sms_ibm') {
+        destinationId1 = destination.id;
+        if (destinationId2 !== '') {
+          break;
+        }
       }
       offset += 1;
       if (res.result.total_count <= offset) {
@@ -959,6 +970,30 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
     subscriptionId = res.result.id;
 
+    // SMS
+    const subscriptionCreateAttributesModelSMS = {
+      invited: ['+12064563059', '+12267054625'],
+    };
+
+    name = 'subscription_sms';
+    description = 'Subscription for sms';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId1,
+      topicId,
+      attributes: subscriptionCreateAttributesModelSMS,
+      description,
+    };
+
+    const resSMS = await eventNotificationsService.createSubscription(params);
+    expect(resSMS).toBeDefined();
+    expect(resSMS.status).toBe(201);
+    expect(resSMS.result).toBeDefined();
+    expect(resSMS.result.name).toBe(name);
+    expect(resSMS.result.description).toBe(description);
+    subscriptionId1 = resSMS.result.id;
+
     // Email
     const subscriptionCreateAttributesModelSecond = {
       invited: ['tester1@gmail.com', 'tester3@ibm.com'],
@@ -1207,23 +1242,55 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
 
-    // email
+    // SMS
     const smsUpdateAttributesInvited = {
-      add: ['tester4@ibm.com'],
+      add: ['+12064512559'],
     };
 
     const smsUpdateAttributesToRemove = {
+      remove: ['+12064512559'],
+    };
+
+    const subscriptionUpdateAttributesModelSMS = {
+      invited: smsUpdateAttributesInvited,
+      subscribed: smsUpdateAttributesToRemove,
+      unsubscribed: smsUpdateAttributesToRemove,
+    };
+
+    const nameSMS = 'subscription_sms_update';
+    const descriptionSMS = 'Subscription for sms update';
+    params = {
+      instanceId,
+      name: nameSMS,
+      id: subscriptionId1,
+      attributes: subscriptionUpdateAttributesModelSMS,
+      description: descriptionSMS,
+    };
+
+    const resSMS = await eventNotificationsService.updateSubscription(params);
+    expect(resSMS).toBeDefined();
+    expect(resSMS.status).toBe(200);
+    expect(resSMS.result).toBeDefined();
+    expect(resSMS.result.name).toBe(nameSMS);
+    expect(resSMS.result.description).toBe(descriptionSMS);
+
+    // email
+    const emailUpdateAttributesInvited = {
+      add: ['tester4@ibm.com'],
+    };
+
+    const emailUpdateAttributesToRemove = {
       remove: ['tester3@ibm.com'],
     };
 
     const subscriptionUpdateAttributesModelSecond = {
-      invited: smsUpdateAttributesInvited,
+      invited: emailUpdateAttributesInvited,
       add_notification_payload: true,
       reply_to_mail: 'tester1@gmail.com',
       reply_to_name: 'US news',
       from_name: 'IBM',
-      subscribed: smsUpdateAttributesToRemove,
-      unsubscribed: smsUpdateAttributesToRemove,
+      subscribed: emailUpdateAttributesToRemove,
+      unsubscribed: emailUpdateAttributesToRemove,
     };
 
     const nameSecond = 'subscription_email';
@@ -1637,6 +1704,7 @@ describe('EventNotificationsV1_integration', () => {
   test('deleteSubscription()', async () => {
     const subscriptions = [
       subscriptionId,
+      subscriptionId1,
       subscriptionId2,
       subscriptionId3,
       subscriptionId4,
