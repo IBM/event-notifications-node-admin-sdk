@@ -2346,19 +2346,21 @@ namespace EventNotificationsV1 {
   }
 
   /** The sms attributes. */
-  export interface SMAttributesItems {
+  export interface SMSAttributesItems {
     /** Phone number. */
     phone_number?: string;
     /** last updated time. */
-    time?: string;
+    updated_at?: string;
   }
 
-  /** The phone number to send the SMS to. */
-  export interface SMSupdateAttributesTo {
-    /** array to add new items. */
-    add?: string[];
-    /** array to add new items. */
-    remove?: string[];
+  /** The sms attributes. */
+  export interface SMSInviteAttributesItems {
+    /** Phone number. */
+    phone_number?: string;
+    /** last updated time. */
+    updated_at?: string;
+    /** time of expiration. */
+    expires_at?: string;
   }
 
   /** Payload describing a source generate request. */
@@ -2628,21 +2630,21 @@ namespace EventNotificationsV1 {
 
   /** The email ids or phone numbers. */
   export interface UpdateAttributesInvited {
-    /** The email ids or phone numbers. */
+    /** The email ids or phone numbers to be invited. */
     add?: string[];
-    /** The email ids for removal. */
+    /** The email ids or phone numbers for removal. */
     remove?: string[];
   }
 
-  /** The email ids or phone number. */
+  /** The email ids or phone numbers. */
   export interface UpdateAttributesSubscribed {
-    /** The email ids or phone number unsubscribed. */
+    /** The email ids or phone numbers to be unsubscribed. */
     remove?: string[];
   }
 
-  /** The phone number or Email id to send the SMS/email to. */
+  /** The email ids or phone numbers. */
   export interface UpdateAttributesUnsubscribed {
-    /** array to add new items. */
+    /** The email ids or phone numbers to be unsubscribed. */
     remove?: string[];
   }
 
@@ -2768,11 +2770,11 @@ namespace EventNotificationsV1 {
   /** SMS attributes object. */
   export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
     /** The subscribed list. */
-    to: SMAttributesItems[];
+    subscribed?: SMSAttributesItems[];
     /** The unsubscribe list. */
-    unsubscribed?: SMAttributesItems[];
+    unsubscribed?: SMSAttributesItems[];
     /** The email id string. */
-    invited?: SMAttributesItems[];
+    invited?: SMSInviteAttributesItems[];
   }
 
   /** The attributes for a slack notification. */
@@ -2810,7 +2812,7 @@ namespace EventNotificationsV1 {
   /** The attributes for an sms notification. */
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
     /** The sms id string. */
-    to: string[];
+    invited: string[];
   }
 
   /** The attributes for a slack notification. */
@@ -2840,18 +2842,20 @@ namespace EventNotificationsV1 {
     reply_to_name: string;
     /** The email name of From. */
     from_name: string;
-    /** The email ids or phone number. */
+    /** The email ids or phone numbers. */
     subscribed?: UpdateAttributesSubscribed;
-    /** The phone number or Email id to send the SMS/email to. */
+    /** The email ids or phone numbers. */
     unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
   /** SMS attributes object. */
   export interface SubscriptionUpdateAttributesSMSUpdateAttributes
     extends SubscriptionUpdateAttributes {
-    /** The phone number to send the SMS to. */
-    to?: SMSupdateAttributesTo;
-    /** The phone number or Email id to send the SMS/email to. */
+    /** The email ids or phone numbers. */
+    invited?: UpdateAttributesInvited;
+    /** The email ids or phone numbers. */
+    subscribed?: UpdateAttributesSubscribed;
+    /** The email ids or phone numbers. */
     unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
