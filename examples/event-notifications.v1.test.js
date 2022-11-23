@@ -60,6 +60,7 @@ let destinationId6 = '';
 let destinationId7 = '';
 let destinationId8 = '';
 let destinationId9 = '';
+let destinationId10 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -603,6 +604,30 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const destinationConfigModelPagerDuty = {
+      params: {
+        api_key: 'sdjnaskjdajsdnaksnd',
+        routing_key: 'ksddkasjdaksd',
+      },
+    };
+
+    name = 'PagerDuty_destination';
+    description = 'Pager Duty Destination';
+    type = 'pagerduty';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelPagerDuty,
+    };
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId10 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -923,6 +948,31 @@ describe('EventNotificationsV1', () => {
       description,
       config: destinationConfigModelFirefox,
     };
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationConfigModelPagerDuty = {
+      params: {
+        api_key: 'asdsaasakjbdakjsdaksjda',
+        routing_key: 'ksddkasjdaksdsdsf',
+      },
+    };
+
+    name = 'Pager_Duty_destination';
+    description = 'PagerDuty Destination';
+
+    params = {
+      instanceId,
+      id: destinationId10,
+      name,
+      description,
+      config: destinationConfigModelPagerDuty,
+    };
+
     try {
       res = await eventNotificationsService.updateDestination(params);
       console.log(JSON.stringify(res.result, null, 2));
@@ -1398,6 +1448,7 @@ describe('EventNotificationsV1', () => {
       destinationId7,
       destinationId8,
       destinationId9,
+      destinationId10,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

@@ -47,6 +47,7 @@ let destinationId6 = '';
 let destinationId7 = '';
 let destinationId8 = '';
 let destinationId9 = '';
+let destinationId10 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -58,6 +59,7 @@ let subscriptionId6 = '';
 let subscriptionId7 = '';
 let subscriptionId8 = '';
 let subscriptionId9 = '';
+let subscriptionId10 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -621,6 +623,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(fireRes.result.description).toBe(description);
     destinationId9 = fireRes.result.id;
 
+    // Pager Duty
+    const destinationConfigModelPagerDuty = {
+      params: {
+        api_key: 'sdjnaskjdajsdnaksnd',
+        routing_key: 'ksddkasjdaksd',
+      },
+    };
+
+    name = 'PagerDuty_destination';
+    description = 'Pager Duty Destination';
+    type = 'pagerduty';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelPagerDuty,
+    };
+
+    const pdRes = await eventNotificationsService.createDestination(params);
+    expect(pdRes).toBeDefined();
+    expect(pdRes.status).toBe(201);
+    expect(pdRes.result).toBeDefined();
+
+    expect(pdRes.result.type).toBe(type);
+    expect(pdRes.result.name).toBe(name);
+    expect(pdRes.result.description).toBe(description);
+    destinationId10 = pdRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -930,6 +960,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(fireRes.result.name).toBe(name);
     expect(fireRes.result.description).toBe(description);
 
+    // PagerDuty
+    const destinationConfigModelPagerDuty = {
+      params: {
+        api_key: 'asdsaasakjbdakjsdaksjda',
+        routing_key: 'ksddkasjdaksdsdsf',
+      },
+    };
+
+    name = 'Pager_Duty_destination';
+    description = 'PagerDuty Destination';
+
+    params = {
+      instanceId,
+      id: destinationId10,
+      name,
+      description,
+      config: destinationConfigModelPagerDuty,
+    };
+
+    const pdRes = await eventNotificationsService.updateDestination(params);
+    expect(pdRes).toBeDefined();
+    expect(pdRes.status).toBe(200);
+    expect(pdRes.result).toBeDefined();
+    expect(pdRes.result.name).toBe(name);
+    expect(pdRes.result.description).toBe(description);
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1155,6 +1210,24 @@ describe('EventNotificationsV1_integration', () => {
     expect(fireRes.result.description).toBe(description);
     subscriptionId9 = fireRes.result.id;
 
+    // PagerDuty
+    name = 'PagerDuty subscription';
+    description = 'Subscription for the PagerDuty';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId10,
+      topicId,
+      description,
+    };
+
+    const pdRes = await eventNotificationsService.createSubscription(params);
+    expect(pdRes).toBeDefined();
+    expect(pdRes.status).toBe(201);
+    expect(pdRes.result).toBeDefined();
+    expect(pdRes.result.name).toBe(name);
+    expect(pdRes.result.description).toBe(description);
+    subscriptionId10 = pdRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1413,8 +1486,8 @@ describe('EventNotificationsV1_integration', () => {
     expect(chromeRes.result.description).toBe(description);
 
     // Firefox
-    name = 'cloud funstions subscription update';
-    description = 'Subscription for the cloud functions update';
+    name = 'Firefoc subscription update';
+    description = 'Subscription for the Firefox update';
     params = {
       instanceId,
       name,
@@ -1428,6 +1501,23 @@ describe('EventNotificationsV1_integration', () => {
     expect(fireRes.result).toBeDefined();
     expect(fireRes.result.name).toBe(name);
     expect(fireRes.result.description).toBe(description);
+
+    // PagerDuty
+    name = 'Pager Duty subscription update';
+    description = 'Subscription for the Pager Duty update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId10,
+      description,
+    };
+
+    const pdRes = await eventNotificationsService.updateSubscription(params);
+    expect(pdRes).toBeDefined();
+    expect(pdRes.status).toBe(200);
+    expect(pdRes.result).toBeDefined();
+    expect(pdRes.result.name).toBe(name);
+    expect(pdRes.result.description).toBe(description);
 
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1713,6 +1803,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId7,
       subscriptionId8,
       subscriptionId9,
+      subscriptionId10,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -1786,6 +1877,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId7,
       destinationId8,
       destinationId9,
+      destinationId10,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
