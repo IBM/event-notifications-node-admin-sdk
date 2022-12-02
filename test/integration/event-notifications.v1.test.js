@@ -63,6 +63,7 @@ let subscriptionId10 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
+let integrationId = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -84,6 +85,59 @@ describe('EventNotificationsV1_integration', () => {
 
     eventNotificationsService.enableRetries();
   });
+
+  test('listIntegrations()', async () => {
+    const offset = 0;
+    const limit = 1;
+    const search = '';
+
+    const params = {
+      instanceId,
+      offset,
+      limit,
+      search,
+    };
+
+    const res = await eventNotificationsService.listIntegrations(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+
+    integrationId = res.result.integrations[0].id;
+  });
+
+  test('getIntegration()', async () => {
+    const params = {
+      instanceId,
+      id: integrationId,
+    };
+
+    const res = await eventNotificationsService.getIntegration(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('updateIntegration()', async () => {
+    const metadata = {
+      endpoint: 'https://private.us-south.kms.cloud.ibm.com',
+      crn: 'crn:v1:staging:public:kms:us-south:a/****:****::',
+      root_key_id: 'sddsds-f326-4688-baaf-611750e79b61',
+    };
+
+    const params = {
+      instanceId,
+      id: integrationId,
+      type: 'kms',
+      metadata,
+    };
+
+    const res = await eventNotificationsService.replaceIntegration(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
   test('createSources()', async () => {
     const params = {
       instanceId,

@@ -1727,6 +1727,188 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+  /*************************
+   * kMSIntegrations
+   ************************/
+
+  /**
+   * List all Integrations.
+   *
+   * List of all KMS Integrations.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {string} [params.search] - Search string for filtering results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationList>>}
+   */
+  public listIntegrations(
+    params: EventNotificationsV1.ListIntegrationsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'offset', 'limit', 'search', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'offset': _params.offset,
+      'limit': _params.limit,
+      'search': _params.search,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listIntegrations'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/integrations',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get a single Integrations.
+   *
+   * Get a single KMS Integrations.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for integration.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationGetResponse>>}
+   */
+  public getIntegration(
+    params: EventNotificationsV1.GetIntegrationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationGetResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getIntegration'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/integrations/{id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update an exisitng Integration.
+   *
+   * Update an exisitng KMS Integration.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for integration.
+   * @param {string} params.type - Integration type. Allowed values are kms and hs-crypto.
+   * @param {IntegrationMetadata} params.metadata - Integration Metadata object.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationGetResponse>>}
+   */
+  public replaceIntegration(
+    params: EventNotificationsV1.ReplaceIntegrationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationGetResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'type', 'metadata'];
+    const _validParams = ['instanceId', 'id', 'type', 'metadata', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'type': _params.type,
+      'metadata': _params.metadata,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'replaceIntegration'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/integrations/{id}',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -2136,6 +2318,41 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `listIntegrations` operation. */
+  export interface ListIntegrationsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** offset for paginated results. */
+    offset?: number;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** Search string for filtering results. */
+    search?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getIntegration` operation. */
+  export interface GetIntegrationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for integration. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `replaceIntegration` operation. */
+  export interface ReplaceIntegrationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for integration. */
+    id: string;
+    /** Integration type. Allowed values are kms and hs-crypto. */
+    type: string;
+    /** Integration Metadata object. */
+    metadata: IntegrationMetadata;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -2258,6 +2475,62 @@ namespace EventNotificationsV1 {
     email?: string;
     /** last updated time. */
     updated_at?: string;
+  }
+
+  /** Integration response object. */
+  export interface IntegrationGetResponse {
+    /** ID of the integration. */
+    id: string;
+    /** Integration type. Allowed values are kms and hs-crypto. */
+    type: string;
+    /** Integration Metadata object. */
+    metadata: IntegrationMetadata;
+    /** Creation time of an integration. */
+    created_at: string;
+    /** Last Update time of an integration. */
+    updated_at: string;
+  }
+
+  /** all Integrations response object. */
+  export interface IntegrationList {
+    /** Number of integrations. */
+    total_count: number;
+    /** Current offset. */
+    offset: number;
+    /** limit to show integrations. */
+    limit: number;
+    /** List of integrations. */
+    integrations: IntegrationListItem[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
+  }
+
+  /** all Integrations response object. */
+  export interface IntegrationListItem {
+    /** ID of the integration. */
+    id: string;
+    /** Integration type. Allowed values are kms and hs-crypto. */
+    type: string;
+    /** Integration Metadata object. */
+    metadata: IntegrationMetadata;
+    /** Creation time of an integration. */
+    created_at: string;
+    /** Update time of an integration. */
+    updated_at: string;
+  }
+
+  /** Integration Metadata object. */
+  export interface IntegrationMetadata {
+    /** KMS url for key management. */
+    endpoint: string;
+    /** CRN of the KMS instance. */
+    crn: string;
+    /** Root Key id of KMS. */
+    root_key_id: string;
   }
 
   /** Payload describing a notification create request. */
@@ -2718,7 +2991,7 @@ namespace EventNotificationsV1 {
   export interface DestinationConfigOneOfPagerDutyDestinationConfig extends DestinationConfigOneOf {
     /** API Key for the pagerduty account. */
     api_key: string;
-    /** Routing Key for the pagerduty account. */
+    /** Routing Key(Integration Key) for the team in pagerduty account. */
     routing_key: string;
   }
 
@@ -3289,6 +3562,87 @@ namespace EventNotificationsV1 {
      */
     public async getAll(): Promise<EventNotificationsV1.SubscriptionListItem[]> {
       const results: SubscriptionListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * IntegrationsPager can be used to simplify the use of listIntegrations().
+   */
+  export class IntegrationsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListIntegrationsParams;
+
+    /**
+     * Construct a IntegrationsPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listIntegrations()
+     * @param {Object} params - The parameters to be passed to listIntegrations()
+     * @constructor
+     * @returns {IntegrationsPager}
+     */
+    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListIntegrationsParams) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listIntegrations().
+     * @returns {Promise<EventNotificationsV1.IntegrationListItem[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.IntegrationListItem[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listIntegrations(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.integrations;
+    }
+
+    /**
+     * Returns all results by invoking listIntegrations() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.IntegrationListItem[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.IntegrationListItem[]> {
+      const results: IntegrationListItem[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
         results.push(...nextPage);

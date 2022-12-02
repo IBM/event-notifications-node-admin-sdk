@@ -68,6 +68,7 @@ let subscriptionId3 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
+let integrationId = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -98,6 +99,104 @@ describe('EventNotificationsV1', () => {
 
     // end-common
   });
+
+  test('listIntegrations request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listIntegrations() result:');
+    // begin-list_integrations
+    const offset = 0;
+    const limit = 1;
+    const search = '';
+
+    const params = {
+      instanceId,
+      offset,
+      limit,
+      search,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.listIntegrations(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      integrationId = res.result.integrations[0].id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-list_integrations
+  });
+
+  test('getIntegration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getIntegration() result:');
+    // begin-get_integrations
+    const params = {
+      instanceId,
+      id: integrationId,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.getIntegration(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_integrations
+  });
+
+  test('updateIntegration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateIntegration() result:');
+    // begin-update_integration
+
+    const metadata = {
+      endpoint: 'https://private.us-south.kms.cloud.ibm.com',
+      crn: 'crn:v1:staging:public:kms:us-south:a/****:****::',
+      root_key_id: 'sddsds-f326-4688-baaf-611750e79b61',
+    };
+
+    const params = {
+      instanceId,
+      id: integrationId,
+      type: 'kms',
+      metadata,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.replaceIntegration(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-update_integration
+  });
+
   test('createSources request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
