@@ -1,3 +1,10 @@
+## [0.1.8](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.7...v0.1.8) (2022-12-05)
+
+
+### Bug Fixes
+
+* add PagerDuty destination and KMS integration ([dd86a11](https://github.com/IBM/event-notifications-node-admin-sdk/commit/dd86a11e660f0da9b2ed391f17792b557a84b73a))
+
 ## [0.1.7](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.6...v0.1.7) (2022-10-31)
 
 
