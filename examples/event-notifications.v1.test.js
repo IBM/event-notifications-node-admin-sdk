@@ -145,7 +145,7 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('getIntegration() result:');
-    // begin-get_integrations
+    // begin-get_integration
     const params = {
       instanceId,
       id: integrationId,
@@ -158,7 +158,7 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-    // end-get_integrations
+    // end-get_integration
   });
 
   test('updateIntegration request example', async () => {
@@ -172,18 +172,18 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('updateIntegration() result:');
-    // begin-update_integration
+    // begin-replace_integration
 
     const metadata = {
       endpoint: 'https://private.us-south.kms.cloud.ibm.com',
-      crn: 'crn:v1:staging:public:kms:us-south:a/****:****::',
-      root_key_id: 'sddsds-f326-4688-baaf-611750e79b61',
+      crn: 'insert crn',
+      root_key_id: 'insert root key id',
     };
 
     const params = {
       instanceId,
       id: integrationId,
-      type: 'kms',
+      type: 'kms/hs-crypto',
       metadata,
     };
 
@@ -194,7 +194,7 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-    // end-update_integration
+    // end-replace_integration
   });
 
   test('createSources request example', async () => {
