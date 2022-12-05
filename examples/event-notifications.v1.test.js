@@ -60,6 +60,7 @@ let destinationId6 = '';
 let destinationId7 = '';
 let destinationId8 = '';
 let destinationId9 = '';
+let destinationId10 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -67,6 +68,7 @@ let subscriptionId3 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
+let integrationId = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -97,6 +99,104 @@ describe('EventNotificationsV1', () => {
 
     // end-common
   });
+
+  test('listIntegrations request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listIntegrations() result:');
+    // begin-list_integrations
+    const offset = 0;
+    const limit = 1;
+    const search = '';
+
+    const params = {
+      instanceId,
+      offset,
+      limit,
+      search,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.listIntegrations(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      integrationId = res.result.integrations[0].id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-list_integrations
+  });
+
+  test('getIntegration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getIntegration() result:');
+    // begin-get_integration
+    const params = {
+      instanceId,
+      id: integrationId,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.getIntegration(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_integration
+  });
+
+  test('updateIntegration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateIntegration() result:');
+    // begin-replace_integration
+
+    const metadata = {
+      endpoint: 'https://private.us-south.kms.cloud.ibm.com',
+      crn: 'insert crn',
+      root_key_id: 'insert root key id',
+    };
+
+    const params = {
+      instanceId,
+      id: integrationId,
+      type: 'kms/hs-crypto',
+      metadata,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.replaceIntegration(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-replace_integration
+  });
+
   test('createSources request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -603,6 +703,30 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const destinationConfigModelPagerDuty = {
+      params: {
+        api_key: 'insert API key here',
+        routing_key: 'insert Routing Key here',
+      },
+    };
+
+    name = 'PagerDuty_destination';
+    description = 'Pager Duty Destination';
+    type = 'pagerduty';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelPagerDuty,
+    };
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId10 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -923,6 +1047,31 @@ describe('EventNotificationsV1', () => {
       description,
       config: destinationConfigModelFirefox,
     };
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationConfigModelPagerDuty = {
+      params: {
+        api_key: 'insert API Key here',
+        routing_key: 'insert Routing Key here',
+      },
+    };
+
+    name = 'Pager_Duty_destination';
+    description = 'PagerDuty Destination';
+
+    params = {
+      instanceId,
+      id: destinationId10,
+      name,
+      description,
+      config: destinationConfigModelPagerDuty,
+    };
+
     try {
       res = await eventNotificationsService.updateDestination(params);
       console.log(JSON.stringify(res.result, null, 2));
@@ -1398,6 +1547,7 @@ describe('EventNotificationsV1', () => {
       destinationId7,
       destinationId8,
       destinationId9,
+      destinationId10,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
