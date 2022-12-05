@@ -705,8 +705,8 @@ describe('EventNotificationsV1', () => {
 
     const destinationConfigModelPagerDuty = {
       params: {
-        api_key: 'sdjnaskjdajsdnaksnd',
-        routing_key: 'ksddkasjdaksd',
+        api_key: 'insert API key here',
+        routing_key: 'insert Routing Key here',
       },
     };
 
@@ -1056,8 +1056,8 @@ describe('EventNotificationsV1', () => {
 
     const destinationConfigModelPagerDuty = {
       params: {
-        api_key: 'asdsaasakjbdakjsdaksjda',
-        routing_key: 'ksddkasjdaksdsdsf',
+        api_key: 'insert API Key here',
+        routing_key: 'insert Routing Key here',
       },
     };
 

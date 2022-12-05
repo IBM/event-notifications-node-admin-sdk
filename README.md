@@ -117,6 +117,10 @@ SDK Methods to consume
 	- [Get Subscription](#get-subscription)
 	- [Update Subscription](#update-subscription)
 	- [Delete Subscription](#delete-subscription)
+- [Integration](#integration)
+  - [List Integrations](#list-integrations)
+  - [Get Integrations](#get-integration)
+  - [Update Integration](#update-integration)  
 - [Send Notifications](#send-notifications)
 
 
@@ -609,6 +613,51 @@ eventNotificationsService
   .catch(err => {
     console.warn(err);
   });
+```
+# Integration
+
+### List Integrations
+
+```js
+const params = {
+      instanceId : <instance-id>,
+      offset : <offset>,
+      limit : <limit>,
+      search : <search>,
+    };
+
+const res = await eventNotificationsService.listIntegrations(params);
+```
+
+### Get Integration
+
+```js
+const params = {
+  instanceId : <instance-id>,
+  id: <integration-id>,
+};
+
+const res = await eventNotificationsService.getIntegration(params);
+```
+
+### Update Integration
+
+```js
+const metadata = {
+  endpoint: <end-point>,
+  crn: <crn>,
+  root_key_id: <root-key-id>,
+};
+
+const params = {
+  instanceId : <instance-id>,
+  id: <integration-id>,
+  type: <integration-type>,
+  metadata,
+};
+
+const res = await eventNotificationsService.replaceIntegration(params);
+
 ```
 
 ## Send Notifications
