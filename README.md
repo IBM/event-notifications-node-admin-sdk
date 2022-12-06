@@ -42,7 +42,7 @@ npm install @ibm-cloud/event-notifications-node-admin-sdk
 
 ## Using the SDK
 For general SDK usage information, please see
-[this link](https://github.com/IBM/cloud-sdk-common/blob/main/README.md)
+[this link](https://github.com/IBM/ibm-cloud-sdk-common/blob/main/README.md)
 
 ## Initialize SDK
 
