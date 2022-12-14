@@ -560,7 +560,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSafari = {
       params: {
         cert_type: 'p12',
-        password: 'safari',
+        password: 'password',
         website_url: 'https://ensafaripush.mybluemix.net',
         website_name: 'NodeJS Starter Application',
         url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
@@ -650,7 +650,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        api_key: 'efwewerwerkwer89werj',
+        api_key: 'apikey',
         public_key: 'ksddkasjdaksd',
         pre_prod: false,
       },
@@ -918,7 +918,7 @@ describe('EventNotificationsV1', () => {
     const safariDestinationConfigModel = {
       params: {
         cert_type: 'p12',
-        password: 'safari',
+        password: 'password',
         website_url: 'https://ensafaripush.mybluemix.net',
         website_name: 'NodeJS Starter Application',
         url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
@@ -980,7 +980,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelCloudFunctions = {
       params: {
         url: 'https://us-south.functions.test.cloud.ibm.com/api/v1/namespaces/940dfa37-061a-46bd-9781-e584ed4bef18/actions/Action-CF',
-        api_key: 'amZzYVDnBbTSu2Bx27dUG73QYXWz0SGyR_PQE8UoZCen',
+        api_key: 'apikey',
       },
     };
 
@@ -1005,7 +1005,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        api_key: 'efwewerwerkwer89werj',
+        api_key: 'apikey',
         public_key: 'ksddkasjdaksd',
         pre_prod: false,
       },

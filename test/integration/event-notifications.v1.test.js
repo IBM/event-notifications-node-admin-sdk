@@ -522,7 +522,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelSafari = {
       params: {
         cert_type: 'p12',
-        password: 'safari',
+        password: 'password',
         website_url: 'https://ensafaripush.mybluemix.net',
         website_name: 'NodeJS Starter Application',
         url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
@@ -591,7 +591,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelCloudFunctions = {
       params: {
         url: 'https://www.ibmcfendpoint.com/',
-        api_key: 'efwewerwerkwer89werj',
+        api_key: 'apikey',
       },
     };
 
@@ -620,7 +620,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        api_key: 'efwewerwerkwer89werj',
+        api_key: 'apikey',
         public_key: 'ksddkasjdaksd',
         pre_prod: false,
       },
@@ -680,8 +680,8 @@ describe('EventNotificationsV1_integration', () => {
     // Pager Duty
     const destinationConfigModelPagerDuty = {
       params: {
-        api_key: 'sdjnaskjdajsdnaksnd',
-        routing_key: 'ksddkasjdaksd',
+        api_key: 'apikey',
+        routing_key: 'routingkey',
       },
     };
 
@@ -872,7 +872,7 @@ describe('EventNotificationsV1_integration', () => {
     const safariDestinationConfigModel = {
       params: {
         cert_type: 'p12',
-        password: 'safari',
+        password: 'password',
         website_url: 'https://ensafaripush.mybluemix.net',
         website_name: 'NodeJS Starter Application',
         url_format_string: 'https://ensafaripush.mybluemix.net/%@/?flight=%@',
@@ -934,7 +934,7 @@ describe('EventNotificationsV1_integration', () => {
     // cloud functions
     const cfDestinationConfigParamsModel = {
       url: 'https://www.ibmcfendpoint.com/',
-      api_key: 'sdfknlsnfoejfwprpweoporw89',
+      api_key: 'apikey',
     };
 
     const cfDestinationConfigModel = {
@@ -963,7 +963,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        api_key: 'efwewerwerkwer89werj',
+        api_key: 'apikey',
         public_key: 'ksddkasjdaksd',
         pre_prod: false,
       },
@@ -1017,8 +1017,8 @@ describe('EventNotificationsV1_integration', () => {
     // PagerDuty
     const destinationConfigModelPagerDuty = {
       params: {
-        api_key: 'asdsaasakjbdakjsdaksjda',
-        routing_key: 'ksddkasjdaksdsdsf',
+        api_key: 'apikey',
+        routing_key: 'routingkey',
       },
     };
 
