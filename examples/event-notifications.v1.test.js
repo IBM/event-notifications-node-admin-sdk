@@ -1459,29 +1459,6 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    // ServceNow
-    const subscriptionSNowCreateAttributesModel = {
-      assigned_to: 'user',
-      assignment_group: 'group',
-    };
-
-    name = 'Service Now subscription update';
-    description = 'Subscription for the Service Now update';
-    params = {
-      instanceId,
-      name,
-      id: subscriptionId4,
-      description,
-      attributes: subscriptionSNowCreateAttributesModel,
-    };
-
-    try {
-      res = await eventNotificationsService.updateSubscription(params);
-      console.log(JSON.stringify(res.result, null, 2));
-    } catch (err) {
-      console.warn(err);
-    }
-
     // end-update_subscription
   });
   test('sendNotifications request example', async () => {
