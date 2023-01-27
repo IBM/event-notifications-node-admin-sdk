@@ -48,6 +48,7 @@ let destinationId7 = '';
 let destinationId8 = '';
 let destinationId9 = '';
 let destinationId10 = '';
+let destinationId11 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -60,10 +61,16 @@ let subscriptionId7 = '';
 let subscriptionId8 = '';
 let subscriptionId9 = '';
 let subscriptionId10 = '';
+let subscriptionId11 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
 let integrationId = '';
+let sNowClientId = '';
+let sNowClientSecret = '';
+let sNowUserName = '';
+let sNowPassword = '';
+let sNowInstanceName = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -82,6 +89,11 @@ describe('EventNotificationsV1_integration', () => {
     fcmSenderId = config.fcmId;
     fcmServerKey = config.fcmKey;
     safariCertificatePath = config.safariCertificate;
+    sNowClientId = config.snowClientId;
+    sNowClientSecret = config.snowClientSecret;
+    sNowUserName = config.snowUserName;
+    sNowPassword = config.snowPassword;
+    sNowInstanceName = config.snowInstanceName;
 
     eventNotificationsService.enableRetries();
   });
@@ -705,6 +717,38 @@ describe('EventNotificationsV1_integration', () => {
     expect(pdRes.result.name).toBe(name);
     expect(pdRes.result.description).toBe(description);
     destinationId10 = pdRes.result.id;
+
+    // Service Now
+    const destinationConfigModelServiceNow = {
+      params: {
+        client_id: sNowClientId,
+        client_secret: sNowClientSecret,
+        username: sNowUserName,
+        password: sNowPassword,
+        instance_name: sNowInstanceName,
+      },
+    };
+
+    name = 'ServiceNow_destination';
+    description = 'Service Now Destination';
+    type = 'servicenow';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelServiceNow,
+    };
+
+    const sNowRes = await eventNotificationsService.createDestination(params);
+    expect(sNowRes).toBeDefined();
+    expect(sNowRes.status).toBe(201);
+    expect(sNowRes.result).toBeDefined();
+
+    expect(sNowRes.result.type).toBe(type);
+    expect(sNowRes.result.name).toBe(name);
+    expect(sNowRes.result.description).toBe(description);
+    destinationId11 = sNowRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1039,6 +1083,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(pdRes.result).toBeDefined();
     expect(pdRes.result.name).toBe(name);
     expect(pdRes.result.description).toBe(description);
+
+    const destinationConfigModelServiceNow = {
+      params: {
+        client_id: sNowClientId,
+        client_secret: sNowClientSecret,
+        username: sNowUserName,
+        password: sNowPassword,
+        instance_name: sNowInstanceName,
+      },
+    };
+
+    name = 'ServiceNow_destination';
+    description = 'Service Now Destination';
+
+    params = {
+      instanceId,
+      id: destinationId11,
+      name,
+      description,
+      config: destinationConfigModelServiceNow,
+    };
+
+    const sNowRes = await eventNotificationsService.updateDestination(params);
+    expect(sNowRes).toBeDefined();
+    expect(sNowRes.status).toBe(200);
+    expect(sNowRes.result).toBeDefined();
+    expect(sNowRes.result.name).toBe(name);
+    expect(sNowRes.result.description).toBe(description);
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1282,6 +1354,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(pdRes.result.name).toBe(name);
     expect(pdRes.result.description).toBe(description);
     subscriptionId10 = pdRes.result.id;
+
+    const subscriptionSNowCreateAttributesModel = {
+      assigned_to: 'user',
+      assignment_group: 'test',
+    };
+
+    // ServiceNow
+    name = 'ServiceNow subscription';
+    description = 'Subscription for the ServiceNow';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId11,
+      topicId,
+      description,
+      attributes: subscriptionSNowCreateAttributesModel,
+    };
+
+    const sNowRes = await eventNotificationsService.createSubscription(params);
+    expect(sNowRes).toBeDefined();
+    expect(sNowRes.status).toBe(201);
+    expect(sNowRes.result).toBeDefined();
+    expect(sNowRes.result.name).toBe(name);
+    expect(sNowRes.result.description).toBe(description);
+    subscriptionId11 = sNowRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1573,6 +1670,28 @@ describe('EventNotificationsV1_integration', () => {
     expect(pdRes.result.name).toBe(name);
     expect(pdRes.result.description).toBe(description);
 
+    // ServceNow
+    const subscriptionSNowCreateAttributesModel = {
+      assigned_to: 'user',
+      assignment_group: 'test',
+    };
+
+    name = 'Service Now subscription update';
+    description = 'Subscription for the Service Now update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId11,
+      description,
+      attributes: subscriptionSNowCreateAttributesModel,
+    };
+
+    const sNowRes = await eventNotificationsService.updateSubscription(params);
+    expect(sNowRes).toBeDefined();
+    expect(sNowRes.status).toBe(200);
+    expect(sNowRes.result).toBeDefined();
+    expect(sNowRes.result.name).toBe(name);
+    expect(sNowRes.result.description).toBe(description);
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -1858,6 +1977,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId8,
       subscriptionId9,
       subscriptionId10,
+      subscriptionId11,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -1932,6 +2052,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId8,
       destinationId9,
       destinationId10,
+      destinationId11,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
