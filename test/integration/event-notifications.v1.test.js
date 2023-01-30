@@ -631,10 +631,8 @@ describe('EventNotificationsV1_integration', () => {
     // chrome
     const destinationConfigModelChrome = {
       params: {
-        website_url: 'https://cloud.ibm.com',
-        api_key: 'apikey',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
+        website_url: 'https://www.xyz.pqr',
+        api_key: 'AAxxxxxxxxxxxxxxxxx4z'
       },
     };
 
@@ -1006,10 +1004,8 @@ describe('EventNotificationsV1_integration', () => {
     // Chrome
     const destinationConfigModelChrome = {
       params: {
-        website_url: 'https://cloud.ibm.com',
-        api_key: 'apikey',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
+        website_url: 'https://www.xyz.pqr',
+        api_key: 'AAxxxxxxxxxxxxxxxxx4z'
       },
     };
 
