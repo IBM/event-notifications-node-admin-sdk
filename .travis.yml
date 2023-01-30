@@ -5,8 +5,8 @@ sudo: false
 # After creating your SDK project from this template repository,
 # uncomment this section to enable builds on the appropriate node versions.
 node_js:
-- 12
 - 14
+- 16
 
 before_install:
 - npm i -g npm@8
