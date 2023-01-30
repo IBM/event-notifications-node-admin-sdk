@@ -660,9 +660,7 @@ describe('EventNotificationsV1_integration', () => {
     // Firefox
     const destinationConfigModelFirefox = {
       params: {
-        website_url: 'https://cloud.ibm.com',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
+        website_url: 'https://cloud.ibm.com'
       },
     };
 
@@ -1030,9 +1028,7 @@ describe('EventNotificationsV1_integration', () => {
     // Firefox
     const destinationConfigModelFirefox = {
       params: {
-        website_url: 'https://cloud.ibm.com',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
+        website_url: 'https://cloud.ibm.com'
       },
     };
 
