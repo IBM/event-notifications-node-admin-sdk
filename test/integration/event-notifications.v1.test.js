@@ -632,7 +632,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://www.xyz.pqr',
-        api_key: 'AAxxxxxxxxxxxxxxxxx4z'
+        api_key: 'AAxxxxxxxxxxxxxxxxx4z',
       },
     };
 
@@ -660,7 +660,7 @@ describe('EventNotificationsV1_integration', () => {
     // Firefox
     const destinationConfigModelFirefox = {
       params: {
-        website_url: 'https://cloud.ibm.com'
+        website_url: 'https://cloud.ibm.com',
       },
     };
 
@@ -1003,7 +1003,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://www.xyz.pqr',
-        api_key: 'AAxxxxxxxxxxxxxxxxx4z'
+        api_key: 'AAxxxxxxxxxxxxxxxxx4z',
       },
     };
 
@@ -1028,7 +1028,7 @@ describe('EventNotificationsV1_integration', () => {
     // Firefox
     const destinationConfigModelFirefox = {
       params: {
-        website_url: 'https://cloud.ibm.com'
+        website_url: 'https://cloud.ibm.com',
       },
     };
 

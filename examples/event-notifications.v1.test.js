@@ -662,7 +662,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        api_key: 'apikey'
+        api_key: 'apikey',
       },
     };
 
@@ -688,7 +688,7 @@ describe('EventNotificationsV1', () => {
     // Firefox
     const destinationConfigModelFirefox = {
       params: {
-        website_url: 'https://cloud.ibm.com'
+        website_url: 'https://cloud.ibm.com',
       },
     };
 
@@ -1043,7 +1043,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelChrome = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        api_key: 'apikey'
+        api_key: 'apikey',
       },
     };
 
@@ -1067,7 +1067,7 @@ describe('EventNotificationsV1', () => {
     // Firefox
     const destinationConfigModelFirefox = {
       params: {
-        website_url: 'https://cloud.ibm.com'
+        website_url: 'https://cloud.ibm.com',
       },
     };
 
