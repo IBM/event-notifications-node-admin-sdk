@@ -61,14 +61,21 @@ let destinationId7 = '';
 let destinationId8 = '';
 let destinationId9 = '';
 let destinationId10 = '';
+let destinationId11 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
+let subscriptionId4 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
 let integrationId = '';
+let sNowClientId = '';
+let sNowClientSecret = '';
+let sNowUserName = '';
+let sNowPassword = '';
+let sNowInstanceName = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -89,6 +96,11 @@ describe('EventNotificationsV1', () => {
   fcmSenderId = config.fcmId;
   fcmServerKey = config.fcmKey;
   safariCertificatePath = config.safariCertificate;
+  sNowClientId = config.snowClientId;
+  sNowClientSecret = config.snowClientSecret;
+  sNowUserName = config.snowUserName;
+  sNowPassword = config.snowPassword;
+  sNowInstanceName = config.snowInstanceName;
 
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
@@ -651,8 +663,6 @@ describe('EventNotificationsV1', () => {
       params: {
         website_url: 'https://cloud.ibm.com',
         api_key: 'apikey',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
       },
     };
 
@@ -679,8 +689,6 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelFirefox = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
       },
     };
 
@@ -724,6 +732,36 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createDestination(params);
       console.log(JSON.stringify(res.result, null, 2));
       destinationId10 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // Service Now
+    const destinationConfigModelServiceNow = {
+      params: {
+        client_id: sNowClientId,
+        client_secret: sNowClientSecret,
+        username: sNowUserName,
+        password: sNowPassword,
+        instance_name: sNowInstanceName,
+      },
+    };
+
+    name = 'ServiceNow_destination';
+    description = 'Service Now Destination';
+    type = 'servicenow';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelServiceNow,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId11 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1006,8 +1044,6 @@ describe('EventNotificationsV1', () => {
       params: {
         website_url: 'https://cloud.ibm.com',
         api_key: 'apikey',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
       },
     };
 
@@ -1032,8 +1068,6 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelFirefox = {
       params: {
         website_url: 'https://cloud.ibm.com',
-        public_key: 'ksddkasjdaksd',
-        pre_prod: false,
       },
     };
 
@@ -1070,6 +1104,34 @@ describe('EventNotificationsV1', () => {
       name,
       description,
       config: destinationConfigModelPagerDuty,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationConfigModelServiceNow = {
+      params: {
+        client_id: sNowClientId,
+        client_secret: sNowClientSecret,
+        username: sNowUserName,
+        password: sNowPassword,
+        instance_name: sNowInstanceName,
+      },
+    };
+
+    name = 'ServiceNow_destination';
+    description = 'Service Now Destination';
+
+    params = {
+      instanceId,
+      id: destinationId11,
+      name,
+      description,
+      config: destinationConfigModelServiceNow,
     };
 
     try {
@@ -1182,6 +1244,31 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
       subscriptionId3 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // ServiceNow
+    const subscriptionSNowCreateAttributesModel = {
+      assigned_to: 'user',
+      assignment_group: 'group',
+    };
+
+    name = 'ServiceNow subscription';
+    description = 'Subscription for the ServiceNow';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId11,
+      topicId,
+      description,
+      attributes: subscriptionSNowCreateAttributesModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId4 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1364,6 +1451,29 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    // ServceNow
+    const subscriptionSNowCreateAttributesModel = {
+      assigned_to: 'user',
+      assignment_group: 'group',
+    };
+
+    name = 'Service Now subscription update';
+    description = 'Subscription for the Service Now update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId4,
+      description,
+      attributes: subscriptionSNowCreateAttributesModel,
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
     // end-update_subscription
   });
   test('sendNotifications request example', async () => {
@@ -1473,7 +1583,7 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-delete_subscription
-    const subscriptions = [subscriptionId1, subscriptionId2, subscriptionId3];
+    const subscriptions = [subscriptionId1, subscriptionId2, subscriptionId3, subscriptionId4];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
       params = {
@@ -1548,6 +1658,7 @@ describe('EventNotificationsV1', () => {
       destinationId8,
       destinationId9,
       destinationId10,
+      destinationId11,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

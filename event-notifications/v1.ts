@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ class EventNotificationsV1 extends BaseService {
   /**
    * Send a notification.
    *
-   * Send Notifications body from the instance. For more information on Event notifications payload, see
+   * Send Notifications body from the instance. For more information about Event Notifications payload, see
    * [here](https://cloud.ibm.com/docs/event-notifications?topic=event-notifications-en-spec-payload).
    *
    * @param {Object} params - The parameters to send to the service.
@@ -346,7 +346,7 @@ class EventNotificationsV1 extends BaseService {
   /**
    * Get a Source.
    *
-   * Get a Sources.
+   * Get a Source.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -807,7 +807,7 @@ class EventNotificationsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.name - The Destintion name.
+   * @param {string} params.name - The Destination name.
    * @param {string} params.type - The type of Destination Webhook.
    * @param {string} [params.description] - The Destination description.
    * @param {DestinationConfig} [params.config] - Payload describing a destination configuration.
@@ -1295,7 +1295,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} [params.deviceId] - DeviceID of the destination tagsubscription.
+   * @param {string} [params.deviceId] - Device ID of the destination tagsubscription.
    * @param {string} [params.userId] - UserID of the destination.
    * @param {string} [params.tagName] - TagName of the subscription.
    * @param {number} [params.limit] - Page limit for paginated results.
@@ -1375,7 +1375,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for Destination.
-   * @param {string} [params.deviceId] - DeviceID of the destination tagsubscription.
+   * @param {string} [params.deviceId] - Device ID of the destination tagsubscription.
    * @param {string} [params.tagName] - TagName of the subscription.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
@@ -1794,9 +1794,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Get a single Integrations.
+   * Get a single Integration.
    *
-   * Get a single KMS Integrations.
+   * Get a single KMS Integration.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -1848,9 +1848,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update an exisitng Integration.
+   * Update an existing Integration.
    *
-   * Update an exisitng KMS Integration.
+   * Update an existing KMS Integration.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2080,7 +2080,7 @@ namespace EventNotificationsV1 {
   export interface CreateDestinationParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
-    /** The Destintion name. */
+    /** The Destination name. */
     name: string;
     /** The type of Destination Webhook. */
     type: CreateDestinationConstants.Type | string;
@@ -2133,6 +2133,7 @@ namespace EventNotificationsV1 {
       PAGERDUTY = 'pagerduty',
       PUSH_SAFARI = 'push_safari',
       MSTEAMS = 'msteams',
+      SERVICENOW = 'servicenow',
     }
   }
 
@@ -2229,7 +2230,7 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for Destination. */
     id: string;
-    /** DeviceID of the destination tagsubscription. */
+    /** Device ID of the destination tagsubscription. */
     deviceId?: string;
     /** UserID of the destination. */
     userId?: string;
@@ -2250,7 +2251,7 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for Destination. */
     id: string;
-    /** DeviceID of the destination tagsubscription. */
+    /** Device ID of the destination tagsubscription. */
     deviceId?: string;
     /** TagName of the subscription. */
     tagName?: string;
@@ -2373,7 +2374,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions. */
+    /** Destination type Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/ServiceNow. */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -2453,7 +2454,7 @@ namespace EventNotificationsV1 {
     device_id: string;
     /** The name of the tag its subscribed. */
     tag_name: string;
-    /** The user identifier for the the device registration. */
+    /** The user identifier for the device registration. */
     user_id?: string;
     /** Last updated time. */
     created_at: string;
@@ -2487,7 +2488,7 @@ namespace EventNotificationsV1 {
     metadata: IntegrationMetadata;
     /** Creation time of an integration. */
     created_at: string;
-    /** Last Update time of an integration. */
+    /** Last update time of an integration. */
     updated_at: string;
   }
 
@@ -2529,7 +2530,7 @@ namespace EventNotificationsV1 {
     endpoint: string;
     /** CRN of the KMS instance. */
     crn: string;
-    /** Root Key id of KMS. */
+    /** Root Key ID of KMS. */
     root_key_id: string;
   }
 
@@ -2830,7 +2831,7 @@ namespace EventNotificationsV1 {
     device_id: string;
     /** The name of the tag its subscribed. */
     tag_name: string;
-    /** The user identifier for the the device registration. */
+    /** The user identifier for the device registration. */
     user_id?: string;
     /** Updated at. */
     updated_at: string;
@@ -2934,7 +2935,7 @@ namespace EventNotificationsV1 {
     pre_prod?: boolean;
   }
 
-  /** Payload describing a FCM destination configuration. */
+  /** Payload describing an FCM destination configuration. */
   export interface DestinationConfigOneOfFCMDestinationConfig extends DestinationConfigOneOf {
     /** FCM server_key. */
     server_key: string;
@@ -2954,20 +2955,20 @@ namespace EventNotificationsV1 {
     pre_prod?: boolean;
   }
 
-  /** Payload describing a IBM Cloud Functions destination configuration. */
+  /** Payload describing an IBM Cloud Functions destination configuration. */
   export interface DestinationConfigOneOfIBMCloudFunctionsDestinationConfig
     extends DestinationConfigOneOf {
     /** URL of IBM Cloud Functions Trigger EndPoint. */
     url: string;
-    /** APIKey with access of IBM Cloud Functions IAM Namespace. */
+    /** API Key with access of IBM Cloud Functions IAM Namespace. */
     api_key?: string;
   }
 
-  /** Payload describing a IOS destination configuration. */
+  /** Payload describing an iOS destination configuration. */
   export interface DestinationConfigOneOfIOSDestinationConfig extends DestinationConfigOneOf {
     /** Authentication type (p8 or p12). */
     cert_type: string;
-    /** Sandbox mode for IOS destinations. */
+    /** Sandbox mode for iOS destinations. */
     is_sandbox: boolean;
     /** Password for certificate (Required when cert_type is p12). */
     password?: string;
@@ -2989,31 +2990,46 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a PagerDuty destination configuration. */
   export interface DestinationConfigOneOfPagerDutyDestinationConfig extends DestinationConfigOneOf {
-    /** API Key for the pagerduty account. */
+    /** API Key for the PagerDuty account. */
     api_key: string;
-    /** Routing Key(Integration Key) for the team in pagerduty account. */
+    /** Routing Key (Integration Key) for the team in PagerDuty account. */
     routing_key: string;
   }
 
-  /** Payload describing a safari destination configuration. */
+  /** Payload describing a Safari destination configuration. */
   export interface DestinationConfigOneOfSafariDestinationConfig extends DestinationConfigOneOf {
     /** Authentication type p12. */
     cert_type: string;
     /** Password for certificate (Required when cert_type is p12). */
     password: string;
-    /** Websire url. */
+    /** Website url. */
     website_url: string;
-    /** Websire url. */
+    /** Website url. */
     website_name: string;
-    /** Websire url. */
+    /** Website url. */
     url_format_string: string;
-    /** Websire url. */
+    /** Website url. */
     website_push_id: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
   }
 
-  /** Payload describing a slack destination configuration. */
+  /** Payload describing a ServiceNow destination configuration. */
+  export interface DestinationConfigOneOfServiceNowDestinationConfig
+    extends DestinationConfigOneOf {
+    /** ClientID for the ServiceNow account oauth. */
+    client_id: string;
+    /** ClientSecret for the ServiceNow account oauth. */
+    client_secret: string;
+    /** Username for ServiceNow account REST API. */
+    username: string;
+    /** Password for ServiceNow account REST API. */
+    password: string;
+    /** Instance name for ServiceNow account. */
+    instance_name: string;
+  }
+
+  /** Payload describing a Slack destination configuration. */
   export interface DestinationConfigOneOfSlackDestinationConfig extends DestinationConfigOneOf {
     /** URL of Slack Incoming Webhook. */
     url: string;
@@ -3059,7 +3075,16 @@ namespace EventNotificationsV1 {
     invited?: SMSInviteAttributesItems[];
   }
 
-  /** The attributes for a slack notification. */
+  /** The attributes for a ServiceNow notification. */
+  export interface SubscriptionAttributesServiceNowAttributesResponse
+    extends SubscriptionAttributes {
+    /** Assigned name from ServiceNow account. */
+    assigned_to?: string;
+    /** Assigned group name from ServiceNow account. */
+    assignment_group?: string;
+  }
+
+  /** The attributes for a Slack notification. */
   export interface SubscriptionAttributesSlackAttributesResponse extends SubscriptionAttributes {
     /** Attachment Color for Slack Notification. */
     attachment_color: string;
@@ -3095,6 +3120,15 @@ namespace EventNotificationsV1 {
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
     /** The sms id string. */
     invited: string[];
+  }
+
+  /** The attributes for a ServiceNow notification. */
+  export interface SubscriptionCreateAttributesServiceNowAttributes
+    extends SubscriptionCreateAttributes {
+    /** Name of user ServiceNow incident will be assigned to. */
+    assigned_to?: string;
+    /** Group Name to which incident will be assigned to. */
+    assignment_group?: string;
   }
 
   /** The attributes for a slack notification. */
@@ -3139,6 +3173,15 @@ namespace EventNotificationsV1 {
     subscribed?: UpdateAttributesSubscribed;
     /** The email ids or phone numbers. */
     unsubscribed?: UpdateAttributesUnsubscribed;
+  }
+
+  /** The attributes for a ServiceNow notification. */
+  export interface SubscriptionUpdateAttributesServiceNowAttributes
+    extends SubscriptionUpdateAttributes {
+    /** Name of user ServiceNow incident will be assigned to. */
+    assigned_to?: string;
+    /** Group Name to which incident will be assigned to. */
+    assignment_group?: string;
   }
 
   /** The attributes for a slack notification. */
