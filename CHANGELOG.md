@@ -1,3 +1,11 @@
+# [0.2.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.8...v0.2.0) (2023-02-01)
+
+
+### Features
+
+* add service now destination support ([2144aa3](https://github.com/IBM/event-notifications-node-admin-sdk/commit/2144aa317182c995eaf9c6ceee36290119b14382))
+* add service now destination support ([df91574](https://github.com/IBM/event-notifications-node-admin-sdk/commit/df91574ecda1acf7574dd07ceeb988f19ebb83fa))
+
 ## [0.1.8](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.7...v0.1.8) (2022-12-05)
 
 
