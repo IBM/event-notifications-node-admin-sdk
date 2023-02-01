@@ -1071,8 +1071,8 @@ describe('EventNotificationsV1', () => {
       },
     };
 
-    name = 'Firefox_destination';
-    description = 'Firefox Destination';
+    name = 'Firefox_destination_update';
+    description = 'Firefox Destination updated';
 
     params = {
       instanceId,
