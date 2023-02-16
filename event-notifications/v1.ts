@@ -2937,12 +2937,18 @@ namespace EventNotificationsV1 {
 
   /** Payload describing an FCM destination configuration. */
   export interface DestinationConfigOneOfFCMDestinationConfig extends DestinationConfigOneOf {
-    /** FCM server_key. */
-    server_key: string;
-    /** FCM sender_id. */
-    sender_id: string;
+    /** FCM server_key(deprecated-FCM legacy HTTP API). */
+    server_key?: string;
+    /** FCM sender_id(deprecated-FCM legacy HTTP API). */
+    sender_id?: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
+    /** FCM project_id. */
+    project_id?: string;
+    /** FCM private_key. */
+    private_key?: string;
+    /** FCM client_email. */
+    client_email?: string;
   }
 
   /** Payload describing a Firefox destination configuration. */

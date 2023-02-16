@@ -62,6 +62,7 @@ let destinationId8 = '';
 let destinationId9 = '';
 let destinationId10 = '';
 let destinationId11 = '';
+let destinationId12 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -76,6 +77,9 @@ let sNowClientSecret = '';
 let sNowUserName = '';
 let sNowPassword = '';
 let sNowInstanceName = '';
+let fcmProjectId = '';
+let fcmClientEmail = '';
+let fcmPrivateKey = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -101,6 +105,9 @@ describe('EventNotificationsV1', () => {
   sNowUserName = config.snowUserName;
   sNowPassword = config.snowPassword;
   sNowInstanceName = config.snowInstanceName;
+  fcmClientEmail = config.fcmClientEmail;
+  fcmPrivateKey = config.fcmPrivateKey;
+  fcmProjectId = config.fcmProjectId;
 
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
@@ -487,12 +494,12 @@ describe('EventNotificationsV1', () => {
     // begin-create_destination
 
     // FCM
-    const destinationConfigParamsModel = {
+    let destinationConfigParamsModel = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
-    const destinationConfigModel = {
+    let destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
 
@@ -765,6 +772,35 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    destinationConfigParamsModel = {
+      private_key: fcmPrivateKey,
+      project_id: fcmProjectId,
+      client_email: fcmClientEmail,
+    };
+
+    destinationConfigModel = {
+      params: destinationConfigParamsModel,
+    };
+
+    name = 'FCM_V1_destination';
+    description = 'FCM V1 Destination';
+    type = 'push_android';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId12 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -874,13 +910,13 @@ describe('EventNotificationsV1', () => {
     // begin-update_destination
 
     // DestinationConfigParamsWebhookDestinationConfig
-    const destinationConfigParamsModel = {
+    let destinationConfigParamsModel = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
     // FCM
-    const destinationConfigModel = {
+    let destinationConfigModel = {
       params: destinationConfigParamsModel,
     };
 
@@ -1132,6 +1168,34 @@ describe('EventNotificationsV1', () => {
       name,
       description,
       config: destinationConfigModelServiceNow,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // FCM V1
+
+    destinationConfigParamsModel = {
+      private_key: fcmPrivateKey,
+      project_id: fcmProjectId,
+      client_email: fcmClientEmail,
+    };
+
+    destinationConfigModel = {
+      params: destinationConfigParamsModel,
+    };
+
+    params = {
+      instanceId,
+      id: destinationId12,
+      name: 'Admin FCM V1 Compliance',
+      description:
+        'This destination is for creating admin FCM V1 to receive compliance notifications',
+      config: destinationConfigModel,
     };
 
     try {
@@ -1659,6 +1723,7 @@ describe('EventNotificationsV1', () => {
       destinationId9,
       destinationId10,
       destinationId11,
+      destinationId12,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

@@ -680,10 +680,18 @@ const res = await eventNotificationsService.replaceIntegration(params);
     };
 
     const notificationFcmBodyModel = {
-      notification: {
-        title: '<notification-title>',
-        badge: '<notification-message>',
-      },
+      message: {
+        'android': {
+          'notification': {
+              'title': '<notification-title>',
+              'body': '<notification-message>'
+          },
+          'data': {
+              'name': 'Robert',
+              'description': 'notification for the Poker'
+          },
+        },
+      }
     };
 
    const notificationApnsHeaders = {
