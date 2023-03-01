@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.0...v0.2.1) (2023-03-01)
+
+
+### Bug Fixes
+
+* add FCM V1 destination support ([e26a676](https://github.com/IBM/event-notifications-node-admin-sdk/commit/e26a6766f5ac418b85dfce3e953c47a88574bbdd))
+
 # [0.2.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.1.8...v0.2.0) (2023-02-01)
 
 
