@@ -49,6 +49,7 @@ let destinationId8 = '';
 let destinationId9 = '';
 let destinationId10 = '';
 let destinationId11 = '';
+let destinationId12 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -62,6 +63,7 @@ let subscriptionId8 = '';
 let subscriptionId9 = '';
 let subscriptionId10 = '';
 let subscriptionId11 = '';
+let subscriptionId12 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -71,6 +73,9 @@ let sNowClientSecret = '';
 let sNowUserName = '';
 let sNowPassword = '';
 let sNowInstanceName = '';
+let fcmProjectId = '';
+let fcmClientEmail = '';
+let fcmPrivateKey = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -94,6 +99,9 @@ describe('EventNotificationsV1_integration', () => {
     sNowUserName = config.snowUserName;
     sNowPassword = config.snowPassword;
     sNowInstanceName = config.snowInstanceName;
+    fcmClientEmail = config.fcmClientEmail;
+    fcmPrivateKey = config.fcmPrivateKey;
+    fcmProjectId = config.fcmProjectId;
 
     eventNotificationsService.enableRetries();
   });
@@ -472,12 +480,12 @@ describe('EventNotificationsV1_integration', () => {
 
     // FCM
 
-    const destinationConfigParamsModelFCM = {
+    let destinationConfigParamsModelFCM = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
-    const destinationConfigModelFCM = {
+    let destinationConfigModelFCM = {
       params: destinationConfigParamsModelFCM,
     };
 
@@ -492,7 +500,7 @@ describe('EventNotificationsV1_integration', () => {
       config: destinationConfigModelFCM,
     };
 
-    const resNew = await eventNotificationsService.createDestination(params);
+    let resNew = await eventNotificationsService.createDestination(params);
     expect(resNew).toBeDefined();
     expect(resNew.status).toBe(201);
     expect(resNew.result).toBeDefined();
@@ -745,6 +753,38 @@ describe('EventNotificationsV1_integration', () => {
     expect(sNowRes.result.name).toBe(name);
     expect(sNowRes.result.description).toBe(description);
     destinationId11 = sNowRes.result.id;
+
+    destinationConfigParamsModelFCM = {
+      private_key: fcmPrivateKey,
+      project_id: fcmProjectId,
+      client_email: fcmClientEmail,
+    };
+
+    destinationConfigModelFCM = {
+      params: destinationConfigParamsModelFCM,
+    };
+
+    name = 'FCM_V1_destination';
+    description = 'FCM V1 Destination';
+    type = 'push_android';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelFCM,
+    };
+
+    resNew = await eventNotificationsService.createDestination(params);
+    expect(resNew).toBeDefined();
+    expect(resNew.status).toBe(201);
+    expect(resNew.result).toBeDefined();
+
+    expect(resNew.result.type).toBe(type);
+    expect(resNew.result.name).toBe(name);
+    expect(resNew.result.description).toBe(description);
+    destinationId12 = resNew.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -856,12 +896,12 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
 
     // FCM
-    const destinationConfigParamsModelFCM = {
+    let destinationConfigParamsModelFCM = {
       server_key: fcmServerKey,
       sender_id: fcmSenderId,
     };
 
-    const destinationConfigModelFCM = {
+    let destinationConfigModelFCM = {
       params: destinationConfigParamsModelFCM,
     };
 
@@ -876,7 +916,7 @@ describe('EventNotificationsV1_integration', () => {
       config: destinationConfigModelFCM,
     };
 
-    const fcmRes = await eventNotificationsService.updateDestination(params);
+    let fcmRes = await eventNotificationsService.updateDestination(params);
     expect(fcmRes).toBeDefined();
     expect(fcmRes.status).toBe(200);
     expect(fcmRes.result).toBeDefined();
@@ -1103,6 +1143,35 @@ describe('EventNotificationsV1_integration', () => {
     expect(sNowRes.result).toBeDefined();
     expect(sNowRes.result.name).toBe(name);
     expect(sNowRes.result.description).toBe(description);
+
+    destinationConfigParamsModelFCM = {
+      private_key: fcmPrivateKey,
+      project_id: fcmProjectId,
+      client_email: fcmClientEmail,
+    };
+
+    destinationConfigModelFCM = {
+      params: destinationConfigParamsModelFCM,
+    };
+
+    name = 'FCM_destination_V1_update';
+    description = 'FCM Destination V1 update';
+
+    params = {
+      instanceId,
+      id: destinationId12,
+      name,
+      description,
+      config: destinationConfigModelFCM,
+    };
+
+    fcmRes = await eventNotificationsService.updateDestination(params);
+    expect(fcmRes).toBeDefined();
+    expect(fcmRes.status).toBe(200);
+    expect(fcmRes.result).toBeDefined();
+    expect(fcmRes.result.name).toBe(name);
+    expect(fcmRes.result.description).toBe(description);
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1371,6 +1440,25 @@ describe('EventNotificationsV1_integration', () => {
     expect(sNowRes.result.name).toBe(name);
     expect(sNowRes.result.description).toBe(description);
     subscriptionId11 = sNowRes.result.id;
+
+    // FCM V1
+    name = 'FCM V1 subscription';
+    description = 'Subscription for the V1 FCM';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId12,
+      topicId: topicId3,
+      description,
+    };
+
+    const resFCMV1 = await eventNotificationsService.createSubscription(params);
+    expect(resFCMV1).toBeDefined();
+    expect(resFCMV1.status).toBe(201);
+    expect(resFCMV1.result).toBeDefined();
+    expect(resFCMV1.result.name).toBe(name);
+    expect(resFCMV1.result.description).toBe(description);
+    subscriptionId12 = resFCMV1.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1536,7 +1624,7 @@ describe('EventNotificationsV1_integration', () => {
       description,
     };
 
-    const fcmRes = await eventNotificationsService.updateSubscription(params);
+    let fcmRes = await eventNotificationsService.updateSubscription(params);
     expect(fcmRes).toBeDefined();
     expect(fcmRes.status).toBe(200);
     expect(fcmRes.result).toBeDefined();
@@ -1684,6 +1772,23 @@ describe('EventNotificationsV1_integration', () => {
     expect(sNowRes.result).toBeDefined();
     expect(sNowRes.result.name).toBe(name);
     expect(sNowRes.result.description).toBe(description);
+
+    // FCM
+    name = 'FCM subscription V1 update';
+    description = 'Subscription for the FCM V1 update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId12,
+      description,
+    };
+
+    fcmRes = await eventNotificationsService.updateSubscription(params);
+    expect(fcmRes).toBeDefined();
+    expect(fcmRes.status).toBe(200);
+    expect(fcmRes.result).toBeDefined();
+    expect(fcmRes.result.name).toBe(name);
+    expect(fcmRes.result.description).toBe(description);
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -1720,28 +1825,21 @@ describe('EventNotificationsV1_integration', () => {
 
     // NotificationFCMBodyMessageData
     const notificationFcmBodyMessageDataModel = {
-      alert: 'Alert message',
-      collapse_key: 'collapse_key',
-      interactive_category: 'category_test',
-      icon: 'test.png',
-      delay_while_idle: true,
-      sync: true,
-      visibility: '0',
-      redact: 'redact test alert',
-      payload: { 'item': 'test message' },
-      priority: 'MIN',
-      sound: 'newSound',
-      time_to_live: 0,
-      lights: lightsModel,
-      android_title: 'IBM test title',
-      group_id: 'Group_ID_1',
-      style: styleModel,
-      type: 'DEFAULT',
+      'android': {
+        'notification': {
+          'title': 'Alert message',
+          'body': 'Bob wants to play Poker',
+        },
+        'data': {
+          'name': 'Robert',
+          'description': 'notification for the Poker',
+        },
+      },
     };
 
     // notificationFcmBodyModel
     const notificationFcmBodyModel = {
-      en_data: notificationFcmBodyMessageDataModel,
+      message: notificationFcmBodyMessageDataModel,
     };
 
     const notificationApnsBodyMessageDataModel = {
@@ -1970,6 +2068,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId9,
       subscriptionId10,
       subscriptionId11,
+      subscriptionId12,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2045,6 +2144,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId9,
       destinationId10,
       destinationId11,
+      destinationId12,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

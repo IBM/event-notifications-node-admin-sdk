@@ -1223,9 +1223,9 @@ class EventNotificationsV1 extends BaseService {
    ************************/
 
   /**
-   * Create a new Tag subscription.
+   * Create a new tag subscription.
    *
-   * Create a new Tag subscription.
+   * Create a new tag subscription.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -1288,9 +1288,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * List all Tag Subscriptions.
+   * List all tag subscriptions.
    *
-   * List all Tag Subscriptions.
+   * List all tag subscriptions.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -1368,9 +1368,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Delete a Tag subcription.
+   * Delete a tag subscription.
    *
-   * Delete a Tag subcription.
+   * Delete a tag subscription.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2935,14 +2935,20 @@ namespace EventNotificationsV1 {
     pre_prod?: boolean;
   }
 
-  /** Payload describing an FCM destination configuration. */
+  /** Payload describing an FCM destination configuration. project_id, private_key and client_email for FCM HTTP v1 APIs. */
   export interface DestinationConfigOneOfFCMDestinationConfig extends DestinationConfigOneOf {
     /** FCM server_key. */
-    server_key: string;
+    server_key?: string;
     /** FCM sender_id. */
-    sender_id: string;
+    sender_id?: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
+    /** FCM project_id. */
+    project_id?: string;
+    /** FCM private_key. */
+    private_key?: string;
+    /** FCM client_email. */
+    client_email?: string;
   }
 
   /** Payload describing a Firefox destination configuration. */
