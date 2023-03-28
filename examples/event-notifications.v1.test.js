@@ -63,6 +63,7 @@ let destinationId9 = '';
 let destinationId10 = '';
 let destinationId11 = '';
 let destinationId12 = '';
+let destinationId13 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -80,6 +81,7 @@ let sNowInstanceName = '';
 let fcmProjectId = '';
 let fcmClientEmail = '';
 let fcmPrivateKey = '';
+let codeEngineURL = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -108,7 +110,7 @@ describe('EventNotificationsV1', () => {
   fcmClientEmail = config.fcmClientEmail;
   fcmPrivateKey = config.fcmPrivateKey;
   fcmProjectId = config.fcmProjectId;
-
+  codeEngineURL = config.codeEngineUrl;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -801,6 +803,36 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const destinationCEConfigParamsModel = {
+      url: codeEngineURL,
+      verb: 'get',
+      custom_headers: { 'authorization': 'testString' },
+      sensitive_headers: ['authorization'],
+    };
+
+    const destinationCEConfigModel = {
+      params: destinationCEConfigParamsModel,
+    };
+
+    name = 'code_engine_destination';
+    description = 'code engine Destination';
+    type = 'ibmce';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationCEConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId13 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -1196,6 +1228,33 @@ describe('EventNotificationsV1', () => {
       description:
         'This destination is for creating admin FCM V1 to receive compliance notifications',
       config: destinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationCEConfigParamsModel = {
+      url: codeEngineURL,
+      verb: 'post',
+      custom_headers: { authorization: 'xxx-tye67-yyy' },
+      sensitive_headers: ['authorization'],
+    };
+    const destinationCEConfigModel = {
+      params: destinationConfigParamsModel,
+    };
+
+    name = 'code engine updated';
+    description = 'This destination is for code engine notifications';
+    params = {
+      instanceId,
+      id: destinationId13,
+      name,
+      description,
+      config: destinationCEConfigModel,
     };
 
     try {
@@ -1724,6 +1783,7 @@ describe('EventNotificationsV1', () => {
       destinationId10,
       destinationId11,
       destinationId12,
+      destinationId13,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

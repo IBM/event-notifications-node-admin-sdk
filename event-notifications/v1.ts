@@ -2130,6 +2130,7 @@ namespace EventNotificationsV1 {
       PUSH_FIREFOX = 'push_firefox',
       SLACK = 'slack',
       IBMCF = 'ibmcf',
+      IBMCE = 'ibmce',
       PAGERDUTY = 'pagerduty',
       PUSH_SAFARI = 'push_safari',
       MSTEAMS = 'msteams',
@@ -2374,7 +2375,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/ServiceNow. */
+    /** Destination type Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/IBMCodeEngine/ServiceNow. */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -2990,7 +2991,7 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a MS Teams destination configuration. */
   export interface DestinationConfigOneOfMSTeamsDestinationConfig extends DestinationConfigOneOf {
-    /** URL of MS Teams Incoming Webhook. */
+    /** URL of MS Teams Incoming Notifications. */
     url: string;
   }
 
@@ -3037,7 +3038,7 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a Slack destination configuration. */
   export interface DestinationConfigOneOfSlackDestinationConfig extends DestinationConfigOneOf {
-    /** URL of Slack Incoming Webhook. */
+    /** URL of Slack Incoming Notifications. */
     url: string;
   }
 
