@@ -50,6 +50,7 @@ let destinationId9 = '';
 let destinationId10 = '';
 let destinationId11 = '';
 let destinationId12 = '';
+let destinationId13 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -64,6 +65,7 @@ let subscriptionId9 = '';
 let subscriptionId10 = '';
 let subscriptionId11 = '';
 let subscriptionId12 = '';
+let subscriptionId13 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -76,6 +78,7 @@ let sNowInstanceName = '';
 let fcmProjectId = '';
 let fcmClientEmail = '';
 let fcmPrivateKey = '';
+let codeEngineURL = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -102,6 +105,7 @@ describe('EventNotificationsV1_integration', () => {
     fcmClientEmail = config.fcmClientEmail;
     fcmPrivateKey = config.fcmPrivateKey;
     fcmProjectId = config.fcmProjectId;
+    codeEngineURL = config.codeEngineUrl;
 
     eventNotificationsService.enableRetries();
   });
@@ -785,6 +789,38 @@ describe('EventNotificationsV1_integration', () => {
     expect(resNew.result.description).toBe(description);
     destinationId12 = resNew.result.id;
 
+    const destinationCEConfigParamsModel = {
+      url: codeEngineURL,
+      verb: 'get',
+      custom_headers: { 'authorization': 'testString' },
+      sensitive_headers: ['authorization'],
+    };
+
+    const destinationCEConfigModel = {
+      params: destinationCEConfigParamsModel,
+    };
+
+    name = 'code_engine_destination';
+    description = 'code engine Destination';
+    type = 'ibmce';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationCEConfigModel,
+    };
+
+    const ceRes = await eventNotificationsService.createDestination(params);
+    expect(ceRes).toBeDefined();
+    expect(ceRes.status).toBe(201);
+    expect(ceRes.result).toBeDefined();
+
+    expect(ceRes.result.type).toBe(type);
+    expect(ceRes.result.name).toBe(name);
+    expect(ceRes.result.description).toBe(description);
+    destinationId13 = ceRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1172,6 +1208,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(fcmRes.result.name).toBe(name);
     expect(fcmRes.result.description).toBe(description);
 
+    const destinationCEConfigParamsModel = {
+      url: codeEngineURL,
+      verb: 'post',
+      custom_headers: { authorization: 'xxx-tye67-yyy' },
+      sensitive_headers: ['authorization'],
+    };
+    const destinationCEConfigModel = {
+      params: destinationConfigParamsModel,
+    };
+
+    name = 'code engine updated';
+    description = 'This destination is for code engine notifications';
+
+    params = {
+      instanceId,
+      id: destinationId13,
+      name,
+      description,
+      config: destinationCEConfigModel,
+    };
+
+    const ceRes = await eventNotificationsService.updateDestination(params);
+    expect(ceRes).toBeDefined();
+    expect(ceRes.status).toBe(200);
+    expect(ceRes.result).toBeDefined();
+    expect(ceRes.result.name).toBe(name);
+    expect(ceRes.result.description).toBe(description);
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1459,6 +1523,30 @@ describe('EventNotificationsV1_integration', () => {
     expect(resFCMV1.result.name).toBe(name);
     expect(resFCMV1.result.description).toBe(description);
     subscriptionId12 = resFCMV1.result.id;
+
+    // code engine
+    const subscriptionCECreateAttributesModel = {
+      signing_enabled: false,
+    };
+
+    name = 'subscription_code_engine';
+    description = 'Subscription for code engine';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId13,
+      topicId,
+      attributes: subscriptionCECreateAttributesModel,
+      description,
+    };
+
+    const ceRes = await eventNotificationsService.createSubscription(params);
+    expect(ceRes).toBeDefined();
+    expect(ceRes.status).toBe(201);
+    expect(ceRes.result).toBeDefined();
+    expect(ceRes.result.name).toBe(name);
+    expect(ceRes.result.description).toBe(description);
+    subscriptionId13 = ceRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1789,6 +1877,27 @@ describe('EventNotificationsV1_integration', () => {
     expect(fcmRes.result).toBeDefined();
     expect(fcmRes.result.name).toBe(name);
     expect(fcmRes.result.description).toBe(description);
+
+    const subscriptionCEUpdateAttributesModel = {
+      signing_enabled: true,
+    };
+
+    name = 'code_engine_sub_updated';
+    description = 'Update code engine subscription';
+    params = {
+      instanceId,
+      id: subscriptionId13,
+      name,
+      description,
+      attributes: subscriptionCEUpdateAttributesModel,
+    };
+
+    const ceRes = await eventNotificationsService.updateSubscription(params);
+    expect(ceRes).toBeDefined();
+    expect(ceRes.status).toBe(200);
+    expect(ceRes.result).toBeDefined();
+    expect(ceRes.result.name).toBe(name);
+    expect(ceRes.result.description).toBe(description);
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2069,6 +2178,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId10,
       subscriptionId11,
       subscriptionId12,
+      subscriptionId13,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2145,6 +2255,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId10,
       destinationId11,
       destinationId12,
+      destinationId13,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
