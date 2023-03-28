@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.1...v0.2.2) (2023-03-28)
+
+
+### Bug Fixes
+
+* add code engine destination support ([5eb4b0c](https://github.com/IBM/event-notifications-node-admin-sdk/commit/5eb4b0cb6cc8cc4f675a0037ba7f24471352b945))
+
 ## [0.2.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.0...v0.2.1) (2023-03-01)
 
 
