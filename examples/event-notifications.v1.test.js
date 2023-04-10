@@ -1397,7 +1397,7 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    //slack
+    // slack
     name = 'slack subscription';
     description = 'Subscription for the slack';
     params = {
@@ -1620,7 +1620,7 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    //slack
+    // slack
     name = 'slack subscription update';
     description = 'Subscription for the slack update';
     params = {
@@ -1748,7 +1748,13 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-delete_subscription
-    const subscriptions = [subscriptionId1, subscriptionId2, subscriptionId3, subscriptionId4, subscriptionId5];
+    const subscriptions = [
+      subscriptionId1,
+      subscriptionId2,
+      subscriptionId3,
+      subscriptionId4,
+      subscriptionId5,
+    ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
       params = {
