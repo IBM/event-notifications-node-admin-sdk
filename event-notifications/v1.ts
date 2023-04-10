@@ -3094,7 +3094,7 @@ namespace EventNotificationsV1 {
   /** The attributes for a Slack notification. */
   export interface SubscriptionAttributesSlackAttributesResponse extends SubscriptionAttributes {
     /** Attachment Color for Slack Notification. */
-    attachment_color: string;
+    attachment_color?: string;
   }
 
   /** The attributes for a webhook notification. */
@@ -3142,7 +3142,7 @@ namespace EventNotificationsV1 {
   export interface SubscriptionCreateAttributesSlackAttributes
     extends SubscriptionCreateAttributes {
     /** Attachment Color for the slack message. */
-    attachment_color: string;
+    attachment_color?: string;
   }
 
   /** The attributes for a webhook notification. */
@@ -3195,7 +3195,7 @@ namespace EventNotificationsV1 {
   export interface SubscriptionUpdateAttributesSlackAttributes
     extends SubscriptionUpdateAttributes {
     /** Attachment Color for the slack message. */
-    attachment_color: string;
+    attachment_color?: string;
   }
 
   /** The attributes for a webhook notification. */
