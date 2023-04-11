@@ -69,6 +69,7 @@ let subscriptionId1 = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
 let subscriptionId4 = '';
+let subscriptionId5 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -1395,6 +1396,28 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    // slack
+    name = 'slack subscription';
+    description = 'Subscription for the slack';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId4,
+      topicId,
+      description,
+      attributes: {
+        attachment_color: '#0000FF',
+      },
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId5 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_subscription
   });
 
@@ -1597,6 +1620,25 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    // slack
+    name = 'slack subscription update';
+    description = 'Subscription for the slack update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId5,
+      description,
+      attributes: {
+        attachment_color: '#0000FF',
+      },
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_subscription
   });
   test('sendNotifications request example', async () => {
@@ -1706,7 +1748,13 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-delete_subscription
-    const subscriptions = [subscriptionId1, subscriptionId2, subscriptionId3, subscriptionId4];
+    const subscriptions = [
+      subscriptionId1,
+      subscriptionId2,
+      subscriptionId3,
+      subscriptionId4,
+      subscriptionId5,
+    ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
       params = {

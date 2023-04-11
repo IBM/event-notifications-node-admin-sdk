@@ -1356,6 +1356,9 @@ describe('EventNotificationsV1_integration', () => {
       destinationId: destinationId4,
       topicId,
       description,
+      attributes: {
+        attachment_color: '#0000FF',
+      },
     };
 
     const slackRes = await eventNotificationsService.createSubscription(params);
@@ -1727,6 +1730,9 @@ describe('EventNotificationsV1_integration', () => {
       name,
       id: subscriptionId4,
       description,
+      attributes: {
+        attachment_color: '#0000FF',
+      },
     };
 
     const slackRes = await eventNotificationsService.updateSubscription(params);
