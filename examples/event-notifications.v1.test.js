@@ -64,6 +64,7 @@ let destinationId10 = '';
 let destinationId11 = '';
 let destinationId12 = '';
 let destinationId13 = '';
+let destinationId14 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -834,6 +835,33 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const cosdestinationConfigModel = {
+      params: {
+        bucket_name: 'encosbucket',
+        instance_id: 'e8a6b5a3-3ff4-xxxx-xxxx-ea86a4d4a3b6',
+        endpoint: 'https://s3.us-west.cloud-object-storage.test.appdomain.cloud',
+      },
+    };
+
+    name = 'COS_destination';
+    description = 'COS Destination';
+    type = 'ibmcos';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: cosdestinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId14 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -1256,6 +1284,31 @@ describe('EventNotificationsV1', () => {
       name,
       description,
       config: destinationCEConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationConfigModelCOS = {
+      params: {
+        bucket_name: 'encosbucket',
+        instance_id: 'e8a6b5a3-xxxx-xxxx-ad88-ea86a4d4a3b6',
+        endpoint: 'https://s3.us-west.cloud-object-storage.test.appdomain.cloud',
+      },
+    };
+
+    name = 'COS_destination_update';
+    description = 'COS Destination_update';
+    params = {
+      instanceId,
+      id: destinationId14,
+      name,
+      description,
+      config: destinationConfigModelCOS,
     };
 
     try {
@@ -1832,6 +1885,7 @@ describe('EventNotificationsV1', () => {
       destinationId11,
       destinationId12,
       destinationId13,
+      destinationId14,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

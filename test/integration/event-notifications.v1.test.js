@@ -51,6 +51,7 @@ let destinationId10 = '';
 let destinationId11 = '';
 let destinationId12 = '';
 let destinationId13 = '';
+let destinationId14 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -66,6 +67,7 @@ let subscriptionId10 = '';
 let subscriptionId11 = '';
 let subscriptionId12 = '';
 let subscriptionId13 = '';
+let subscriptionId14 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -821,6 +823,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceRes.result.description).toBe(description);
     destinationId13 = ceRes.result.id;
 
+    const cosdestinationConfigModel = {
+      params: {
+        bucket_name: 'cloud-object-storage-cos-standard-gxi',
+        instance_id: 'ee55ab3b-b8ef-41e3-af59-2e1291740fea',
+        endpoint: 'https://s3.us-east.cloud-object-storage.appdomain.cloud',
+      },
+    };
+    name = 'COS_destination';
+    description = 'COS Destination';
+    type = 'ibmcos';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: cosdestinationConfigModel,
+    };
+
+    const cosRes = await eventNotificationsService.createDestination(params);
+    expect(cosRes).toBeDefined();
+    expect(cosRes.status).toBe(201);
+    expect(cosRes.result).toBeDefined();
+
+    expect(cosRes.result.type).toBe(type);
+    expect(cosRes.result.name).toBe(name);
+    expect(cosRes.result.description).toBe(description);
+    destinationId14 = cosRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1236,6 +1266,32 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceRes.result.name).toBe(name);
     expect(ceRes.result.description).toBe(description);
 
+    const destinationConfigModelCOS = {
+      params: {
+        bucket_name: 'cloud-object-storage-cos-standard-gxi',
+        instance_id: 'ee55ab3b-b8ef-41e3-af59-2e1291740fea',
+        endpoint: 'https://s3.us-east.cloud-object-storage.appdomain.cloud',
+      },
+    };
+
+    name = 'COS_destination_update';
+    description = 'COS Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId14,
+      name,
+      description,
+      config: destinationConfigModelCOS,
+    };
+
+    const cosRes = await eventNotificationsService.updateDestination(params);
+    expect(cosRes).toBeDefined();
+    expect(cosRes.status).toBe(200);
+    expect(cosRes.result).toBeDefined();
+    expect(cosRes.result.name).toBe(name);
+    expect(cosRes.result.description).toBe(description);
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1550,6 +1606,24 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceRes.result.name).toBe(name);
     expect(ceRes.result.description).toBe(description);
     subscriptionId13 = ceRes.result.id;
+
+    name = 'COS subscription';
+    description = 'Subscription for the COS destination';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId14,
+      topicId,
+      description,
+    };
+
+    const cosRes = await eventNotificationsService.createSubscription(params);
+    expect(cosRes).toBeDefined();
+    expect(cosRes.status).toBe(201);
+    expect(cosRes.result).toBeDefined();
+    expect(cosRes.result.name).toBe(name);
+    expect(cosRes.result.description).toBe(description);
+    subscriptionId14 = cosRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1904,6 +1978,23 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceRes.result).toBeDefined();
     expect(ceRes.result.name).toBe(name);
     expect(ceRes.result.description).toBe(description);
+
+    name = 'COS Subscription update';
+    description = 'Subscription for the COS destination update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId14,
+      description,
+    };
+
+    const cosRes = await eventNotificationsService.updateSubscription(params);
+    expect(cosRes).toBeDefined();
+    expect(cosRes.status).toBe(200);
+    expect(cosRes.result).toBeDefined();
+    expect(cosRes.result.name).toBe(name);
+    expect(cosRes.result.description).toBe(description);
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2185,6 +2276,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId11,
       subscriptionId12,
       subscriptionId13,
+      subscriptionId14,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2262,6 +2354,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId11,
       destinationId12,
       destinationId13,
+      destinationId14,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

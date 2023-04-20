@@ -2135,6 +2135,7 @@ namespace EventNotificationsV1 {
       PUSH_SAFARI = 'push_safari',
       MSTEAMS = 'msteams',
       SERVICENOW = 'servicenow',
+      IBMCOS = 'ibmcos',
     }
   }
 
@@ -2375,7 +2376,9 @@ namespace EventNotificationsV1 {
     name: string;
     /** Destination description. */
     description: string;
-    /** Destination type Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/IBMCodeEngine/ServiceNow. */
+    /** Destination type
+     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage.
+     */
     type: string;
     /** Payload describing a destination configuration. */
     config?: DestinationConfig;
@@ -2969,6 +2972,17 @@ namespace EventNotificationsV1 {
     url: string;
     /** API Key with access of IBM Cloud Functions IAM Namespace. */
     api_key?: string;
+  }
+
+  /** Payload describing a Cloud Object Storage destination configuration. */
+  export interface DestinationConfigOneOfIBMCloudObjectStorageDestinationConfig
+    extends DestinationConfigOneOf {
+    /** Bucket Name for Cloud Object Storage. */
+    bucket_name: string;
+    /** Instance Id of Cloud Object Storage. */
+    instance_id: string;
+    /** End Point of Cloud Object Storage. */
+    endpoint: string;
   }
 
   /** Payload describing an iOS destination configuration. */
