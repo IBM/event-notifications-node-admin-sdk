@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.2...v0.2.3) (2023-04-20)
+
+
+### Bug Fixes
+
+* adds COS destination support ([72a5974](https://github.com/IBM/event-notifications-node-admin-sdk/commit/72a5974134f64ffdff28fca85a39e61c5b6873a5))
+
 ## [0.2.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.1...v0.2.2) (2023-03-28)
 
 
