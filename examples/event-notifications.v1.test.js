@@ -65,6 +65,7 @@ let destinationId11 = '';
 let destinationId12 = '';
 let destinationId13 = '';
 let destinationId14 = '';
+let destinationId15 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -84,6 +85,8 @@ let fcmProjectId = '';
 let fcmClientEmail = '';
 let fcmPrivateKey = '';
 let codeEngineURL = '';
+let huaweiClientId = '';
+let huaweiClientSecret = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -113,6 +116,8 @@ describe('EventNotificationsV1', () => {
   fcmPrivateKey = config.fcmPrivateKey;
   fcmProjectId = config.fcmProjectId;
   codeEngineURL = config.codeEngineUrl;
+  huaweiClientId = config.huaweiClientId;
+  huaweiClientSecret = config.huaweiClientSecret;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -862,6 +867,32 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const huaweidestinationConfigModel = {
+      params: {
+        client_id: huaweiClientId,
+        client_secret: huaweiClientSecret,
+        pre_prod: false,
+      },
+    };
+    name = 'Huawei_destination';
+    description = 'Huawei Destination';
+    type = 'push_huawei';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: huaweidestinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId15 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -1309,6 +1340,32 @@ describe('EventNotificationsV1', () => {
       name,
       description,
       config: destinationConfigModelCOS,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const huaweiDestinationConfigModel = {
+      params: {
+        client_id: huaweiClientId,
+        client_secret: huaweiClientSecret,
+        pre_prod: false,
+      },
+    };
+
+    name = 'Huawei_destination_update';
+    description = 'Huawei Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId15,
+      name,
+      description,
+      config: huaweiDestinationConfigModel,
     };
 
     try {
@@ -1886,6 +1943,7 @@ describe('EventNotificationsV1', () => {
       destinationId12,
       destinationId13,
       destinationId14,
+      destinationId15,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

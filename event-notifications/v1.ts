@@ -2136,6 +2136,7 @@ namespace EventNotificationsV1 {
       MSTEAMS = 'msteams',
       SERVICENOW = 'servicenow',
       IBMCOS = 'ibmcos',
+      PUSH_HUAWEI = 'push_huawei',
     }
   }
 
@@ -2961,6 +2962,16 @@ namespace EventNotificationsV1 {
     website_url: string;
     /** Chrome VAPID public key. */
     public_key?: string;
+    /** If pre prod enabled. */
+    pre_prod?: boolean;
+  }
+
+  /** Payload describing a Huawei destination configuration. */
+  export interface DestinationConfigOneOfHuaweiDestinationConfig extends DestinationConfigOneOf {
+    /** ClientID for the Huawei account oauth. */
+    client_id: string;
+    /** ClientSecret for the Huawei account oauth. */
+    client_secret: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
   }
