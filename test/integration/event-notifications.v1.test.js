@@ -52,6 +52,7 @@ let destinationId11 = '';
 let destinationId12 = '';
 let destinationId13 = '';
 let destinationId14 = '';
+let destinationId15 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -68,6 +69,7 @@ let subscriptionId11 = '';
 let subscriptionId12 = '';
 let subscriptionId13 = '';
 let subscriptionId14 = '';
+let subscriptionId15 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -81,6 +83,8 @@ let fcmProjectId = '';
 let fcmClientEmail = '';
 let fcmPrivateKey = '';
 let codeEngineURL = '';
+let huaweiClientId = '';
+let huaweiClientSecret = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -108,6 +112,8 @@ describe('EventNotificationsV1_integration', () => {
     fcmPrivateKey = config.fcmPrivateKey;
     fcmProjectId = config.fcmProjectId;
     codeEngineURL = config.codeEngineUrl;
+    huaweiClientId = config.huaweiClientId;
+    huaweiClientSecret = config.huaweiClientSecret;
 
     eventNotificationsService.enableRetries();
   });
@@ -851,6 +857,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(cosRes.result.description).toBe(description);
     destinationId14 = cosRes.result.id;
 
+    const huaweidestinationConfigModel = {
+      params: {
+        client_id: huaweiClientId,
+        client_secret: huaweiClientSecret,
+        pre_prod: false,
+      },
+    };
+    name = 'Huawei_destination';
+    description = 'Huawei Destination';
+    type = 'push_huawei';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: huaweidestinationConfigModel,
+    };
+
+    const huaweiRes = await eventNotificationsService.createDestination(params);
+    expect(huaweiRes).toBeDefined();
+    expect(huaweiRes.status).toBe(201);
+    expect(huaweiRes.result).toBeDefined();
+
+    expect(huaweiRes.result.type).toBe(type);
+    expect(huaweiRes.result.name).toBe(name);
+    expect(huaweiRes.result.description).toBe(description);
+    destinationId15 = huaweiRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1292,6 +1326,32 @@ describe('EventNotificationsV1_integration', () => {
     expect(cosRes.result.name).toBe(name);
     expect(cosRes.result.description).toBe(description);
 
+    const huaweiDestinationConfigModel = {
+      params: {
+        client_id: huaweiClientId,
+        client_secret: huaweiClientSecret,
+        pre_prod: false,
+      },
+    };
+
+    name = 'Huawei_destination_update';
+    description = 'Huawei Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId15,
+      name,
+      description,
+      config: huaweiDestinationConfigModel,
+    };
+
+    const huaweiRes = await eventNotificationsService.updateDestination(params);
+    expect(huaweiRes).toBeDefined();
+    expect(huaweiRes.status).toBe(200);
+    expect(huaweiRes.result).toBeDefined();
+    expect(huaweiRes.result.name).toBe(name);
+    expect(huaweiRes.result.description).toBe(description);
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1624,6 +1684,24 @@ describe('EventNotificationsV1_integration', () => {
     expect(cosRes.result.name).toBe(name);
     expect(cosRes.result.description).toBe(description);
     subscriptionId14 = cosRes.result.id;
+
+    name = 'Huawei subscription';
+    description = 'Subscription for the Huawei destination';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId15,
+      topicId,
+      description,
+    };
+
+    const huaweiRes = await eventNotificationsService.createSubscription(params);
+    expect(huaweiRes).toBeDefined();
+    expect(huaweiRes.status).toBe(201);
+    expect(huaweiRes.result).toBeDefined();
+    expect(huaweiRes.result.name).toBe(name);
+    expect(huaweiRes.result.description).toBe(description);
+    subscriptionId15 = huaweiRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1995,6 +2073,22 @@ describe('EventNotificationsV1_integration', () => {
     expect(cosRes.result.name).toBe(name);
     expect(cosRes.result.description).toBe(description);
 
+    name = 'Huawei Subscription update';
+    description = 'Subscription for the Huawei destination update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId15,
+      description,
+    };
+
+    const huaweiRes = await eventNotificationsService.updateSubscription(params);
+    expect(huaweiRes).toBeDefined();
+    expect(huaweiRes.status).toBe(200);
+    expect(huaweiRes.result).toBeDefined();
+    expect(huaweiRes.result.name).toBe(name);
+    expect(huaweiRes.result.description).toBe(description);
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2277,6 +2371,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId12,
       subscriptionId13,
       subscriptionId14,
+      subscriptionId15,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2355,6 +2450,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId12,
       destinationId13,
       destinationId14,
+      destinationId15,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
