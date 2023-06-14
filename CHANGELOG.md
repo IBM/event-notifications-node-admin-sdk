@@ -1,3 +1,11 @@
+## [0.2.4](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.3...v0.2.4) (2023-06-14)
+
+
+### Bug Fixes
+
+* add huawei destination support ([8c93c75](https://github.com/IBM/event-notifications-node-admin-sdk/commit/8c93c7581ad60f33c6be4346ec19e97bcab6791a))
+* huawei destination support ([3ffd1e1](https://github.com/IBM/event-notifications-node-admin-sdk/commit/3ffd1e1ba058d340e49cee75dff38cccdd29c622))
+
 ## [0.2.3](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.2...v0.2.3) (2023-04-20)
 
 
