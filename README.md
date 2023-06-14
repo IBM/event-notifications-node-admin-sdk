@@ -668,6 +668,7 @@ const res = await eventNotificationsService.replaceIntegration(params);
       user_ids: ['<user-ids>'],
       fcm_devices: ['<fcm-device-ids>'],
       apns_devices: ['<apns-device-ids>'],
+      huawei_devices: ['<huawei-device-ids>']
       tags: ['<tag-names>'],
       platforms: ['<device-platforms>'],
     };
@@ -705,6 +706,19 @@ const res = await eventNotificationsService.replaceIntegration(params);
       },
     }
 
+    const notificationHuaweiBodymodel = {
+      'android': {
+          'notification': {
+              'title': '<notification-title>',
+              'body': '<notification-message>'
+          },
+          'data': {
+              'name': 'Robert',
+              'description': 'notification for the Poker'
+          },
+        },
+      }
+
     let notificationID = "<notification-id>"
     let notificationSubject = "<notification-subject>"
     let notificationSeverity = "<notification-severity>"
@@ -723,6 +737,7 @@ const notificationCreateModel = {
       ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
       ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
+      ibmenhuaweibody: JSON.stringify(notificationHuaweiBodymodel),
       ibmendefaultshort: 'short info',
       ibmendefaultlong: 'long info',
       specversion: '1.0',
