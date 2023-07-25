@@ -15,9 +15,9 @@
  */
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
-const core = require('ibm-cloud-sdk-core');
+const sdkCorePackage = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = core;
+const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 
 const nock = require('nock');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
@@ -48,7 +48,7 @@ function unmock_createRequest() {
 }
 
 // dont actually construct an authenticator
-const getAuthenticatorMock = jest.spyOn(core, 'getAuthenticatorFromEnvironment');
+const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 
 describe('EventNotificationsV1', () => {
@@ -130,7 +130,7 @@ describe('EventNotificationsV1', () => {
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
         subject: 'testString',
-        data: { 'key1': 'testString' },
+        data: { foo: 'bar' },
         datacontenttype: 'application/json',
         ibmenpushto: '{"platforms":["push_android"]}',
         ibmenfcmbody: 'testString',
@@ -140,6 +140,7 @@ describe('EventNotificationsV1', () => {
         ibmenchromeheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
         ibmenfirefoxbody: 'testString',
         ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmenhuaweibody: 'testString',
         ibmensafaribody: 'testString',
         foo: 'testString',
       };
@@ -246,7 +247,7 @@ describe('EventNotificationsV1', () => {
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
         subject: 'testString',
-        data: { 'key1': 'testString' },
+        data: { foo: 'bar' },
         datacontenttype: 'application/json',
         ibmenpushto: '{"platforms":["push_android"]}',
         ibmenfcmbody: 'testString',
@@ -256,6 +257,7 @@ describe('EventNotificationsV1', () => {
         ibmenchromeheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
         ibmenfirefoxbody: 'testString',
         ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmenhuaweibody: 'testString',
         ibmensafaribody: 'testString',
         foo: 'testString',
       };
@@ -1422,12 +1424,25 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // DestinationConfigOneOfWebhookDestinationConfig
+      // DKIMAttributes
+      const dkimAttributesModel = {
+        public_key: 'testString',
+        selector: 'testString',
+        verification: 'testString',
+      };
+
+      // SPFAttributes
+      const spfAttributesModel = {
+        txt_name: 'testString',
+        txt_value: 'testString',
+        verification: 'testString',
+      };
+
+      // DestinationConfigOneOfCustomDomainEmailDestinationConfig
       const destinationConfigOneOfModel = {
-        url: 'testString',
-        verb: 'get',
-        custom_headers: { 'key1': 'testString' },
-        sensitive_headers: ['testString'],
+        domain: 'testString',
+        dkim: dkimAttributesModel,
+        spf: spfAttributesModel,
       };
 
       // DestinationConfig
@@ -1827,12 +1842,25 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // DestinationConfigOneOfWebhookDestinationConfig
+      // DKIMAttributes
+      const dkimAttributesModel = {
+        public_key: 'testString',
+        selector: 'testString',
+        verification: 'testString',
+      };
+
+      // SPFAttributes
+      const spfAttributesModel = {
+        txt_name: 'testString',
+        txt_value: 'testString',
+        verification: 'testString',
+      };
+
+      // DestinationConfigOneOfCustomDomainEmailDestinationConfig
       const destinationConfigOneOfModel = {
-        url: 'testString',
-        verb: 'get',
-        custom_headers: { 'key1': 'testString' },
-        sensitive_headers: ['testString'],
+        domain: 'testString',
+        dkim: dkimAttributesModel,
+        spf: spfAttributesModel,
       };
 
       // DestinationConfig

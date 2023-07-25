@@ -40,7 +40,7 @@
     "@types/node": "^12.0.8",
     "eslint-config-airbnb": "^19.0.4",
     "extend": "^3.0.2",
-    "ibm-cloud-sdk-core": "^4.0.3"
+    "ibm-cloud-sdk-core": "^4.0.8"
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.0",

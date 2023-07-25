@@ -53,6 +53,7 @@ let destinationId12 = '';
 let destinationId13 = '';
 let destinationId14 = '';
 let destinationId15 = '';
+let destinationId16 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -70,6 +71,7 @@ let subscriptionId12 = '';
 let subscriptionId13 = '';
 let subscriptionId14 = '';
 let subscriptionId15 = '';
+let subscriptionId16 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -85,10 +87,12 @@ let fcmPrivateKey = '';
 let codeEngineURL = '';
 let huaweiClientId = '';
 let huaweiClientSecret = '';
+let cosBucketName = '';
+let cosInstanceId = '';
+let cosEndPoint = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
-
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialise service', async () => {
@@ -114,6 +118,9 @@ describe('EventNotificationsV1_integration', () => {
     codeEngineURL = config.codeEngineUrl;
     huaweiClientId = config.huaweiClientId;
     huaweiClientSecret = config.huaweiClientSecret;
+    cosBucketName = config.cosBucketName;
+    cosInstanceId = config.cosInstance;
+    cosEndPoint = config.cosEndpoint;
 
     eventNotificationsService.enableRetries();
   });
@@ -129,7 +136,6 @@ describe('EventNotificationsV1_integration', () => {
       limit,
       search,
     };
-
     const res = await eventNotificationsService.listIntegrations(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
@@ -831,9 +837,9 @@ describe('EventNotificationsV1_integration', () => {
 
     const cosdestinationConfigModel = {
       params: {
-        bucket_name: 'cloud-object-storage-cos-standard-gxi',
-        instance_id: 'ee55ab3b-b8ef-41e3-af59-2e1291740fea',
-        endpoint: 'https://s3.us-east.cloud-object-storage.appdomain.cloud',
+        bucket_name: cosBucketName,
+        instance_id: cosInstanceId,
+        endpoint: cosEndPoint,
       },
     };
     name = 'COS_destination';
@@ -884,6 +890,32 @@ describe('EventNotificationsV1_integration', () => {
     expect(huaweiRes.result.name).toBe(name);
     expect(huaweiRes.result.description).toBe(description);
     destinationId15 = huaweiRes.result.id;
+
+    const customdestinationConfigModel = {
+      params: {
+        domain: 'ashwin.event-notifications.test.cloud.ibm.com',
+      },
+    };
+    name = 'Custom_Email_destination';
+    description = 'Custom Email Destination';
+    type = 'smtp_custom';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: customdestinationConfigModel,
+    };
+
+    const customEmailRes = await eventNotificationsService.createDestination(params);
+    expect(customEmailRes).toBeDefined();
+    expect(customEmailRes.status).toBe(201);
+    expect(customEmailRes.result).toBeDefined();
+
+    expect(customEmailRes.result.type).toBe(type);
+    expect(customEmailRes.result.name).toBe(name);
+    expect(customEmailRes.result.description).toBe(description);
+    destinationId16 = customEmailRes.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -1302,9 +1334,9 @@ describe('EventNotificationsV1_integration', () => {
 
     const destinationConfigModelCOS = {
       params: {
-        bucket_name: 'cloud-object-storage-cos-standard-gxi',
-        instance_id: 'ee55ab3b-b8ef-41e3-af59-2e1291740fea',
-        endpoint: 'https://s3.us-east.cloud-object-storage.appdomain.cloud',
+        bucket_name: cosBucketName,
+        instance_id: cosInstanceId,
+        endpoint: cosEndPoint,
       },
     };
 
@@ -1351,6 +1383,30 @@ describe('EventNotificationsV1_integration', () => {
     expect(huaweiRes.result).toBeDefined();
     expect(huaweiRes.result.name).toBe(name);
     expect(huaweiRes.result.description).toBe(description);
+
+    const customDestinationConfigModel = {
+      params: {
+        domain: 'ashwin.event-notifications.test.cloud.ibm.com',
+      },
+    };
+
+    name = 'custom_email_destination_update';
+    description = 'custom email Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId16,
+      name,
+      description,
+      config: customDestinationConfigModel,
+    };
+
+    const customemailRes = await eventNotificationsService.updateDestination(params);
+    expect(customemailRes).toBeDefined();
+    expect(customemailRes.status).toBe(200);
+    expect(customemailRes.result).toBeDefined();
+    expect(customemailRes.result.name).toBe(name);
+    expect(customemailRes.result.description).toBe(description);
 
     //
     // The following status codes aren't covered by tests.
@@ -1702,6 +1758,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(huaweiRes.result.name).toBe(name);
     expect(huaweiRes.result.description).toBe(description);
     subscriptionId15 = huaweiRes.result.id;
+
+    const subscriptionCreateCustomAttributesModel = {
+      invited: ['abc@gmail.com', 'tester3@ibm.com'],
+      add_notification_payload: true,
+      reply_to_mail: 'tester1@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
+      from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+    };
+
+    name = 'subscription_custom_email';
+    description = 'Subscription for custom email';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId16,
+      topicId,
+      attributes: subscriptionCreateCustomAttributesModel,
+      description,
+    };
+
+    const customEmailres = await eventNotificationsService.createSubscription(params);
+    expect(customEmailres).toBeDefined();
+    expect(customEmailres.status).toBe(201);
+    expect(customEmailres.result).toBeDefined();
+    expect(customEmailres.result.name).toBe(name);
+    expect(customEmailres.result.description).toBe(description);
+    subscriptionId16 = customEmailres.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -2089,6 +2173,42 @@ describe('EventNotificationsV1_integration', () => {
     expect(huaweiRes.result.name).toBe(name);
     expect(huaweiRes.result.description).toBe(description);
 
+    const customeEmailUpdateAttributesInvited = {
+      add: ['abc@gmail.com'],
+    };
+
+    const customEmailUpdateAttributesToRemove = {
+      remove: ['tester3@ibm.com'],
+    };
+
+    const subscriptionUpdateCustomAttributesModel = {
+      invited: customeEmailUpdateAttributesInvited,
+      add_notification_payload: true,
+      reply_to_mail: 'abc@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
+      from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+      subscribed: customEmailUpdateAttributesToRemove,
+      unsubscribed: customEmailUpdateAttributesToRemove,
+    };
+
+    const customEmailName = 'subscription_custom_email_updated';
+    const customEmailDescription = 'Subscription for custom email updated';
+    const customParams = {
+      instanceId,
+      name: customEmailName,
+      id: subscriptionId16,
+      attributes: subscriptionUpdateCustomAttributesModel,
+      description: customEmailDescription,
+    };
+
+    const customEmailRes = await eventNotificationsService.updateSubscription(customParams);
+    expect(customEmailRes).toBeDefined();
+    expect(customEmailRes.status).toBe(200);
+    expect(customEmailRes.result).toBeDefined();
+    expect(customEmailRes.result.name).toBe(customEmailName);
+    expect(customEmailRes.result.description).toBe(customEmailDescription);
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2137,9 +2257,26 @@ describe('EventNotificationsV1_integration', () => {
       },
     };
 
+    const notificationHuaweiBodyMessageDataModel = {
+      'android': {
+        'notification': {
+          'title': 'Alert message',
+          'body': 'Bob wants to play Poker',
+        },
+        'data': {
+          'name': 'Robert',
+          'description': 'notification for the Poker',
+        },
+      },
+    };
+
     // notificationFcmBodyModel
     const notificationFcmBodyModel = {
       message: notificationFcmBodyMessageDataModel,
+    };
+
+    const notificationHuaweiBodyModel = {
+      message: notificationHuaweiBodyMessageDataModel,
     };
 
     const notificationApnsBodyMessageDataModel = {
@@ -2192,6 +2329,7 @@ describe('EventNotificationsV1_integration', () => {
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
+      ibmenhuaweibody: JSON.stringify(notificationHuaweiBodyModel),
       ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ibmendefaultshort: 'Alert on offer',
       ibmendefaultlong: 'Offer is going to expire soon',
@@ -2372,6 +2510,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId13,
       subscriptionId14,
       subscriptionId15,
+      subscriptionId16,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2451,6 +2590,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId13,
       destinationId14,
       destinationId15,
+      destinationId16,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
