@@ -898,7 +898,7 @@ describe('EventNotificationsV1', () => {
 
     const customdestinationConfigModel = {
       params: {
-        domain: 'ashwin.event-notifications.test.cloud.ibm.com',
+        domain: 'abc.event-notifications.test.cloud.ibm.com',
       },
     };
     name = 'Custom_Email_destination';
@@ -1403,7 +1403,7 @@ describe('EventNotificationsV1', () => {
 
     const customDestinationConfigModel = {
       params: {
-        domain: 'ashwin.event-notifications.test.cloud.ibm.com',
+        domain: 'abc.event-notifications.test.cloud.ibm.com',
       },
     };
 
