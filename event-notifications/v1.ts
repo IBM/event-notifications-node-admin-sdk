@@ -15,7 +15,7 @@
  */
 
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.54.0-af6d2126-20220803-151219
+ * IBM OpenAPI SDK Code Generator Version: 3.70.0-7df966bf-20230419-195904
  */
 
 /* eslint-disable max-classes-per-file */
@@ -402,11 +402,11 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for Source.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
    */
   public deleteSource(
     params: EventNotificationsV1.DeleteSourceParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
     const _validParams = ['instanceId', 'id', 'headers'];
@@ -759,11 +759,11 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for Topic.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
    */
   public deleteTopic(
     params: EventNotificationsV1.DeleteTopicParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
     const _validParams = ['instanceId', 'id', 'headers'];
@@ -1181,11 +1181,11 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for Destination.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
    */
   public deleteDestination(
     params: EventNotificationsV1.DeleteDestinationParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
     const _validParams = ['instanceId', 'id', 'headers'];
@@ -1213,6 +1213,66 @@ class EventNotificationsV1 extends BaseService {
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Verify status of spf or dkim records of custom email.
+   *
+   * Verify status of spf or dkim records of custom email.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Destination.
+   * @param {string} params.type - Verification type.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.VerificationResponse>>}
+   */
+  public updateVerifyDestination(
+    params: EventNotificationsV1.UpdateVerifyDestinationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.VerificationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'type'];
+    const _validParams = ['instanceId', 'id', 'type', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'type': _params.type,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateVerifyDestination'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/destinations/{id}/verify',
+        method: 'PATCH',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1378,11 +1438,11 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} [params.deviceId] - Device ID of the destination tagsubscription.
    * @param {string} [params.tagName] - TagName of the subscription.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
    */
   public deleteTagsSubscription(
     params: EventNotificationsV1.DeleteTagsSubscriptionParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
     const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'headers'];
@@ -1625,11 +1685,11 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for Subscription.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>>}
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
    */
   public deleteSubscription(
     params: EventNotificationsV1.DeleteSubscriptionParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Empty>> {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
     const _validParams = ['instanceId', 'id', 'headers'];
@@ -1928,7 +1988,7 @@ namespace EventNotificationsV1 {
   export type Callback<T> = (error: any, response?: Response<T>) => void;
 
   /** The body of a service request that returns no response data. */
-  export interface Empty {}
+  export interface EmptyObject {}
 
   /** A standard JS object, defined to avoid the limitations of `Object` and `object` */
   export interface JsonObject {
@@ -2137,6 +2197,7 @@ namespace EventNotificationsV1 {
       SERVICENOW = 'servicenow',
       IBMCOS = 'ibmcos',
       PUSH_HUAWEI = 'push_huawei',
+      SMTP_CUSTOM = 'smtp_custom',
     }
   }
 
@@ -2211,6 +2272,17 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for Destination. */
     id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateVerifyDestination` operation. */
+  export interface UpdateVerifyDestinationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Destination. */
+    id: string;
+    /** Verification type. */
+    type: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2369,6 +2441,16 @@ namespace EventNotificationsV1 {
     bulk_messages?: any[];
   }
 
+  /** The DKIM attributes. */
+  export interface DKIMAttributes {
+    /** dkim public key. */
+    public_key?: string;
+    /** dkim selector. */
+    selector?: string;
+    /** dkim verification. */
+    verification?: string;
+  }
+
   /** Payload describing a destination get request. */
   export interface Destination {
     /** Destination ID. */
@@ -2378,7 +2460,7 @@ namespace EventNotificationsV1 {
     /** Destination description. */
     description: string;
     /** Destination type
-     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage.
+     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage/Huawei.
      */
     type: string;
     /** Payload describing a destination configuration. */
@@ -2583,6 +2665,8 @@ namespace EventNotificationsV1 {
     ibmenfirefoxbody?: string;
     /** Headers for a Firefox notification. Value should be stringified. */
     ibmenfirefoxheaders?: string;
+    /** Payload describing a notification Huawei body. Value should be stringified. */
+    ibmenhuaweibody?: string;
     /** Payload describing a notification Safari body. Value should be stringified. */
     ibmensafaribody?: string;
     /** NotificationCreate accepts additional properties. */
@@ -2641,6 +2725,16 @@ namespace EventNotificationsV1 {
     updated_at?: string;
     /** time of expiration. */
     expires_at?: string;
+  }
+
+  /** The SPF attributes. */
+  export interface SPFAttributes {
+    /** spf text name. */
+    txt_name?: string;
+    /** spf text value. */
+    txt_value?: string;
+    /** spf verification. */
+    verification?: string;
   }
 
   /** Payload describing a source generate request. */
@@ -2928,6 +3022,14 @@ namespace EventNotificationsV1 {
     remove?: string[];
   }
 
+  /** Destination verification object. */
+  export interface VerificationResponse {
+    /** verification type. */
+    type: string;
+    /** verification status. */
+    verification: string;
+  }
+
   /** Payload describing a Chrome destination configuration. */
   export interface DestinationConfigOneOfChromeDestinationConfig extends DestinationConfigOneOf {
     /** FCM api_key. */
@@ -2940,11 +3042,22 @@ namespace EventNotificationsV1 {
     pre_prod?: boolean;
   }
 
+  /** Payload describing a custom Domain Email destination configuration. */
+  export interface DestinationConfigOneOfCustomDomainEmailDestinationConfig
+    extends DestinationConfigOneOf {
+    /** Email Domain. */
+    domain: string;
+    /** The DKIM attributes. */
+    dkim?: DKIMAttributes;
+    /** The SPF attributes. */
+    spf?: SPFAttributes;
+  }
+
   /** Payload describing an FCM destination configuration. project_id, private_key and client_email for FCM HTTP v1 APIs. */
   export interface DestinationConfigOneOfFCMDestinationConfig extends DestinationConfigOneOf {
-    /** FCM server_key. */
+    /** Deprecated: FCM server_key. */
     server_key?: string;
-    /** FCM sender_id. */
+    /** Deprecated: FCM sender_id. */
     sender_id?: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
@@ -3080,6 +3193,27 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes reponse for an email destination. */
+  export interface SubscriptionAttributesCustomEmailAttributesResponse
+    extends SubscriptionAttributes {
+    /** The email id string. */
+    invited?: EmailAttributesResponseInvitedItems[];
+    /** The unsubscribe list. */
+    subscribed?: EmailAttributesResponseSubscribedUnsubscribedItems[];
+    /** The subscribed list. */
+    unsubscribed?: EmailAttributesResponseSubscribedUnsubscribedItems[];
+    /** Whether to add the notification payload to the email. */
+    add_notification_payload: boolean;
+    /** The email address to reply to. */
+    reply_to_mail: string;
+    /** The email name to reply to. */
+    reply_to_name: string;
+    /** The email name of From. */
+    from_name: string;
+    /** The email from. */
+    from_email: string;
+  }
+
+  /** The attributes reponse for an email destination. */
   export interface SubscriptionAttributesEmailAttributesResponse extends SubscriptionAttributes {
     /** The email id string. */
     invited?: EmailAttributesResponseInvitedItems[];
@@ -3131,6 +3265,23 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
+  export interface SubscriptionCreateAttributesCustomEmailAttributes
+    extends SubscriptionCreateAttributes {
+    /** The email id string. */
+    invited: string[];
+    /** Whether to add the notification payload to the email. */
+    add_notification_payload: boolean;
+    /** The email address to reply to. */
+    reply_to_mail: string;
+    /** The email name to reply to. */
+    reply_to_name: string;
+    /** The email name of From. */
+    from_name: string;
+    /** The email from. */
+    from_email: string;
+  }
+
+  /** The attributes for an email notification. */
   export interface SubscriptionCreateAttributesEmailAttributes
     extends SubscriptionCreateAttributes {
     /** The email id string. */
@@ -3175,6 +3326,27 @@ namespace EventNotificationsV1 {
     extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
+  }
+
+  /** The attributes for an email notification. */
+  export interface SubscriptionUpdateAttributesCustomEmailUpdateAttributes
+    extends SubscriptionUpdateAttributes {
+    /** The email ids or phone numbers. */
+    invited?: UpdateAttributesInvited;
+    /** Whether to add the notification payload to the email. */
+    add_notification_payload: boolean;
+    /** The email address to reply to. */
+    reply_to_mail: string;
+    /** The email name to reply to. */
+    reply_to_name: string;
+    /** The email name of From. */
+    from_name: string;
+    /** The email from. */
+    from_email: string;
+    /** The email ids or phone numbers. */
+    subscribed?: UpdateAttributesSubscribed;
+    /** The email ids or phone numbers. */
+    unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
   /** The attributes for an email notification. */

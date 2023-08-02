@@ -66,12 +66,14 @@ let destinationId12 = '';
 let destinationId13 = '';
 let destinationId14 = '';
 let destinationId15 = '';
+let destinationId16 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
 let subscriptionId3 = '';
 let subscriptionId4 = '';
 let subscriptionId5 = '';
+let subscriptionId6 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -893,6 +895,30 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const customdestinationConfigModel = {
+      params: {
+        domain: 'abc.event-notifications.test.cloud.ibm.com',
+      },
+    };
+    name = 'Custom_Email_destination';
+    description = 'Custom Email Destination';
+    type = 'smtp_custom';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: customdestinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId16 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -1374,6 +1400,45 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const customDestinationConfigModel = {
+      params: {
+        domain: 'abc.event-notifications.test.cloud.ibm.com',
+      },
+    };
+
+    name = 'custom_email_destination_update';
+    description = 'custom email Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId16,
+      name,
+      description,
+      config: customDestinationConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const updateSpfVerifyDestinationParams = {
+      instanceId,
+      id: destinationId16,
+      type: 'spf/dkim',
+    };
+
+    try {
+      res = await eventNotificationsService.updateVerifyDestination(
+        updateSpfVerifyDestinationParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 
@@ -1525,6 +1590,34 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
       subscriptionId5 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const subscriptionCreateCustomAttributesModel = {
+      invited: ['abc@gmail.com', 'tester3@ibm.com'],
+      add_notification_payload: true,
+      reply_to_mail: 'tester1@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
+      from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+    };
+
+    name = 'subscription_custom_email';
+    description = 'Subscription for custom email';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId16,
+      topicId,
+      attributes: subscriptionCreateCustomAttributesModel,
+      description,
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId6 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1749,6 +1842,42 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const customeEmailUpdateAttributesInvited = {
+      add: ['abc@gmail.com'],
+    };
+
+    const customEmailUpdateAttributesToRemove = {
+      remove: ['tester3@ibm.com'],
+    };
+
+    const subscriptionUpdateCustomAttributesModel = {
+      invited: customeEmailUpdateAttributesInvited,
+      add_notification_payload: true,
+      reply_to_mail: 'abc@gmail.com',
+      reply_to_name: 'US news',
+      from_name: 'IBM',
+      from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+      subscribed: customEmailUpdateAttributesToRemove,
+      unsubscribed: customEmailUpdateAttributesToRemove,
+    };
+
+    const customEmailName = 'subscription_custom_email_updated';
+    const customEmailDescription = 'Subscription for custom email updated';
+    const customParams = {
+      instanceId,
+      name: customEmailName,
+      id: subscriptionId6,
+      attributes: subscriptionUpdateCustomAttributesModel,
+      description: customEmailDescription,
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(customParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_subscription
   });
   test('sendNotifications request example', async () => {
@@ -1864,6 +1993,7 @@ describe('EventNotificationsV1', () => {
       subscriptionId3,
       subscriptionId4,
       subscriptionId5,
+      subscriptionId6,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -1944,6 +2074,7 @@ describe('EventNotificationsV1', () => {
       destinationId13,
       destinationId14,
       destinationId15,
+      destinationId16,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

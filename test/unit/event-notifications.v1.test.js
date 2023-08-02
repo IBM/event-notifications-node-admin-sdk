@@ -15,9 +15,9 @@
  */
 
 // need to import the whole package to mock getAuthenticatorFromEnvironment
-const core = require('ibm-cloud-sdk-core');
+const sdkCorePackage = require('ibm-cloud-sdk-core');
 
-const { NoAuthAuthenticator, unitTestUtils } = core;
+const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 
 const nock = require('nock');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
@@ -48,7 +48,7 @@ function unmock_createRequest() {
 }
 
 // dont actually construct an authenticator
-const getAuthenticatorMock = jest.spyOn(core, 'getAuthenticatorFromEnvironment');
+const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnvironment');
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 
 describe('EventNotificationsV1', () => {
@@ -130,7 +130,7 @@ describe('EventNotificationsV1', () => {
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
         subject: 'testString',
-        data: { 'key1': 'testString' },
+        data: { foo: 'bar' },
         datacontenttype: 'application/json',
         ibmenpushto: '{"platforms":["push_android"]}',
         ibmenfcmbody: 'testString',
@@ -140,6 +140,7 @@ describe('EventNotificationsV1', () => {
         ibmenchromeheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
         ibmenfirefoxbody: 'testString',
         ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmenhuaweibody: 'testString',
         ibmensafaribody: 'testString',
         foo: 'testString',
       };
@@ -246,7 +247,7 @@ describe('EventNotificationsV1', () => {
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
         subject: 'testString',
-        data: { 'key1': 'testString' },
+        data: { foo: 'bar' },
         datacontenttype: 'application/json',
         ibmenpushto: '{"platforms":["push_android"]}',
         ibmenfcmbody: 'testString',
@@ -256,6 +257,7 @@ describe('EventNotificationsV1', () => {
         ibmenchromeheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
         ibmenfirefoxbody: 'testString',
         ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
+        ibmenhuaweibody: 'testString',
         ibmensafaribody: 'testString',
         foo: 'testString',
       };
@@ -1422,12 +1424,25 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // DestinationConfigOneOfWebhookDestinationConfig
+      // DKIMAttributes
+      const dkimAttributesModel = {
+        public_key: 'testString',
+        selector: 'testString',
+        verification: 'testString',
+      };
+
+      // SPFAttributes
+      const spfAttributesModel = {
+        txt_name: 'testString',
+        txt_value: 'testString',
+        verification: 'testString',
+      };
+
+      // DestinationConfigOneOfCustomDomainEmailDestinationConfig
       const destinationConfigOneOfModel = {
-        url: 'testString',
-        verb: 'get',
-        custom_headers: { 'key1': 'testString' },
-        sensitive_headers: ['testString'],
+        domain: 'testString',
+        dkim: dkimAttributesModel,
+        spf: spfAttributesModel,
       };
 
       // DestinationConfig
@@ -1827,12 +1842,25 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // DestinationConfigOneOfWebhookDestinationConfig
+      // DKIMAttributes
+      const dkimAttributesModel = {
+        public_key: 'testString',
+        selector: 'testString',
+        verification: 'testString',
+      };
+
+      // SPFAttributes
+      const spfAttributesModel = {
+        txt_name: 'testString',
+        txt_value: 'testString',
+        verification: 'testString',
+      };
+
+      // DestinationConfigOneOfCustomDomainEmailDestinationConfig
       const destinationConfigOneOfModel = {
-        url: 'testString',
-        verb: 'get',
-        custom_headers: { 'key1': 'testString' },
-        sensitive_headers: ['testString'],
+        domain: 'testString',
+        dkim: dkimAttributesModel,
+        spf: spfAttributesModel,
       };
 
       // DestinationConfig
@@ -2076,6 +2104,106 @@ describe('EventNotificationsV1', () => {
         let err;
         try {
           await eventNotificationsService.deleteDestination();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateVerifyDestination', () => {
+    describe('positive tests', () => {
+      function __updateVerifyDestinationTest() {
+        // Construct the params object for operation updateVerifyDestination
+        const instanceId = 'testString';
+        const id = 'testString';
+        const type = 'testString';
+        const updateVerifyDestinationParams = {
+          instanceId,
+          id,
+          type,
+        };
+
+        const updateVerifyDestinationResult = eventNotificationsService.updateVerifyDestination(
+          updateVerifyDestinationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateVerifyDestinationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/verify',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.type).toEqual(type);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateVerifyDestinationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateVerifyDestinationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateVerifyDestinationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const type = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateVerifyDestinationParams = {
+          instanceId,
+          id,
+          type,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateVerifyDestination(updateVerifyDestinationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateVerifyDestination({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateVerifyDestination();
         } catch (e) {
           err = e;
         }
