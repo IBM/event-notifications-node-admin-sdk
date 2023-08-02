@@ -1,3 +1,10 @@
+## [0.2.5](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.4...v0.2.5) (2023-08-02)
+
+
+### Bug Fixes
+
+* adds custom domain email support ([b7d8f71](https://github.com/IBM/event-notifications-node-admin-sdk/commit/b7d8f71df990f02feda28322085382df48ef5bc3))
+
 ## [0.2.4](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.3...v0.2.4) (2023-06-14)
 
 
