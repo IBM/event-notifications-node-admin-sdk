@@ -1414,9 +1414,8 @@ describe('EventNotificationsV1_integration', () => {
       type: 'spf',
     };
 
-    const updateSpfVerifyDestinationResult = await eventNotificationsService.updateVerifyDestination(
-      updateSpfVerifyDestinationParams
-    );
+    const updateSpfVerifyDestinationResult =
+      await eventNotificationsService.updateVerifyDestination(updateSpfVerifyDestinationParams);
 
     expect(updateSpfVerifyDestinationResult).toBeDefined();
     expect(updateSpfVerifyDestinationResult.status).toBe(200);
@@ -1427,9 +1426,8 @@ describe('EventNotificationsV1_integration', () => {
       type: 'dkim',
     };
 
-    const updateDkimVerifyDestinationResult = await eventNotificationsService.updateVerifyDestination(
-      updateDkimVerifyDestinationParams
-    );
+    const updateDkimVerifyDestinationResult =
+      await eventNotificationsService.updateVerifyDestination(updateDkimVerifyDestinationParams);
 
     expect(updateDkimVerifyDestinationResult).toBeDefined();
     expect(updateDkimVerifyDestinationResult.status).toBe(200);
