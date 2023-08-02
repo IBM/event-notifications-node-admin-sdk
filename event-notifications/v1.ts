@@ -1218,6 +1218,66 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+
+  /**
+   * Verify status of spf or dkim records of custom email.
+   *
+   * Verify status of spf or dkim records of custom email.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Destination.
+   * @param {string} params.type - Verification type.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.VerificationResponse>>}
+   */
+  public updateVerifyDestination(
+    params: EventNotificationsV1.UpdateVerifyDestinationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.VerificationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'type'];
+    const _validParams = ['instanceId', 'id', 'type', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'type': _params.type,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateVerifyDestination'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/destinations/{id}/verify',
+        method: 'PATCH',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
   /*************************
    * pushDestinationAPIs
    ************************/
@@ -2215,6 +2275,17 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `updateVerifyDestination` operation. */
+  export interface UpdateVerifyDestinationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Destination. */
+    id: string;
+    /** Verification type. */
+    type: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `createTagsSubscription` operation. */
   export interface CreateTagsSubscriptionParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -2949,6 +3020,14 @@ namespace EventNotificationsV1 {
   export interface UpdateAttributesUnsubscribed {
     /** The email ids or phone numbers to be unsubscribed. */
     remove?: string[];
+  }
+
+  /** Destination verification object. */
+  export interface VerificationResponse {
+    /** verification type. */
+    type: string;
+    /** verification status. */
+    verification: string;
   }
 
   /** Payload describing a Chrome destination configuration. */

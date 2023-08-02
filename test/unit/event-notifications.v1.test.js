@@ -2113,6 +2113,106 @@ describe('EventNotificationsV1', () => {
     });
   });
 
+  describe('updateVerifyDestination', () => {
+    describe('positive tests', () => {
+      function __updateVerifyDestinationTest() {
+        // Construct the params object for operation updateVerifyDestination
+        const instanceId = 'testString';
+        const id = 'testString';
+        const type = 'testString';
+        const updateVerifyDestinationParams = {
+          instanceId,
+          id,
+          type,
+        };
+
+        const updateVerifyDestinationResult = eventNotificationsService.updateVerifyDestination(
+          updateVerifyDestinationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateVerifyDestinationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/verify',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.type).toEqual(type);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateVerifyDestinationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateVerifyDestinationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateVerifyDestinationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const type = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateVerifyDestinationParams = {
+          instanceId,
+          id,
+          type,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateVerifyDestination(updateVerifyDestinationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateVerifyDestination({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateVerifyDestination();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('createTagsSubscription', () => {
     describe('positive tests', () => {
       function __createTagsSubscriptionTest() {

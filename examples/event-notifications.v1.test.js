@@ -1424,6 +1424,21 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const updateSpfVerifyDestinationParams = {
+      instanceId,
+      id: destinationId16,
+      type: 'spf/dkim',
+    };
+
+    try {
+      res = await eventNotificationsService.updateVerifyDestination(
+        updateSpfVerifyDestinationParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 

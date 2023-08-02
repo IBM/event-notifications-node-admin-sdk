@@ -893,7 +893,7 @@ describe('EventNotificationsV1_integration', () => {
 
     const customdestinationConfigModel = {
       params: {
-        domain: 'ashwin.event-notifications.test.cloud.ibm.com',
+        domain: 'test.event-notifications.test.cloud.ibm.com',
       },
     };
     name = 'Custom_Email_destination';
@@ -1386,7 +1386,7 @@ describe('EventNotificationsV1_integration', () => {
 
     const customDestinationConfigModel = {
       params: {
-        domain: 'ashwin.event-notifications.test.cloud.ibm.com',
+        domain: 'test.event-notifications.test.cloud.ibm.com',
       },
     };
 
@@ -1407,6 +1407,32 @@ describe('EventNotificationsV1_integration', () => {
     expect(customemailRes.result).toBeDefined();
     expect(customemailRes.result.name).toBe(name);
     expect(customemailRes.result.description).toBe(description);
+
+    const updateSpfVerifyDestinationParams = {
+      instanceId,
+      id: destinationId16,
+      type: 'spf',
+    };
+
+    const updateSpfVerifyDestinationResult = await eventNotificationsService.updateVerifyDestination(
+      updateSpfVerifyDestinationParams
+    );
+
+    expect(updateSpfVerifyDestinationResult).toBeDefined();
+    expect(updateSpfVerifyDestinationResult.status).toBe(200);
+
+    const updateDkimVerifyDestinationParams = {
+      instanceId,
+      id: destinationId16,
+      type: 'dkim',
+    };
+
+    const updateDkimVerifyDestinationResult = await eventNotificationsService.updateVerifyDestination(
+      updateDkimVerifyDestinationParams
+    );
+
+    expect(updateDkimVerifyDestinationResult).toBeDefined();
+    expect(updateDkimVerifyDestinationResult.status).toBe(200);
 
     //
     // The following status codes aren't covered by tests.
