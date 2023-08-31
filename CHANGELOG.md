@@ -1,3 +1,10 @@
+## [0.2.6](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.5...v0.2.6) (2023-08-31)
+
+
+### Bug Fixes
+
+* adds templates support ([#50](https://github.com/IBM/event-notifications-node-admin-sdk/issues/50)) ([3cd5905](https://github.com/IBM/event-notifications-node-admin-sdk/commit/3cd59057ccdcc90872aae192085a8332e0a3902c))
+
 ## [0.2.5](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.4...v0.2.5) (2023-08-02)
 
 
