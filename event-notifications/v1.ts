@@ -797,6 +797,304 @@ class EventNotificationsV1 extends BaseService {
     return this.createRequest(parameters);
   }
   /*************************
+   * templates
+   ************************/
+
+  /**
+   * Create a new Template.
+   *
+   * Create a new Template.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.name - The Message Template.
+   * @param {string} params.type - The type of template.
+   * @param {TemplateConfig} params.params - Payload describing a template configuration.
+   * @param {string} [params.description] - The Template description.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TemplateResponse>>}
+   */
+  public createTemplate(
+    params: EventNotificationsV1.CreateTemplateParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TemplateResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'name', 'type', 'params'];
+    const _validParams = ['instanceId', 'name', 'type', 'params', 'description', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+      'type': _params.type,
+      'params': _params.params,
+      'description': _params.description,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createTemplate'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/templates',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List all templates.
+   *
+   * List all Templates.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {string} [params.search] - Search string for filtering results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TemplateList>>}
+   */
+  public listTemplates(
+    params: EventNotificationsV1.ListTemplatesParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TemplateList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'limit', 'offset', 'search', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'limit': _params.limit,
+      'offset': _params.offset,
+      'search': _params.search,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTemplates'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/templates',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get details of a Template.
+   *
+   * Get details of a Template.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Template.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Template>>}
+   */
+  public getTemplate(
+    params: EventNotificationsV1.GetTemplateParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Template>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTemplate'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/templates/{id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update details of a Template.
+   *
+   * Update details of a Template.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Template.
+   * @param {string} [params.name] - Template name.
+   * @param {string} [params.description] - Template description.
+   * @param {string} [params.type] - The type of template.
+   * @param {TemplateConfig} [params.params] - Payload describing a template configuration.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Template>>}
+   */
+  public updateTemplate(
+    params: EventNotificationsV1.UpdateTemplateParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Template>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'name', 'description', 'type', 'params', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+      'description': _params.description,
+      'type': _params.type,
+      'params': _params.params,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateTemplate'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/templates/{id}',
+        method: 'PUT',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a Template.
+   *
+   * Delete a Template.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Template.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
+   */
+  public deleteTemplate(
+    params: EventNotificationsV1.DeleteTemplateParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteTemplate'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/templates/{id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
    * destinations
    ************************/
 
@@ -1220,9 +1518,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Verify status of spf or dkim records of custom email.
+   * Verify SPF and DKIM records of custom domain.
    *
-   * Verify status of spf or dkim records of custom email.
+   * Verify SPF and DKIM records of custom domain.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2136,6 +2434,87 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `createTemplate` operation. */
+  export interface CreateTemplateParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** The Message Template. */
+    name: string;
+    /** The type of template. */
+    type: CreateTemplateConstants.Type | string;
+    /** Payload describing a template configuration. */
+    params: TemplateConfig;
+    /** The Template description. */
+    description?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `createTemplate` operation. */
+  export namespace CreateTemplateConstants {
+    /** The type of template. */
+    export enum Type {
+      SMTP_CUSTOM_NOTIFICATION = 'smtp_custom.notification',
+      SMTP_CUSTOM_INVITATION = 'smtp_custom.invitation',
+    }
+  }
+
+  /** Parameters for the `listTemplates` operation. */
+  export interface ListTemplatesParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
+    /** Search string for filtering results. */
+    search?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getTemplate` operation. */
+  export interface GetTemplateParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Template. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateTemplate` operation. */
+  export interface UpdateTemplateParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Template. */
+    id: string;
+    /** Template name. */
+    name?: string;
+    /** Template description. */
+    description?: string;
+    /** The type of template. */
+    type?: UpdateTemplateConstants.Type | string;
+    /** Payload describing a template configuration. */
+    params?: TemplateConfig;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `updateTemplate` operation. */
+  export namespace UpdateTemplateConstants {
+    /** The type of template. */
+    export enum Type {
+      SMTP_CUSTOM_NOTIFICATION = 'smtp_custom.notification',
+      SMTP_CUSTOM_INVITATION = 'smtp_custom.invitation',
+    }
+  }
+
+  /** Parameters for the `deleteTemplate` operation. */
+  export interface DeleteTemplateParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Template. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `createDestination` operation. */
   export interface CreateDestinationParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -2936,6 +3315,66 @@ namespace EventNotificationsV1 {
     updated_at: string;
   }
 
+  /** Template object. */
+  export interface Template {
+    /** Template ID. */
+    id: string;
+    /** Template name. */
+    name: string;
+    /** Template description. */
+    description: string;
+    /** template type. */
+    type: string;
+    /** Subscription count. */
+    subscription_count: number;
+    /** Names of subscriptions. */
+    subscription_names: string[];
+    /** Updated at. */
+    updated_at: string;
+  }
+
+  /** Payload describing a template configuration. */
+  export interface TemplateConfig {
+    /** Template body. */
+    body: string;
+    /** The template subject. */
+    subject: string;
+  }
+
+  /** Payload describing a template list request. */
+  export interface TemplateList {
+    /** Total number of templates. */
+    total_count: number;
+    /** Current offset. */
+    offset: number;
+    /** limit to show templates. */
+    limit: number;
+    /** List of templates. */
+    templates: Template[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
+  }
+
+  /** Payload describing a template get request. */
+  export interface TemplateResponse {
+    /** Template ID. */
+    id: string;
+    /** Template name. */
+    name: string;
+    /** Template description. */
+    description?: string;
+    /** Template type. */
+    type: string;
+    /** Payload describing a template configuration. */
+    params: TemplateConfig;
+    /** Created time. */
+    created_at: string;
+  }
+
   /** Topic object. */
   export interface Topic {
     /** Autogenerated topic ID. */
@@ -3211,6 +3650,10 @@ namespace EventNotificationsV1 {
     from_name: string;
     /** The email from. */
     from_email: string;
+    /** The templete id for notification. */
+    template_id_notification?: string;
+    /** The templete id for invitation. */
+    template_id_invitation?: string;
   }
 
   /** The attributes reponse for an email destination. */
@@ -3279,6 +3722,10 @@ namespace EventNotificationsV1 {
     from_name: string;
     /** The email from. */
     from_email: string;
+    /** The templete id for notification. */
+    template_id_notification?: string;
+    /** The templete id for invitation. */
+    template_id_invitation?: string;
   }
 
   /** The attributes for an email notification. */
@@ -3347,6 +3794,10 @@ namespace EventNotificationsV1 {
     subscribed?: UpdateAttributesSubscribed;
     /** The email ids or phone numbers. */
     unsubscribed?: UpdateAttributesUnsubscribed;
+    /** The templete id for notification. */
+    template_id_notification?: string;
+    /** The templete id for invitation. */
+    template_id_invitation?: string;
   }
 
   /** The attributes for an email notification. */
@@ -3560,6 +4011,87 @@ namespace EventNotificationsV1 {
      */
     public async getAll(): Promise<EventNotificationsV1.TopicsListItem[]> {
       const results: TopicsListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * TemplatesPager can be used to simplify the use of listTemplates().
+   */
+  export class TemplatesPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListTemplatesParams;
+
+    /**
+     * Construct a TemplatesPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listTemplates()
+     * @param {Object} params - The parameters to be passed to listTemplates()
+     * @constructor
+     * @returns {TemplatesPager}
+     */
+    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListTemplatesParams) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listTemplates().
+     * @returns {Promise<EventNotificationsV1.Template[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.Template[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listTemplates(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.templates;
+    }
+
+    /**
+     * Returns all results by invoking listTemplates() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.Template[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.Template[]> {
+      const results: Template[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
         results.push(...nextPage);

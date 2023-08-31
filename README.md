@@ -108,6 +108,12 @@ SDK Methods to consume
 	- [Update Destination](#update-destination)
 	- [Delete Destination](#delete-destination)
   - [Custom Domain_Name_verification](#custom-domain-name-verification)
+- [Templates](#templates)
+	- [Create Template](#create-template)
+	- [List Templates](#list-templates)
+	- [Get Template](#get-template)
+	- [Update Template](#update-template)
+	- [Delete Template](#delete-template)  
 - [Push Destination APIs](#push-destination-apis)
 	- [Create Destination tag subscription](#create-destination-tag-subscription)
 	- [List Destination tag subscription](#list-destination-tag-subscription)
@@ -482,6 +488,106 @@ const updateSpfVerifyDestinationParams = {
     console.warn(err);
   }
 ```
+
+## Templates
+
+Template is a pre-defined layout, that may include content like images, text and dynamic content based on event. Rather than creating a new content from scratch each time, you can use a template as a base and configure them in subscription. 
+supports the following templates:
+
+- Custom Email notification
+- Custom Email invitation
+
+### Create Template
+```js
+const templateConfigModel = {
+  params: {
+    body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+    subject: 'Hi this is invitation for invitation message',
+},
+};
+let createTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let createTemplateResult;
+try {
+  createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+  console.log(JSON.stringify(createTemplateResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+### List Templates
+```js
+const params = {
+  instanceId: <instance-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.listTemplates(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Template
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <template-id>,
+};
+
+let res;
+try {
+  res = await eventNotificationsService.getTemplate(params);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Update Template
+```js
+const templateConfigModel = {
+  params: {
+    body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+    subject: 'Hi this is invitation for invitation message',
+  },
+}; 
+let updateTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let updateTemplateResult;
+try {
+  updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Delete Template
+```js
+const params = {
+  instanceId: <instance-id>,
+  id: <template-id>,
+};
+
+try {
+  await eventNotificationsService.deleteTemplate(params);
+} catch (err) {
+  console.warn(err);
+}
+```
+
 ## Push Destination APIs
 
 ### Create Destination tag subscription

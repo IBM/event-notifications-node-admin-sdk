@@ -89,6 +89,8 @@ let fcmPrivateKey = '';
 let codeEngineURL = '';
 let huaweiClientId = '';
 let huaweiClientSecret = '';
+let templateInvitationID = '';
+let templateNotificationID = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -922,6 +924,64 @@ describe('EventNotificationsV1', () => {
     // end-create_destination
   });
 
+  test('createTemplate()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('createTemplate() result:');
+    // begin-create_template
+    const templateConfigModel = {
+      params: {
+        body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+        subject: 'Hi this is invitation for invitation message',
+      },
+    };
+    let name = 'template name invitation';
+    let description = 'template destination';
+    let type = 'smtp_custom.invitation';
+    let createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      templateConfigModel,
+      description,
+    };
+    let createTemplateResult;
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      templateInvitationID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'template name notification';
+    description = 'template destination';
+    type = 'smtp_custom.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      templateConfigModel,
+      description,
+    };
+
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      templateNotificationID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-create_template
+  });
+
   test('listDestinations request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -1012,6 +1072,33 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-get_destination
+  });
+
+  test('getTemplate()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getTemplate() result:');
+    // begin-get_template
+    const params = {
+      instanceId,
+      id: templateInvitationID,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.getTemplate(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_template
   });
 
   test('updateDestination request example', async () => {
@@ -1442,6 +1529,64 @@ describe('EventNotificationsV1', () => {
     // end-update_destination
   });
 
+  test('updateTemplate()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateTemplate() result:');
+    // begin-update_template
+    const templateConfigModel = {
+      params: {
+        body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+        subject: 'Hi this is invitation for invitation message',
+      },
+    };
+    let name = 'template name invitation update';
+    let description = 'template destination update';
+    let type = 'smtp_custom.invitation';
+    let updateTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: templateConfigModel,
+      description,
+    };
+    let updateTemplateResult;
+    try {
+      updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
+      console.log(JSON.stringify(updateTemplateResult.result, null, 2));
+      templateInvitationID = updateTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'template name notification update';
+    description = 'template destination update';
+    type = 'smtp_custom.notification';
+    updateTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: templateConfigModel,
+      description,
+    };
+
+    try {
+      updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
+      console.log(JSON.stringify(updateTemplateResult.result, null, 2));
+      templateNotificationID = updateTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-update_template
+  });
+
   test('createSubscription request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -1601,6 +1746,8 @@ describe('EventNotificationsV1', () => {
       reply_to_name: 'US news',
       from_name: 'IBM',
       from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+      template_id_notification: templateInvitationID,
+      template_id_invitation: templateNotificationID,
     };
 
     name = 'subscription_custom_email';
@@ -1650,6 +1797,32 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-list_subscriptions
+  });
+
+  test('listTemplates()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listTemplates() result:');
+    // begin-list_templates
+    const params = {
+      instanceId,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.listTemplates(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-list_templates
   });
 
   test('getSubscription request example', async () => {
@@ -1860,6 +2033,8 @@ describe('EventNotificationsV1', () => {
       from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
       subscribed: customEmailUpdateAttributesToRemove,
       unsubscribed: customEmailUpdateAttributesToRemove,
+      template_id_notification: templateInvitationID,
+      template_id_invitation: templateNotificationID,
     };
 
     const customEmailName = 'subscription_custom_email_updated';
@@ -2089,6 +2264,34 @@ describe('EventNotificationsV1', () => {
         console.warn(err);
       }
     }
+  });
+
+  test('deleteTemplate()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    const templates = [templateInvitationID, templateNotificationID];
+
+    for (let i = 0; i < templates.length; i += 1) {
+      // begin-delete_template
+      const params = {
+        instanceId,
+        id: templates[i],
+      };
+
+      try {
+        await eventNotificationsService.deleteTemplate(params);
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+    // end-delete_template
   });
 
   test('deleteSource request example', async () => {
