@@ -90,6 +90,8 @@ let huaweiClientSecret = '';
 let cosBucketName = '';
 let cosInstanceId = '';
 let cosEndPoint = '';
+let templateInvitationID = '';
+let templateNotificationID = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -928,6 +930,56 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
+  test('createTemplate()', async () => {
+    const templateConfigModel = {
+      body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+      subject: 'Hi this is invitation for invitation message',
+    };
+
+    let name = 'template name invitation';
+    let description = 'template description';
+    let type = 'smtp_custom.invitation';
+    let createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: templateConfigModel,
+      description,
+    };
+
+    let createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    templateInvitationID = createTemplateResult.result.id;
+
+    name = 'template name notification';
+    description = 'template description';
+    type = 'smtp_custom.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: templateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    templateNotificationID = createTemplateResult.result.id;
+  });
+
   test('listDestinations()', async () => {
     let offset = 0;
     const limit = 1;
@@ -993,6 +1045,19 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
+  test('getTemplate()', async () => {
+    const params = {
+      instanceId,
+      id: templateInvitationID,
+    };
+
+    const res = await eventNotificationsService.getTemplate(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
   test('updateDestination()', async () => {
     // Request models needed by this operation.
 
@@ -1445,6 +1510,54 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
 
+  test('updateTemplate()', async () => {
+    const templateConfigModel = {
+      body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+      subject: 'Hi this is invitation for invitation message',
+    };
+    let name = 'template name invitation update';
+    let description = 'template destination update';
+    let type = 'smtp_custom.invitation';
+    let updateTemplateParams = {
+      instanceId,
+      id: templateInvitationID,
+      name,
+      type,
+      params: templateConfigModel,
+      description,
+    };
+
+    let updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
+    expect(updateTemplateResult).toBeDefined();
+    expect(updateTemplateResult.status).toBe(200);
+    expect(updateTemplateResult.result).toBeDefined();
+
+    expect(updateTemplateResult.result.type).toBe(type);
+    expect(updateTemplateResult.result.name).toBe(name);
+    expect(updateTemplateResult.result.description).toBe(description);
+
+    name = 'template name notification update';
+    description = 'template destination update';
+    type = 'smtp_custom.notification';
+    updateTemplateParams = {
+      instanceId,
+      id: templateNotificationID,
+      name,
+      type,
+      params: templateConfigModel,
+      description,
+    };
+
+    updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
+    expect(updateTemplateResult).toBeDefined();
+    expect(updateTemplateResult.status).toBe(200);
+    expect(updateTemplateResult.result).toBeDefined();
+
+    expect(updateTemplateResult.result.type).toBe(type);
+    expect(updateTemplateResult.result.name).toBe(name);
+    expect(updateTemplateResult.result.description).toBe(description);
+  });
+
   test('createSubscription()', async () => {
     // Request models needed by this operation.
 
@@ -1789,7 +1902,9 @@ describe('EventNotificationsV1_integration', () => {
       reply_to_mail: 'tester1@gmail.com',
       reply_to_name: 'US news',
       from_name: 'IBM',
-      from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+      from_email: 'test@test.event-notifications.test.cloud.ibm.com',
+      template_id_notification: templateInvitationID,
+      template_id_invitation: templateNotificationID,
     };
 
     name = 'subscription_custom_email';
@@ -1852,6 +1967,31 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
+  test('listTemplates()', async () => {
+    let offset = 0;
+    const limit = 1;
+    let hasMore = true;
+    const search = '';
+    do {
+      const params = {
+        instanceId,
+        limit,
+        offset,
+        search,
+      };
+
+      const res = await eventNotificationsService.listTemplates(params);
+      expect(res).toBeDefined();
+      expect(res.status).toBe(200);
+      expect(res.result).toBeDefined();
+      offset += 1;
+      if (res.result.total_count <= offset) {
+        hasMore = false;
+      }
+    } while (hasMore);
+  });
+
   test('getSubscription()', async () => {
     const params = {
       instanceId,
@@ -2211,9 +2351,11 @@ describe('EventNotificationsV1_integration', () => {
       reply_to_mail: 'abc@gmail.com',
       reply_to_name: 'US news',
       from_name: 'IBM',
-      from_email: 'test@xyz.event-notifications.test.cloud.ibm.com',
+      from_email: 'test@test.event-notifications.test.cloud.ibm.com',
       subscribed: customEmailUpdateAttributesToRemove,
       unsubscribed: customEmailUpdateAttributesToRemove,
+      template_id_notification: templateInvitationID,
+      template_id_invitation: templateNotificationID,
     };
 
     const customEmailName = 'subscription_custom_email_updated';
@@ -2638,6 +2780,23 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
+
+  test('deleteTemplate()', async () => {
+    const templates = [templateInvitationID, templateNotificationID];
+
+    for (let i = 0; i < templates.length; i += 1) {
+      const params = {
+        instanceId,
+        id: templates[i],
+      };
+
+      const res = await eventNotificationsService.deleteTemplate(params);
+      expect(res).toBeDefined();
+      expect(res.status).toBe(204);
+      expect(res.result).toBeDefined();
+    }
+  });
+
   test('deleteSource()', async () => {
     const params = {
       instanceId,

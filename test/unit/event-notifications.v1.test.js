@@ -1420,6 +1420,552 @@ describe('EventNotificationsV1', () => {
     });
   });
 
+  describe('createTemplate', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // TemplateConfig
+      const templateConfigModel = {
+        body: 'testString',
+        subject: 'testString',
+      };
+
+      function __createTemplateTest() {
+        // Construct the params object for operation createTemplate
+        const instanceId = 'testString';
+        const name = 'testString';
+        const type = 'smtp_custom.notification';
+        const params = templateConfigModel;
+        const description = 'testString';
+        const createTemplateParams = {
+          instanceId,
+          name,
+          type,
+          params,
+          description,
+        };
+
+        const createTemplateResult = eventNotificationsService.createTemplate(createTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(createTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/templates', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.params).toEqual(params);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __createTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __createTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const name = 'testString';
+        const type = 'smtp_custom.notification';
+        const params = templateConfigModel;
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createTemplateParams = {
+          instanceId,
+          name,
+          type,
+          params,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.createTemplate(createTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listTemplates', () => {
+    describe('positive tests', () => {
+      function __listTemplatesTest() {
+        // Construct the params object for operation listTemplates
+        const instanceId = 'testString';
+        const limit = 1;
+        const offset = 0;
+        const search = 'testString';
+        const listTemplatesParams = {
+          instanceId,
+          limit,
+          offset,
+          search,
+        };
+
+        const listTemplatesResult = eventNotificationsService.listTemplates(listTemplatesParams);
+
+        // all methods should return a Promise
+        expectToBePromise(listTemplatesResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/templates', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.search).toEqual(search);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listTemplatesTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __listTemplatesTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __listTemplatesTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listTemplatesParams = {
+          instanceId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.listTemplates(listTemplatesParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.listTemplates({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.listTemplates();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+
+    describe('TemplatesPager tests', () => {
+      const serviceUrl = eventNotificationsServiceOptions.url;
+      const path = '/v1/instances/testString/templates';
+      const mockPagerResponse1 =
+        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"id":"id","name":"name","description":"description","type":"smtp_custom.notification","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"templates":[{"id":"id","name":"name","description":"description","type":"smtp_custom.notification","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          instanceId: 'testString',
+          limit: 10,
+          search: 'testString',
+        };
+        const allResults = [];
+        const pager = new EventNotificationsV1.TemplatesPager(eventNotificationsService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          instanceId: 'testString',
+          limit: 10,
+          search: 'testString',
+        };
+        const pager = new EventNotificationsV1.TemplatesPager(eventNotificationsService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
+  });
+
+  describe('getTemplate', () => {
+    describe('positive tests', () => {
+      function __getTemplateTest() {
+        // Construct the params object for operation getTemplate
+        const instanceId = 'testString';
+        const id = 'testString';
+        const getTemplateParams = {
+          instanceId,
+          id,
+        };
+
+        const getTemplateResult = eventNotificationsService.getTemplate(getTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/templates/{id}', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getTemplateParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getTemplate(getTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateTemplate', () => {
+    describe('positive tests', () => {
+      // Request models needed by this operation.
+
+      // TemplateConfig
+      const templateConfigModel = {
+        body: 'testString',
+        subject: 'testString',
+      };
+
+      function __updateTemplateTest() {
+        // Construct the params object for operation updateTemplate
+        const instanceId = 'testString';
+        const id = 'testString';
+        const name = 'testString';
+        const description = 'testString';
+        const type = 'smtp_custom.notification';
+        const params = templateConfigModel;
+        const updateTemplateParams = {
+          instanceId,
+          id,
+          name,
+          description,
+          type,
+          params,
+        };
+
+        const updateTemplateResult = eventNotificationsService.updateTemplate(updateTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/templates/{id}', 'PUT');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.type).toEqual(type);
+        expect(mockRequestOptions.body.params).toEqual(params);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateTemplateParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateTemplate(updateTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteTemplate', () => {
+    describe('positive tests', () => {
+      function __deleteTemplateTest() {
+        // Construct the params object for operation deleteTemplate
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deleteTemplateParams = {
+          instanceId,
+          id,
+        };
+
+        const deleteTemplateResult = eventNotificationsService.deleteTemplate(deleteTemplateParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteTemplateResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/templates/{id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteTemplateTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __deleteTemplateTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __deleteTemplateTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteTemplateParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.deleteTemplate(deleteTemplateParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteTemplate({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteTemplate();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('createDestination', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
