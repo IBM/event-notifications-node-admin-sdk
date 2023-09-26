@@ -2073,6 +2073,8 @@ describe('EventNotificationsV1', () => {
     const date = '2019-01-01T12:00:00.000Z';
     const userId = 'userId';
     const notificationsSouce = '1234-1234-sdfs-234:test';
+    const htmlBody =
+      '"Hi  ,<br/>Certificate expiring in 90 days.<br/><br/>Please login to <a href="https: //cloud.ibm.com/security-compliance/dashboard">Security and Complaince dashboard</a> to find more information<br/>"';
 
     // begin-send_notifications
 
@@ -2106,6 +2108,23 @@ describe('EventNotificationsV1', () => {
       },
     };
 
+    const notificationHuaweiBodyMessageDataModel = {
+      'android': {
+        'notification': {
+          'title': 'Alert message',
+          'body': 'Bob wants to play cricket',
+        },
+        'data': {
+          'name': 'Robert',
+          'description': 'notification for the cricket',
+        },
+      },
+    };
+
+    const notificationHuaweiBodyModel = {
+      message: notificationHuaweiBodyMessageDataModel,
+    };
+
     const notificationCreateModel = {
       instanceId,
       ibmenseverity: notificationSeverity,
@@ -2115,9 +2134,13 @@ describe('EventNotificationsV1', () => {
       type: typeValue,
       time: date,
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
+      ibmensubject: 'certificate expire',
+      ibmenhtmlbody: htmlBody,
       ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
       ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
+      ibmenhuaweibody: JSON.stringify(notificationHuaweiBodyModel),
       ibmendefaultshort: 'testString',
       ibmendefaultlong: 'testString',
       specversion: '1.0',

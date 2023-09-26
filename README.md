@@ -851,6 +851,9 @@ const res = await eventNotificationsService.replaceIntegration(params);
         },
       }
 
+     const htmlBody =
+      '"Hi  ,<br/>Certificate expiring in 90 days.<br/><br/>Please login to <a href="https: //cloud.ibm.com/security-compliance/dashboard">Security and Complaince dashboard</a> to find more information<br/>"'; 
+
     let notificationID = "<notification-id>"
     let notificationSubject = "<notification-subject>"
     let notificationSeverity = "<notification-severity>"
@@ -870,6 +873,9 @@ const notificationCreateModel = {
       ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
       ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ibmenhuaweibody: JSON.stringify(notificationHuaweiBodymodel),
+      ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
+      ibmensubject: 'certificate expire',
+      ibmenhtmlbody: htmlBody,
       ibmendefaultshort: 'short info',
       ibmendefaultlong: 'long info',
       specversion: '1.0',
