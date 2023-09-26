@@ -2483,6 +2483,8 @@ describe('EventNotificationsV1_integration', () => {
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
     const notificationsSouce = '1234-1234-sdfs-234:test';
+    const htmlBody =
+      '"Hi  ,<br/>Certificate expiring in 90 days.<br/><br/>Please login to <a href="https: //cloud.ibm.com/security-compliance/dashboard">Security and Complaince dashboard</a> to find more information<br/>"';
 
     const notificationCreateModel = {
       instanceId,
@@ -2492,6 +2494,9 @@ describe('EventNotificationsV1_integration', () => {
       ibmensourceid: sourceId,
       type: typeValue,
       time: '2019-01-01T12:00:00.000Z',
+      ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
+      ibmensubject: 'certificate expire',
+      ibmenhtmlbody: htmlBody,
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
       ibmenapnsbody: JSON.stringify(notificationApnsBodyModel),
@@ -2541,6 +2546,8 @@ describe('EventNotificationsV1_integration', () => {
       type: typeValue,
       time: '2019-01-01T12:00:00.000Z',
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
+      ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
+      ibmensubject: 'EventNotifiations Testing',
       ibmenfcmbody: JSON.stringify(fcmOptions),
       ibmenapnsbody: JSON.stringify(apnsOptions),
       ibmensafaribody: JSON.stringify(notificationSafariBodymodel),

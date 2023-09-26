@@ -129,6 +129,9 @@ describe('EventNotificationsV1', () => {
         ibmensourceid: 'testString',
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
+        ibmensubject: 'testString',
+        ibmenmailto: 'testString',
+        ibmenhtmlbody: 'testString',
         subject: 'testString',
         data: { foo: 'bar' },
         datacontenttype: 'application/json',
@@ -246,6 +249,9 @@ describe('EventNotificationsV1', () => {
         ibmensourceid: 'testString',
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
+        ibmensubject: 'testString',
+        ibmenmailto: 'testString',
+        ibmenhtmlbody: 'testString',
         subject: 'testString',
         data: { foo: 'bar' },
         datacontenttype: 'application/json',
@@ -1434,7 +1440,7 @@ describe('EventNotificationsV1', () => {
         // Construct the params object for operation createTemplate
         const instanceId = 'testString';
         const name = 'testString';
-        const type = 'smtp_custom.notification';
+        const type = 'testString';
         const params = templateConfigModel;
         const description = 'testString';
         const createTemplateParams = {
@@ -1485,7 +1491,7 @@ describe('EventNotificationsV1', () => {
         // parameters
         const instanceId = 'testString';
         const name = 'testString';
-        const type = 'smtp_custom.notification';
+        const type = 'testString';
         const params = templateConfigModel;
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
@@ -1626,9 +1632,9 @@ describe('EventNotificationsV1', () => {
       const serviceUrl = eventNotificationsServiceOptions.url;
       const path = '/v1/instances/testString/templates';
       const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"id":"id","name":"name","description":"description","type":"smtp_custom.notification","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
+        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"templates":[{"id":"id","name":"name","description":"description","type":"type","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
       const mockPagerResponse2 =
-        '{"total_count":2,"templates":[{"id":"id","name":"name","description":"description","type":"smtp_custom.notification","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
+        '{"total_count":2,"templates":[{"id":"id","name":"name","description":"description","type":"type","subscription_count":18,"subscription_names":["subscription_names"],"updated_at":"2019-01-01T12:00:00.000Z"}],"limit":1}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -1780,7 +1786,7 @@ describe('EventNotificationsV1', () => {
         const id = 'testString';
         const name = 'testString';
         const description = 'testString';
-        const type = 'smtp_custom.notification';
+        const type = 'testString';
         const params = templateConfigModel;
         const updateTemplateParams = {
           instanceId,

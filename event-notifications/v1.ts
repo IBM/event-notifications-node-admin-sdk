@@ -2441,21 +2441,12 @@ namespace EventNotificationsV1 {
     /** The Message Template. */
     name: string;
     /** The type of template. */
-    type: CreateTemplateConstants.Type | string;
+    type: string;
     /** Payload describing a template configuration. */
     params: TemplateConfig;
     /** The Template description. */
     description?: string;
     headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `createTemplate` operation. */
-  export namespace CreateTemplateConstants {
-    /** The type of template. */
-    export enum Type {
-      SMTP_CUSTOM_NOTIFICATION = 'smtp_custom.notification',
-      SMTP_CUSTOM_INVITATION = 'smtp_custom.invitation',
-    }
   }
 
   /** Parameters for the `listTemplates` operation. */
@@ -2491,19 +2482,10 @@ namespace EventNotificationsV1 {
     /** Template description. */
     description?: string;
     /** The type of template. */
-    type?: UpdateTemplateConstants.Type | string;
+    type?: string;
     /** Payload describing a template configuration. */
     params?: TemplateConfig;
     headers?: OutgoingHttpHeaders;
-  }
-
-  /** Constants for the `updateTemplate` operation. */
-  export namespace UpdateTemplateConstants {
-    /** The type of template. */
-    export enum Type {
-      SMTP_CUSTOM_NOTIFICATION = 'smtp_custom.notification',
-      SMTP_CUSTOM_INVITATION = 'smtp_custom.invitation',
-    }
   }
 
   /** Parameters for the `deleteTemplate` operation. */
@@ -3021,6 +3003,12 @@ namespace EventNotificationsV1 {
     /** Default long text for the message. */
     ibmendefaultlong: string;
     /** The subject of the notification. */
+    ibmensubject?: string;
+    /** The email id string. */
+    ibmenmailto?: string;
+    /** The html body of notification. */
+    ibmenhtmlbody?: string;
+    /** The subject of the notification. */
     subject?: string;
     /** The payload for webhook notification. */
     data?: JsonObject;
@@ -3323,7 +3311,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Template description. */
     description: string;
-    /** template type. */
+    /** The type of template. */
     type: string;
     /** Subscription count. */
     subscription_count: number;
@@ -3367,7 +3355,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** Template description. */
     description?: string;
-    /** Template type. */
+    /** The type of template. */
     type: string;
     /** Payload describing a template configuration. */
     params: TemplateConfig;
