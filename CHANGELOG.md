@@ -1,3 +1,10 @@
+## [0.2.7](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.6...v0.2.7) (2023-09-26)
+
+
+### Bug Fixes
+
+* custom email notification payload update ([#51](https://github.com/IBM/event-notifications-node-admin-sdk/issues/51)) ([6520484](https://github.com/IBM/event-notifications-node-admin-sdk/commit/6520484384f51f47d35ee824c515ff2a6c0b7ae3))
+
 ## [0.2.6](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.5...v0.2.6) (2023-08-31)
 
 
