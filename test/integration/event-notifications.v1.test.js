@@ -92,6 +92,10 @@ let cosInstanceId = '';
 let cosEndPoint = '';
 let templateInvitationID = '';
 let templateNotificationID = '';
+let slackURL = '';
+let teamsURL = '';
+let pagerDutyApiKey = '';
+let pagerDutyRoutingKey = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -123,6 +127,10 @@ describe('EventNotificationsV1_integration', () => {
     cosBucketName = config.cosBucketName;
     cosInstanceId = config.cosInstance;
     cosEndPoint = config.cosEndpoint;
+    slackURL = config.slackUrl;
+    teamsURL = config.msTeamsUrl;
+    pagerDutyApiKey = config.pdApiKey;
+    pagerDutyRoutingKey = config.pdRoutingKey;
 
     eventNotificationsService.enableRetries();
   });
@@ -533,7 +541,7 @@ describe('EventNotificationsV1_integration', () => {
     // slack
     const destinationConfigModelSlack = {
       params: {
-        url: 'https://api.slack.com/myslack',
+        url: slackURL,
       },
     };
 
@@ -603,7 +611,7 @@ describe('EventNotificationsV1_integration', () => {
     // MSTeams
     const destinationConfigModelMSTeams = {
       params: {
-        url: 'https://teams.microsoft.com',
+        url: teamsURL,
       },
     };
 
@@ -716,8 +724,8 @@ describe('EventNotificationsV1_integration', () => {
     // Pager Duty
     const destinationConfigModelPagerDuty = {
       params: {
-        api_key: 'apikey',
-        routing_key: 'routingkey',
+        api_key: pagerDutyApiKey,
+        routing_key: pagerDutyRoutingKey,
       },
     };
 
@@ -931,6 +939,23 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
 
+  test('testDestination()', async () => {
+    const destinations = [destinationId4, destinationId6, destinationId10, destinationId14];
+
+    for (let i = 0; i < destinations.length; i += 1) {
+      const testDestinationParams = {
+        instanceId,
+        id: destinations[i],
+      };
+
+      const testDestinationResult = await eventNotificationsService.testDestination(
+        testDestinationParams
+      );
+      expect(testDestinationResult).toBeDefined();
+      expect(testDestinationResult.status).toBe(200);
+    }
+  });
+
   test('createTemplate()', async () => {
     const templateConfigModel = {
       body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
@@ -1123,7 +1148,7 @@ describe('EventNotificationsV1_integration', () => {
     // slack
     const destinationConfigModelSlack = {
       params: {
-        url: 'https://api.slack.com/myslack',
+        url: slackURL,
       },
     };
 
@@ -1186,7 +1211,7 @@ describe('EventNotificationsV1_integration', () => {
     // MSTeams
     const destinationConfigModelMSTeams = {
       params: {
-        url: 'https://teams.microsoft.com',
+        url: teamsURL,
       },
     };
 
@@ -1290,8 +1315,8 @@ describe('EventNotificationsV1_integration', () => {
     // PagerDuty
     const destinationConfigModelPagerDuty = {
       params: {
-        api_key: 'apikey',
-        routing_key: 'routingkey',
+        api_key: pagerDutyApiKey,
+        routing_key: pagerDutyRoutingKey,
       },
     };
 

@@ -108,6 +108,7 @@ SDK Methods to consume
 	- [Update Destination](#update-destination)
 	- [Delete Destination](#delete-destination)
   - [Custom Domain_Name_verification](#custom-domain-name-verification)
+  - [Test Destination](#test-destination)
 - [Templates](#templates)
 	- [Create Template](#create-template)
 	- [List Templates](#list-templates)
@@ -462,6 +463,36 @@ eventNotificationsService
     console.warn(err);
   });
 ```
+
+### Test Destination
+
+This functionality allows you to test a destination. The feature simplifies the process of verifying whether a destination is functioning correctly. 
+Currently, this functionality supports following destinations:
+1. Slack
+2. PagerDuty
+3. ServiceNow
+4. Microsoft&reg; Teams
+5. IBM Cloud Code Engine
+6. IBM Cloud Functions
+7. IBM Cloud Object Storage
+
+```js
+const testDestinationParams = {
+  instanceId : <instance-id>, // Event notifications service instance GUID
+  id : <destination-id>,     	// Event notifications service instance Destination ID
+};
+try {
+  const testDestinationResult = await eventNotificationsService.testDestination(testDestinationParams);
+  console.log(JSON.stringify(testDestinationResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+Once the test is completed, you will be presented with the results. These results will typically include:
+
+- **Status**: Whether the test is successful or failed
+- **Response Code**: If test fails, then the response code sent from the end destination client is returned
+- **Response Message**: If test fails, then the response message sent from the end destination client is returned
 
 ### Custom Domain Name Verification
 

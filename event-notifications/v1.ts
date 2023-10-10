@@ -1099,6 +1099,60 @@ class EventNotificationsV1 extends BaseService {
    ************************/
 
   /**
+   * Test a destination.
+   *
+   * Test a destination.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Destination.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TestDestinationResponse>>}
+   */
+  public testDestination(
+    params: EventNotificationsV1.TestDestinationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TestDestinationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'testDestination'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/destinations/{id}/test',
+        method: 'POST',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Create a new Destination.
    *
    * Create a new Destination.
@@ -2497,6 +2551,15 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `testDestination` operation. */
+  export interface TestDestinationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Destination. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `createDestination` operation. */
   export interface CreateDestinationParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -3361,6 +3424,12 @@ namespace EventNotificationsV1 {
     params: TemplateConfig;
     /** Created time. */
     created_at: string;
+  }
+
+  /** Destination test object. */
+  export interface TestDestinationResponse {
+    /** test destiantion status. */
+    status: string;
   }
 
   /** Topic object. */
