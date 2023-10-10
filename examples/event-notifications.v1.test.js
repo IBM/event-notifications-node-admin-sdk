@@ -941,7 +941,9 @@ describe('EventNotificationsV1', () => {
       id: destinationId10,
     };
     try {
-      const testDestinationResult = await eventNotificationsService.testDestination(testDestinationParams);
+      const testDestinationResult = await eventNotificationsService.testDestination(
+        testDestinationParams
+      );
       console.log(JSON.stringify(testDestinationResult.result, null, 2));
     } catch (err) {
       console.warn(err);

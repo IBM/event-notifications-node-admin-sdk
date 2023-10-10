@@ -940,20 +940,17 @@ describe('EventNotificationsV1_integration', () => {
   });
 
   test('testDestination()', async () => {
-    const destinations = [
-      destinationId4,
-      destinationId6,
-      destinationId10,
-      destinationId14,
-    ];
+    const destinations = [destinationId4, destinationId6, destinationId10, destinationId14];
 
     for (let i = 0; i < destinations.length; i += 1) {
       const testDestinationParams = {
         instanceId,
         id: destinations[i],
       };
-  
-      const testDestinationResult = await eventNotificationsService.testDestination(testDestinationParams);
+
+      const testDestinationResult = await eventNotificationsService.testDestination(
+        testDestinationParams
+      );
       expect(testDestinationResult).toBeDefined();
       expect(testDestinationResult.status).toBe(200);
     }
