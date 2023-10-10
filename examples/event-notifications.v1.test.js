@@ -924,6 +924,31 @@ describe('EventNotificationsV1', () => {
     // end-create_destination
   });
 
+  test('testDestination()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('testDestination() result:');
+    // begin-test_destination
+    const testDestinationParams = {
+      instanceId,
+      id: destinationId10,
+    };
+    try {
+      const testDestinationResult = await eventNotificationsService.testDestination(testDestinationParams);
+      console.log(JSON.stringify(testDestinationResult.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-test_destination
+  });
+
   test('createTemplate()', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
