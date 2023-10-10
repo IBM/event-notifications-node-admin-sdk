@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.7...v0.3.0) (2023-10-10)
+
+
+### Features
+
+* add test http destination support ([#52](https://github.com/IBM/event-notifications-node-admin-sdk/issues/52)) ([cd78daf](https://github.com/IBM/event-notifications-node-admin-sdk/commit/cd78daf05e538b7af694337cfc0eb4f4cbe0b9a6))
+
 ## [0.2.7](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.6...v0.2.7) (2023-09-26)
 
 
