@@ -96,6 +96,7 @@ let slackURL = '';
 let teamsURL = '';
 let pagerDutyApiKey = '';
 let pagerDutyRoutingKey = '';
+let templateBody = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -131,6 +132,7 @@ describe('EventNotificationsV1_integration', () => {
     teamsURL = config.msTeamsUrl;
     pagerDutyApiKey = config.pdApiKey;
     pagerDutyRoutingKey = config.pdRoutingKey;
+    templateBody = config.templateBody;
 
     eventNotificationsService.enableRetries();
   });
@@ -957,7 +959,7 @@ describe('EventNotificationsV1_integration', () => {
 
   test('createTemplate()', async () => {
     const templateConfigModel = {
-      body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+      body: templateBody,
       subject: 'Hi this is invitation for invitation message',
     };
 
@@ -1536,7 +1538,7 @@ describe('EventNotificationsV1_integration', () => {
 
   test('updateTemplate()', async () => {
     const templateConfigModel = {
-      body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+      body: templateBody,
       subject: 'Hi this is invitation for invitation message',
     };
     let name = 'template name invitation update';
