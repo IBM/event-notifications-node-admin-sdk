@@ -948,9 +948,8 @@ describe('EventNotificationsV1_integration', () => {
         id: destinations[i],
       };
 
-      const testDestinationResult = await eventNotificationsService.testDestination(
-        testDestinationParams
-      );
+      const testDestinationResult =
+        await eventNotificationsService.testDestination(testDestinationParams);
       expect(testDestinationResult).toBeDefined();
       expect(testDestinationResult.status).toBe(200);
     }
