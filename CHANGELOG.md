@@ -1,3 +1,11 @@
+## [0.3.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.3.0...v0.3.1) (2023-10-30)
+
+
+### Bug Fixes
+
+* vulnerability fix ([814870f](https://github.com/IBM/event-notifications-node-admin-sdk/commit/814870f8f6a3b6df8028038b5cdebec369e670fa))
+* vulnerability fix ([#53](https://github.com/IBM/event-notifications-node-admin-sdk/issues/53)) ([95b9d01](https://github.com/IBM/event-notifications-node-admin-sdk/commit/95b9d0143166223d5cf46faef08b3dbe7272f453))
+
 # [0.3.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.2.7...v0.3.0) (2023-10-10)
 
 
