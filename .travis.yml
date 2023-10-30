@@ -10,7 +10,7 @@ node_js:
 - 20
 
 before_install:
-- npm i -g npm@8
+- npm i -g npm@10
 - npm --version
 
 script:
