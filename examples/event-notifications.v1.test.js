@@ -91,6 +91,7 @@ let huaweiClientId = '';
 let huaweiClientSecret = '';
 let templateInvitationID = '';
 let templateNotificationID = '';
+let templateBody = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -122,6 +123,7 @@ describe('EventNotificationsV1', () => {
   codeEngineURL = config.codeEngineUrl;
   huaweiClientId = config.huaweiClientId;
   huaweiClientSecret = config.huaweiClientSecret;
+  templateBody = config.templateBody;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -941,9 +943,8 @@ describe('EventNotificationsV1', () => {
       id: destinationId10,
     };
     try {
-      const testDestinationResult = await eventNotificationsService.testDestination(
-        testDestinationParams
-      );
+      const testDestinationResult =
+        await eventNotificationsService.testDestination(testDestinationParams);
       console.log(JSON.stringify(testDestinationResult.result, null, 2));
     } catch (err) {
       console.warn(err);
@@ -965,7 +966,7 @@ describe('EventNotificationsV1', () => {
     // begin-create_template
     const templateConfigModel = {
       params: {
-        body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+        body: templateBody,
         subject: 'Hi this is invitation for invitation message',
       },
     };
@@ -1570,7 +1571,7 @@ describe('EventNotificationsV1', () => {
     // begin-update_template
     const templateConfigModel = {
       params: {
-        body: '<!DOCTYPE html><html><head><title>IBM Event Notifications</title></head><body><p>Hello! Invitation template</p><table><tr><td>Hello invitation link:{{ ibmen_invitation }} </td></tr></table></body></html>',
+        body: templateBody,
         subject: 'Hi this is invitation for invitation message',
       },
     };
