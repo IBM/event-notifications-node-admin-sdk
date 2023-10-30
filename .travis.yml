@@ -6,7 +6,6 @@ sudo: false
 # After creating your SDK project from this template repository,
 # uncomment this section to enable builds on the appropriate node versions.
 node_js:
-- 16
 - 18
 - 20
 
