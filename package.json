@@ -34,7 +34,7 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=19.0.0"
   },
   "dependencies": {
     "@types/node": "^20.8.9",
@@ -64,7 +64,7 @@
     "prettier": "^3.0.3",
     "semantic-release": "^22.0.5",
     "tsc-publish": "^0.5.2",
-    "typedoc": "^0.25.2",
+    "typedoc": "^0.25.3",
     "typescript": "^5.2.2"
   },
   "jest": {
