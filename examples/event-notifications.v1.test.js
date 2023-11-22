@@ -67,6 +67,7 @@ let destinationId13 = '';
 let destinationId14 = '';
 let destinationId15 = '';
 let destinationId16 = '';
+let destinationId17 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -74,6 +75,7 @@ let subscriptionId3 = '';
 let subscriptionId4 = '';
 let subscriptionId5 = '';
 let subscriptionId6 = '';
+let subscriptionId7 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -92,6 +94,11 @@ let huaweiClientSecret = '';
 let templateInvitationID = '';
 let templateNotificationID = '';
 let templateBody = '';
+let cosInstanceCRN = '';
+let cosIntegrationId = '';
+const cosEndPoint = '';
+const cosBucketName = '';
+let cosInstanceId = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -124,6 +131,8 @@ describe('EventNotificationsV1', () => {
   huaweiClientId = config.huaweiClientId;
   huaweiClientSecret = config.huaweiClientSecret;
   templateBody = config.templateBody;
+  cosInstanceCRN = config.cosInstanceCRN;
+  cosInstanceId = config.cosInstance;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -132,6 +141,40 @@ describe('EventNotificationsV1', () => {
     eventNotificationsService = EventNotificationsV1.newInstance({});
 
     // end-common
+  });
+
+  test('createIntegration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('createIntegration() result:');
+    // begin-create_integration
+    const metadata = {
+      endpoint: cosEndPoint,
+      crn: cosInstanceCRN,
+      bucket_name: cosBucketName,
+    };
+
+    const params = {
+      instanceId,
+      type: 'collect_failed_events',
+      metadata,
+    };
+    let res;
+    try {
+      res = await eventNotificationsService.createIntegration(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      cosIntegrationId = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-create_integration
   });
 
   test('listIntegrations request example', async () => {
@@ -208,13 +251,13 @@ describe('EventNotificationsV1', () => {
     originalLog('updateIntegration() result:');
     // begin-replace_integration
 
-    const metadata = {
+    let metadata = {
       endpoint: 'https://private.us-south.kms.cloud.ibm.com',
       crn: 'insert crn',
       root_key_id: 'insert root key id',
     };
 
-    const params = {
+    let params = {
       instanceId,
       id: integrationId,
       type: 'kms/hs-crypto',
@@ -222,6 +265,28 @@ describe('EventNotificationsV1', () => {
     };
 
     let res;
+    try {
+      res = await eventNotificationsService.replaceIntegration(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // COS integration
+
+    metadata = {
+      endpoint: cosEndPoint,
+      crn: cosInstanceCRN,
+      bucket_name: cosBucketName,
+    };
+
+    params = {
+      instanceId,
+      id: cosIntegrationId,
+      type: 'collect_failed_events',
+      metadata,
+    };
+
     try {
       res = await eventNotificationsService.replaceIntegration(params);
       console.log(JSON.stringify(res.result, null, 2));
@@ -923,6 +988,29 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    name = 'Custom_sms_destination';
+    description = 'Custom sms Destination';
+    type = 'sms_custom';
+    let collectFailedEvents = false;
+
+    collectFailedEvents = false;
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      collectFailedEvents,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId17 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
     // end-create_destination
   });
 
@@ -1554,6 +1642,24 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    name = 'custom_sms_destination_update';
+    description = 'custom sms Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId17,
+      name,
+      description,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
     // end-update_destination
   });
 
@@ -1578,18 +1684,19 @@ describe('EventNotificationsV1', () => {
     let name = 'template name invitation update';
     let description = 'template destination update';
     let type = 'smtp_custom.invitation';
-    let updateTemplateParams = {
+    let replaceTemplateParams = {
       instanceId,
       name,
       type,
       params: templateConfigModel,
       description,
     };
-    let updateTemplateResult;
+    let replaceTemplateResult;
     try {
-      updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
-      console.log(JSON.stringify(updateTemplateResult.result, null, 2));
-      templateInvitationID = updateTemplateResult.result.id;
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      templateInvitationID = replaceTemplateResult.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1597,7 +1704,7 @@ describe('EventNotificationsV1', () => {
     name = 'template name notification update';
     description = 'template destination update';
     type = 'smtp_custom.notification';
-    updateTemplateParams = {
+    replaceTemplateParams = {
       instanceId,
       name,
       type,
@@ -1606,9 +1713,10 @@ describe('EventNotificationsV1', () => {
     };
 
     try {
-      updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
-      console.log(JSON.stringify(updateTemplateResult.result, null, 2));
-      templateNotificationID = updateTemplateResult.result.id;
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      templateNotificationID = replaceTemplateResult.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1793,6 +1901,30 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
       subscriptionId6 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const SubscriptionCreateAttributesCustomSMSAttributes = {
+      invited: ['+12064563059', '+12267054625'],
+    };
+
+    name = 'subscription_custom_sms';
+    description = 'Subscription for custom sms';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId17,
+      topicId,
+      attributes: SubscriptionCreateAttributesCustomSMSAttributes,
+      description,
+    };
+
+    let resCustomSMS;
+    try {
+      resCustomSMS = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId7 = resCustomSMS.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2081,8 +2213,67 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const customSMSUpdateAttributesInvited = {
+      add: ['+12064512559'],
+    };
+
+    const customSMSUpdateAttributesToRemove = {
+      remove: ['+12064512559'],
+    };
+
+    const SubscriptionUpdateAttributesCustomSMSUpdateAttributes = {
+      invited: customSMSUpdateAttributesInvited,
+      subscribed: customSMSUpdateAttributesToRemove,
+      unsubscribed: customSMSUpdateAttributesToRemove,
+    };
+
+    const nameCustomSMS = 'subscription_custom_sms_update';
+    const descriptionCustomSMS = 'Subscription for sms update';
+    params = {
+      instanceId,
+      name: nameCustomSMS,
+      id: subscriptionId7,
+      attributes: SubscriptionUpdateAttributesCustomSMSUpdateAttributes,
+      description: descriptionCustomSMS,
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_subscription
   });
+
+  test('getEnabledCountries()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getEnabledCountries() result:');
+    // begin-get_enabled_countries
+    const params = {
+      instanceId,
+      id: destinationId7,
+    };
+
+    let res;
+    try {
+      res = await eventNotificationsService.getEnabledCountries(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_enabled_countries
+  });
+
   test('sendNotifications request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -2163,6 +2354,7 @@ describe('EventNotificationsV1', () => {
       time: date,
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
+      ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
       ibmensubject: 'certificate expire',
       ibmenhtmlbody: htmlBody,
       ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
@@ -2220,6 +2412,7 @@ describe('EventNotificationsV1', () => {
       subscriptionId4,
       subscriptionId5,
       subscriptionId6,
+      subscriptionId7,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2301,6 +2494,7 @@ describe('EventNotificationsV1', () => {
       destinationId14,
       destinationId15,
       destinationId16,
+      destinationId17,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
