@@ -54,6 +54,7 @@ let destinationId13 = '';
 let destinationId14 = '';
 let destinationId15 = '';
 let destinationId16 = '';
+let destinationId17 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -72,6 +73,7 @@ let subscriptionId13 = '';
 let subscriptionId14 = '';
 let subscriptionId15 = '';
 let subscriptionId16 = '';
+let subscriptionId17 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -97,6 +99,8 @@ let teamsURL = '';
 let pagerDutyApiKey = '';
 let pagerDutyRoutingKey = '';
 let templateBody = '';
+let cosInstanceCRN = '';
+let cosIntegrationId = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -133,8 +137,29 @@ describe('EventNotificationsV1_integration', () => {
     pagerDutyApiKey = config.pdApiKey;
     pagerDutyRoutingKey = config.pdRoutingKey;
     templateBody = config.templateBody;
+    cosInstanceCRN = config.cosInstanceCrn;
 
     eventNotificationsService.enableRetries();
+  });
+
+  test('createIntegration()', async () => {
+    const metadata = {
+      endpoint: cosEndPoint,
+      crn: cosInstanceCRN,
+      bucket_name: cosBucketName,
+    };
+
+    const params = {
+      instanceId,
+      type: 'collect_failed_events',
+      metadata,
+    };
+
+    const res = await eventNotificationsService.createIntegration(params);
+    cosIntegrationId = res.result.id;
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
   });
 
   test('listIntegrations()', async () => {
@@ -170,15 +195,15 @@ describe('EventNotificationsV1_integration', () => {
 
   test('updateIntegration()', async () => {
     const metadata = {
-      endpoint: 'https://private.us-south.kms.cloud.ibm.com',
-      crn: 'crn:v1:staging:public:kms:us-south:a/****:****::',
-      root_key_id: 'sddsds-f326-4688-baaf-611750e79b61',
+      endpoint: cosEndPoint,
+      crn: cosInstanceCRN,
+      bucket_name: cosBucketName,
     };
 
     const params = {
       instanceId,
-      id: integrationId,
-      type: 'kms',
+      id: cosIntegrationId,
+      type: 'collect_failed_events',
       metadata,
     };
 
@@ -929,6 +954,28 @@ describe('EventNotificationsV1_integration', () => {
     expect(customEmailRes.result.description).toBe(description);
     destinationId16 = customEmailRes.result.id;
 
+    name = 'Custom_sms_destination';
+    description = 'Custom sms Destination';
+    type = 'sms_custom';
+    const collectFailedEvents = 'false';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      collectFailedEvents,
+    };
+
+    const customSMSRes = await eventNotificationsService.createDestination(params);
+    expect(customSMSRes).toBeDefined();
+    expect(customSMSRes.status).toBe(201);
+    expect(customSMSRes.result).toBeDefined();
+
+    expect(customSMSRes.result.type).toBe(type);
+    expect(customSMSRes.result.name).toBe(name);
+    expect(customSMSRes.result.description).toBe(description);
+    destinationId17 = customSMSRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1523,6 +1570,23 @@ describe('EventNotificationsV1_integration', () => {
     expect(updateDkimVerifyDestinationResult).toBeDefined();
     expect(updateDkimVerifyDestinationResult.status).toBe(200);
 
+    name = 'custom_sms_destination_update';
+    description = 'custom sms Destination_update';
+
+    params = {
+      instanceId,
+      id: destinationId17,
+      name,
+      description,
+    };
+
+    const customSMSRes = await eventNotificationsService.updateDestination(params);
+    expect(customSMSRes).toBeDefined();
+    expect(customSMSRes.status).toBe(200);
+    expect(customSMSRes.result).toBeDefined();
+    expect(customSMSRes.result.name).toBe(name);
+    expect(customSMSRes.result.description).toBe(description);
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1544,7 +1608,7 @@ describe('EventNotificationsV1_integration', () => {
     let name = 'template name invitation update';
     let description = 'template destination update';
     let type = 'smtp_custom.invitation';
-    let updateTemplateParams = {
+    let replaceTemplateParams = {
       instanceId,
       id: templateInvitationID,
       name,
@@ -1553,19 +1617,20 @@ describe('EventNotificationsV1_integration', () => {
       description,
     };
 
-    let updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
-    expect(updateTemplateResult).toBeDefined();
-    expect(updateTemplateResult.status).toBe(200);
-    expect(updateTemplateResult.result).toBeDefined();
+    let replaceTemplateResult =
+      await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
 
-    expect(updateTemplateResult.result.type).toBe(type);
-    expect(updateTemplateResult.result.name).toBe(name);
-    expect(updateTemplateResult.result.description).toBe(description);
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
 
     name = 'template name notification update';
     description = 'template destination update';
     type = 'smtp_custom.notification';
-    updateTemplateParams = {
+    replaceTemplateParams = {
       instanceId,
       id: templateNotificationID,
       name,
@@ -1574,14 +1639,14 @@ describe('EventNotificationsV1_integration', () => {
       description,
     };
 
-    updateTemplateResult = await eventNotificationsService.updateTemplate(updateTemplateParams);
-    expect(updateTemplateResult).toBeDefined();
-    expect(updateTemplateResult.status).toBe(200);
-    expect(updateTemplateResult.result).toBeDefined();
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
 
-    expect(updateTemplateResult.result.type).toBe(type);
-    expect(updateTemplateResult.result.name).toBe(name);
-    expect(updateTemplateResult.result.description).toBe(description);
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
   });
 
   test('createSubscription()', async () => {
@@ -1951,6 +2016,29 @@ describe('EventNotificationsV1_integration', () => {
     expect(customEmailres.result.name).toBe(name);
     expect(customEmailres.result.description).toBe(description);
     subscriptionId16 = customEmailres.result.id;
+
+    const SubscriptionCreateAttributesCustomSMSAttributes = {
+      invited: ['+12064563059', '+12267054625'],
+    };
+
+    name = 'subscription_custom_sms';
+    description = 'Subscription for custom sms';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId17,
+      topicId,
+      attributes: SubscriptionCreateAttributesCustomSMSAttributes,
+      description,
+    };
+
+    const resCustomSMS = await eventNotificationsService.createSubscription(params);
+    expect(resCustomSMS).toBeDefined();
+    expect(resCustomSMS.status).toBe(201);
+    expect(resCustomSMS.result).toBeDefined();
+    expect(resCustomSMS.result.name).toBe(name);
+    expect(resCustomSMS.result.description).toBe(description);
+    subscriptionId17 = resCustomSMS.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -2401,6 +2489,37 @@ describe('EventNotificationsV1_integration', () => {
     expect(customEmailRes.result.name).toBe(customEmailName);
     expect(customEmailRes.result.description).toBe(customEmailDescription);
 
+    const customSMSUpdateAttributesInvited = {
+      add: ['+12064512559'],
+    };
+
+    const customSMSUpdateAttributesToRemove = {
+      remove: ['+12064512559'],
+    };
+
+    const SubscriptionUpdateAttributesCustomSMSUpdateAttributes = {
+      invited: customSMSUpdateAttributesInvited,
+      subscribed: customSMSUpdateAttributesToRemove,
+      unsubscribed: customSMSUpdateAttributesToRemove,
+    };
+
+    const nameCustomSMS = 'subscription_custom_sms_update';
+    const descriptionCustomSMS = 'Subscription for sms update';
+    params = {
+      instanceId,
+      name: nameCustomSMS,
+      id: subscriptionId17,
+      attributes: SubscriptionUpdateAttributesCustomSMSUpdateAttributes,
+      description: descriptionCustomSMS,
+    };
+
+    const resCustomSMS = await eventNotificationsService.updateSubscription(params);
+    expect(resCustomSMS).toBeDefined();
+    expect(resCustomSMS.status).toBe(200);
+    expect(resCustomSMS.result).toBeDefined();
+    expect(resCustomSMS.result.name).toBe(nameCustomSMS);
+    expect(resCustomSMS.result.description).toBe(descriptionCustomSMS);
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2411,6 +2530,18 @@ describe('EventNotificationsV1_integration', () => {
     // 415
     // 500
     //
+  });
+
+  test('getEnabledCountries()', async () => {
+    const params = {
+      instanceId,
+      id: destinationId7,
+    };
+
+    const res = await eventNotificationsService.getEnabledCountries(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
   });
 
   test('sendNotifications()', async () => {
@@ -2521,6 +2652,7 @@ describe('EventNotificationsV1_integration', () => {
       type: typeValue,
       time: '2019-01-01T12:00:00.000Z',
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
+      ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
       ibmensubject: 'certificate expire',
       ibmenhtmlbody: htmlBody,
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
@@ -2710,6 +2842,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId14,
       subscriptionId15,
       subscriptionId16,
+      subscriptionId17,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2790,6 +2923,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId14,
       destinationId15,
       destinationId16,
+      destinationId17,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
