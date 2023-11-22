@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.3.1...v0.4.0) (2023-11-22)
+
+
+### Features
+
+* adds custom sms support  ([#56](https://github.com/IBM/event-notifications-node-admin-sdk/issues/56)) ([1bb0188](https://github.com/IBM/event-notifications-node-admin-sdk/commit/1bb01887aa3e313329b473e4d0b9d08bdd6d8e23))
+
 ## [0.3.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.3.0...v0.3.1) (2023-10-30)
 
 
