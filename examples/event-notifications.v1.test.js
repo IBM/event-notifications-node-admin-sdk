@@ -2228,7 +2228,7 @@ describe('EventNotificationsV1', () => {
       unsubscribed: customSMSUpdateAttributesToRemove,
     };
 
-    const nameCustomSMS = 'subscription_sms_update';
+    const nameCustomSMS = 'subscription_custom_sms_update';
     const descriptionCustomSMS = 'Subscription for sms update';
     params = {
       instanceId,
