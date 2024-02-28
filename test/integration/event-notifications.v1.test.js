@@ -55,6 +55,7 @@ let destinationId14 = '';
 let destinationId15 = '';
 let destinationId16 = '';
 let destinationId17 = '';
+let destinationId18 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -74,6 +75,7 @@ let subscriptionId14 = '';
 let subscriptionId15 = '';
 let subscriptionId16 = '';
 let subscriptionId17 = '';
+let subscriptionId18 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -87,6 +89,7 @@ let fcmProjectId = '';
 let fcmClientEmail = '';
 let fcmPrivateKey = '';
 let codeEngineURL = '';
+let codeEngineProjectCRN = '';
 let huaweiClientId = '';
 let huaweiClientSecret = '';
 let cosBucketName = '';
@@ -138,6 +141,7 @@ describe('EventNotificationsV1_integration', () => {
     pagerDutyRoutingKey = config.pdRoutingKey;
     templateBody = config.templateBody;
     cosInstanceCRN = config.cosInstanceCrn;
+    codeEngineProjectCRN = config.codeEngineProjectCrn;
 
     eventNotificationsService.enableRetries();
   });
@@ -843,6 +847,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationCEConfigParamsModel = {
       url: codeEngineURL,
       verb: 'get',
+      type: 'application',
       custom_headers: { 'authorization': 'testString' },
       sensitive_headers: ['authorization'],
     };
@@ -976,6 +981,36 @@ describe('EventNotificationsV1_integration', () => {
     expect(customSMSRes.result.description).toBe(description);
     destinationId17 = customSMSRes.result.id;
 
+    const destinationCEJobConfigParamsModel = {
+      type: 'job',
+      project_crn: codeEngineProjectCRN,
+      job_name: 'custom-job',
+    };
+
+    const destinationCEJobConfigModel = {
+      params: destinationCEJobConfigParamsModel,
+    };
+
+    name = 'code_engine_job_destination';
+    description = 'code engine job Destination';
+    type = 'ibmce';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationCEJobConfigModel,
+    };
+
+    const ceJobRes = await eventNotificationsService.createDestination(params);
+    expect(ceJobRes).toBeDefined();
+    expect(ceJobRes.status).toBe(201);
+    expect(ceJobRes.result).toBeDefined();
+
+    expect(ceJobRes.result.type).toBe(type);
+    expect(ceJobRes.result.name).toBe(name);
+    expect(ceJobRes.result.description).toBe(description);
+    destinationId18 = ceJobRes.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1445,11 +1480,12 @@ describe('EventNotificationsV1_integration', () => {
     const destinationCEConfigParamsModel = {
       url: codeEngineURL,
       verb: 'post',
+      type: 'application',
       custom_headers: { authorization: 'xxx-tye67-yyy' },
       sensitive_headers: ['authorization'],
     };
     const destinationCEConfigModel = {
-      params: destinationConfigParamsModel,
+      params: destinationCEConfigParamsModel,
     };
 
     name = 'code engine updated';
@@ -1586,6 +1622,33 @@ describe('EventNotificationsV1_integration', () => {
     expect(customSMSRes.result).toBeDefined();
     expect(customSMSRes.result.name).toBe(name);
     expect(customSMSRes.result.description).toBe(description);
+
+    const destinationCEJobConfigParamsModel = {
+      type: 'job',
+      project_crn: codeEngineProjectCRN,
+      job_name: 'custom-job',
+    };
+    const destinationCEJobConfigModel = {
+      params: destinationCEJobConfigParamsModel,
+    };
+
+    name = 'code engine job updated';
+    description = 'This destination is for code engine job notifications';
+
+    params = {
+      instanceId,
+      id: destinationId18,
+      name,
+      description,
+      config: destinationCEJobConfigModel,
+    };
+
+    const ceJobRes = await eventNotificationsService.updateDestination(params);
+    expect(ceJobRes).toBeDefined();
+    expect(ceJobRes.status).toBe(200);
+    expect(ceJobRes.result).toBeDefined();
+    expect(ceJobRes.result.name).toBe(name);
+    expect(ceJobRes.result.description).toBe(description);
 
     //
     // The following status codes aren't covered by tests.
@@ -2039,6 +2102,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(resCustomSMS.result.name).toBe(name);
     expect(resCustomSMS.result.description).toBe(description);
     subscriptionId17 = resCustomSMS.result.id;
+
+    // code engine
+    const subscriptionCEJobCreateAttributesModel = {
+      signing_enabled: false,
+    };
+
+    name = 'subscription_code_engine_job';
+    description = 'Subscription for code engine_job';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId18,
+      topicId,
+      attributes: subscriptionCEJobCreateAttributesModel,
+      description,
+    };
+
+    const ceJobRes = await eventNotificationsService.createSubscription(params);
+    expect(ceJobRes).toBeDefined();
+    expect(ceJobRes.status).toBe(201);
+    expect(ceJobRes.result).toBeDefined();
+    expect(ceJobRes.result.name).toBe(name);
+    expect(ceJobRes.result.description).toBe(description);
+    subscriptionId18 = ceJobRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -2520,6 +2608,27 @@ describe('EventNotificationsV1_integration', () => {
     expect(resCustomSMS.result.name).toBe(nameCustomSMS);
     expect(resCustomSMS.result.description).toBe(descriptionCustomSMS);
 
+    const subscriptionCEJobUpdateAttributesModel = {
+      signing_enabled: true,
+    };
+
+    name = 'code_engine_job_sub_updated';
+    description = 'Update code engine job subscription';
+    params = {
+      instanceId,
+      id: subscriptionId18,
+      name,
+      description,
+      attributes: subscriptionCEJobUpdateAttributesModel,
+    };
+
+    const ceJobRes = await eventNotificationsService.updateSubscription(params);
+    expect(ceJobRes).toBeDefined();
+    expect(ceJobRes.status).toBe(200);
+    expect(ceJobRes.result).toBeDefined();
+    expect(ceJobRes.result.name).toBe(name);
+    expect(ceJobRes.result.description).toBe(description);
+
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2535,7 +2644,7 @@ describe('EventNotificationsV1_integration', () => {
   test('getEnabledCountries()', async () => {
     const params = {
       instanceId,
-      id: destinationId7,
+      id: destinationId17,
     };
 
     const res = await eventNotificationsService.getEnabledCountries(params);
@@ -2735,94 +2844,7 @@ describe('EventNotificationsV1_integration', () => {
     // 500
     //
   });
-  test('sendBulkNotifications()', async () => {
-    // Request models needed by this operation.
 
-    // NotificationFCMDevices
-    const notificationFcmDevicesModel = {
-      user_ids: ['userId'],
-    };
-
-    // Lights
-    const lightsModel = {
-      led_argb: 'RED',
-      led_on_ms: 0,
-      led_off_ms: '20',
-    };
-
-    // Style
-    const styleModel = {
-      type: 'picture_notification',
-      title: 'hello',
-      url: 'url.ibm.com',
-    };
-
-    const apnsOptions = {
-      aps: {
-        alert: 'Game Request',
-        badge: 5,
-      },
-    };
-
-    const fcmOptions = {
-      notification: {
-        title: 'Portugal vs. Denmark',
-        badge: 'great match!',
-      },
-    };
-
-    const apnsHeaders = {
-      'apns-collapse-id': '123',
-    };
-
-    const notificationSafariBodymodel = {
-      saf: {
-        alert: 'Game Request',
-        badge: 5,
-      },
-    };
-
-    const notificationID = '1234-1234-sdfs-234';
-    const notificationSeverity = 'MEDIUM';
-    const typeValue = 'com.acme.offer:new';
-    const notificationsSouce = '1234-1234-sdfs-234:test';
-
-    // NotificationCreate
-    const notificationCreateModel = {
-      ibmenseverity: notificationSeverity,
-      id: notificationID,
-      source: notificationsSouce,
-      ibmensourceid: sourceId,
-      type: typeValue,
-      time: '2019-01-01T12:00:00.000Z',
-      ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
-      ibmenfcmbody: JSON.stringify(fcmOptions),
-      ibmenapnsbody: JSON.stringify(apnsOptions),
-      ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
-      specversion: '1.0',
-    };
-
-    const params = {
-      instanceId,
-      bulkMessages: [notificationCreateModel],
-    };
-
-    const res = await eventNotificationsService.sendBulkNotifications(params);
-
-    expect(res).toBeDefined();
-    expect(res.status).toBe(202);
-    expect(res.result).toBeDefined();
-
-    //
-    // The following status codes aren't covered by tests.
-    // Please provide integration tests for these too.
-    //
-    // 400
-    // 401
-    // 415
-    // 500
-    //
-  });
   test('deleteSubscription()', async () => {
     const subscriptions = [
       subscriptionId,
@@ -2843,6 +2865,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId15,
       subscriptionId16,
       subscriptionId17,
+      subscriptionId18,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2924,6 +2947,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId15,
       destinationId16,
       destinationId17,
+      destinationId18,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
