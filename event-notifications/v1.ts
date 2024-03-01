@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -138,63 +138,6 @@ class EventNotificationsV1 extends BaseService {
     const parameters = {
       options: {
         url: '/v1/instances/{instance_id}/notifications',
-        method: 'POST',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Send Bulk notification.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {NotificationCreate[]} [params.bulkMessages] - List of notifications body.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.BulkNotificationResponse>>}
-   */
-  public sendBulkNotifications(
-    params: EventNotificationsV1.SendBulkNotificationsParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.BulkNotificationResponse>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId'];
-    const _validParams = ['instanceId', 'bulkMessages', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'bulk_messages': _params.bulkMessages,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'sendBulkNotifications'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/notifications/bulk',
         method: 'POST',
         body,
         path,
@@ -2480,15 +2423,6 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `sendBulkNotifications` operation. */
-  export interface SendBulkNotificationsParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** List of notifications body. */
-    bulkMessages?: NotificationCreate[];
-    headers?: OutgoingHttpHeaders;
-  }
-
   /** Parameters for the `createSources` operation. */
   export interface CreateSourcesParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -3010,14 +2944,6 @@ namespace EventNotificationsV1 {
   /*************************
    * model interfaces
    ************************/
-
-  /** Payload describing a notifications response. */
-  export interface BulkNotificationResponse {
-    /** Bulk Notification ID. */
-    bulk_notification_id?: string;
-    /** List of Notifications. */
-    bulk_messages?: any[];
-  }
 
   /** The DKIM attributes. */
   export interface DKIMAttributes {
@@ -3738,6 +3664,25 @@ namespace EventNotificationsV1 {
     public_key?: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
+  }
+
+  /** Payload describing a code engine destination configuration. */
+  export interface DestinationConfigOneOfCodeEngineDestinationConfig
+    extends DestinationConfigOneOf {
+    /** URL of code engine. */
+    url?: string;
+    /** HTTP method of code engine. */
+    verb?: string;
+    /** The code engine destination type. */
+    type: string;
+    /** CRN of the code engine project. */
+    project_crn?: string;
+    /** name of the code engine job. */
+    job_name?: string;
+    /** Custom headers (Key-Value pair) for webhook call. */
+    custom_headers?: JsonObject;
+    /** List of sensitive headers from custom headers. */
+    sensitive_headers?: string[];
   }
 
   /** Payload describing a custom Domain Email destination configuration. */

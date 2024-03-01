@@ -68,6 +68,7 @@ let destinationId14 = '';
 let destinationId15 = '';
 let destinationId16 = '';
 let destinationId17 = '';
+let destinationId18 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -99,6 +100,7 @@ let cosIntegrationId = '';
 const cosEndPoint = '';
 const cosBucketName = '';
 let cosInstanceId = '';
+let codeEngineProjectCRN = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -133,6 +135,7 @@ describe('EventNotificationsV1', () => {
   templateBody = config.templateBody;
   cosInstanceCRN = config.cosInstanceCRN;
   cosInstanceId = config.cosInstance;
+  codeEngineProjectCRN = config.codeEngineProjectCrn;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -885,6 +888,7 @@ describe('EventNotificationsV1', () => {
     const destinationCEConfigParamsModel = {
       url: codeEngineURL,
       verb: 'get',
+      type: 'application',
       custom_headers: { 'authorization': 'testString' },
       sensitive_headers: ['authorization'],
     };
@@ -1007,6 +1011,35 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createDestination(params);
       console.log(JSON.stringify(res.result, null, 2));
       destinationId17 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationCEJobConfigParamsModel = {
+      type: 'job',
+      project_crn: codeEngineProjectCRN,
+      job_name: 'custom-job',
+    };
+
+    const destinationCEJobConfigModel = {
+      params: destinationCEJobConfigParamsModel,
+    };
+
+    name = 'code_engine_job_destination';
+    description = 'code engine job Destination';
+    type = 'ibmce';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationCEJobConfigModel,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId18 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1529,11 +1562,12 @@ describe('EventNotificationsV1', () => {
     const destinationCEConfigParamsModel = {
       url: codeEngineURL,
       verb: 'post',
+      type: 'application',
       custom_headers: { authorization: 'xxx-tye67-yyy' },
       sensitive_headers: ['authorization'],
     };
     const destinationCEConfigModel = {
-      params: destinationConfigParamsModel,
+      params: destinationCEConfigParamsModel,
     };
 
     name = 'code engine updated';
@@ -1651,6 +1685,33 @@ describe('EventNotificationsV1', () => {
       id: destinationId17,
       name,
       description,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const destinationCEJobConfigParamsModel = {
+      type: 'job',
+      project_crn: codeEngineProjectCRN,
+      job_name: 'custom-job',
+    };
+    const destinationCEJobConfigModel = {
+      params: destinationCEJobConfigParamsModel,
+    };
+
+    name = 'code engine job updated';
+    description = 'This destination is for code engine job notifications';
+
+    params = {
+      instanceId,
+      id: destinationId18,
+      name,
+      description,
+      config: destinationCEJobConfigModel,
     };
 
     try {
@@ -2495,6 +2556,7 @@ describe('EventNotificationsV1', () => {
       destinationId15,
       destinationId16,
       destinationId17,
+      destinationId18,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
