@@ -752,7 +752,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.name - The Message Template.
    * @param {string} params.type - The type of template.
-   * @param {TemplateConfig} params.params - Payload describing a template configuration.
+   * @param {TemplateConfigOneOf} params.params -
    * @param {string} [params.description] - The Template description.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.TemplateResponse>>}
@@ -935,7 +935,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} [params.name] - Template name.
    * @param {string} [params.description] - Template description.
    * @param {string} [params.type] - The type of template.
-   * @param {TemplateConfig} [params.params] - Payload describing a template configuration.
+   * @param {TemplateConfigOneOf} [params.params] -
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Template>>}
    */
@@ -2385,6 +2385,766 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+  /*************************
+   * sMTPConfigurations
+   ************************/
+
+  /**
+   * Create a new SMTP Configuration.
+   *
+   * Create a new SMTP Configuration.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.name - The name of SMTP configuration.
+   * @param {string} params.domain - Domain Name.
+   * @param {string} [params.description] - The description of SMTP configuration.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPCreateResponse>>}
+   */
+  public createSmtpConfiguration(
+    params: EventNotificationsV1.CreateSmtpConfigurationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPCreateResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'name', 'domain'];
+    const _validParams = ['instanceId', 'name', 'domain', 'description', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+      'domain': _params.domain,
+      'description': _params.description,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createSmtpConfiguration'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List all SMTP Configurations.
+   *
+   * List all SMTP Configurations.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {string} [params.search] - Search string for filtering results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfigurationsList>>}
+   */
+  public listSmtpConfigurations(
+    params: EventNotificationsV1.ListSmtpConfigurationsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfigurationsList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId'];
+    const _validParams = ['instanceId', 'limit', 'offset', 'search', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'limit': _params.limit,
+      'offset': _params.offset,
+      'search': _params.search,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listSmtpConfigurations'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Create a new SMTP User.
+   *
+   * Create a new SMTP User.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string} [params.description] - The description of SMTP configuration.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUserResponse>>}
+   */
+  public createSmtpUser(
+    params: EventNotificationsV1.CreateSmtpUserParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUserResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'description', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'description': _params.description,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'createSmtpUser'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/users',
+        method: 'POST',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List all SMTP users.
+   *
+   * List all SMTP users.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {string} [params.search] - Search string for filtering results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUsersList>>}
+   */
+  public listSmtpUsers(
+    params: EventNotificationsV1.ListSmtpUsersParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUsersList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'limit', 'offset', 'search', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'limit': _params.limit,
+      'offset': _params.offset,
+      'search': _params.search,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listSmtpUsers'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/users',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get details of a SMTP Configuration.
+   *
+   * Get details of a SMTP Configuration.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfiguration>>}
+   */
+  public getSmtpConfiguration(
+    params: EventNotificationsV1.GetSmtpConfigurationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfiguration>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSmtpConfiguration'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update details of SMTP.
+   *
+   * Update details of SMTP.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string} [params.name] - SMTP name.
+   * @param {string} [params.description] - SMTP description.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfiguration>>}
+   */
+  public updateSmtpConfiguration(
+    params: EventNotificationsV1.UpdateSmtpConfigurationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfiguration>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'name', 'description', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'name': _params.name,
+      'description': _params.description,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSmtpConfiguration'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a SMTP Configuration.
+   *
+   * Delete a SMTP Configuration.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
+   */
+  public deleteSmtpConfiguration(
+    params: EventNotificationsV1.DeleteSmtpConfigurationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteSmtpConfiguration'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get details of a SMTP User.
+   *
+   * Get details of a SMTP User.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string} params.userId - UserID.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUser>>}
+   */
+  public getSmtpUser(
+    params: EventNotificationsV1.GetSmtpUserParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUser>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'userId'];
+    const _validParams = ['instanceId', 'id', 'userId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+      'user_id': _params.userId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSmtpUser'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update details of SMTP User.
+   *
+   * Update details of SMTP User.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string} params.userId - UserID.
+   * @param {string} [params.description] - SMTP user description.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUser>>}
+   */
+  public updateSmtpUser(
+    params: EventNotificationsV1.UpdateSmtpUserParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUser>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'userId'];
+    const _validParams = ['instanceId', 'id', 'userId', 'description', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'description': _params.description,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+      'user_id': _params.userId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSmtpUser'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Delete a SMTP user.
+   *
+   * Delete a SMTP user.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string} params.userId - UserID.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>>}
+   */
+  public deleteSmtpUser(
+    params: EventNotificationsV1.DeleteSmtpUserParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.EmptyObject>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'userId'];
+    const _validParams = ['instanceId', 'id', 'userId', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+      'user_id': _params.userId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'deleteSmtpUser'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
+        method: 'DELETE',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get details of a SMTP allowed IPs.
+   *
+   * Get details of a SMTP allowed IPs.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPAllowedIPs>>}
+   */
+  public getSmtpAllowedIps(
+    params: EventNotificationsV1.GetSmtpAllowedIpsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPAllowedIPs>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSmtpAllowedIps'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Update details of SMTP allowed IP.
+   *
+   * Update details of SMTP.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string[]} params.subnets - The SMTP allowed Ips.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPAllowedIPs>>}
+   */
+  public updateSmtpAllowedIps(
+    params: EventNotificationsV1.UpdateSmtpAllowedIpsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPAllowedIPs>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'subnets'];
+    const _validParams = ['instanceId', 'id', 'subnets', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'subnets': _params.subnets,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSmtpAllowedIps'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Verify SPF and DKIM records of SMTP.
+   *
+   * Verify SPF and DKIM records of SMTP.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for SMTP.
+   * @param {string} params.type - SMTP Verification type.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPVerificationUpdateResponse>>}
+   */
+  public updateVerifySmtp(
+    params: EventNotificationsV1.UpdateVerifySmtpParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPVerificationUpdateResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'type'];
+    const _validParams = ['instanceId', 'id', 'type', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'type': _params.type,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateVerifySmtp'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/smtp/config/{id}/verify',
+        method: 'PATCH',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -2551,8 +3311,7 @@ namespace EventNotificationsV1 {
     name: string;
     /** The type of template. */
     type: string;
-    /** Payload describing a template configuration. */
-    params: TemplateConfig;
+    params: TemplateConfigOneOf;
     /** The Template description. */
     description?: string;
     headers?: OutgoingHttpHeaders;
@@ -2592,8 +3351,7 @@ namespace EventNotificationsV1 {
     description?: string;
     /** The type of template. */
     type?: string;
-    /** Payload describing a template configuration. */
-    params?: TemplateConfig;
+    params?: TemplateConfigOneOf;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -2941,6 +3699,155 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `createSmtpConfiguration` operation. */
+  export interface CreateSmtpConfigurationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** The name of SMTP configuration. */
+    name: string;
+    /** Domain Name. */
+    domain: string;
+    /** The description of SMTP configuration. */
+    description?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listSmtpConfigurations` operation. */
+  export interface ListSmtpConfigurationsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
+    /** Search string for filtering results. */
+    search?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `createSmtpUser` operation. */
+  export interface CreateSmtpUserParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** The description of SMTP configuration. */
+    description?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listSmtpUsers` operation. */
+  export interface ListSmtpUsersParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
+    /** Search string for filtering results. */
+    search?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getSmtpConfiguration` operation. */
+  export interface GetSmtpConfigurationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSmtpConfiguration` operation. */
+  export interface UpdateSmtpConfigurationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** SMTP name. */
+    name?: string;
+    /** SMTP description. */
+    description?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteSmtpConfiguration` operation. */
+  export interface DeleteSmtpConfigurationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getSmtpUser` operation. */
+  export interface GetSmtpUserParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** UserID. */
+    userId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSmtpUser` operation. */
+  export interface UpdateSmtpUserParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** UserID. */
+    userId: string;
+    /** SMTP user description. */
+    description?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `deleteSmtpUser` operation. */
+  export interface DeleteSmtpUserParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** UserID. */
+    userId: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getSmtpAllowedIps` operation. */
+  export interface GetSmtpAllowedIpsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSmtpAllowedIps` operation. */
+  export interface UpdateSmtpAllowedIpsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** The SMTP allowed Ips. */
+    subnets: string[];
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateVerifySmtp` operation. */
+  export interface UpdateVerifySmtpParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for SMTP. */
+    id: string;
+    /** SMTP Verification type. */
+    type: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -3055,6 +3962,12 @@ namespace EventNotificationsV1 {
     user_id?: string;
     /** Last updated time. */
     created_at: string;
+  }
+
+  /** The en_authorization attributes. */
+  export interface ENAuthAttributes {
+    /** en_authorization verification. */
+    verification?: string;
   }
 
   /** EmailAttributesResponseInvitedItems. */
@@ -3185,10 +4098,12 @@ namespace EventNotificationsV1 {
     ibmendefaultlong: string;
     /** The subject of the notification. */
     ibmensubject?: string;
-    /** The SMS number string. */
-    ibmensmsto?: string;
+    /** The template id Array of string. */
+    ibmentemplates?: string;
     /** The email id string. */
     ibmenmailto?: string;
+    /** The SMS number string. */
+    ibmensmsto?: string;
     /** The html body of notification. */
     ibmenhtmlbody?: string;
     /** The subject of the notification. */
@@ -3283,6 +4198,142 @@ namespace EventNotificationsV1 {
     updated_at?: string;
     /** time of expiration. */
     expires_at?: string;
+  }
+
+  /** Payload describing a SMTP allowed Ips. */
+  export interface SMTPAllowedIPs {
+    /** The SMTP allowed Ips. */
+    subnets: string[];
+    /** Updated at. */
+    updated_at: string;
+  }
+
+  /** Payload describing a SMTP configuration. */
+  export interface SMTPConfig {
+    /** The DKIM attributes. */
+    dkim?: DKIMAttributes;
+    /** The en_authorization attributes. */
+    en_authorization?: ENAuthAttributes;
+    /** The SPF attributes. */
+    spf?: SPFAttributes;
+  }
+
+  /** Payload describing a SMTP List response. */
+  export interface SMTPConfiguration {
+    /** SMTP ID. */
+    id: string;
+    /** SMTP name. */
+    name: string;
+    /** SMTP description. */
+    description?: string;
+    /** Domain Name. */
+    domain: string;
+    /** Payload describing a SMTP configuration. */
+    config: SMTPConfig;
+    /** Created time. */
+    updated_at: string;
+  }
+
+  /** Payload describing a SMTP Configurations list. */
+  export interface SMTPConfigurationsList {
+    /** Total number of SMTP configurations. */
+    total_count: number;
+    /** Current offset. */
+    offset: number;
+    /** limit to show configurations. */
+    limit: number;
+    /** List of SMTP Configurations. */
+    smtp_configurations: SMTPConfiguration[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
+  }
+
+  /** Payload describing a SMTP create response. */
+  export interface SMTPCreateResponse {
+    /** SMTP ID. */
+    id: string;
+    /** SMTP name. */
+    name: string;
+    /** SMTP description. */
+    description?: string;
+    /** Domain Name. */
+    domain: string;
+    /** Payload describing a SMTP configuration. */
+    config: SMTPConfig;
+    /** Created time. */
+    created_at: string;
+  }
+
+  /** Payload describing a SMTP User. */
+  export interface SMTPUser {
+    /** Id. */
+    id: string;
+    /** SMTP confg Id. */
+    smtp_config_id: string;
+    /** SMTP User description. */
+    description: string;
+    /** Domain Name. */
+    domain: string;
+    /** SMTP user name. */
+    username: string;
+    /** Updated time. */
+    created_at: string;
+    /** Updated time. */
+    updated_at: string;
+  }
+
+  /** Payload describing a SMTP User create response. */
+  export interface SMTPUserResponse {
+    /** SMTP Id. */
+    id: string;
+    /** SMTP User description. */
+    description?: string;
+    /** Domain Name. */
+    domain?: string;
+    /** SMTP confg Id. */
+    smtp_config_id: string;
+    /** SMTP user name. */
+    username: string;
+    /** password. */
+    password: string;
+    /** Created time. */
+    created_at: string;
+  }
+
+  /** Payload describing a SMTP users list request. */
+  export interface SMTPUsersList {
+    /** Total number of destinations. */
+    total_count: number;
+    /** Current offset. */
+    offset: number;
+    /** limit to show destinations. */
+    limit: number;
+    /** List of users. */
+    users: SMTPUser[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
+  }
+
+  /** verification object. */
+  export interface SMTPVerificationResponse {
+    /** verification type. */
+    type: string;
+    /** verification status. */
+    verification: string;
+  }
+
+  /** Payload describing SMTP verification response. */
+  export interface SMTPVerificationUpdateResponse {
+    /** SMTP verification status. */
+    status: SMTPVerificationResponse[];
   }
 
   /** The SPF attributes. */
@@ -3512,13 +4563,8 @@ namespace EventNotificationsV1 {
     updated_at: string;
   }
 
-  /** Payload describing a template configuration. */
-  export interface TemplateConfig {
-    /** Template body. */
-    body: string;
-    /** The template subject. */
-    subject: string;
-  }
+  /** TemplateConfigOneOf. */
+  export interface TemplateConfigOneOf {}
 
   /** Payload describing a template list request. */
   export interface TemplateList {
@@ -3548,8 +4594,7 @@ namespace EventNotificationsV1 {
     description?: string;
     /** The type of template. */
     type: string;
-    /** Payload describing a template configuration. */
-    params: TemplateConfig;
+    params: TemplateConfigOneOf;
     /** Created time. */
     created_at: string;
   }
@@ -3912,6 +4957,8 @@ namespace EventNotificationsV1 {
   export interface SubscriptionAttributesSlackAttributesResponse extends SubscriptionAttributes {
     /** Attachment Color for Slack Notification. */
     attachment_color?: string;
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
   }
 
   /** The attributes for a webhook notification. */
@@ -3988,6 +5035,8 @@ namespace EventNotificationsV1 {
     extends SubscriptionCreateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
   }
 
   /** The attributes for a webhook notification. */
@@ -4077,6 +5126,8 @@ namespace EventNotificationsV1 {
     extends SubscriptionUpdateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
   }
 
   /** The attributes for a webhook notification. */
@@ -4084,6 +5135,20 @@ namespace EventNotificationsV1 {
     extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
+  }
+
+  /** Payload describing an email template configuration. */
+  export interface TemplateConfigOneOfEmailTemplateConfig extends TemplateConfigOneOf {
+    /** Template body. */
+    body: string;
+    /** The template subject. */
+    subject?: string;
+  }
+
+  /** Payload describing a slack template configuration. */
+  export interface TemplateConfigOneOfSlackTemplateConfig extends TemplateConfigOneOf {
+    /** Template body. */
+    body: string;
   }
 
   /*************************
@@ -4655,6 +5720,171 @@ namespace EventNotificationsV1 {
      */
     public async getAll(): Promise<EventNotificationsV1.IntegrationListItem[]> {
       const results: IntegrationListItem[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * SmtpConfigurationsPager can be used to simplify the use of listSmtpConfigurations().
+   */
+  export class SmtpConfigurationsPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListSmtpConfigurationsParams;
+
+    /**
+     * Construct a SmtpConfigurationsPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listSmtpConfigurations()
+     * @param {Object} params - The parameters to be passed to listSmtpConfigurations()
+     * @constructor
+     * @returns {SmtpConfigurationsPager}
+     */
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListSmtpConfigurationsParams
+    ) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listSmtpConfigurations().
+     * @returns {Promise<EventNotificationsV1.SMTPConfiguration[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.SMTPConfiguration[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listSmtpConfigurations(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.smtp_configurations;
+    }
+
+    /**
+     * Returns all results by invoking listSmtpConfigurations() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.SMTPConfiguration[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.SMTPConfiguration[]> {
+      const results: SMTPConfiguration[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * SmtpUsersPager can be used to simplify the use of listSmtpUsers().
+   */
+  export class SmtpUsersPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListSmtpUsersParams;
+
+    /**
+     * Construct a SmtpUsersPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listSmtpUsers()
+     * @param {Object} params - The parameters to be passed to listSmtpUsers()
+     * @constructor
+     * @returns {SmtpUsersPager}
+     */
+    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListSmtpUsersParams) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listSmtpUsers().
+     * @returns {Promise<EventNotificationsV1.SMTPUser[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.SMTPUser[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listSmtpUsers(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.users;
+    }
+
+    /**
+     * Returns all results by invoking listSmtpUsers() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.SMTPUser[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.SMTPUser[]> {
+      const results: SMTPUser[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
         results.push(...nextPage);

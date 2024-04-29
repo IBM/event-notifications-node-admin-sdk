@@ -17,8 +17,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-console */
-
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const fs = require('fs');
 const EventNotificationsV1 = require('../dist/event-notifications/v1');
@@ -94,13 +92,17 @@ let huaweiClientId = '';
 let huaweiClientSecret = '';
 let templateInvitationID = '';
 let templateNotificationID = '';
+let slackTemplateID = '';
 let templateBody = '';
+let slackTemplateBody = '';
 let cosInstanceCRN = '';
 let cosIntegrationId = '';
 const cosEndPoint = '';
 const cosBucketName = '';
 let cosInstanceId = '';
 let codeEngineProjectCRN = '';
+const smtpConfigID = '';
+const smtpUserID = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -136,6 +138,7 @@ describe('EventNotificationsV1', () => {
   cosInstanceCRN = config.cosInstanceCRN;
   cosInstanceId = config.cosInstance;
   codeEngineProjectCRN = config.codeEngineProjectCrn;
+  slackTemplateBody = config.slackTemplateBody;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -1128,6 +1131,29 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const slackTemplateConfigModel = {
+      body: slackTemplateBody,
+    };
+
+    name = 'slack template name';
+    description = 'slack template description';
+    type = 'slack.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: slackTemplateConfigModel,
+      description,
+    };
+
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      slackTemplateID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_template
   });
 
@@ -1781,6 +1807,31 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const slackTemplateConfigModel = {
+      body: slackTemplateBody,
+    };
+
+    name = 'slack template name update';
+    description = 'slack template description update';
+    type = 'slack.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: slackTemplateID,
+      name,
+      type,
+      params: slackTemplateConfigModel,
+      description,
+    };
+
+    try {
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      slackTemplateID = replaceTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_template
   });
 
@@ -1925,6 +1976,7 @@ describe('EventNotificationsV1', () => {
       description,
       attributes: {
         attachment_color: '#0000FF',
+        template_id_notification: slackTemplateID,
       },
     };
 
@@ -2227,6 +2279,7 @@ describe('EventNotificationsV1', () => {
       description,
       attributes: {
         attachment_color: '#0000FF',
+        template_id_notification: slackTemplateID,
       },
     };
 
@@ -2416,6 +2469,7 @@ describe('EventNotificationsV1', () => {
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmentemplates: JSON.stringify(['149b0e11-8a7c-4fda-a847-5d79e01b71dc']),
       ibmensubject: 'certificate expire',
       ibmenhtmlbody: htmlBody,
       ibmenfcmbody: JSON.stringify(notificationFcmBodyModel),
@@ -2441,6 +2495,377 @@ describe('EventNotificationsV1', () => {
     }
 
     // end-send_notifications
+  });
+
+  test('createSMTPConfiguration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('createSMTPConfiguration() result:');
+    // begin-create_smtp_configuration
+    const name = 'SMTP Configuration';
+    const domain = 'mailx.event-notifications.test.cloud.ibm.com';
+    const description = 'SMTP Configuration description';
+    const createSmtpConfigurationParams = {
+      instanceId,
+      name,
+      domain,
+      description,
+    };
+
+    try {
+      const res = await eventNotificationsService.createSmtpConfiguration(
+        createSmtpConfigurationParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-create_smtp_configuration
+  });
+
+  test('verifySMTP request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('verifySMTP() result:');
+    // begin-verify_smtp
+    const type = 'dkim,spf,en_authorization';
+    const updateVerifySmtpParams = {
+      instanceId,
+      id: smtpConfigID,
+      type,
+    };
+
+    try {
+      const res = await eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-verify-smtp
+  });
+
+  test('updateSMTPAllowedIp request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateSMTPAllowedIp() result:');
+    // begin-smtp_allowed_ip
+    const subnets = ['192.168.1.64'];
+    const updateSmtpAllowedIpsParams = {
+      instanceId,
+      id: smtpConfigID,
+      subnets,
+    };
+
+    try {
+      const res = await eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-smtp_allowed_ip
+  });
+
+  test('createSMTPUser request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('createSMTPUser() result:');
+    // begin-create_smtp_user
+    const description = 'SMTP user description';
+    const createSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      description,
+    };
+
+    try {
+      const res = await eventNotificationsService.createSmtpUser(createSmtpUserParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-create_smtp_user
+  });
+
+  test('listSMTPConfigurations request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listSMTPConfigurations() result:');
+    // begin-list_smtp_configurations
+    const limit = 1;
+    const offset = 0;
+    const search = '';
+    const listSmtpConfigurationsParams = {
+      instanceId,
+      limit,
+      offset,
+      search,
+    };
+    try {
+      const res = await eventNotificationsService.listSmtpConfigurations(
+        listSmtpConfigurationsParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-list_smtp_configurations
+  });
+
+  test('listSMTPUsers request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listSMTPUsers() result:');
+    // begin-list_smtp_users
+    const limit = 1;
+    const offset = 0;
+    const search = '';
+    const listSmtpUsersParams = {
+      instanceId,
+      id: smtpConfigID,
+      limit,
+      offset,
+      search,
+    };
+    try {
+      const res = await eventNotificationsService.listSmtpUsers(listSmtpUsersParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-list_configurations
+  });
+
+  test('getSMTPConfiguration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getSMTPConfiguration() result:');
+    // begin-get_smtp_configuration
+    const getSmtpConfigurationParams = {
+      instanceId,
+      id: smtpConfigID,
+    };
+    try {
+      const res = await eventNotificationsService.getSmtpConfiguration(getSmtpConfigurationParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_smtp_configuration
+  });
+
+  test('getSMTPAllowedIPs request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getSMTPAllowedIPs() result:');
+    // begin-get_smtp_allowed_ips
+    const getSmtpAllowedIpsParams = {
+      instanceId,
+      id: smtpConfigID,
+    };
+    try {
+      const res = await eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_smtp_allowed_ips
+  });
+
+  test('getSMTPUser request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getSMTPUser() result:');
+    // begin-get_smtp_user
+    const getSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      userId: smtpUserID,
+    };
+    try {
+      const res = await eventNotificationsService.getSmtpUser(getSmtpUserParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_smtp_user
+  });
+
+  test('updateSMTPConfiguration request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateSMTPConfiguration() result:');
+    // begin-update_smtp_configuration
+    const name = 'SMTP configuration update';
+    const description = 'SMTP description update';
+    const updateSmtpConfigurationParams = {
+      instanceId,
+      id: smtpConfigID,
+      name,
+      description,
+    };
+
+    try {
+      const res = await eventNotificationsService.updateSmtpConfiguration(
+        updateSmtpConfigurationParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-update_smtp_configuration
+  });
+
+  test('updateSMTPUser request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateSMTPUser() result:');
+    // begin-update_smtp_user
+    const description = 'SMTP description update';
+    const updateSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      userId: smtpUserID,
+      description,
+    };
+
+    try {
+      const res = await eventNotificationsService.updateSmtpUser(updateSmtpUserParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-update_smtp_user
+  });
+
+  test('deleteSMTPUser request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('deleteSMTPUser() result:');
+    // begin-delete_smtp_user
+    const deleteSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      userId: smtpUserID,
+    };
+
+    try {
+      const res = await eventNotificationsService.deleteSmtpUser(deleteSmtpUserParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-delete_smtp_user
+  });
+
+  test('deleteSMTPConfiguration  request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('deleteSMTPConfiguration() result:');
+    // begin-delete_smtp_configuration
+    const deleteSmtpConfigurationParams = {
+      instanceId,
+      id: smtpConfigID,
+    };
+    try {
+      const res = await eventNotificationsService.deleteSmtpConfiguration(
+        deleteSmtpConfigurationParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-delete_smtp_configuration
   });
 
   test('deleteSubscription request example', async () => {
@@ -2583,7 +3008,7 @@ describe('EventNotificationsV1', () => {
       expect(true).toBeFalsy();
     });
 
-    const templates = [templateInvitationID, templateNotificationID];
+    const templates = [templateInvitationID, templateNotificationID, slackTemplateID];
 
     for (let i = 0; i < templates.length; i += 1) {
       // begin-delete_template

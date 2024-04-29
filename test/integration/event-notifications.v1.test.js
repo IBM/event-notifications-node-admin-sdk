@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-/* eslint-disable no-console */
-
 const { readExternalSources } = require('ibm-cloud-sdk-core');
 const fs = require('fs');
+const exp = require('constants');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
 const authHelper = require('../resources/auth-helper.js');
@@ -97,13 +96,17 @@ let cosInstanceId = '';
 let cosEndPoint = '';
 let templateInvitationID = '';
 let templateNotificationID = '';
+let slackTemplateID = '';
 let slackURL = '';
 let teamsURL = '';
 let pagerDutyApiKey = '';
 let pagerDutyRoutingKey = '';
 let templateBody = '';
+let slackTemplateBody = '';
 let cosInstanceCRN = '';
 let cosIntegrationId = '';
+let smtpConfigID = '';
+let smtpUserID = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -140,6 +143,7 @@ describe('EventNotificationsV1_integration', () => {
     pagerDutyApiKey = config.pdApiKey;
     pagerDutyRoutingKey = config.pdRoutingKey;
     templateBody = config.templateBody;
+    slackTemplateBody = config.slackTemplateBody;
     cosInstanceCRN = config.cosInstanceCrn;
     codeEngineProjectCRN = config.codeEngineProjectCrn;
 
@@ -1086,6 +1090,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(createTemplateResult.result.name).toBe(name);
     expect(createTemplateResult.result.description).toBe(description);
     templateNotificationID = createTemplateResult.result.id;
+
+    const slackTemplateConfigModel = {
+      body: slackTemplateBody,
+    };
+
+    name = 'slack template name';
+    description = 'slack template description';
+    type = 'slack.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: slackTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    slackTemplateID = createTemplateResult.result.id;
   });
 
   test('listDestinations()', async () => {
@@ -1710,6 +1739,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(replaceTemplateResult.result.type).toBe(type);
     expect(replaceTemplateResult.result.name).toBe(name);
     expect(replaceTemplateResult.result.description).toBe(description);
+
+    const slackTemplateConfigModel = {
+      body: slackTemplateBody,
+    };
+
+    name = 'slack template name update';
+    description = 'slack template description update';
+    type = 'slack.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: slackTemplateID,
+      name,
+      type,
+      params: slackTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
   });
 
   test('createSubscription()', async () => {
@@ -1821,6 +1875,7 @@ describe('EventNotificationsV1_integration', () => {
       description,
       attributes: {
         attachment_color: '#0000FF',
+        template_id_notification: slackTemplateID,
       },
     };
 
@@ -2334,6 +2389,7 @@ describe('EventNotificationsV1_integration', () => {
       description,
       attributes: {
         attachment_color: '#0000FF',
+        template_id_notification: slackTemplateID,
       },
     };
 
@@ -2762,6 +2818,7 @@ describe('EventNotificationsV1_integration', () => {
       time: '2019-01-01T12:00:00.000Z',
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmentemplates: JSON.stringify([slackTemplateID]),
       ibmensubject: 'certificate expire',
       ibmenhtmlbody: htmlBody,
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
@@ -2843,6 +2900,224 @@ describe('EventNotificationsV1_integration', () => {
     // 415
     // 500
     //
+  });
+
+  test('createSMTPConfiguration()', async () => {
+    const name = 'SMTP Configuration';
+    const domain = 'mailx.event-notifications.test.cloud.ibm.com';
+    const description = 'SMTP Configuration description';
+    const createSmtpConfigurationParams = {
+      instanceId,
+      name,
+      domain,
+      description,
+    };
+
+    const res = await eventNotificationsService.createSmtpConfiguration(
+      createSmtpConfigurationParams
+    );
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+
+    expect(res.result.name).toBe(name);
+    expect(res.result.domain).toBe(domain);
+    expect(res.result.description).toBe(description);
+    smtpConfigID = res.result.id;
+  });
+
+  test('verifySMTP()', async () => {
+    const type = 'dkim,spf,en_authorization';
+    const updateVerifySmtpParams = {
+      instanceId,
+      id: smtpConfigID,
+      type,
+    };
+
+    const res = await eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
+
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('updateSMTPAllowedIp()', async () => {
+    const subnets = ['192.168.1.64'];
+    const updateSmtpAllowedIpsParams = {
+      instanceId,
+      id: smtpConfigID,
+      subnets,
+    };
+
+    const res = await eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('createSMTPUser()', async () => {
+    const description = 'SMTP user description';
+    const createSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      description,
+    };
+
+    const res = await eventNotificationsService.createSmtpUser(createSmtpUserParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+    expect(res.result.username).toBeDefined();
+    expect(res.result.password).toBeDefined();
+    expect(res.result.domain).toBeDefined();
+    smtpUserID = res.result.id;
+  });
+
+  test('listSMTPConfigurations()', async () => {
+    const limit = 1;
+    const offset = 0;
+    const search = '';
+    const listSmtpConfigurationsParams = {
+      instanceId,
+      limit,
+      offset,
+      search,
+    };
+
+    const res = await eventNotificationsService.listSmtpConfigurations(
+      listSmtpConfigurationsParams
+    );
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.total_count).toBe(1);
+  });
+
+  test('listSMTPUsers()', async () => {
+    const limit = 1;
+    const offset = 0;
+    const search = '';
+    const listSmtpUsersParams = {
+      instanceId,
+      id: smtpConfigID,
+      limit,
+      offset,
+      search,
+    };
+
+    const res = await eventNotificationsService.listSmtpUsers(listSmtpUsersParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.total_count).toBe(1);
+  });
+
+  test('getSMTPConfiguration()', async () => {
+    const getSmtpConfigurationParams = {
+      instanceId,
+      id: smtpConfigID,
+    };
+
+    const res = await eventNotificationsService.getSmtpConfiguration(getSmtpConfigurationParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.domain).toBeDefined();
+    expect(res.result.name).toBeDefined();
+    expect(res.result.description).toBeDefined();
+  });
+
+  test('getSMTPAllowedIPs()', async () => {
+    const getSmtpAllowedIpsParams = {
+      instanceId,
+      id: smtpConfigID,
+    };
+
+    const res = await eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.subnets[0]).toBeDefined();
+  });
+
+  test('getSMTPUser()', async () => {
+    const getSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      userId: smtpUserID,
+    };
+
+    const res = await eventNotificationsService.getSmtpUser(getSmtpUserParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.domain).toBeDefined();
+    expect(res.result.description).toBeDefined();
+    expect(res.result.username).toBeDefined();
+  });
+
+  test('updateSMTPConfiguration()', async () => {
+    const name = 'SMTP configuration update';
+    const description = 'SMTP description update';
+    const updateSmtpConfigurationParams = {
+      instanceId,
+      id: smtpConfigID,
+      name,
+      description,
+    };
+
+    const res = await eventNotificationsService.updateSmtpConfiguration(
+      updateSmtpConfigurationParams
+    );
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.name).toBe(name);
+    expect(res.result.description).toBe(description);
+  });
+
+  test('updateSMTPUser()', async () => {
+    const description = 'SMTP description update';
+    const updateSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      userId: smtpUserID,
+      description,
+    };
+
+    const res = await eventNotificationsService.updateSmtpUser(updateSmtpUserParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result.description).toBe(description);
+  });
+
+  test('deleteSMTPUser()', async () => {
+    const userIDs = [smtpUserID];
+
+    for (let i = 0; i < userIDs.length; i += 1) {
+      const deleteSmtpUserParams = {
+        instanceId,
+        id: smtpConfigID,
+        userId: userIDs[i],
+      };
+
+      const res = await eventNotificationsService.deleteSmtpUser(deleteSmtpUserParams);
+      expect(res).toBeDefined();
+      expect(res.status).toBe(204);
+      expect(res.result).toBeDefined();
+    }
+  });
+
+  test('deleteSMTPConfiguration()', async () => {
+    const smtpConfigIDs = [smtpConfigID];
+
+    for (let i = 0; i < smtpConfigIDs.length; i += 1) {
+      const deleteSmtpConfigurationParams = {
+        instanceId,
+        id: smtpConfigIDs[i],
+      };
+
+      const res = await eventNotificationsService.deleteSmtpConfiguration(
+        deleteSmtpConfigurationParams
+      );
+      expect(res).toBeDefined();
+      expect(res.status).toBe(204);
+      expect(res.result).toBeDefined();
+    }
   });
 
   test('deleteSubscription()', async () => {
@@ -2973,7 +3248,7 @@ describe('EventNotificationsV1_integration', () => {
   });
 
   test('deleteTemplate()', async () => {
-    const templates = [templateInvitationID, templateNotificationID];
+    const templates = [templateInvitationID, templateNotificationID, slackTemplateID];
 
     for (let i = 0; i < templates.length; i += 1) {
       const params = {
