@@ -130,6 +130,20 @@ SDK Methods to consume
   - [List Integrations](#list-integrations)
   - [Get Integrations](#get-integration)
   - [Update Integration](#update-integration)  
+- [SMTP Configurations](#SMTPConfigurations)
+	- [Create SMTP Configuration](#create-smtp-configuration)
+	- [Create SMTP User](#create-smtp-user)
+	- [Get SMTP Configuration](#get-smtp-configuration)
+	- [Get SMTP User](#get-smtp-user)	
+	- [Get SMTP Allowed Ips](#get-smtp-allowed-ips)
+	- [List SMTP Configurations](#list-smtp-configurations)
+	- [List SMTP Users](#list-smtp-users)
+	- [Update SMTP Configuration](#update-smtp-configuration)
+	- [Update SMTP User](#update-smtp-user)
+	- [Update SMTP Allowed Ips](#update-smtp-allowed-ips)
+	- [Delete SMTP User](#delete-smtp-user)
+	- [Delete SMTP Configuration](#delete-smtp-user)
+	- [Verify SMTP](#verify-smtp)  
 - [Send Notifications](#send-notifications)
 
 
@@ -530,6 +544,8 @@ supports the following templates:
 - Custom Email invitation
 
 ### Create Template
+
+#### Custom Email Template
 ```js
 const templateConfigModel = {
   params: {
@@ -552,6 +568,32 @@ try {
   console.warn(err);
 }
 ```
+For custom email supported template type values: smtp_custom.invitation, smtp_custom.notification 
+
+#### Slack Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+},
+};
+let createTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let createTemplateResult;
+try {
+  createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+  console.log(JSON.stringify(createTemplateResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+For slack template supported template type value: slack.notification
+
 ### List Templates
 ```js
 const params = {
@@ -584,6 +626,8 @@ try {
 ```
 
 ### Update Template
+
+#### Update Email Template
 ```js
 const templateConfigModel = {
   params: {
@@ -605,6 +649,31 @@ try {
   console.warn(err);
 }
 ```
+For custom email supported template type values: smtp_custom.invitation, smtp_custom.notification 
+
+#### Update Slack Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+    subject: 'Hi this is subject for email template',
+  },
+}; 
+let replaceTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,s
+};
+let replaceTemplateResult;
+try {
+  replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+For slack template supported template type value: slack.notification
 
 ### Delete Template
 ```js
@@ -866,6 +935,179 @@ const res = await eventNotificationsService.replaceIntegration(params);
 
 ```
 
+## SMTPConfigurations
+
+### Create SMTP Configuration
+
+```js
+const createSmtpConfigurationParams = {
+  instanceId : <instance-id>,
+  name : <smtp-name>,
+  domain : <smtp-domain>,
+  description : <smtp-description>,
+};
+
+const res = await eventNotificationsService.createSmtpConfiguration(
+  createSmtpConfigurationParams
+
+```
+
+### Create SMTP User
+
+```js
+const createSmtpUserParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  description: <user-description>,
+};
+
+const res = await eventNotificationsService.createSmtpUser(createSmtpUserParams);
+
+```
+
+### Get SMTP Configuration
+
+```js
+const getSmtpConfigurationParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+};
+      
+const res = await eventNotificationsService.getSmtpConfiguration(getSmtpConfigurationParams);
+
+```
+
+### Get SMTP User
+
+```js
+const getSmtpUserParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  userId: <smtp-user-id>,
+};
+
+const res = await eventNotificationsService.getSmtpUser(getSmtpUserParams);
+```
+
+### Get SMTP Allowed Ips
+
+```js
+const getSmtpAllowedIpsParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+};
+
+const res = await eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
+```
+
+### List SMTP Configurations
+
+```js
+const listSmtpConfigurationsParams = {
+  instanceId : <instance-id>,
+  offset : <offset>,
+  limit : <limit>,
+  search : <search>,
+};
+const res = await eventNotificationsService.listSmtpConfigurations(
+  listSmtpConfigurationsParams
+);
+```
+
+### List SMTP Users
+
+```js
+const listSmtpUsersParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  offset : <offset>,
+  limit : <limit>,
+  search : <search>,
+};
+
+const res = await eventNotificationsService.listSmtpUsers(listSmtpUsersParams);
+```
+
+### Update SMTP Configuration
+
+```js
+const updateSmtpConfigurationParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  name: <smtp-name>,
+  description: <smtp-description>,
+};
+
+const res = await eventNotificationsService.updateSmtpConfiguration(
+  updateSmtpConfigurationParams
+);
+```
+
+### Update SMTP User
+
+```js
+const updateSmtpUserParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  userId: <smtp-user-id>,
+  description <smtp-user-description>,
+};
+
+const res = await eventNotificationsService.updateSmtpUser(updateSmtpUserParams);
+```
+
+### Update SMTP Allowed IPs
+
+```js
+const subnets = ['<subnet-ip>'];
+const updateSmtpAllowedIpsParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  subnets,
+};
+
+const res = await eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
+```
+
+### Delete SMTP User
+
+```js
+const deleteSmtpUserParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  userId: <smtp-user-id>,
+};
+
+const res = await eventNotificationsService.deleteSmtpUser(deleteSmtpUserParams);
+```
+
+### Delete SMTP Configuration
+
+```js
+const deleteSmtpConfigurationParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+};
+
+const res = await eventNotificationsService.deleteSmtpConfiguration(
+  deleteSmtpConfigurationParams
+);
+```
+
+### Verify SMTP
+
+```js
+const type = 'dkim,spf,en_authorization';
+const updateVerifySmtpParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  type,
+};
+
+const res = await eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
+```
+supported verification types are dkim,spf and en_authorization.
+
 ## Send Notifications
 
 ```js
@@ -949,6 +1191,7 @@ const notificationCreateModel = {
       ibmenhuaweibody: JSON.stringify(notificationHuaweiBodymodel),
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmentemplates: JSON.stringify(['149b0e11-8a7c-4fda-a847-5d79e01b71dc']),
       ibmensubject: 'certificate expire',
       ibmenhtmlbody: htmlBody,
       ibmendefaultshort: 'short info',
@@ -1012,6 +1255,7 @@ const notificationCreateModel = {
   - **ibmenhtmlbody*** (_string_) - The html body of notification for email.
   - **ibmenmailto*** (_Array of string_) - Array of email ids to which the notification to be sent.
   - **ibmensmsto*** (_Array of string_) - Array of SMS numbers to which the notification to be sent.
+  - **ibmentemplates*** (_Array of string_) - Array of template IDs that needs to be applied while sending notificatin for custom domain email and slack destination.
 
 Note: variable with * represents the mandatory attribute.
 </details>
@@ -1024,10 +1268,37 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_APIKEY` - Add the Event Notifications service instance apikey.
 - `EVENT_NOTIFICATIONS_GUID` - Add the Event Notifications service instance GUID.
 
-**Optional** 
+**Optional**
 - `EVENT_NOTIFICATIONS_AUTH_URL` - Add the IAM url if you are using IBM test cloud.
 - `EVENT_NOTIFICATIONS_FCM_KEY` - Add firebase server key for Android FCM destination.
 - `EVENT_NOTIFICATIONS_FCM_ID` - Add firebase sender Id for Android FCM destination.
+- `EVENT_NOTIFICATIONS_FCM_PROJECT_ID` - fcm project id
+- `EVENT_NOTIFICATIONS_FCM_CLIENT_EMAIL` - fcm client email
+- `EVENT_NOTIFICATIONS_FCM_PRIVATE_KEY` - fcm private key
+- `EVENT_NOTIFICATIONS_SAFARI_CERTIFICATE` - safari certificate path
+
+- `EVENT_NOTIFICATIONS_SNOW_CLIENT_ID` - service now client id
+- `EVENT_NOTIFICATIONS_SNOW_CLIENT_SECRET` - service now client secret
+- `EVENT_NOTIFICATIONS_SNOW_USER_NAME` - service now user name
+- `EVENT_NOTIFICATIONS_SNOW_PASSWORD` - service now password
+- `EVENT_NOTIFICATIONS_SNOW_INSTANCE_NAME` - service now instance name
+
+- `EVENT_NOTIFICATIONS_COS_BUCKET_NAME` - cloud object storage bucket name
+- `EVENT_NOTIFICATIONS_COS_INSTANCE` - cloud object storage instance id
+- `EVENT_NOTIFICATIONS_COS_INSTANCE_CRN` - cloud object storage instance crn
+- `EVENT_NOTIFICATIONS_COS_ENDPOINT` - cloud object storage end point
+
+- `EVENT_NOTIFICATIONS_CODE_ENGINE_URL` - code engine app url
+- `EVENT_NOTIFICATIONS_CODE_ENGINE_PROJECT_CRN` - code engine project crn
+- `EVENT_NOTIFICATIONS_HUAWEI_CLIENT_SECRET` - huawei client secret
+- `EVENT_NOTIFICATIONS_HUAWEI_CLIENT_ID` - huawei client id
+
+- `EVENT_NOTIFICATIONS_SLACK_URL` - slack webhook url
+- `EVENT_NOTIFICATIONS_MS_TEAMS_URL` - msteams webhook url
+- `EVENT_NOTIFICATIONS_PD_ROUTING_KEY` - pagerduty routing key
+- `EVENT_NOTIFICATIONS_PD_API_KEY` - pagerduty api key
+- `EVENT_NOTIFICATIONS_TEMPLATE_BODY` - base 64 encoded html content
+- `EVENT_NOTIFICATIONS_SLACK_TEMPLATE_BODY` - base 64 encoded json body
 
 
 ## Questions
