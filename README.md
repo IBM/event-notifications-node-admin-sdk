@@ -575,7 +575,6 @@ For custom email supported template type values: smtp_custom.invitation, smtp_cu
 const templateConfigModel = {
   params: {
     body: 'base 64 encoded json body',
-    subject: 'Hi this is subject for slack template',
 },
 };
 let createTemplateParams = {
@@ -1269,10 +1268,37 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_APIKEY` - Add the Event Notifications service instance apikey.
 - `EVENT_NOTIFICATIONS_GUID` - Add the Event Notifications service instance GUID.
 
-**Optional** 
+**Optional**
 - `EVENT_NOTIFICATIONS_AUTH_URL` - Add the IAM url if you are using IBM test cloud.
 - `EVENT_NOTIFICATIONS_FCM_KEY` - Add firebase server key for Android FCM destination.
 - `EVENT_NOTIFICATIONS_FCM_ID` - Add firebase sender Id for Android FCM destination.
+- `EVENT_NOTIFICATIONS_FCM_PROJECT_ID` - fcm project id
+- `EVENT_NOTIFICATIONS_FCM_CLIENT_EMAIL` - fcm client email
+- `EVENT_NOTIFICATIONS_FCM_PRIVATE_KEY` - fcm private key
+- `EVENT_NOTIFICATIONS_SAFARI_CERTIFICATE` - safari certificate path
+
+- `EVENT_NOTIFICATIONS_SNOW_CLIENT_ID` - service now client id
+- `EVENT_NOTIFICATIONS_SNOW_CLIENT_SECRET` - service now client secret
+- `EVENT_NOTIFICATIONS_SNOW_USER_NAME` - service now user name
+- `EVENT_NOTIFICATIONS_SNOW_PASSWORD` - service now password
+- `EVENT_NOTIFICATIONS_SNOW_INSTANCE_NAME` - service now instance name
+
+- `EVENT_NOTIFICATIONS_COS_BUCKET_NAME` - cloud object storage bucket name
+- `EVENT_NOTIFICATIONS_COS_INSTANCE` - cloud object storage instance id
+- `EVENT_NOTIFICATIONS_COS_INSTANCE_CRN` - cloud object storage instance crn
+- `EVENT_NOTIFICATIONS_COS_ENDPOINT` - cloud object storage end point
+
+- `EVENT_NOTIFICATIONS_CODE_ENGINE_URL` - code engine app url
+- `EVENT_NOTIFICATIONS_CODE_ENGINE_PROJECT_CRN` - code engine project crn
+- `EVENT_NOTIFICATIONS_HUAWEI_CLIENT_SECRET` - huawei client secret
+- `EVENT_NOTIFICATIONS_HUAWEI_CLIENT_ID` - huawei client id
+
+- `EVENT_NOTIFICATIONS_SLACK_URL` - slack webhook url
+- `EVENT_NOTIFICATIONS_MS_TEAMS_URL` - msteams webhook url
+- `EVENT_NOTIFICATIONS_PD_ROUTING_KEY` - pagerduty routing key
+- `EVENT_NOTIFICATIONS_PD_API_KEY` - pagerduty api key
+- `EVENT_NOTIFICATIONS_TEMPLATE_BODY` - base 64 encoded html content
+- `EVENT_NOTIFICATIONS_SLACK_TEMPLATE_BODY` - base 64 encoded json body
 
 
 ## Questions
