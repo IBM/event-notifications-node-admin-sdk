@@ -101,8 +101,8 @@ const cosEndPoint = '';
 const cosBucketName = '';
 let cosInstanceId = '';
 let codeEngineProjectCRN = '';
-const smtpConfigID = '';
-const smtpUserID = '';
+let smtpConfigID = '';
+let smtpUserID = '';
 
 // Save original console.log
 const originalLog = console.log;
