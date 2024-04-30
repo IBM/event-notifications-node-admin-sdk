@@ -1,3 +1,11 @@
+# [0.6.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.5.0...v0.6.0) (2024-04-30)
+
+
+### Features
+
+* slack template and smtp changes ([7b56b31](https://github.com/IBM/event-notifications-node-admin-sdk/commit/7b56b31fee8c41fa63185a6ee61fcf045990f9aa))
+* smtp slack template and vulnerability ([#59](https://github.com/IBM/event-notifications-node-admin-sdk/issues/59)) ([7f412e1](https://github.com/IBM/event-notifications-node-admin-sdk/commit/7f412e135c7544504fdbddff01c0a15acb034377))
+
 # [0.5.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.4.1...v0.5.0) (2024-03-01)
 
 
