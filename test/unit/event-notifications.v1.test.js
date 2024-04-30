@@ -22,8 +22,6 @@ const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 const nock = require('nock');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
 
-/* eslint-disable no-await-in-loop */
-
 const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
 
 const eventNotificationsServiceOptions = {
@@ -130,8 +128,9 @@ describe('EventNotificationsV1', () => {
         ibmendefaultshort: 'testString',
         ibmendefaultlong: 'testString',
         ibmensubject: 'testString',
-        ibmensmsto: 'testString',
+        ibmentemplates: 'testString',
         ibmenmailto: 'testString',
+        ibmensmsto: 'testString',
         ibmenhtmlbody: 'testString',
         subject: 'testString',
         data: { foo: 'bar' },
@@ -1306,8 +1305,8 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // TemplateConfig
-      const templateConfigModel = {
+      // TemplateConfigOneOfEmailTemplateConfig
+      const templateConfigOneOfModel = {
         body: 'testString',
         subject: 'testString',
       };
@@ -1317,7 +1316,7 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const name = 'testString';
         const type = 'testString';
-        const params = templateConfigModel;
+        const params = templateConfigOneOfModel;
         const description = 'testString';
         const createTemplateParams = {
           instanceId,
@@ -1368,7 +1367,7 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const name = 'testString';
         const type = 'testString';
-        const params = templateConfigModel;
+        const params = templateConfigOneOfModel;
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createTemplateParams = {
@@ -1650,8 +1649,8 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
-      // TemplateConfig
-      const templateConfigModel = {
+      // TemplateConfigOneOfEmailTemplateConfig
+      const templateConfigOneOfModel = {
         body: 'testString',
         subject: 'testString',
       };
@@ -1663,7 +1662,7 @@ describe('EventNotificationsV1', () => {
         const name = 'testString';
         const description = 'testString';
         const type = 'testString';
-        const params = templateConfigModel;
+        const params = templateConfigOneOfModel;
         const replaceTemplateParams = {
           instanceId,
           id,
@@ -4250,6 +4249,1391 @@ describe('EventNotificationsV1', () => {
         let err;
         try {
           await eventNotificationsService.replaceIntegration();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('createSmtpConfiguration', () => {
+    describe('positive tests', () => {
+      function __createSmtpConfigurationTest() {
+        // Construct the params object for operation createSmtpConfiguration
+        const instanceId = 'testString';
+        const name = 'testString';
+        const domain = 'testString';
+        const description = 'testString';
+        const createSmtpConfigurationParams = {
+          instanceId,
+          name,
+          domain,
+          description,
+        };
+
+        const createSmtpConfigurationResult = eventNotificationsService.createSmtpConfiguration(
+          createSmtpConfigurationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(createSmtpConfigurationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config', 'POST');
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.domain).toEqual(domain);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createSmtpConfigurationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __createSmtpConfigurationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __createSmtpConfigurationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const name = 'testString';
+        const domain = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createSmtpConfigurationParams = {
+          instanceId,
+          name,
+          domain,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.createSmtpConfiguration(createSmtpConfigurationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createSmtpConfiguration({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createSmtpConfiguration();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listSmtpConfigurations', () => {
+    describe('positive tests', () => {
+      function __listSmtpConfigurationsTest() {
+        // Construct the params object for operation listSmtpConfigurations
+        const instanceId = 'testString';
+        const limit = 1;
+        const offset = 0;
+        const search = 'testString';
+        const listSmtpConfigurationsParams = {
+          instanceId,
+          limit,
+          offset,
+          search,
+        };
+
+        const listSmtpConfigurationsResult = eventNotificationsService.listSmtpConfigurations(
+          listSmtpConfigurationsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(listSmtpConfigurationsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.search).toEqual(search);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listSmtpConfigurationsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __listSmtpConfigurationsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __listSmtpConfigurationsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listSmtpConfigurationsParams = {
+          instanceId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.listSmtpConfigurations(listSmtpConfigurationsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.listSmtpConfigurations({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.listSmtpConfigurations();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+
+    describe('SmtpConfigurationsPager tests', () => {
+      const serviceUrl = eventNotificationsServiceOptions.url;
+      const path = '/v1/instances/testString/smtp/config';
+      const mockPagerResponse1 =
+        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"smtp_configurations":[{"id":"id","name":"name","description":"description","domain":"domain","config":{"dkim":{"public_key":"public_key","selector":"selector","verification":"verification"},"en_authorization":{"verification":"verification"},"spf":{"txt_name":"txt_name","txt_value":"txt_value","verification":"verification"}},"updated_at":"2019-01-01T12:00:00.000Z"}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"smtp_configurations":[{"id":"id","name":"name","description":"description","domain":"domain","config":{"dkim":{"public_key":"public_key","selector":"selector","verification":"verification"},"en_authorization":{"verification":"verification"},"spf":{"txt_name":"txt_name","txt_value":"txt_value","verification":"verification"}},"updated_at":"2019-01-01T12:00:00.000Z"}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          instanceId: 'testString',
+          limit: 10,
+          search: 'testString',
+        };
+        const allResults = [];
+        const pager = new EventNotificationsV1.SmtpConfigurationsPager(
+          eventNotificationsService,
+          params
+        );
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          instanceId: 'testString',
+          limit: 10,
+          search: 'testString',
+        };
+        const pager = new EventNotificationsV1.SmtpConfigurationsPager(
+          eventNotificationsService,
+          params
+        );
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
+  });
+
+  describe('createSmtpUser', () => {
+    describe('positive tests', () => {
+      function __createSmtpUserTest() {
+        // Construct the params object for operation createSmtpUser
+        const instanceId = 'testString';
+        const id = 'testString';
+        const description = 'testString';
+        const createSmtpUserParams = {
+          instanceId,
+          id,
+          description,
+        };
+
+        const createSmtpUserResult = eventNotificationsService.createSmtpUser(createSmtpUserParams);
+
+        // all methods should return a Promise
+        expectToBePromise(createSmtpUserResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/users',
+          'POST'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __createSmtpUserTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __createSmtpUserTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __createSmtpUserTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const createSmtpUserParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.createSmtpUser(createSmtpUserParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createSmtpUser({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.createSmtpUser();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('listSmtpUsers', () => {
+    describe('positive tests', () => {
+      function __listSmtpUsersTest() {
+        // Construct the params object for operation listSmtpUsers
+        const instanceId = 'testString';
+        const id = 'testString';
+        const limit = 1;
+        const offset = 0;
+        const search = 'testString';
+        const listSmtpUsersParams = {
+          instanceId,
+          id,
+          limit,
+          offset,
+          search,
+        };
+
+        const listSmtpUsersResult = eventNotificationsService.listSmtpUsers(listSmtpUsersParams);
+
+        // all methods should return a Promise
+        expectToBePromise(listSmtpUsersResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/users',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.qs.search).toEqual(search);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __listSmtpUsersTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __listSmtpUsersTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __listSmtpUsersTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const listSmtpUsersParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.listSmtpUsers(listSmtpUsersParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.listSmtpUsers({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.listSmtpUsers();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+
+    describe('SmtpUsersPager tests', () => {
+      const serviceUrl = eventNotificationsServiceOptions.url;
+      const path = '/v1/instances/testString/smtp/config/testString/users';
+      const mockPagerResponse1 =
+        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"users":[{"id":"id","smtp_config_id":"smtp_config_id","description":"description","domain":"domain","username":"username","created_at":"2019-01-01T12:00:00.000Z","updated_at":"2019-01-01T12:00:00.000Z"}]}';
+      const mockPagerResponse2 =
+        '{"total_count":2,"limit":1,"users":[{"id":"id","smtp_config_id":"smtp_config_id","description":"description","domain":"domain","username":"username","created_at":"2019-01-01T12:00:00.000Z","updated_at":"2019-01-01T12:00:00.000Z"}]}';
+
+      beforeEach(() => {
+        unmock_createRequest();
+        const scope = nock(serviceUrl)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse1)
+          .get((uri) => uri.includes(path))
+          .reply(200, mockPagerResponse2);
+      });
+
+      afterEach(() => {
+        nock.cleanAll();
+        mock_createRequest();
+      });
+
+      test('getNext()', async () => {
+        const params = {
+          instanceId: 'testString',
+          id: 'testString',
+          limit: 10,
+          search: 'testString',
+        };
+        const allResults = [];
+        const pager = new EventNotificationsV1.SmtpUsersPager(eventNotificationsService, params);
+        while (pager.hasNext()) {
+          const nextPage = await pager.getNext();
+          expect(nextPage).not.toBeNull();
+          allResults.push(...nextPage);
+        }
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+
+      test('getAll()', async () => {
+        const params = {
+          instanceId: 'testString',
+          id: 'testString',
+          limit: 10,
+          search: 'testString',
+        };
+        const pager = new EventNotificationsV1.SmtpUsersPager(eventNotificationsService, params);
+        const allResults = await pager.getAll();
+        expect(allResults).not.toBeNull();
+        expect(allResults).toHaveLength(2);
+      });
+    });
+  });
+
+  describe('getSmtpConfiguration', () => {
+    describe('positive tests', () => {
+      function __getSmtpConfigurationTest() {
+        // Construct the params object for operation getSmtpConfiguration
+        const instanceId = 'testString';
+        const id = 'testString';
+        const getSmtpConfigurationParams = {
+          instanceId,
+          id,
+        };
+
+        const getSmtpConfigurationResult = eventNotificationsService.getSmtpConfiguration(
+          getSmtpConfigurationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(getSmtpConfigurationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getSmtpConfigurationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getSmtpConfigurationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getSmtpConfigurationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getSmtpConfigurationParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getSmtpConfiguration(getSmtpConfigurationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getSmtpConfiguration({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getSmtpConfiguration();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateSmtpConfiguration', () => {
+    describe('positive tests', () => {
+      function __updateSmtpConfigurationTest() {
+        // Construct the params object for operation updateSmtpConfiguration
+        const instanceId = 'testString';
+        const id = 'testString';
+        const name = 'testString';
+        const description = 'testString';
+        const updateSmtpConfigurationParams = {
+          instanceId,
+          id,
+          name,
+          description,
+        };
+
+        const updateSmtpConfigurationResult = eventNotificationsService.updateSmtpConfiguration(
+          updateSmtpConfigurationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateSmtpConfigurationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.name).toEqual(name);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateSmtpConfigurationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateSmtpConfigurationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateSmtpConfigurationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateSmtpConfigurationParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateSmtpConfiguration(updateSmtpConfigurationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSmtpConfiguration({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSmtpConfiguration();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteSmtpConfiguration', () => {
+    describe('positive tests', () => {
+      function __deleteSmtpConfigurationTest() {
+        // Construct the params object for operation deleteSmtpConfiguration
+        const instanceId = 'testString';
+        const id = 'testString';
+        const deleteSmtpConfigurationParams = {
+          instanceId,
+          id,
+        };
+
+        const deleteSmtpConfigurationResult = eventNotificationsService.deleteSmtpConfiguration(
+          deleteSmtpConfigurationParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(deleteSmtpConfigurationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteSmtpConfigurationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __deleteSmtpConfigurationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __deleteSmtpConfigurationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteSmtpConfigurationParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.deleteSmtpConfiguration(deleteSmtpConfigurationParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteSmtpConfiguration({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteSmtpConfiguration();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getSmtpUser', () => {
+    describe('positive tests', () => {
+      function __getSmtpUserTest() {
+        // Construct the params object for operation getSmtpUser
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userId = 'testString';
+        const getSmtpUserParams = {
+          instanceId,
+          id,
+          userId,
+        };
+
+        const getSmtpUserResult = eventNotificationsService.getSmtpUser(getSmtpUserParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getSmtpUserResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.user_id).toEqual(userId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getSmtpUserTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getSmtpUserTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getSmtpUserTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getSmtpUserParams = {
+          instanceId,
+          id,
+          userId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getSmtpUser(getSmtpUserParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getSmtpUser({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getSmtpUser();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateSmtpUser', () => {
+    describe('positive tests', () => {
+      function __updateSmtpUserTest() {
+        // Construct the params object for operation updateSmtpUser
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userId = 'testString';
+        const description = 'testString';
+        const updateSmtpUserParams = {
+          instanceId,
+          id,
+          userId,
+          description,
+        };
+
+        const updateSmtpUserResult = eventNotificationsService.updateSmtpUser(updateSmtpUserParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateSmtpUserResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.user_id).toEqual(userId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateSmtpUserTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateSmtpUserTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateSmtpUserTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateSmtpUserParams = {
+          instanceId,
+          id,
+          userId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateSmtpUser(updateSmtpUserParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSmtpUser({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSmtpUser();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('deleteSmtpUser', () => {
+    describe('positive tests', () => {
+      function __deleteSmtpUserTest() {
+        // Construct the params object for operation deleteSmtpUser
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userId = 'testString';
+        const deleteSmtpUserParams = {
+          instanceId,
+          id,
+          userId,
+        };
+
+        const deleteSmtpUserResult = eventNotificationsService.deleteSmtpUser(deleteSmtpUserParams);
+
+        // all methods should return a Promise
+        expectToBePromise(deleteSmtpUserResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
+          'DELETE'
+        );
+        const expectedAccept = undefined;
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+        expect(mockRequestOptions.path.user_id).toEqual(userId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __deleteSmtpUserTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __deleteSmtpUserTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __deleteSmtpUserTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userId = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const deleteSmtpUserParams = {
+          instanceId,
+          id,
+          userId,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.deleteSmtpUser(deleteSmtpUserParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteSmtpUser({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.deleteSmtpUser();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getSmtpAllowedIps', () => {
+    describe('positive tests', () => {
+      function __getSmtpAllowedIpsTest() {
+        // Construct the params object for operation getSmtpAllowedIps
+        const instanceId = 'testString';
+        const id = 'testString';
+        const getSmtpAllowedIpsParams = {
+          instanceId,
+          id,
+        };
+
+        const getSmtpAllowedIpsResult =
+          eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getSmtpAllowedIpsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
+          'GET'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getSmtpAllowedIpsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getSmtpAllowedIpsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getSmtpAllowedIpsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getSmtpAllowedIpsParams = {
+          instanceId,
+          id,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getSmtpAllowedIps({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getSmtpAllowedIps();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateSmtpAllowedIps', () => {
+    describe('positive tests', () => {
+      function __updateSmtpAllowedIpsTest() {
+        // Construct the params object for operation updateSmtpAllowedIps
+        const instanceId = 'testString';
+        const id = 'testString';
+        const subnets = ['testString'];
+        const updateSmtpAllowedIpsParams = {
+          instanceId,
+          id,
+          subnets,
+        };
+
+        const updateSmtpAllowedIpsResult = eventNotificationsService.updateSmtpAllowedIps(
+          updateSmtpAllowedIpsParams
+        );
+
+        // all methods should return a Promise
+        expectToBePromise(updateSmtpAllowedIpsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.subnets).toEqual(subnets);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateSmtpAllowedIpsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateSmtpAllowedIpsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateSmtpAllowedIpsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const subnets = ['testString'];
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateSmtpAllowedIpsParams = {
+          instanceId,
+          id,
+          subnets,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSmtpAllowedIps({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateSmtpAllowedIps();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateVerifySmtp', () => {
+    describe('positive tests', () => {
+      function __updateVerifySmtpTest() {
+        // Construct the params object for operation updateVerifySmtp
+        const instanceId = 'testString';
+        const id = 'testString';
+        const type = 'testString';
+        const updateVerifySmtpParams = {
+          instanceId,
+          id,
+          type,
+        };
+
+        const updateVerifySmtpResult =
+          eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
+
+        // all methods should return a Promise
+        expectToBePromise(updateVerifySmtpResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/smtp/config/{id}/verify',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.type).toEqual(type);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateVerifySmtpTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateVerifySmtpTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateVerifySmtpTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const type = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateVerifySmtpParams = {
+          instanceId,
+          id,
+          type,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateVerifySmtp({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateVerifySmtp();
         } catch (e) {
           err = e;
         }
