@@ -2523,6 +2523,7 @@ describe('EventNotificationsV1', () => {
       const res = await eventNotificationsService.createSmtpConfiguration(
         createSmtpConfigurationParams
       );
+      smtpConfigID = res.result.id;
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);
@@ -2607,6 +2608,7 @@ describe('EventNotificationsV1', () => {
 
     try {
       const res = await eventNotificationsService.createSmtpUser(createSmtpUserParams);
+      smtpUserID = res.result.id;
       console.log(JSON.stringify(res.result, null, 2));
     } catch (err) {
       console.warn(err);

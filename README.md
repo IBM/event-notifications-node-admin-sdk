@@ -1255,7 +1255,7 @@ const notificationCreateModel = {
   - **ibmenhtmlbody*** (_string_) - The html body of notification for email.
   - **ibmenmailto*** (_Array of string_) - Array of email ids to which the notification to be sent.
   - **ibmensmsto*** (_Array of string_) - Array of SMS numbers to which the notification to be sent.
-  - **ibmentemplates*** (_Array of string_) - Array of template IDs that needs to be applied while sending notificatin for custom domain email and slack destination.
+  - **ibmentemplates*** (_Array of string_) - Array of template IDs that needs to be applied while sending notification for custom domain email and slack destination.
 
 Note: variable with * represents the mandatory attribute.
 </details>
