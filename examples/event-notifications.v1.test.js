@@ -1761,7 +1761,7 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('updateTemplate() result:');
-    // begin-update_template
+    // begin-replace_template
     const templateConfigModel = {
       params: {
         body: templateBody,
@@ -1832,7 +1832,7 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-    // end-update_template
+    // end-replace_template
   });
 
   test('createSubscription request example', async () => {
@@ -2542,7 +2542,7 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('verifySMTP() result:');
-    // begin-verify_smtp
+    // begin-update_verify_smtp
     const type = 'dkim,spf,en_authorization';
     const updateVerifySmtpParams = {
       instanceId,
@@ -2556,7 +2556,7 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-    // end-verify-smtp
+    // end-update_verify-smtp
   });
 
   test('updateSMTPAllowedIp request example', async () => {
@@ -2570,7 +2570,7 @@ describe('EventNotificationsV1', () => {
     });
 
     originalLog('updateSMTPAllowedIp() result:');
-    // begin-smtp_allowed_ip
+    // begin-update_smtp_allowed_ips
     const subnets = ['192.168.1.64'];
     const updateSmtpAllowedIpsParams = {
       instanceId,
@@ -2584,7 +2584,7 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
-    // end-smtp_allowed_ip
+    // end-update_smtp_allowed_ips
   });
 
   test('createSMTPUser request example', async () => {
