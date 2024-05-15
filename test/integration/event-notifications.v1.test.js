@@ -3022,6 +3022,9 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.domain).toBeDefined();
     expect(res.result.name).toBeDefined();
     expect(res.result.description).toBeDefined();
+    expect(res.result.config.dkim).toBeDefined();
+    expect(res.result.config.spf).toBeDefined();
+    expect(res.result.config.en_authorization).toBeDefined();
   });
 
   test('getSMTPAllowedIPs()', async () => {
