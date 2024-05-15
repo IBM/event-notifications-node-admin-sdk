@@ -1,3 +1,10 @@
+## [0.6.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.6.0...v0.6.1) (2024-05-15)
+
+
+### Bug Fixes
+
+* smtp response DKIM attribute fix ([#62](https://github.com/IBM/event-notifications-node-admin-sdk/issues/62)) ([0343fa3](https://github.com/IBM/event-notifications-node-admin-sdk/commit/0343fa3fa6f4af014ba619c71281fe5aaf2acd14))
+
 # [0.6.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.5.0...v0.6.0) (2024-04-30)
 
 
