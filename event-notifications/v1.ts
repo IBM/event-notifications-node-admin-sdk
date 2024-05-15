@@ -4210,8 +4210,8 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a SMTP configuration. */
   export interface SMTPConfig {
-    /** The DKIM attributes. */
-    dkim?: DKIMAttributes;
+    /** The SMTP DKIM attributes. */
+    dkim?: SMTPDKIMAttributes;
     /** The en_authorization attributes. */
     en_authorization?: ENAuthAttributes;
     /** The SPF attributes. */
@@ -4266,6 +4266,16 @@ namespace EventNotificationsV1 {
     config: SMTPConfig;
     /** Created time. */
     created_at: string;
+  }
+
+  /** The SMTP DKIM attributes. */
+  export interface SMTPDKIMAttributes {
+    /** DMIM text name. */
+    txt_name?: string;
+    /** DMIM text value. */
+    txt_value?: string;
+    /** DKIM verification. */
+    verification?: string;
   }
 
   /** Payload describing a SMTP User. */
