@@ -19,12 +19,17 @@ const sdkCorePackage = require('ibm-cloud-sdk-core');
 
 const { NoAuthAuthenticator, unitTestUtils } = sdkCorePackage;
 
-const nock = require('nock');
 const EventNotificationsV1 = require('../../dist/event-notifications/v1');
+const nock = require('nock');
 
 /* eslint-disable no-await-in-loop */
 
-const { getOptions, checkUrlAndMethod, checkMediaHeaders, expectToBePromise } = unitTestUtils;
+const {
+  getOptions,
+  checkUrlAndMethod,
+  checkMediaHeaders,
+  expectToBePromise,
+} = unitTestUtils;
 
 const eventNotificationsServiceOptions = {
   authenticator: new NoAuthAuthenticator(),
@@ -52,6 +57,7 @@ const getAuthenticatorMock = jest.spyOn(sdkCorePackage, 'getAuthenticatorFromEnv
 getAuthenticatorMock.mockImplementation(() => new NoAuthAuthenticator());
 
 describe('EventNotificationsV1', () => {
+
   beforeEach(() => {
     mock_createRequest();
   });
@@ -62,7 +68,7 @@ describe('EventNotificationsV1', () => {
     }
     getAuthenticatorMock.mockClear();
   });
-
+  
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = EventNotificationsV1.newInstance();
@@ -159,8 +165,7 @@ describe('EventNotificationsV1', () => {
           body,
         };
 
-        const sendNotificationsResult =
-          eventNotificationsService.sendNotifications(sendNotificationsParams);
+        const sendNotificationsResult = eventNotificationsService.sendNotifications(sendNotificationsParams);
 
         // all methods should return a Promise
         expectToBePromise(sendNotificationsResult);
@@ -436,9 +441,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -761,8 +766,8 @@ describe('EventNotificationsV1', () => {
       // Rules
       const rulesModel = {
         enabled: true,
-        event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
-        notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+        event_type_filter: '$.notification_event_info.event_type == \'cert_manager\'',
+        notification_filter: '$.notification.findings[0].severity == \'MODERATE\'',
       };
 
       // SourcesItems
@@ -967,9 +972,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -1108,8 +1113,8 @@ describe('EventNotificationsV1', () => {
       // Rules
       const rulesModel = {
         enabled: true,
-        event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
-        notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+        event_type_filter: '$.notification_event_info.event_type == \'cert_manager\'',
+        notification_filter: '$.notification.findings[0].severity == \'MODERATE\'',
       };
 
       // SourcesItems
@@ -1516,9 +1521,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -1674,8 +1679,7 @@ describe('EventNotificationsV1', () => {
           params,
         };
 
-        const replaceTemplateResult =
-          eventNotificationsService.replaceTemplate(replaceTemplateParams);
+        const replaceTemplateResult = eventNotificationsService.replaceTemplate(replaceTemplateParams);
 
         // all methods should return a Promise
         expectToBePromise(replaceTemplateResult);
@@ -1778,11 +1782,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/templates/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/templates/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -1925,8 +1925,7 @@ describe('EventNotificationsV1', () => {
           icon128x1282xContentType,
         };
 
-        const createDestinationResult =
-          eventNotificationsService.createDestination(createDestinationParams);
+        const createDestinationResult = eventNotificationsService.createDestination(createDestinationParams);
 
         // all methods should return a Promise
         expectToBePromise(createDestinationResult);
@@ -1950,23 +1949,15 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.formData.icon_16x16.data).toEqual(icon16x16);
         expect(mockRequestOptions.formData.icon_16x16.contentType).toEqual(icon16x16ContentType);
         expect(mockRequestOptions.formData.icon_16x16_2x.data).toEqual(icon16x162x);
-        expect(mockRequestOptions.formData.icon_16x16_2x.contentType).toEqual(
-          icon16x162xContentType
-        );
+        expect(mockRequestOptions.formData.icon_16x16_2x.contentType).toEqual(icon16x162xContentType);
         expect(mockRequestOptions.formData.icon_32x32.data).toEqual(icon32x32);
         expect(mockRequestOptions.formData.icon_32x32.contentType).toEqual(icon32x32ContentType);
         expect(mockRequestOptions.formData.icon_32x32_2x.data).toEqual(icon32x322x);
-        expect(mockRequestOptions.formData.icon_32x32_2x.contentType).toEqual(
-          icon32x322xContentType
-        );
+        expect(mockRequestOptions.formData.icon_32x32_2x.contentType).toEqual(icon32x322xContentType);
         expect(mockRequestOptions.formData.icon_128x128.data).toEqual(icon128x128);
-        expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(
-          icon128x128ContentType
-        );
+        expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(icon128x128ContentType);
         expect(mockRequestOptions.formData.icon_128x128_2x.data).toEqual(icon128x1282x);
-        expect(mockRequestOptions.formData.icon_128x128_2x.contentType).toEqual(
-          icon128x1282xContentType
-        );
+        expect(mockRequestOptions.formData.icon_128x128_2x.contentType).toEqual(icon128x1282xContentType);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -2047,8 +2038,7 @@ describe('EventNotificationsV1', () => {
           search,
         };
 
-        const listDestinationsResult =
-          eventNotificationsService.listDestinations(listDestinationsParams);
+        const listDestinationsResult = eventNotificationsService.listDestinations(listDestinationsParams);
 
         // all methods should return a Promise
         expectToBePromise(listDestinationsResult);
@@ -2136,9 +2126,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -2199,11 +2189,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2346,8 +2332,7 @@ describe('EventNotificationsV1', () => {
           icon128x1282xContentType,
         };
 
-        const updateDestinationResult =
-          eventNotificationsService.updateDestination(updateDestinationParams);
+        const updateDestinationResult = eventNotificationsService.updateDestination(updateDestinationParams);
 
         // all methods should return a Promise
         expectToBePromise(updateDestinationResult);
@@ -2357,11 +2342,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'multipart/form-data';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2374,23 +2355,15 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.formData.icon_16x16.data).toEqual(icon16x16);
         expect(mockRequestOptions.formData.icon_16x16.contentType).toEqual(icon16x16ContentType);
         expect(mockRequestOptions.formData.icon_16x16_2x.data).toEqual(icon16x162x);
-        expect(mockRequestOptions.formData.icon_16x16_2x.contentType).toEqual(
-          icon16x162xContentType
-        );
+        expect(mockRequestOptions.formData.icon_16x16_2x.contentType).toEqual(icon16x162xContentType);
         expect(mockRequestOptions.formData.icon_32x32.data).toEqual(icon32x32);
         expect(mockRequestOptions.formData.icon_32x32.contentType).toEqual(icon32x32ContentType);
         expect(mockRequestOptions.formData.icon_32x32_2x.data).toEqual(icon32x322x);
-        expect(mockRequestOptions.formData.icon_32x32_2x.contentType).toEqual(
-          icon32x322xContentType
-        );
+        expect(mockRequestOptions.formData.icon_32x32_2x.contentType).toEqual(icon32x322xContentType);
         expect(mockRequestOptions.formData.icon_128x128.data).toEqual(icon128x128);
-        expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(
-          icon128x128ContentType
-        );
+        expect(mockRequestOptions.formData.icon_128x128.contentType).toEqual(icon128x128ContentType);
         expect(mockRequestOptions.formData.icon_128x128_2x.data).toEqual(icon128x1282x);
-        expect(mockRequestOptions.formData.icon_128x128_2x.contentType).toEqual(
-          icon128x1282xContentType
-        );
+        expect(mockRequestOptions.formData.icon_128x128_2x.contentType).toEqual(icon128x1282xContentType);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.id).toEqual(id);
       }
@@ -2466,8 +2439,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const deleteDestinationResult =
-          eventNotificationsService.deleteDestination(deleteDestinationParams);
+        const deleteDestinationResult = eventNotificationsService.deleteDestination(deleteDestinationParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteDestinationResult);
@@ -2477,11 +2449,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2560,8 +2528,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const getEnabledCountriesResult =
-          eventNotificationsService.getEnabledCountries(getEnabledCountriesParams);
+        const getEnabledCountriesResult = eventNotificationsService.getEnabledCountries(getEnabledCountriesParams);
 
         // all methods should return a Promise
         expectToBePromise(getEnabledCountriesResult);
@@ -2571,11 +2538,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/enabled_countries',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}/enabled_countries', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2654,8 +2617,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const testDestinationResult =
-          eventNotificationsService.testDestination(testDestinationParams);
+        const testDestinationResult = eventNotificationsService.testDestination(testDestinationParams);
 
         // all methods should return a Promise
         expectToBePromise(testDestinationResult);
@@ -2665,11 +2627,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/test',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}/test', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2750,9 +2708,7 @@ describe('EventNotificationsV1', () => {
           type,
         };
 
-        const updateVerifyDestinationResult = eventNotificationsService.updateVerifyDestination(
-          updateVerifyDestinationParams
-        );
+        const updateVerifyDestinationResult = eventNotificationsService.updateVerifyDestination(updateVerifyDestinationParams);
 
         // all methods should return a Promise
         expectToBePromise(updateVerifyDestinationResult);
@@ -2762,11 +2718,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/verify',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}/verify', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2852,9 +2804,7 @@ describe('EventNotificationsV1', () => {
           tagName,
         };
 
-        const createTagsSubscriptionResult = eventNotificationsService.createTagsSubscription(
-          createTagsSubscriptionParams
-        );
+        const createTagsSubscriptionResult = eventNotificationsService.createTagsSubscription(createTagsSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(createTagsSubscriptionResult);
@@ -2864,11 +2814,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -2965,9 +2911,7 @@ describe('EventNotificationsV1', () => {
           search,
         };
 
-        const listTagsSubscriptionResult = eventNotificationsService.listTagsSubscription(
-          listTagsSubscriptionParams
-        );
+        const listTagsSubscriptionResult = eventNotificationsService.listTagsSubscription(listTagsSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(listTagsSubscriptionResult);
@@ -2977,11 +2921,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3065,9 +3005,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -3087,10 +3027,7 @@ describe('EventNotificationsV1', () => {
           search: 'testString',
         };
         const allResults = [];
-        const pager = new EventNotificationsV1.TagsSubscriptionPager(
-          eventNotificationsService,
-          params
-        );
+        const pager = new EventNotificationsV1.TagsSubscriptionPager(eventNotificationsService, params);
         while (pager.hasNext()) {
           const nextPage = await pager.getNext();
           expect(nextPage).not.toBeNull();
@@ -3110,10 +3047,7 @@ describe('EventNotificationsV1', () => {
           limit: 10,
           search: 'testString',
         };
-        const pager = new EventNotificationsV1.TagsSubscriptionPager(
-          eventNotificationsService,
-          params
-        );
+        const pager = new EventNotificationsV1.TagsSubscriptionPager(eventNotificationsService, params);
         const allResults = await pager.getAll();
         expect(allResults).not.toBeNull();
         expect(allResults).toHaveLength(2);
@@ -3136,9 +3070,7 @@ describe('EventNotificationsV1', () => {
           tagName,
         };
 
-        const deleteTagsSubscriptionResult = eventNotificationsService.deleteTagsSubscription(
-          deleteTagsSubscriptionParams
-        );
+        const deleteTagsSubscriptionResult = eventNotificationsService.deleteTagsSubscription(deleteTagsSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteTagsSubscriptionResult);
@@ -3148,11 +3080,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/destinations/{id}/tag_subscriptions', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3248,8 +3176,7 @@ describe('EventNotificationsV1', () => {
           attributes,
         };
 
-        const createSubscriptionResult =
-          eventNotificationsService.createSubscription(createSubscriptionParams);
+        const createSubscriptionResult = eventNotificationsService.createSubscription(createSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(createSubscriptionResult);
@@ -3350,8 +3277,7 @@ describe('EventNotificationsV1', () => {
           search,
         };
 
-        const listSubscriptionsResult =
-          eventNotificationsService.listSubscriptions(listSubscriptionsParams);
+        const listSubscriptionsResult = eventNotificationsService.listSubscriptions(listSubscriptionsParams);
 
         // all methods should return a Promise
         expectToBePromise(listSubscriptionsResult);
@@ -3439,9 +3365,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -3457,10 +3383,7 @@ describe('EventNotificationsV1', () => {
           search: 'testString',
         };
         const allResults = [];
-        const pager = new EventNotificationsV1.SubscriptionsPager(
-          eventNotificationsService,
-          params
-        );
+        const pager = new EventNotificationsV1.SubscriptionsPager(eventNotificationsService, params);
         while (pager.hasNext()) {
           const nextPage = await pager.getNext();
           expect(nextPage).not.toBeNull();
@@ -3476,10 +3399,7 @@ describe('EventNotificationsV1', () => {
           limit: 10,
           search: 'testString',
         };
-        const pager = new EventNotificationsV1.SubscriptionsPager(
-          eventNotificationsService,
-          params
-        );
+        const pager = new EventNotificationsV1.SubscriptionsPager(eventNotificationsService, params);
         const allResults = await pager.getAll();
         expect(allResults).not.toBeNull();
         expect(allResults).toHaveLength(2);
@@ -3498,8 +3418,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const getSubscriptionResult =
-          eventNotificationsService.getSubscription(getSubscriptionParams);
+        const getSubscriptionResult = eventNotificationsService.getSubscription(getSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(getSubscriptionResult);
@@ -3509,11 +3428,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/subscriptions/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/subscriptions/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3592,8 +3507,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const deleteSubscriptionResult =
-          eventNotificationsService.deleteSubscription(deleteSubscriptionParams);
+        const deleteSubscriptionResult = eventNotificationsService.deleteSubscription(deleteSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteSubscriptionResult);
@@ -3603,11 +3517,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/subscriptions/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/subscriptions/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3717,8 +3627,7 @@ describe('EventNotificationsV1', () => {
           attributes,
         };
 
-        const updateSubscriptionResult =
-          eventNotificationsService.updateSubscription(updateSubscriptionParams);
+        const updateSubscriptionResult = eventNotificationsService.updateSubscription(updateSubscriptionParams);
 
         // all methods should return a Promise
         expectToBePromise(updateSubscriptionResult);
@@ -3728,11 +3637,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/subscriptions/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/subscriptions/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -3825,8 +3730,7 @@ describe('EventNotificationsV1', () => {
           metadata,
         };
 
-        const createIntegrationResult =
-          eventNotificationsService.createIntegration(createIntegrationParams);
+        const createIntegrationResult = eventNotificationsService.createIntegration(createIntegrationParams);
 
         // all methods should return a Promise
         expectToBePromise(createIntegrationResult);
@@ -3922,8 +3826,7 @@ describe('EventNotificationsV1', () => {
           search,
         };
 
-        const listIntegrationsResult =
-          eventNotificationsService.listIntegrations(listIntegrationsParams);
+        const listIntegrationsResult = eventNotificationsService.listIntegrations(listIntegrationsParams);
 
         // all methods should return a Promise
         expectToBePromise(listIntegrationsResult);
@@ -4011,9 +3914,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -4074,11 +3977,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/integrations/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/integrations/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4171,8 +4070,7 @@ describe('EventNotificationsV1', () => {
           metadata,
         };
 
-        const replaceIntegrationResult =
-          eventNotificationsService.replaceIntegration(replaceIntegrationParams);
+        const replaceIntegrationResult = eventNotificationsService.replaceIntegration(replaceIntegrationParams);
 
         // all methods should return a Promise
         expectToBePromise(replaceIntegrationResult);
@@ -4182,11 +4080,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/integrations/{id}',
-          'PUT'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/integrations/{id}', 'PUT');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4275,9 +4169,7 @@ describe('EventNotificationsV1', () => {
           description,
         };
 
-        const createSmtpConfigurationResult = eventNotificationsService.createSmtpConfiguration(
-          createSmtpConfigurationParams
-        );
+        const createSmtpConfigurationResult = eventNotificationsService.createSmtpConfiguration(createSmtpConfigurationParams);
 
         // all methods should return a Promise
         expectToBePromise(createSmtpConfigurationResult);
@@ -4374,9 +4266,7 @@ describe('EventNotificationsV1', () => {
           search,
         };
 
-        const listSmtpConfigurationsResult = eventNotificationsService.listSmtpConfigurations(
-          listSmtpConfigurationsParams
-        );
+        const listSmtpConfigurationsResult = eventNotificationsService.listSmtpConfigurations(listSmtpConfigurationsParams);
 
         // all methods should return a Promise
         expectToBePromise(listSmtpConfigurationsResult);
@@ -4464,9 +4354,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -4482,10 +4372,7 @@ describe('EventNotificationsV1', () => {
           search: 'testString',
         };
         const allResults = [];
-        const pager = new EventNotificationsV1.SmtpConfigurationsPager(
-          eventNotificationsService,
-          params
-        );
+        const pager = new EventNotificationsV1.SmtpConfigurationsPager(eventNotificationsService, params);
         while (pager.hasNext()) {
           const nextPage = await pager.getNext();
           expect(nextPage).not.toBeNull();
@@ -4501,10 +4388,7 @@ describe('EventNotificationsV1', () => {
           limit: 10,
           search: 'testString',
         };
-        const pager = new EventNotificationsV1.SmtpConfigurationsPager(
-          eventNotificationsService,
-          params
-        );
+        const pager = new EventNotificationsV1.SmtpConfigurationsPager(eventNotificationsService, params);
         const allResults = await pager.getAll();
         expect(allResults).not.toBeNull();
         expect(allResults).toHaveLength(2);
@@ -4535,11 +4419,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/users',
-          'POST'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/users', 'POST');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4635,11 +4515,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/users',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/users', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4720,9 +4596,9 @@ describe('EventNotificationsV1', () => {
       beforeEach(() => {
         unmock_createRequest();
         const scope = nock(serviceUrl)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse1)
-          .get((uri) => uri.includes(path))
+          .get(uri => uri.includes(path))
           .reply(200, mockPagerResponse2);
       });
 
@@ -4775,9 +4651,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const getSmtpConfigurationResult = eventNotificationsService.getSmtpConfiguration(
-          getSmtpConfigurationParams
-        );
+        const getSmtpConfigurationResult = eventNotificationsService.getSmtpConfiguration(getSmtpConfigurationParams);
 
         // all methods should return a Promise
         expectToBePromise(getSmtpConfigurationResult);
@@ -4787,11 +4661,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4874,9 +4744,7 @@ describe('EventNotificationsV1', () => {
           description,
         };
 
-        const updateSmtpConfigurationResult = eventNotificationsService.updateSmtpConfiguration(
-          updateSmtpConfigurationParams
-        );
+        const updateSmtpConfigurationResult = eventNotificationsService.updateSmtpConfiguration(updateSmtpConfigurationParams);
 
         // all methods should return a Promise
         expectToBePromise(updateSmtpConfigurationResult);
@@ -4886,11 +4754,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -4971,9 +4835,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const deleteSmtpConfigurationResult = eventNotificationsService.deleteSmtpConfiguration(
-          deleteSmtpConfigurationParams
-        );
+        const deleteSmtpConfigurationResult = eventNotificationsService.deleteSmtpConfiguration(deleteSmtpConfigurationParams);
 
         // all methods should return a Promise
         expectToBePromise(deleteSmtpConfigurationResult);
@@ -4983,11 +4845,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5078,11 +4936,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5178,11 +5032,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5277,11 +5127,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}',
-          'DELETE'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/users/{user_id}', 'DELETE');
         const expectedAccept = undefined;
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5363,8 +5209,7 @@ describe('EventNotificationsV1', () => {
           id,
         };
 
-        const getSmtpAllowedIpsResult =
-          eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
+        const getSmtpAllowedIpsResult = eventNotificationsService.getSmtpAllowedIps(getSmtpAllowedIpsParams);
 
         // all methods should return a Promise
         expectToBePromise(getSmtpAllowedIpsResult);
@@ -5374,11 +5219,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
-          'GET'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips', 'GET');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5459,9 +5300,7 @@ describe('EventNotificationsV1', () => {
           subnets,
         };
 
-        const updateSmtpAllowedIpsResult = eventNotificationsService.updateSmtpAllowedIps(
-          updateSmtpAllowedIpsParams
-        );
+        const updateSmtpAllowedIpsResult = eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
 
         // all methods should return a Promise
         expectToBePromise(updateSmtpAllowedIpsResult);
@@ -5471,11 +5310,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
@@ -5559,8 +5394,7 @@ describe('EventNotificationsV1', () => {
           type,
         };
 
-        const updateVerifySmtpResult =
-          eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
+        const updateVerifySmtpResult = eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
 
         // all methods should return a Promise
         expectToBePromise(updateVerifySmtpResult);
@@ -5570,11 +5404,7 @@ describe('EventNotificationsV1', () => {
 
         const mockRequestOptions = getOptions(createRequestMock);
 
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/verify',
-          'PATCH'
-        );
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/smtp/config/{id}/verify', 'PATCH');
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);

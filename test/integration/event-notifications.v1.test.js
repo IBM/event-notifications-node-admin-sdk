@@ -107,6 +107,7 @@ let cosInstanceCRN = '';
 let cosIntegrationId = '';
 let smtpConfigID = '';
 let smtpUserID = '';
+let slackToken = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -146,6 +147,7 @@ describe('EventNotificationsV1_integration', () => {
     slackTemplateBody = config.slackTemplateBody;
     cosInstanceCRN = config.cosInstanceCrn;
     codeEngineProjectCRN = config.codeEngineProjectCrn;
+    slackToken = config.slackToken
 
     eventNotificationsService.enableRetries();
   });
@@ -577,6 +579,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelSlack = {
       params: {
         url: slackURL,
+        token: slackToken,
       },
     };
 
@@ -1261,6 +1264,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelSlack = {
       params: {
         url: slackURL,
+        token: slackToken,
       },
     };
 
@@ -1876,6 +1880,7 @@ describe('EventNotificationsV1_integration', () => {
       attributes: {
         attachment_color: '#0000FF',
         template_id_notification: slackTemplateID,
+        to: [''],
       },
     };
 
@@ -2390,6 +2395,7 @@ describe('EventNotificationsV1_integration', () => {
       attributes: {
         attachment_color: '#0000FF',
         template_id_notification: slackTemplateID,
+        to: [''],
       },
     };
 

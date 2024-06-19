@@ -40,8 +40,7 @@ import { getQueryParam } from 'ibm-cloud-sdk-core';
  */
 
 class EventNotificationsV1 extends BaseService {
-  static DEFAULT_SERVICE_URL: string =
-    'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
+  static DEFAULT_SERVICE_URL: string = 'https://us-south.event-notifications.cloud.ibm.com/event-notifications';
 
   static DEFAULT_SERVICE_NAME: string = 'event_notifications';
 
@@ -313,7 +312,11 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getSource');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getSource'
+    );
 
     const parameters = {
       options: {
@@ -376,7 +379,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -548,7 +557,11 @@ class EventNotificationsV1 extends BaseService {
       'instance_id': _params.instanceId,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'listTopics');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listTopics'
+    );
 
     const parameters = {
       options: {
@@ -604,7 +617,11 @@ class EventNotificationsV1 extends BaseService {
       'id': _params.id,
     };
 
-    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getTopic');
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getTopic'
+    );
 
     const parameters = {
       options: {
@@ -733,7 +750,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1031,7 +1054,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1075,29 +1104,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'type'];
-    const _validParams = [
-      'instanceId',
-      'name',
-      'type',
-      'description',
-      'collectFailedEvents',
-      'config',
-      'certificate',
-      'certificateContentType',
-      'icon16x16',
-      'icon16x16ContentType',
-      'icon16x162x',
-      'icon16x162xContentType',
-      'icon32x32',
-      'icon32x32ContentType',
-      'icon32x322x',
-      'icon32x322xContentType',
-      'icon128x128',
-      'icon128x128ContentType',
-      'icon128x1282x',
-      'icon128x1282xContentType',
-      'headers',
-    ];
+    const _validParams = ['instanceId', 'name', 'type', 'description', 'collectFailedEvents', 'config', 'certificate', 'certificateContentType', 'icon16x16', 'icon16x16ContentType', 'icon16x162x', 'icon16x162xContentType', 'icon32x32', 'icon32x32ContentType', 'icon32x322x', 'icon32x322xContentType', 'icon128x128', 'icon128x128ContentType', 'icon128x1282x', 'icon128x1282xContentType', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1154,7 +1161,7 @@ class EventNotificationsV1 extends BaseService {
         url: '/v1/instances/{instance_id}/destinations',
         method: 'POST',
         path,
-        formData,
+        formData
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -1322,29 +1329,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Destination>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = [
-      'instanceId',
-      'id',
-      'name',
-      'description',
-      'collectFailedEvents',
-      'config',
-      'certificate',
-      'certificateContentType',
-      'icon16x16',
-      'icon16x16ContentType',
-      'icon16x162x',
-      'icon16x162xContentType',
-      'icon32x32',
-      'icon32x32ContentType',
-      'icon32x322x',
-      'icon32x322xContentType',
-      'icon128x128',
-      'icon128x128ContentType',
-      'icon128x1282x',
-      'icon128x1282xContentType',
-      'headers',
-    ];
+    const _validParams = ['instanceId', 'id', 'name', 'description', 'collectFailedEvents', 'config', 'certificate', 'certificateContentType', 'icon16x16', 'icon16x16ContentType', 'icon16x162x', 'icon16x162xContentType', 'icon32x32', 'icon32x32ContentType', 'icon32x322x', 'icon32x322xContentType', 'icon128x128', 'icon128x128ContentType', 'icon128x1282x', 'icon128x1282xContentType', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1401,7 +1386,7 @@ class EventNotificationsV1 extends BaseService {
         url: '/v1/instances/{instance_id}/destinations/{id}',
         method: 'PATCH',
         path,
-        formData,
+        formData
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(
@@ -1459,7 +1444,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1652,9 +1643,7 @@ class EventNotificationsV1 extends BaseService {
    */
   public createTagsSubscription(
     params: EventNotificationsV1.CreateTagsSubscriptionParams
-  ): Promise<
-    EventNotificationsV1.Response<EventNotificationsV1.DestinationTagsSubscriptionResponse>
-  > {
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationTagsSubscriptionResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id', 'deviceId', 'tagName'];
     const _validParams = ['instanceId', 'id', 'deviceId', 'tagName', 'headers'];
@@ -1724,17 +1713,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.TagsSubscriptionList>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = [
-      'instanceId',
-      'id',
-      'deviceId',
-      'userId',
-      'tagName',
-      'limit',
-      'offset',
-      'search',
-      'headers',
-    ];
+    const _validParams = ['instanceId', 'id', 'deviceId', 'userId', 'tagName', 'limit', 'offset', 'search', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -1830,7 +1809,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -1860,15 +1845,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Subscription>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'destinationId', 'topicId'];
-    const _validParams = [
-      'instanceId',
-      'name',
-      'destinationId',
-      'topicId',
-      'description',
-      'attributes',
-      'headers',
-    ];
+    const _validParams = ['instanceId', 'name', 'destinationId', 'topicId', 'description', 'attributes', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2071,7 +2048,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -2694,9 +2677,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update details of SMTP.
+   * Update details of SMTP Configuration.
    *
-   * Update details of SMTP.
+   * Update details of SMTP Configuration.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2796,7 +2779,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -2860,9 +2849,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update details of SMTP User.
+   * Update details of a SMTP User.
    *
-   * Update details of SMTP User.
+   * Update details of a SMTP User.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2964,7 +2953,13 @@ class EventNotificationsV1 extends BaseService {
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(true, sdkHeaders, {}, _params.headers),
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -2972,9 +2967,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Get details of a SMTP allowed IPs.
+   * Get details of SMTP configuration allowed IPs.
    *
-   * Get details of a SMTP allowed IPs.
+   * Get details of SMTP configuration allowed IPs.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -3026,9 +3021,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update details of SMTP allowed IP.
+   * Update SMTP configuration allowed IPs.
    *
-   * Update details of SMTP.
+   * Update SMTP configuration allowed IPs.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -3087,14 +3082,14 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Verify SPF and DKIM records of SMTP.
+   * Verify SMTP configuration domain.
    *
-   * Verify SPF and DKIM records of SMTP.
+   * Verify SMTP configuration domain.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for SMTP.
-   * @param {string} params.type - SMTP Verification type.
+   * @param {string} params.type - SMTP verification type.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPVerificationUpdateResponse>>}
    */
@@ -3843,7 +3838,7 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for SMTP. */
     id: string;
-    /** SMTP Verification type. */
+    /** SMTP verification type. */
     type: string;
     headers?: OutgoingHttpHeaders;
   }
@@ -3892,7 +3887,8 @@ namespace EventNotificationsV1 {
   }
 
   /** DestinationConfigOneOf. */
-  export interface DestinationConfigOneOf {}
+  export interface DestinationConfigOneOf {
+  }
 
   /** Payload describing a destination list request. */
   export interface DestinationList {
@@ -4270,9 +4266,9 @@ namespace EventNotificationsV1 {
 
   /** The SMTP DKIM attributes. */
   export interface SMTPDKIMAttributes {
-    /** DMIM text name. */
+    /** DKIM text name. */
     txt_name?: string;
-    /** DMIM text value. */
+    /** DKIM text value. */
     txt_value?: string;
     /** DKIM verification. */
     verification?: string;
@@ -4478,7 +4474,8 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionCreateAttributes. */
-  export interface SubscriptionCreateAttributes {}
+  export interface SubscriptionCreateAttributes {
+  }
 
   /** Subscription list object. */
   export interface SubscriptionList {
@@ -4521,7 +4518,8 @@ namespace EventNotificationsV1 {
   }
 
   /** SubscriptionUpdateAttributes. */
-  export interface SubscriptionUpdateAttributes {}
+  export interface SubscriptionUpdateAttributes {
+  }
 
   /** Payload describing a tags list request. */
   export interface TagsSubscriptionList {
@@ -4574,7 +4572,8 @@ namespace EventNotificationsV1 {
   }
 
   /** TemplateConfigOneOf. */
-  export interface TemplateConfigOneOf {}
+  export interface TemplateConfigOneOf {
+  }
 
   /** Payload describing a template list request. */
   export interface TemplateList {
@@ -4722,8 +4721,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a code engine destination configuration. */
-  export interface DestinationConfigOneOfCodeEngineDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfCodeEngineDestinationConfig extends DestinationConfigOneOf {
     /** URL of code engine. */
     url?: string;
     /** HTTP method of code engine. */
@@ -4741,8 +4739,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a custom Domain Email destination configuration. */
-  export interface DestinationConfigOneOfCustomDomainEmailDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfCustomDomainEmailDestinationConfig extends DestinationConfigOneOf {
     /** Email Domain. */
     domain: string;
     /** The DKIM attributes. */
@@ -4788,8 +4785,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing an IBM Cloud Functions destination configuration. */
-  export interface DestinationConfigOneOfIBMCloudFunctionsDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfIBMCloudFunctionsDestinationConfig extends DestinationConfigOneOf {
     /** URL of IBM Cloud Functions Trigger EndPoint. */
     url: string;
     /** API Key with access of IBM Cloud Functions IAM Namespace. */
@@ -4797,8 +4793,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a Cloud Object Storage destination configuration. */
-  export interface DestinationConfigOneOfIBMCloudObjectStorageDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfIBMCloudObjectStorageDestinationConfig extends DestinationConfigOneOf {
     /** Bucket Name for Cloud Object Storage. */
     bucket_name: string;
     /** Instance Id of Cloud Object Storage. */
@@ -4858,8 +4853,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a ServiceNow destination configuration. */
-  export interface DestinationConfigOneOfServiceNowDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfServiceNowDestinationConfig extends DestinationConfigOneOf {
     /** ClientID for the ServiceNow account oauth. */
     client_id: string;
     /** ClientSecret for the ServiceNow account oauth. */
@@ -4876,6 +4870,8 @@ namespace EventNotificationsV1 {
   export interface DestinationConfigOneOfSlackDestinationConfig extends DestinationConfigOneOf {
     /** URL of Slack Incoming Notifications. */
     url: string;
+    /** Token of slack application. */
+    token?: string;
   }
 
   /** Payload describing a webhook destination configuration. */
@@ -4891,8 +4887,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes reponse for an email destination. */
-  export interface SubscriptionAttributesCustomEmailAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesCustomEmailAttributesResponse extends SubscriptionAttributes {
     /** The email id string. */
     invited?: EmailAttributesResponseInvitedItems[];
     /** The unsubscribe list. */
@@ -4916,8 +4911,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Custom SMS attributes object. */
-  export interface SubscriptionAttributesCustomSMSAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesCustomSMSAttributesResponse extends SubscriptionAttributes {
     /** The subscribed list. */
     subscribed?: SMSAttributesItems[];
     /** The unsubscribe list. */
@@ -4955,8 +4949,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a ServiceNow notification. */
-  export interface SubscriptionAttributesServiceNowAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesServiceNowAttributesResponse extends SubscriptionAttributes {
     /** Assigned name from ServiceNow account. */
     assigned_to?: string;
     /** Assigned group name from ServiceNow account. */
@@ -4969,6 +4962,8 @@ namespace EventNotificationsV1 {
     attachment_color?: string;
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
+    /** Slack Member ID and Channel ID. */
+    to?: string[];
   }
 
   /** The attributes for a webhook notification. */
@@ -4980,8 +4975,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesCustomEmailAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesCustomEmailAttributes extends SubscriptionCreateAttributes {
     /** The email id string. */
     invited: string[];
     /** Whether to add the notification payload to the email. */
@@ -5001,15 +4995,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an custom sms notification. */
-  export interface SubscriptionCreateAttributesCustomSMSAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesCustomSMSAttributes extends SubscriptionCreateAttributes {
     /** The sms id string. */
     invited: string[];
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesEmailAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesEmailAttributes extends SubscriptionCreateAttributes {
     /** The email id string. */
     invited: string[];
     /** Whether to add the notification payload to the email. */
@@ -5023,7 +5015,8 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an FCM notification. */
-  export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {}
+  export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {
+  }
 
   /** The attributes for an sms notification. */
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
@@ -5032,8 +5025,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a ServiceNow notification. */
-  export interface SubscriptionCreateAttributesServiceNowAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesServiceNowAttributes extends SubscriptionCreateAttributes {
     /** Name of user ServiceNow incident will be assigned to. */
     assigned_to?: string;
     /** Group Name to which incident will be assigned to. */
@@ -5041,24 +5033,23 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack notification. */
-  export interface SubscriptionCreateAttributesSlackAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesSlackAttributes extends SubscriptionCreateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
+    /** Array of Slack Member ID or Channel ID. */
+    to?: string[];
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionCreateAttributesWebhookAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesWebhookAttributes extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesCustomEmailUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesCustomEmailUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** Whether to add the notification payload to the email. */
@@ -5082,8 +5073,7 @@ namespace EventNotificationsV1 {
   }
 
   /** SMS attributes object. */
-  export interface SubscriptionUpdateAttributesCustomSMSUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesCustomSMSUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** The email ids or phone numbers. */
@@ -5093,8 +5083,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesEmailUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesEmailUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** Whether to add the notification payload to the email. */
@@ -5112,8 +5101,7 @@ namespace EventNotificationsV1 {
   }
 
   /** SMS attributes object. */
-  export interface SubscriptionUpdateAttributesSMSUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesSMSUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** The email ids or phone numbers. */
@@ -5123,8 +5111,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a ServiceNow notification. */
-  export interface SubscriptionUpdateAttributesServiceNowAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesServiceNowAttributes extends SubscriptionUpdateAttributes {
     /** Name of user ServiceNow incident will be assigned to. */
     assigned_to?: string;
     /** Group Name to which incident will be assigned to. */
@@ -5132,17 +5119,17 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack notification. */
-  export interface SubscriptionUpdateAttributesSlackAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesSlackAttributes extends SubscriptionUpdateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
+    /** Array of Slack Member ID or Channel ID. */
+    to?: string[];
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionUpdateAttributesWebhookAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesWebhookAttributes extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled: boolean;
   }
@@ -5170,7 +5157,6 @@ namespace EventNotificationsV1 {
    */
   export class SourcesPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5185,7 +5171,10 @@ namespace EventNotificationsV1 {
      * @constructor
      * @returns {SourcesPager}
      */
-    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListSourcesParams) {
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListSourcesParams
+    ) {
       if (params && params.offset) {
         throw new Error(`the params.offset field should not be set`);
       }
@@ -5251,7 +5240,6 @@ namespace EventNotificationsV1 {
    */
   export class TopicsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5266,7 +5254,10 @@ namespace EventNotificationsV1 {
      * @constructor
      * @returns {TopicsPager}
      */
-    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListTopicsParams) {
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListTopicsParams
+    ) {
       if (params && params.offset) {
         throw new Error(`the params.offset field should not be set`);
       }
@@ -5332,7 +5323,6 @@ namespace EventNotificationsV1 {
    */
   export class TemplatesPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5347,7 +5337,10 @@ namespace EventNotificationsV1 {
      * @constructor
      * @returns {TemplatesPager}
      */
-    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListTemplatesParams) {
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListTemplatesParams
+    ) {
       if (params && params.offset) {
         throw new Error(`the params.offset field should not be set`);
       }
@@ -5413,7 +5406,6 @@ namespace EventNotificationsV1 {
    */
   export class DestinationsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5428,7 +5420,10 @@ namespace EventNotificationsV1 {
      * @constructor
      * @returns {DestinationsPager}
      */
-    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListDestinationsParams) {
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListDestinationsParams
+    ) {
       if (params && params.offset) {
         throw new Error(`the params.offset field should not be set`);
       }
@@ -5494,7 +5489,6 @@ namespace EventNotificationsV1 {
    */
   export class TagsSubscriptionPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5578,7 +5572,6 @@ namespace EventNotificationsV1 {
    */
   export class SubscriptionsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5662,7 +5655,6 @@ namespace EventNotificationsV1 {
    */
   export class IntegrationsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5677,7 +5669,10 @@ namespace EventNotificationsV1 {
      * @constructor
      * @returns {IntegrationsPager}
      */
-    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListIntegrationsParams) {
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListIntegrationsParams
+    ) {
       if (params && params.offset) {
         throw new Error(`the params.offset field should not be set`);
       }
@@ -5743,7 +5738,6 @@ namespace EventNotificationsV1 {
    */
   export class SmtpConfigurationsPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5827,7 +5821,6 @@ namespace EventNotificationsV1 {
    */
   export class SmtpUsersPager {
     protected _hasNext: boolean;
-
     protected pageContext: any;
 
     protected client: EventNotificationsV1;
@@ -5842,7 +5835,10 @@ namespace EventNotificationsV1 {
      * @constructor
      * @returns {SmtpUsersPager}
      */
-    constructor(client: EventNotificationsV1, params: EventNotificationsV1.ListSmtpUsersParams) {
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListSmtpUsersParams
+    ) {
       if (params && params.offset) {
         throw new Error(`the params.offset field should not be set`);
       }

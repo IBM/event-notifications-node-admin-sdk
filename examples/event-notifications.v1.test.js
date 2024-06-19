@@ -103,6 +103,7 @@ let cosInstanceId = '';
 let codeEngineProjectCRN = '';
 let smtpConfigID = '';
 let smtpUserID = '';
+let slackToken = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -139,6 +140,7 @@ describe('EventNotificationsV1', () => {
   cosInstanceId = config.cosInstance;
   codeEngineProjectCRN = config.codeEngineProjectCrn;
   slackTemplateBody = config.slackTemplateBody;
+  slackToken = config.slackToken;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -640,6 +642,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSlack = {
       params: {
         url: 'https://api.slack.com/myslack',
+        token: slackToken
       },
     };
 
@@ -1349,6 +1352,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSlack = {
       params: {
         url: 'https://api.slack.com/myslack',
+        token: slackToken
       },
     };
 
@@ -1977,6 +1981,7 @@ describe('EventNotificationsV1', () => {
       attributes: {
         attachment_color: '#0000FF',
         template_id_notification: slackTemplateID,
+        to: [''],
       },
     };
 
@@ -2280,6 +2285,7 @@ describe('EventNotificationsV1', () => {
       attributes: {
         attachment_color: '#0000FF',
         template_id_notification: slackTemplateID,
+        to: [''],
       },
     };
 
