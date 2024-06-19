@@ -642,7 +642,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSlack = {
       params: {
         url: 'https://api.slack.com/myslack',
-        token: slackToken
+        token: slackToken,
       },
     };
 
@@ -1352,7 +1352,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSlack = {
       params: {
         url: 'https://api.slack.com/myslack',
-        token: slackToken
+        token: slackToken,
       },
     };
 

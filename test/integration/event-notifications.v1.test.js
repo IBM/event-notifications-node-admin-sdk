@@ -147,7 +147,7 @@ describe('EventNotificationsV1_integration', () => {
     slackTemplateBody = config.slackTemplateBody;
     cosInstanceCRN = config.cosInstanceCrn;
     codeEngineProjectCRN = config.codeEngineProjectCrn;
-    slackToken = config.slackToken
+    slackToken = config.slackToken;
 
     eventNotificationsService.enableRetries();
   });
