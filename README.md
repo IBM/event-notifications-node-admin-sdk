@@ -1175,6 +1175,7 @@ supported verification types are dkim,spf and en_authorization.
     let notificationSeverity = "<notification-severity>"
     let typeValue = "<notification-type>"
     let notificationsSouce = "<notification-source>"
+    let mms = '{"content": "akajdklahl", "content_type": "image/png"}'
 
 const notificationCreateModel = {
       instanceId,
@@ -1193,6 +1194,7 @@ const notificationCreateModel = {
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
       ibmentemplates: JSON.stringify(['149b0e11-8a7c-4fda-a847-5d79e01b71dc']),
       ibmensubject: 'certificate expire',
+      ibmenmms: JSON.stringify(mms),
       ibmenhtmlbody: htmlBody,
       ibmendefaultshort: 'short info',
       ibmendefaultlong: 'long info',
