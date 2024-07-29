@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.6.2...v0.7.0) (2024-07-29)
+
+
+### Features
+
+* mms support and cf deprecation  ([#64](https://github.com/IBM/event-notifications-node-admin-sdk/issues/64)) ([b51f2ac](https://github.com/IBM/event-notifications-node-admin-sdk/commit/b51f2ac7f5b311ec1bd41b8c074e0d3eac7f04c3))
+
 ## [0.6.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.6.1...v0.6.2) (2024-05-28)
 
 
