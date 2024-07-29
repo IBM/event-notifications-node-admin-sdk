@@ -4108,6 +4108,8 @@ namespace EventNotificationsV1 {
     ibmenhtmlbody?: string;
     /** The subject of the notification. */
     subject?: string;
+    /** Stringified MMS Attachment JSON. */
+    ibmenmms?: string;
     /** The payload for webhook notification. */
     data?: JsonObject;
     /** The notification content type. */

@@ -135,6 +135,7 @@ describe('EventNotificationsV1', () => {
         ibmensmsto: 'testString',
         ibmenhtmlbody: 'testString',
         subject: 'testString',
+        ibmenmms: 'testString',
         data: { foo: 'bar' },
         datacontenttype: 'application/json',
         ibmenpushto: '{"platforms":["push_android"]}',
