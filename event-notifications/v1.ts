@@ -98,6 +98,85 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /*************************
+   * metrics
+   ************************/
+
+  /**
+   * Get metrics.
+   *
+   * Get metrics.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.destinationType - Destination type. Allowed values are [smtp_custom].
+   * @param {string} params.gte - GTE (greater than equal), start timestamp in UTC.
+   * @param {string} params.lte - LTE (less than equal), end timestamp in UTC.
+   * @param {string} [params.id] - Unique identifier for Source.
+   * @param {string} [params.emailTo] - Receiver email id.
+   * @param {string} [params.notificationId] - Notification Id.
+   * @param {string} [params.subject] - Email subject.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Metrics>>}
+   */
+  public getMetrics(
+    params: EventNotificationsV1.GetMetricsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Metrics>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'destinationType', 'gte', 'lte'];
+    const _validParams = [
+      'instanceId',
+      'destinationType',
+      'gte',
+      'lte',
+      'id',
+      'emailTo',
+      'notificationId',
+      'subject',
+      'headers',
+    ];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'destination_type': _params.destinationType,
+      'gte': _params.gte,
+      'lte': _params.lte,
+      'id': _params.id,
+      'email_to': _params.emailTo,
+      'notification_id': _params.notificationId,
+      'subject': _params.subject,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(EventNotificationsV1.DEFAULT_SERVICE_NAME, 'v1', 'getMetrics');
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/metrics',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+  /*************************
    * sendNotifications
    ************************/
 
@@ -2694,9 +2773,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update details of SMTP.
+   * Update details of SMTP Configuration.
    *
-   * Update details of SMTP.
+   * Update details of SMTP Configuration.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2860,9 +2939,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update details of SMTP User.
+   * Update details of a SMTP User.
    *
-   * Update details of SMTP User.
+   * Update details of a SMTP User.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -2972,9 +3051,9 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Get details of a SMTP allowed IPs.
+   * Get details of SMTP configuration allowed IPs.
    *
-   * Get details of a SMTP allowed IPs.
+   * Get details of SMTP configuration allowed IPs.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -3026,75 +3105,14 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * Update details of SMTP allowed IP.
+   * Verify SMTP configuration domain.
    *
-   * Update details of SMTP.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.id - Unique identifier for SMTP.
-   * @param {string[]} params.subnets - The SMTP allowed Ips.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPAllowedIPs>>}
-   */
-  public updateSmtpAllowedIps(
-    params: EventNotificationsV1.UpdateSmtpAllowedIpsParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPAllowedIPs>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'id', 'subnets'];
-    const _validParams = ['instanceId', 'id', 'subnets', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const body = {
-      'subnets': _params.subnets,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-      'id': _params.id,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'updateSmtpAllowedIps'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
-        method: 'PATCH',
-        body,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
-   * Verify SPF and DKIM records of SMTP.
-   *
-   * Verify SPF and DKIM records of SMTP.
+   * Verify SMTP configuration domain.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for SMTP.
-   * @param {string} params.type - SMTP Verification type.
+   * @param {string} params.type - SMTP verification type.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPVerificationUpdateResponse>>}
    */
@@ -3174,6 +3192,35 @@ namespace EventNotificationsV1 {
   /*************************
    * request interfaces
    ************************/
+
+  /** Parameters for the `getMetrics` operation. */
+  export interface GetMetricsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Destination type. Allowed values are [smtp_custom]. */
+    destinationType: GetMetricsConstants.DestinationType | string;
+    /** GTE (greater than equal), start timestamp in UTC. */
+    gte: string;
+    /** LTE (less than equal), end timestamp in UTC. */
+    lte: string;
+    /** Unique identifier for Source. */
+    id?: string;
+    /** Receiver email id. */
+    emailTo?: string;
+    /** Notification Id. */
+    notificationId?: string;
+    /** Email subject. */
+    subject?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `getMetrics` operation. */
+  export namespace GetMetricsConstants {
+    /** Destination type. Allowed values are [smtp_custom]. */
+    export enum DestinationType {
+      SMTP_CUSTOM = 'smtp_custom',
+    }
+  }
 
   /** Parameters for the `sendNotifications` operation. */
   export interface SendNotificationsParams {
@@ -3826,24 +3873,13 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `updateSmtpAllowedIps` operation. */
-  export interface UpdateSmtpAllowedIpsParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Unique identifier for SMTP. */
-    id: string;
-    /** The SMTP allowed Ips. */
-    subnets: string[];
-    headers?: OutgoingHttpHeaders;
-  }
-
   /** Parameters for the `updateVerifySmtp` operation. */
   export interface UpdateVerifySmtpParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
     /** Unique identifier for SMTP. */
     id: string;
-    /** SMTP Verification type. */
+    /** SMTP verification type. */
     type: string;
     headers?: OutgoingHttpHeaders;
   }
@@ -3851,6 +3887,14 @@ namespace EventNotificationsV1 {
   /*************************
    * model interfaces
    ************************/
+
+  /** Bucket object. */
+  export interface Buckets {
+    /** Total count. */
+    doc_count?: number;
+    /** Timestamp. */
+    key_as_string?: string;
+  }
 
   /** The DKIM attributes. */
   export interface DKIMAttributes {
@@ -3996,6 +4040,12 @@ namespace EventNotificationsV1 {
     enabled_countries: SMSCountryConfig[];
   }
 
+  /** Payload describing histogram. */
+  export interface Histrogram {
+    /** List of buckets. */
+    buckets?: Buckets[];
+  }
+
   /** Integration Metadata object. */
   export interface IntegrationCreateMetadata {
     /** URL for Cloud Object storage. */
@@ -4074,6 +4124,22 @@ namespace EventNotificationsV1 {
     root_key_id?: string;
     /** cloud object storage bucket name. */
     bucket_name?: string;
+  }
+
+  /** Payload describing metrics request. */
+  export interface Metric {
+    /** key. */
+    key?: string;
+    /** doc count. */
+    doc_count?: number;
+    /** Payload describing histogram. */
+    histogram?: Histrogram;
+  }
+
+  /** Payload describing a metrics. */
+  export interface Metrics {
+    /** array of metrics. */
+    metrics: Metric[];
   }
 
   /** Payload describing a notification create request. */
@@ -4272,9 +4338,9 @@ namespace EventNotificationsV1 {
 
   /** The SMTP DKIM attributes. */
   export interface SMTPDKIMAttributes {
-    /** DMIM text name. */
+    /** DKIM text name. */
     txt_name?: string;
-    /** DMIM text value. */
+    /** DKIM text value. */
     txt_value?: string;
     /** DKIM verification. */
     verification?: string;

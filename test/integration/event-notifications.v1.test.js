@@ -105,6 +105,7 @@ let cosInstanceCRN = '';
 let cosIntegrationId = '';
 let smtpConfigID = '';
 let smtpUserID = '';
+let notificationID = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -668,29 +669,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(resmsteams.result.name).toBe(name);
     expect(resmsteams.result.description).toBe(description);
     destinationId6 = resmsteams.result.id;
-
-    const destinationConfigModelCloudFunctions = {
-      params: {
-        url: 'https://www.ibmcfendpoint.com/',
-        api_key: 'apikey',
-      },
-    };
-
-    name = 'CloudFunctions_destination';
-    description = 'Cloud Functions Destination';
-    type = 'ibmcf';
-    params = {
-      instanceId,
-      name,
-      type,
-      description,
-      config: destinationConfigModelCloudFunctions,
-    };
-
-    const rescloudfunctions = await eventNotificationsService.createDestination(params);
-    expect(rescloudfunctions).toBeDefined();
-    expect(rescloudfunctions.status).toBe(410);
-    expect(rescloudfunctions.result).toBeDefined();
 
     // chrome
     const destinationConfigModelChrome = {
@@ -2052,7 +2030,7 @@ describe('EventNotificationsV1_integration', () => {
     subscriptionId15 = huaweiRes.result.id;
 
     const subscriptionCreateCustomAttributesModel = {
-      invited: ['abc@gmail.com', 'tester3@ibm.com'],
+      invited: ['testuser@in.ibm.com'],
       add_notification_payload: true,
       reply_to_mail: 'tester1@gmail.com',
       reply_to_name: 'US news',
@@ -2730,7 +2708,7 @@ describe('EventNotificationsV1_integration', () => {
       },
     };
 
-    const notificationID = '1234-1234-sdfs-234';
+    const uniqueID = '1234-1234-sdfs-234';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
     const notificationsSouce = '1234-1234-sdfs-234:test';
@@ -2741,7 +2719,7 @@ describe('EventNotificationsV1_integration', () => {
     const notificationCreateModel = {
       instanceId,
       ibmenseverity: notificationSeverity,
-      id: notificationID,
+      id: uniqueID,
       source: notificationsSouce,
       ibmensourceid: sourceId,
       type: typeValue,
@@ -2795,7 +2773,7 @@ describe('EventNotificationsV1_integration', () => {
     const newParams = {
       instanceId,
       ibmenseverity: notificationSeverity,
-      id: notificationID,
+      id: uniqueID,
       source: notificationsSouce,
       ibmensourceid: sourceId,
       type: typeValue,
@@ -2821,6 +2799,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(newres).toBeDefined();
     expect(newres.status).toBe(202);
     expect(newres.result).toBeDefined();
+    notificationID = newres.notification_id;
 
     //
     // The following status codes aren't covered by tests.
@@ -2833,9 +2812,32 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
 
+  test('getMetrics()', async () => {
+    const destination_type = 'smtp_custom';
+    const gte = '2024-08-01T17:18:43Z';
+    const lte = '2024-08-02T11:55:22Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getMetricsParams = {
+      instanceId,
+      destinationType: destination_type,
+      gte,
+      lte,
+      id: destinationId16,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    const res = await eventNotificationsService.getMetrics(getMetricsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
   test('createSMTPConfiguration()', async () => {
     const name = 'SMTP Configuration';
-    const domain = 'mailx.event-notifications.test.cloud.ibm.com';
+    const domain = 'test.event-notifications.test.cloud.ibm.com';
     const description = 'SMTP Configuration description';
     const createSmtpConfigurationParams = {
       instanceId,
@@ -2867,20 +2869,6 @@ describe('EventNotificationsV1_integration', () => {
 
     const res = await eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
 
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-  });
-
-  test('updateSMTPAllowedIp()', async () => {
-    const subnets = ['192.168.1.64'];
-    const updateSmtpAllowedIpsParams = {
-      instanceId,
-      id: smtpConfigID,
-      subnets,
-    };
-
-    const res = await eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();

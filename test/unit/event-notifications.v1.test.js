@@ -114,6 +114,117 @@ describe('EventNotificationsV1', () => {
     });
   });
 
+  describe('getMetrics', () => {
+    describe('positive tests', () => {
+      function __getMetricsTest() {
+        // Construct the params object for operation getMetrics
+        const instanceId = 'testString';
+        const destinationType = 'smtp_custom';
+        const gte = 'testString';
+        const lte = 'testString';
+        const id = 'testString';
+        const emailTo = 'testString';
+        const notificationId = 'testString';
+        const subject = 'testString';
+        const getMetricsParams = {
+          instanceId,
+          destinationType,
+          gte,
+          lte,
+          id,
+          emailTo,
+          notificationId,
+          subject,
+        };
+
+        const getMetricsResult = eventNotificationsService.getMetrics(getMetricsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getMetricsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/metrics', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
+        expect(mockRequestOptions.qs.gte).toEqual(gte);
+        expect(mockRequestOptions.qs.lte).toEqual(lte);
+        expect(mockRequestOptions.qs.id).toEqual(id);
+        expect(mockRequestOptions.qs.email_to).toEqual(emailTo);
+        expect(mockRequestOptions.qs.notification_id).toEqual(notificationId);
+        expect(mockRequestOptions.qs.subject).toEqual(subject);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getMetricsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getMetricsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getMetricsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const destinationType = 'smtp_custom';
+        const gte = 'testString';
+        const lte = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getMetricsParams = {
+          instanceId,
+          destinationType,
+          gte,
+          lte,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getMetrics(getMetricsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getMetrics({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getMetrics();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
   describe('sendNotifications', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
@@ -5438,106 +5549,6 @@ describe('EventNotificationsV1', () => {
         let err;
         try {
           await eventNotificationsService.getSmtpAllowedIps();
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-    });
-  });
-
-  describe('updateSmtpAllowedIps', () => {
-    describe('positive tests', () => {
-      function __updateSmtpAllowedIpsTest() {
-        // Construct the params object for operation updateSmtpAllowedIps
-        const instanceId = 'testString';
-        const id = 'testString';
-        const subnets = ['testString'];
-        const updateSmtpAllowedIpsParams = {
-          instanceId,
-          id,
-          subnets,
-        };
-
-        const updateSmtpAllowedIpsResult = eventNotificationsService.updateSmtpAllowedIps(
-          updateSmtpAllowedIpsParams
-        );
-
-        // all methods should return a Promise
-        expectToBePromise(updateSmtpAllowedIpsResult);
-
-        // assert that create request was called
-        expect(createRequestMock).toHaveBeenCalledTimes(1);
-
-        const mockRequestOptions = getOptions(createRequestMock);
-
-        checkUrlAndMethod(
-          mockRequestOptions,
-          '/v1/instances/{instance_id}/smtp/config/{id}/allowed_ips',
-          'PATCH'
-        );
-        const expectedAccept = 'application/json';
-        const expectedContentType = 'application/json';
-        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.body.subnets).toEqual(subnets);
-        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
-        expect(mockRequestOptions.path.id).toEqual(id);
-      }
-
-      test('should pass the right params to createRequest with enable and disable retries', () => {
-        // baseline test
-        __updateSmtpAllowedIpsTest();
-
-        // enable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.enableRetries();
-        __updateSmtpAllowedIpsTest();
-
-        // disable retries and test again
-        createRequestMock.mockClear();
-        eventNotificationsService.disableRetries();
-        __updateSmtpAllowedIpsTest();
-      });
-
-      test('should prioritize user-given headers', () => {
-        // parameters
-        const instanceId = 'testString';
-        const id = 'testString';
-        const subnets = ['testString'];
-        const userAccept = 'fake/accept';
-        const userContentType = 'fake/contentType';
-        const updateSmtpAllowedIpsParams = {
-          instanceId,
-          id,
-          subnets,
-          headers: {
-            Accept: userAccept,
-            'Content-Type': userContentType,
-          },
-        };
-
-        eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
-        checkMediaHeaders(createRequestMock, userAccept, userContentType);
-      });
-    });
-
-    describe('negative tests', () => {
-      test('should enforce required parameters', async () => {
-        let err;
-        try {
-          await eventNotificationsService.updateSmtpAllowedIps({});
-        } catch (e) {
-          err = e;
-        }
-
-        expect(err.message).toMatch(/Missing required parameters/);
-      });
-
-      test('should reject promise when required params are not given', async () => {
-        let err;
-        try {
-          await eventNotificationsService.updateSmtpAllowedIps();
         } catch (e) {
           err = e;
         }
