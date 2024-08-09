@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.7.0...v0.8.0) (2024-08-09)
+
+
+### Features
+
+* SMTP allowed IP Update unsupported, Metrics Feature enabled ([#65](https://github.com/IBM/event-notifications-node-admin-sdk/issues/65)) ([7d2e1ae](https://github.com/IBM/event-notifications-node-admin-sdk/commit/7d2e1ae84b05bb3c29623760ceb2c5e927383d00))
+
 # [0.7.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.6.2...v0.7.0) (2024-07-29)
 
 
