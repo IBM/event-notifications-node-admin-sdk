@@ -102,6 +102,7 @@ let cosInstanceId = '';
 let codeEngineProjectCRN = '';
 let smtpConfigID = '';
 let smtpUserID = '';
+let notificationID = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -2347,7 +2348,7 @@ describe('EventNotificationsV1', () => {
 
     originalLog('sendNotifications() result:');
 
-    const notificationID = '1234-1234-sdfs-234';
+    const uniqueID = '1234-1234-sdfs-234';
     const notificationSeverity = 'MEDIUM';
     const typeValue = 'com.acme.offer:new';
     const date = '2019-01-01T12:00:00.000Z';
@@ -2410,7 +2411,7 @@ describe('EventNotificationsV1', () => {
     const notificationCreateModel = {
       instanceId,
       ibmenseverity: notificationSeverity,
-      id: notificationID,
+      id: uniqueID,
       source: notificationsSouce,
       ibmensourceid: sourceId,
       type: typeValue,
@@ -2440,11 +2441,49 @@ describe('EventNotificationsV1', () => {
     let res;
     try {
       res = await eventNotificationsService.sendNotifications(sendNotificationsParams);
+      notificationID = res.notification_id;
     } catch (err) {
       console.warn(err);
     }
 
     // end-send_notifications
+  });
+
+  test('getMetrics request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getMetrics() result:');
+    // begin-metrics
+    const destination_type = 'smtp_custom';
+    const gte = '2024-08-01T17:18:43Z';
+    const lte = '2024-08-02T11:55:22Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getMetricsParams = {
+      instanceId,
+      destinationType: destination_type,
+      gte,
+      lte,
+      destinationId: destinationId16,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    try {
+      const res = await eventNotificationsService.getMetrics(getMetricsParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-metrics
   });
 
   test('createSMTPConfiguration request example', async () => {
@@ -2507,34 +2546,6 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-verify-smtp
-  });
-
-  test('updateSMTPAllowedIp request example', async () => {
-    consoleLogMock.mockImplementation((output) => {
-      originalLog(output);
-    });
-    consoleWarnMock.mockImplementation((output) => {
-      // if an error occurs, display the message and then fail the test
-      originalWarn(output);
-      expect(true).toBeFalsy();
-    });
-
-    originalLog('updateSMTPAllowedIp() result:');
-    // begin-smtp_allowed_ip
-    const subnets = ['192.168.1.64'];
-    const updateSmtpAllowedIpsParams = {
-      instanceId,
-      id: smtpConfigID,
-      subnets,
-    };
-
-    try {
-      const res = await eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
-      console.log(JSON.stringify(res.result, null, 2));
-    } catch (err) {
-      console.warn(err);
-    }
-    // end-smtp_allowed_ip
   });
 
   test('createSMTPUser request example', async () => {

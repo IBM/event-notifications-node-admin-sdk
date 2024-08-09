@@ -140,10 +140,11 @@ SDK Methods to consume
 	- [List SMTP Users](#list-smtp-users)
 	- [Update SMTP Configuration](#update-smtp-configuration)
 	- [Update SMTP User](#update-smtp-user)
-	- [Update SMTP Allowed Ips](#update-smtp-allowed-ips)
 	- [Delete SMTP User](#delete-smtp-user)
 	- [Delete SMTP Configuration](#delete-smtp-user)
-	- [Verify SMTP](#verify-smtp)  
+	- [Verify SMTP](#verify-smtp)
+- [Metrics](#Metrics) 
+  - [Get Metrics](#get-metrics)      
 - [Send Notifications](#send-notifications)
 
 
@@ -1056,19 +1057,6 @@ const updateSmtpUserParams = {
 const res = await eventNotificationsService.updateSmtpUser(updateSmtpUserParams);
 ```
 
-### Update SMTP Allowed IPs
-
-```js
-const subnets = ['<subnet-ip>'];
-const updateSmtpAllowedIpsParams = {
-  instanceId : <instance-id>,
-  id: <smtp-Config-id>,
-  subnets,
-};
-
-const res = await eventNotificationsService.updateSmtpAllowedIps(updateSmtpAllowedIpsParams);
-```
-
 ### Delete SMTP User
 
 ```js
@@ -1107,6 +1095,30 @@ const updateVerifySmtpParams = {
 const res = await eventNotificationsService.updateVerifySmtp(updateVerifySmtpParams);
 ```
 supported verification types are dkim,spf and en_authorization.
+
+## Metrics
+
+### Get Metrics
+
+```js
+const getMetricsParams = {
+  instanceId: <instance-id>,
+  destinationType: 'smtp_custom',
+  gte: <gte-timestamp>,
+  lte: <lte-timestamp>,
+  destinationId: <destination-id>,
+  emailTo: <email-to>,
+  notificationId: <notification-id>,
+  subject: <subject>,
+};
+
+try {
+  const res = await eventNotificationsService.getMetrics(getMetricsParams);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
 
 ## Send Notifications
 
