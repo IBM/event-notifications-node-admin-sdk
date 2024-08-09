@@ -2823,7 +2823,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationType: destination_type,
       gte,
       lte,
-      id: destinationId16,
+      destinationId: destinationId16,
       emailTo: email_to,
       notificationId: notificationID,
       subject,

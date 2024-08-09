@@ -111,7 +111,8 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.destinationType - Destination type. Allowed values are [smtp_custom].
    * @param {string} params.gte - GTE (greater than equal), start timestamp in UTC.
    * @param {string} params.lte - LTE (less than equal), end timestamp in UTC.
-   * @param {string} [params.id] - Unique identifier for Source.
+   * @param {string} [params.destinationId] - Unique identifier for Destination.
+   * @param {string} [params.sourceId] - Unique identifier for Source.
    * @param {string} [params.emailTo] - Receiver email id.
    * @param {string} [params.notificationId] - Notification Id.
    * @param {string} [params.subject] - Email subject.
@@ -128,7 +129,8 @@ class EventNotificationsV1 extends BaseService {
       'destinationType',
       'gte',
       'lte',
-      'id',
+      'destinationId',
+      'sourceId',
       'emailTo',
       'notificationId',
       'subject',
@@ -143,7 +145,8 @@ class EventNotificationsV1 extends BaseService {
       'destination_type': _params.destinationType,
       'gte': _params.gte,
       'lte': _params.lte,
-      'id': _params.id,
+      'destination_id': _params.destinationId,
+      'source_id': _params.sourceId,
       'email_to': _params.emailTo,
       'notification_id': _params.notificationId,
       'subject': _params.subject,
@@ -3203,8 +3206,10 @@ namespace EventNotificationsV1 {
     gte: string;
     /** LTE (less than equal), end timestamp in UTC. */
     lte: string;
+    /** Unique identifier for Destination. */
+    destinationId?: string;
     /** Unique identifier for Source. */
-    id?: string;
+    sourceId?: string;
     /** Receiver email id. */
     emailTo?: string;
     /** Notification Id. */

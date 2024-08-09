@@ -2471,7 +2471,7 @@ describe('EventNotificationsV1', () => {
       destinationType: destination_type,
       gte,
       lte,
-      id: destinationId16,
+      destinationId: destinationId16,
       emailTo: email_to,
       notificationId: notificationID,
       subject,

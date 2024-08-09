@@ -122,7 +122,8 @@ describe('EventNotificationsV1', () => {
         const destinationType = 'smtp_custom';
         const gte = 'testString';
         const lte = 'testString';
-        const id = 'testString';
+        const destinationId = 'testString';
+        const sourceId = 'testString';
         const emailTo = 'testString';
         const notificationId = 'testString';
         const subject = 'testString';
@@ -131,7 +132,8 @@ describe('EventNotificationsV1', () => {
           destinationType,
           gte,
           lte,
-          id,
+          destinationId,
+          sourceId,
           emailTo,
           notificationId,
           subject,
@@ -154,7 +156,8 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
         expect(mockRequestOptions.qs.gte).toEqual(gte);
         expect(mockRequestOptions.qs.lte).toEqual(lte);
-        expect(mockRequestOptions.qs.id).toEqual(id);
+        expect(mockRequestOptions.qs.destination_id).toEqual(destinationId);
+        expect(mockRequestOptions.qs.source_id).toEqual(sourceId);
         expect(mockRequestOptions.qs.email_to).toEqual(emailTo);
         expect(mockRequestOptions.qs.notification_id).toEqual(notificationId);
         expect(mockRequestOptions.qs.subject).toEqual(subject);

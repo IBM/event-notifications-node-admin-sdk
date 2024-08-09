@@ -1106,7 +1106,7 @@ const getMetricsParams = {
   destinationType: 'smtp_custom',
   gte: <gte-timestamp>,
   lte: <lte-timestamp>,
-  id: <destination-id>,
+  destinationId: <destination-id>,
   emailTo: <email-to>,
   notificationId: <notification-id>,
   subject: <subject>,
