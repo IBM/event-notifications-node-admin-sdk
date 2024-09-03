@@ -2840,7 +2840,7 @@ describe('EventNotificationsV1_integration', () => {
       time: '2019-01-01T12:00:00.000Z',
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
-      ibmenslackto: JSON.stringify(['C07FALXBH4G','C07FALXBU4G']),
+      ibmenslackto: JSON.stringify(['C07FALXBH4G', 'C07FALXBU4G']),
       ibmenmms: JSON.stringify(mms),
       ibmentemplates: JSON.stringify([slackTemplateID]),
       ibmensubject: 'certificate expire',
