@@ -3901,6 +3901,20 @@ namespace EventNotificationsV1 {
     key_as_string?: string;
   }
 
+  /** Payload describing a Slack Direct Message chennel configuration. */
+  export interface ChannelCreateAttributes {
+    /** channel id. */
+    id: string;
+  }
+
+  /** Payload describing a Slack Direct Message chennel configuration. */
+  export interface ChannelUpdateAttributes {
+    /** channel id. */
+    id: string;
+    /** The channel operation type. */
+    operation: string;
+  }
+
   /** The DKIM attributes. */
   export interface DKIMAttributes {
     /** dkim public key. */
@@ -4173,6 +4187,8 @@ namespace EventNotificationsV1 {
     ibmentemplates?: string;
     /** The email id string. */
     ibmenmailto?: string;
+    /** The slack channel id/member id stringified array. */
+    ibmenslackto?: string;
     /** The SMS number string. */
     ibmensmsto?: string;
     /** The html body of notification. */
@@ -4945,10 +4961,21 @@ namespace EventNotificationsV1 {
     instance_name: string;
   }
 
-  /** Payload describing a Slack destination configuration. */
+  /** Payload describing a Slack webhook destination configuration. */
   export interface DestinationConfigOneOfSlackDestinationConfig extends DestinationConfigOneOf {
     /** URL of Slack Incoming Notifications. */
     url: string;
+    /** The Slack Destination type. */
+    type: string;
+  }
+
+  /** Payload describing a Slack direct message destination configuration. */
+  export interface DestinationConfigOneOfSlackDirectMessageDestinationConfig
+    extends DestinationConfigOneOf {
+    /** Token of slack application. */
+    token: string;
+    /** The Slack Destination type. */
+    type: string;
   }
 
   /** Payload describing a webhook destination configuration. */
@@ -5044,6 +5071,15 @@ namespace EventNotificationsV1 {
     template_id_notification?: string;
   }
 
+  /** The attributes for a slack direct message. */
+  export interface SubscriptionAttributesSlackDirectMessageAttributesResponse
+    extends SubscriptionAttributes {
+    /** List of channels. */
+    channels?: ChannelCreateAttributes[];
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
   /** The attributes for a webhook notification. */
   export interface SubscriptionAttributesWebhookAttributesResponse extends SubscriptionAttributes {
     /** Signing webhook attributes. */
@@ -5118,6 +5154,15 @@ namespace EventNotificationsV1 {
     extends SubscriptionCreateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
+  /** The attributes for a slack direct message. */
+  export interface SubscriptionCreateAttributesSlackDirectMessageAttributes
+    extends SubscriptionCreateAttributes {
+    /** List of channels. */
+    channels?: ChannelCreateAttributes[];
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
   }
@@ -5209,6 +5254,15 @@ namespace EventNotificationsV1 {
     extends SubscriptionUpdateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
+  /** The attributes for a slack direct message. */
+  export interface SubscriptionUpdateAttributesSlackDirectMessageUpdateAttributes
+    extends SubscriptionUpdateAttributes {
+    /** List of channels. */
+    channels?: ChannelUpdateAttributes[];
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
   }

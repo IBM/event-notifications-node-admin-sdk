@@ -246,6 +246,7 @@ describe('EventNotificationsV1', () => {
         ibmensubject: 'testString',
         ibmentemplates: 'testString',
         ibmenmailto: 'testString',
+        ibmenslackto: 'testString',
         ibmensmsto: 'testString',
         ibmenhtmlbody: 'testString',
         subject: 'testString',

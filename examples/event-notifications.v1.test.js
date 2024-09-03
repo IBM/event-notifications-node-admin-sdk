@@ -66,6 +66,7 @@ let destinationId15 = '';
 let destinationId16 = '';
 let destinationId17 = '';
 let destinationId18 = '';
+let destinationId19 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -74,6 +75,7 @@ let subscriptionId4 = '';
 let subscriptionId5 = '';
 let subscriptionId6 = '';
 let subscriptionId7 = '';
+let subscriptionId8 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -103,6 +105,8 @@ let codeEngineProjectCRN = '';
 let smtpConfigID = '';
 let smtpUserID = '';
 let notificationID = '';
+let slackDmToken = '';
+let slackChannelID = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -139,6 +143,8 @@ describe('EventNotificationsV1', () => {
   cosInstanceId = config.cosInstance;
   codeEngineProjectCRN = config.codeEngineProjectCrn;
   slackTemplateBody = config.slackTemplateBody;
+  slackDmToken = config.slackDmToken;
+  slackChannelID = config.slackChannelId;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -640,6 +646,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSlack = {
       params: {
         url: 'https://api.slack.com/myslack',
+        type: 'incoming_webhook',
       },
     };
 
@@ -1020,6 +1027,32 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const destinationConfigModelSlackDM = {
+      params: {
+        token: slackDmToken,
+        type: 'direct_message',
+      },
+    };
+
+    name = 'slack_DM_destination';
+    description = 'Slack DM Destination';
+    type = 'slack';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelSlackDM,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      destinationId19 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
     // end-create_destination
   });
 
@@ -1322,6 +1355,7 @@ describe('EventNotificationsV1', () => {
     const destinationConfigModelSlack = {
       params: {
         url: 'https://api.slack.com/myslack',
+        type: 'incoming_webhook',
       },
     };
 
@@ -1695,6 +1729,30 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const destinationConfigModelSlackDM = {
+      params: {
+        token: slackDmToken,
+        type: 'direct_message',
+      },
+    };
+
+    name = 'slack_DM_destination_update';
+    description = 'Slack DM Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId19,
+      name,
+      description,
+      config: destinationConfigModelSlackDM,
+    };
+
+    try {
+      res = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 
@@ -1984,8 +2042,36 @@ describe('EventNotificationsV1', () => {
     let resCustomSMS;
     try {
       resCustomSMS = await eventNotificationsService.createSubscription(params);
-      console.log(JSON.stringify(res.result, null, 2));
+      console.log(JSON.stringify(resCustomSMS.result, null, 2));
       subscriptionId7 = resCustomSMS.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const channelCreateAttribute = {
+      id: slackChannelID,
+    };
+
+    const channelDetails = [channelCreateAttribute];
+
+    name = 'slack DM subscription';
+    description = 'Subscription for the slack DM';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId19,
+      topicId,
+      description,
+      attributes: {
+        channels: channelDetails,
+        template_id_notification: slackTemplateID,
+      },
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId8 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2298,6 +2384,33 @@ describe('EventNotificationsV1', () => {
       id: subscriptionId7,
       attributes: SubscriptionUpdateAttributesCustomSMSUpdateAttributes,
       description: descriptionCustomSMS,
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const channelUpdateAttribute = {
+      id: slackChannelID,
+      operation: 'add',
+    };
+
+    const channelDetails = [channelUpdateAttribute];
+
+    name = 'slack DM subscription update';
+    description = 'Subscription for the slack DM update';
+    params = {
+      instanceId,
+      id: subscriptionId8,
+      name,
+      description,
+      attributes: {
+        channels: channelDetails,
+        template_id_notification: slackTemplateID,
+      },
     };
 
     try {
@@ -2862,6 +2975,7 @@ describe('EventNotificationsV1', () => {
       subscriptionId5,
       subscriptionId6,
       subscriptionId7,
+      subscriptionId8,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -2944,6 +3058,7 @@ describe('EventNotificationsV1', () => {
       destinationId16,
       destinationId17,
       destinationId18,
+      destinationId19,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
