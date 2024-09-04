@@ -1204,6 +1204,7 @@ const notificationCreateModel = {
       ibmenhuaweibody: JSON.stringify(notificationHuaweiBodymodel),
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmenslackto: JSON.stringify(['C07FALXBH4G','C07FALXBU4G']),
       ibmentemplates: JSON.stringify(['149b0e11-8a7c-4fda-a847-5d79e01b71dc']),
       ibmensubject: 'certificate expire',
       ibmenmms: JSON.stringify(mms),
@@ -1269,6 +1270,7 @@ const notificationCreateModel = {
   - **ibmenhtmlbody*** (_string_) - The html body of notification for email.
   - **ibmenmailto*** (_Array of string_) - Array of email ids to which the notification to be sent.
   - **ibmensmsto*** (_Array of string_) - Array of SMS numbers to which the notification to be sent.
+  - **ibmenslackto*** (_Array of string_) - Array of Slack channel/member ids to which the notification to be sent.
   - **ibmentemplates*** (_Array of string_) - Array of template IDs that needs to be applied while sending notification for custom domain email and slack destination.
 
 Note: variable with * represents the mandatory attribute.

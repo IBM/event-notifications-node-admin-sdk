@@ -54,6 +54,7 @@ let destinationId15 = '';
 let destinationId16 = '';
 let destinationId17 = '';
 let destinationId18 = '';
+let destinationId19 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -73,6 +74,7 @@ let subscriptionId15 = '';
 let subscriptionId16 = '';
 let subscriptionId17 = '';
 let subscriptionId18 = '';
+let subscriptionId19 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -106,6 +108,8 @@ let cosIntegrationId = '';
 let smtpConfigID = '';
 let smtpUserID = '';
 let notificationID = '';
+let slackDmToken = '';
+let slackChannelID = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -145,6 +149,8 @@ describe('EventNotificationsV1_integration', () => {
     slackTemplateBody = config.slackTemplateBody;
     cosInstanceCRN = config.cosInstanceCrn;
     codeEngineProjectCRN = config.codeEngineProjectCrn;
+    slackDmToken = config.slackDmToken;
+    slackChannelID = config.slackChannelId;
 
     eventNotificationsService.enableRetries();
   });
@@ -576,6 +582,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelSlack = {
       params: {
         url: slackURL,
+        type: 'incoming_webhook',
       },
     };
 
@@ -986,6 +993,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceJobRes.result.name).toBe(name);
     expect(ceJobRes.result.description).toBe(description);
     destinationId18 = ceJobRes.result.id;
+
+    const destinationConfigModelSlackDM = {
+      params: {
+        token: slackDmToken,
+        type: 'direct_message',
+      },
+    };
+
+    name = 'slack_DM_destination';
+    description = 'Slack DM Destination';
+    type = 'slack';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationConfigModelSlackDM,
+    };
+
+    const resslackDM = await eventNotificationsService.createDestination(params);
+    expect(resslackDM).toBeDefined();
+    expect(resslackDM.status).toBe(201);
+    expect(resslackDM.result).toBeDefined();
+
+    expect(resslackDM.result.type).toBe(type);
+    expect(resslackDM.result.name).toBe(name);
+    expect(resslackDM.result.description).toBe(description);
+    destinationId19 = resslackDM.result.id;
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1232,6 +1267,7 @@ describe('EventNotificationsV1_integration', () => {
     const destinationConfigModelSlack = {
       params: {
         url: slackURL,
+        type: 'incoming_webhook',
       },
     };
 
@@ -1622,6 +1658,30 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceJobRes.result.name).toBe(name);
     expect(ceJobRes.result.description).toBe(description);
 
+    const destinationConfigModelSlackDM = {
+      params: {
+        token: slackDmToken,
+        type: 'direct_message',
+      },
+    };
+
+    name = 'slack_DM_destination_update';
+    description = 'Slack DM Destination update';
+
+    params = {
+      instanceId,
+      id: destinationId19,
+      name,
+      description,
+      config: destinationConfigModelSlackDM,
+    };
+
+    const slackDMRes = await eventNotificationsService.updateDestination(params);
+    expect(slackDMRes).toBeDefined();
+    expect(slackDMRes.status).toBe(200);
+    expect(slackDMRes.result).toBeDefined();
+    expect(slackDMRes.result.name).toBe(name);
+    expect(slackDMRes.result.description).toBe(description);
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -2105,6 +2165,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceJobRes.result.name).toBe(name);
     expect(ceJobRes.result.description).toBe(description);
     subscriptionId18 = ceJobRes.result.id;
+
+    const channelCreateAttribute = {
+      id: slackChannelID,
+    };
+
+    const channelDetails = [channelCreateAttribute];
+
+    name = 'slack DM subscription';
+    description = 'Subscription for the slack DM';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId19,
+      topicId,
+      description,
+      attributes: {
+        channels: channelDetails,
+        template_id_notification: slackTemplateID,
+      },
+    };
+
+    const slackDMRes = await eventNotificationsService.createSubscription(params);
+    expect(slackDMRes).toBeDefined();
+    expect(slackDMRes.status).toBe(201);
+    expect(slackDMRes.result).toBeDefined();
+    expect(slackDMRes.result.name).toBe(name);
+    expect(slackDMRes.result.description).toBe(description);
+    subscriptionId19 = slackDMRes.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -2592,6 +2680,32 @@ describe('EventNotificationsV1_integration', () => {
     expect(ceJobRes.result.name).toBe(name);
     expect(ceJobRes.result.description).toBe(description);
 
+    const channelUpdateAttribute = {
+      id: slackChannelID,
+      operation: 'add',
+    };
+
+    const channelDetails = [channelUpdateAttribute];
+
+    name = 'slack DM subscription update';
+    description = 'Subscription for the slack DM update';
+    params = {
+      instanceId,
+      id: subscriptionId19,
+      name,
+      description,
+      attributes: {
+        channels: channelDetails,
+        template_id_notification: slackTemplateID,
+      },
+    };
+
+    const slackDMRes = await eventNotificationsService.updateSubscription(params);
+    expect(slackDMRes).toBeDefined();
+    expect(slackDMRes.status).toBe(200);
+    expect(slackDMRes.result).toBeDefined();
+    expect(slackDMRes.result.name).toBe(name);
+    expect(slackDMRes.result.description).toBe(description);
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -2726,6 +2840,7 @@ describe('EventNotificationsV1_integration', () => {
       time: '2019-01-01T12:00:00.000Z',
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmenslackto: JSON.stringify(['C07FALXBH4G', 'C07FALXBU4G']),
       ibmenmms: JSON.stringify(mms),
       ibmentemplates: JSON.stringify([slackTemplateID]),
       ibmensubject: 'certificate expire',
@@ -3062,6 +3177,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId16,
       subscriptionId17,
       subscriptionId18,
+      subscriptionId19,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3143,6 +3259,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId16,
       destinationId17,
       destinationId18,
+      destinationId19,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
