@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.8.0...v0.9.0) (2024-09-04)
+
+
+### Features
+
+* support slack DM ([#66](https://github.com/IBM/event-notifications-node-admin-sdk/issues/66)) ([8a07b04](https://github.com/IBM/event-notifications-node-admin-sdk/commit/8a07b04033b766eb4b32f86ceb8b81604d03c642))
+
 # [0.8.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.7.0...v0.8.0) (2024-08-09)
 
 
