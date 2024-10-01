@@ -110,6 +110,8 @@ let smtpUserID = '';
 let notificationID = '';
 let slackDmToken = '';
 let slackChannelID = '';
+let webhookTemplateID = '';
+let webhookTemplateBody = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -151,6 +153,7 @@ describe('EventNotificationsV1_integration', () => {
     codeEngineProjectCRN = config.codeEngineProjectCrn;
     slackDmToken = config.slackDmToken;
     slackChannelID = config.slackChannelId;
+    webhookTemplateBody = config.webhookTemplateBody;
 
     eventNotificationsService.enableRetries();
   });
@@ -515,8 +518,8 @@ describe('EventNotificationsV1_integration', () => {
 
     // DestinationConfigParamsWebhookDestinationConfig
     const destinationConfigParamsModel = {
-      url: 'https://gcm.com',
-      verb: 'get',
+      url: codeEngineURL,
+      verb: 'post',
       custom_headers: { 'Authorization': 'aaa-r-t-fdsfs-55kfjsd-fsdfs' },
       sensitive_headers: ['Authorization'],
     };
@@ -1121,6 +1124,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(createTemplateResult.result.name).toBe(name);
     expect(createTemplateResult.result.description).toBe(description);
     slackTemplateID = createTemplateResult.result.id;
+
+    const webhookTemplateConfigModel = {
+      body: webhookTemplateBody,
+    };
+
+    name = 'webhook template name';
+    description = 'webhook template description';
+    type = 'webhook.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: webhookTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    webhookTemplateID = createTemplateResult.result.id;
   });
 
   test('listDestinations()', async () => {
@@ -1206,7 +1234,7 @@ describe('EventNotificationsV1_integration', () => {
 
     // DestinationConfigParamsWebhookDestinationConfig
     const destinationConfigParamsModel = {
-      url: 'https://cloud.ibm.com/nhwebhook/sendwebhook',
+      url: codeEngineURL,
       verb: 'post',
       custom_headers: { authorization: 'xxx-tye67-yyy' },
       sensitive_headers: ['authorization'],
@@ -1767,6 +1795,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(replaceTemplateResult.result.type).toBe(type);
     expect(replaceTemplateResult.result.name).toBe(name);
     expect(replaceTemplateResult.result.description).toBe(description);
+
+    const webhookTemplateConfigModel = {
+      body: webhookTemplateBody,
+    };
+
+    name = 'webhook template name update';
+    description = 'webhook template description update';
+    type = 'webhook.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: webhookTemplateID,
+      name,
+      type,
+      params: webhookTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
   });
 
   test('createSubscription()', async () => {
@@ -1775,6 +1828,7 @@ describe('EventNotificationsV1_integration', () => {
     // webhook
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
+      template_id_notification: webhookTemplateID,
     };
 
     let name = 'subscription_web';
@@ -2287,6 +2341,7 @@ describe('EventNotificationsV1_integration', () => {
     // webhook
     const subscriptionUpdateAttributesModel = {
       signing_enabled: true,
+      template_id_notification: webhookTemplateID,
     };
 
     let name = 'GCM_sub_updated';
@@ -3285,7 +3340,12 @@ describe('EventNotificationsV1_integration', () => {
   });
 
   test('deleteTemplate()', async () => {
-    const templates = [templateInvitationID, templateNotificationID, slackTemplateID];
+    const templates = [
+      templateInvitationID,
+      templateNotificationID,
+      slackTemplateID,
+      webhookTemplateID,
+    ];
 
     for (let i = 0; i < templates.length; i += 1) {
       const params = {
