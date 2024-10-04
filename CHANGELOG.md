@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.9.0...v0.10.0) (2024-10-04)
+
+
+### Features
+
+* webhook template support ([#67](https://github.com/IBM/event-notifications-node-admin-sdk/issues/67)) ([3a7157c](https://github.com/IBM/event-notifications-node-admin-sdk/commit/3a7157c150cfa833481db50954916df230efe498))
+
 # [0.9.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.8.0...v0.9.0) (2024-09-04)
 
 
