@@ -5171,7 +5171,9 @@ namespace EventNotificationsV1 {
   export interface SubscriptionCreateAttributesWebhookAttributes
     extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
-    signing_enabled: boolean;
+    signing_enabled?: boolean;
+    /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
+    template_id_notification?: string;
   }
 
   /** The attributes for an email notification. */
@@ -5271,12 +5273,14 @@ namespace EventNotificationsV1 {
   export interface SubscriptionUpdateAttributesWebhookAttributes
     extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
-    signing_enabled: boolean;
+    signing_enabled?: boolean;
+    /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
+    template_id_notification?: string;
   }
 
   /** Payload describing an email template configuration. */
   export interface TemplateConfigOneOfEmailTemplateConfig extends TemplateConfigOneOf {
-    /** Template body. */
+    /** Template body(Base64 encoded). */
     body: string;
     /** The template subject. */
     subject?: string;
@@ -5284,7 +5288,13 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a slack template configuration. */
   export interface TemplateConfigOneOfSlackTemplateConfig extends TemplateConfigOneOf {
-    /** Template body. */
+    /** Template body(Base64 encoded). */
+    body: string;
+  }
+
+  /** Payload describing a webhook template configuration. */
+  export interface TemplateConfigOneOfWebhookTemplateConfig extends TemplateConfigOneOf {
+    /** Template body(Base64 encoded). */
     body: string;
   }
 

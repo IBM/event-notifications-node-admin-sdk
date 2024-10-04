@@ -595,6 +595,30 @@ try {
 ```
 For slack template supported template type value: slack.notification
 
+#### Webhook Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+},
+};
+let createTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let createTemplateResult;
+try {
+  createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+  console.log(JSON.stringify(createTemplateResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+For webhook template supported template type value: webhook.notification
+
 ### List Templates
 ```js
 const params = {
@@ -657,7 +681,6 @@ For custom email supported template type values: smtp_custom.invitation, smtp_cu
 const templateConfigModel = {
   params: {
     body: 'base 64 encoded json body',
-    subject: 'Hi this is subject for email template',
   },
 }; 
 let replaceTemplateParams = {
@@ -675,6 +698,29 @@ try {
 }
 ```
 For slack template supported template type value: slack.notification
+
+#### Update Webhook Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+  },
+}; 
+let replaceTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,s
+};
+let replaceTemplateResult;
+try {
+  replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+For webhook template supported template type value: webhook.notification
 
 ### Delete Template
 ```js
@@ -754,6 +800,7 @@ While Creating Subscription use any of one option from webhook or email
 // SubscriptionCreateAttributesWebhookAttributes
 const subscriptionCreateAttributesModel = {
   signing_enabled: false,
+  template_id_notification: <webhook-template-id>,
 };
 
 const params = {
@@ -812,6 +859,7 @@ getSubscription(params)
 ```js
 const subscriptionUpdateAttributesModel = {
   signing_enabled: true,
+  template_id_notification: <webhook-template-id>,
 };
 
 const params = {
@@ -1315,7 +1363,7 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_PD_API_KEY` - pagerduty api key
 - `EVENT_NOTIFICATIONS_TEMPLATE_BODY` - base 64 encoded html content
 - `EVENT_NOTIFICATIONS_SLACK_TEMPLATE_BODY` - base 64 encoded json body
-
+- `EVENT_NOTIFICATIONS_WEBHOOK_TEMPLATE_BODY` - base 64 encoded json body
 
 ## Questions
 

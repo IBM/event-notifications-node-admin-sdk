@@ -107,6 +107,8 @@ let smtpUserID = '';
 let notificationID = '';
 let slackDmToken = '';
 let slackChannelID = '';
+let webhookTemplateID = '';
+let webhookTemplateBody = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -145,6 +147,7 @@ describe('EventNotificationsV1', () => {
   slackTemplateBody = config.slackTemplateBody;
   slackDmToken = config.slackDmToken;
   slackChannelID = config.slackChannelId;
+  webhookTemplateBody = config.webhookTemplateBody;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -1160,6 +1163,29 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const webhookTemplateConfigModel = {
+      body: webhookTemplateBody,
+    };
+
+    name = 'webhook template name';
+    description = 'webhook template description';
+    type = 'webhook.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: webhookTemplateConfigModel,
+      description,
+    };
+
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      webhookTemplateID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_template
   });
 
@@ -1838,6 +1864,31 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const webhookTemplateConfigModel = {
+      body: webhookTemplateBody,
+    };
+
+    name = 'webhook template name update';
+    description = 'webhook template description update';
+    type = 'webhook.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: webhookTemplateID,
+      name,
+      type,
+      params: webhookTemplateConfigModel,
+      description,
+    };
+
+    try {
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      webhookTemplateID = replaceTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_template
   });
 
@@ -1925,6 +1976,7 @@ describe('EventNotificationsV1', () => {
 
     const subscriptionCreateAttributesModel = {
       signing_enabled: false,
+      template_id_notification: webhookTemplateID,
     };
 
     name = 'subscription_web';
@@ -2261,6 +2313,7 @@ describe('EventNotificationsV1', () => {
     // webhook
     const subscriptionUpdateAttributesModel = {
       signing_enabled: true,
+      template_id_notification: webhookTemplateID,
     };
 
     name = 'webhook_sub_updated';
@@ -3085,7 +3138,12 @@ describe('EventNotificationsV1', () => {
       expect(true).toBeFalsy();
     });
 
-    const templates = [templateInvitationID, templateNotificationID, slackTemplateID];
+    const templates = [
+      templateInvitationID,
+      templateNotificationID,
+      slackTemplateID,
+      webhookTemplateID,
+    ];
 
     for (let i = 0; i < templates.length; i += 1) {
       // begin-delete_template
