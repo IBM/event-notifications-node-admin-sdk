@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.10.0...v0.11.0) (2024-10-30)
+
+
+### Features
+
+* removed cloud functions support  ([#68](https://github.com/IBM/event-notifications-node-admin-sdk/issues/68)) ([333072f](https://github.com/IBM/event-notifications-node-admin-sdk/commit/333072f7b8cac70858d66ed2103dcc8edf210b83))
+
 # [0.10.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.9.0...v0.10.0) (2024-10-04)
 
 
