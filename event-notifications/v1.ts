@@ -3471,7 +3471,6 @@ namespace EventNotificationsV1 {
       PUSH_CHROME = 'push_chrome',
       PUSH_FIREFOX = 'push_firefox',
       SLACK = 'slack',
-      IBMCF = 'ibmcf',
       IBMCE = 'ibmce',
       PAGERDUTY = 'pagerduty',
       PUSH_SAFARI = 'push_safari',
@@ -3934,7 +3933,7 @@ namespace EventNotificationsV1 {
     /** Destination description. */
     description: string;
     /** Destination type
-     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCloudFunctions/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage/Huawei.
+     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage/Huawei.
      */
     type: string;
     /** Whether to collect the failed event in Cloud Object Storage bucket. */
@@ -4874,15 +4873,6 @@ namespace EventNotificationsV1 {
     client_secret: string;
     /** If pre prod enabled. */
     pre_prod?: boolean;
-  }
-
-  /** Payload describing an IBM Cloud Functions destination configuration. */
-  export interface DestinationConfigOneOfIBMCloudFunctionsDestinationConfig
-    extends DestinationConfigOneOf {
-    /** URL of IBM Cloud Functions Trigger EndPoint. */
-    url: string;
-    /** API Key with access of IBM Cloud Functions IAM Namespace. */
-    api_key?: string;
   }
 
   /** Payload describing a Cloud Object Storage destination configuration. */
