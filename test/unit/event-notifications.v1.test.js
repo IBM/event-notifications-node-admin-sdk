@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -247,13 +247,15 @@ describe('EventNotificationsV1', () => {
         ibmentemplates: 'testString',
         ibmenmailto: 'testString',
         ibmenslackto: 'testString',
+        ibmensmstext: 'testString',
         ibmensmsto: 'testString',
         ibmenhtmlbody: 'testString',
         subject: 'testString',
         ibmenmms: 'testString',
         data: { foo: 'bar' },
         datacontenttype: 'application/json',
-        ibmenpushto: '{"platforms":["push_android"]}',
+        ibmenpushto:
+          '{"platforms":["push_android", "push_ios", "push_firefox", "push_chrome", "push_safari", "push_huawei"]}',
         ibmenfcmbody: 'testString',
         ibmenapnsbody: 'testString',
         ibmenapnsheaders: 'testString',
@@ -874,11 +876,19 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // EventScheduleFilterAttributes
+      const eventScheduleFilterAttributesModel = {
+        starts_at: '2019-01-01T12:00:00.000Z',
+        ends_at: '2019-01-01T12:00:00.000Z',
+        expression: 'testString',
+      };
+
       // Rules
       const rulesModel = {
         enabled: true,
         event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
         notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+        event_schedule_filter: eventScheduleFilterAttributesModel,
       };
 
       // SourcesItems
@@ -1221,11 +1231,19 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // EventScheduleFilterAttributes
+      const eventScheduleFilterAttributesModel = {
+        starts_at: '2019-01-01T12:00:00.000Z',
+        ends_at: '2019-01-01T12:00:00.000Z',
+        expression: 'testString',
+      };
+
       // Rules
       const rulesModel = {
         enabled: true,
         event_type_filter: "$.notification_event_info.event_type == 'cert_manager'",
         notification_filter: "$.notification.findings[0].severity == 'MODERATE'",
+        event_schedule_filter: eventScheduleFilterAttributesModel,
       };
 
       // SourcesItems

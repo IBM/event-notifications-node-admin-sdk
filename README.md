@@ -243,6 +243,25 @@ const params = {
 
 ### Create Topic
 
+Filters applied in case of periodic-timer as source. EventTypeFilter, NotificationFilter are mutually exclusive with EventScheduleFilter
+```js
+const eventScheduleFilterAttributesModel = {
+      starts_at: '2025-01-01T05:15:00.000Z',
+      ends_at: '2025-01-01T05:15:01.000Z',
+      expression: '* * * * *',
+    };
+
+    const rulesSchedulerModel = {
+      enabled: true,
+      event_schedule_filter: eventScheduleFilterAttributesModel,
+    };
+
+    const topicCreateSchedulerSourcesItemModel = {
+      id: schedulerSourceId,
+      rules: [rulesSchedulerModel],
+    };
+```
+
 ```js
 // Rules
 const rulesModel = {
@@ -1317,6 +1336,7 @@ const notificationCreateModel = {
   - **ibmenhtmlbody*** (_string_) - The html body of notification for email.
   - **ibmenmailto*** (_Array of string_) - Array of email ids to which the notification to be sent.
   - **ibmensmsto*** (_Array of string_) - Array of SMS numbers to which the notification to be sent.
+  - **ibmensmstext*** (_string_) - SMS text to be sent.
   - **ibmenslackto*** (_Array of string_) - Array of Slack channel/member ids to which the notification to be sent.
   - **ibmentemplates*** (_Array of string_) - Array of template IDs that needs to be applied while sending notification for custom domain email and slack destination.
 
@@ -1363,6 +1383,7 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_TEMPLATE_BODY` - base 64 encoded html content
 - `EVENT_NOTIFICATIONS_SLACK_TEMPLATE_BODY` - base 64 encoded json body
 - `EVENT_NOTIFICATIONS_WEBHOOK_TEMPLATE_BODY` - base 64 encoded json body
+- `EVENT_NOTIFICATIONS_SCHEDULER_SOURCE_ID` - periodic timer source id
 
 ## Questions
 
