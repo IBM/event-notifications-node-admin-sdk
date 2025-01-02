@@ -2585,6 +2585,7 @@ describe('EventNotificationsV1', () => {
       ibmenpushto: JSON.stringify(notificationFcmDevicesModel),
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmensmstext: 'this is a sample text message',
       ibmentemplates: JSON.stringify(['149b0e11-8a7c-4fda-a847-5d79e01b71dc']),
       ibmensubject: 'certificate expire',
       ibmenhtmlbody: htmlBody,

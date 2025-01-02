@@ -36,10 +36,10 @@ let sourceId = '';
 let topicId = '';
 let topicId2 = '';
 let topicId3 = '';
+let topicId4 = '';
 let destinationId = '';
 let destinationId1 = '';
 let destinationId2 = '';
-let destinationId3 = '';
 let destinationId4 = '';
 let destinationId5 = '';
 let destinationId6 = '';
@@ -59,7 +59,6 @@ let destinationId19 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
-let subscriptionId3 = '';
 let subscriptionId4 = '';
 let subscriptionId5 = '';
 let subscriptionId6 = '';
@@ -75,8 +74,6 @@ let subscriptionId16 = '';
 let subscriptionId17 = '';
 let subscriptionId18 = '';
 let subscriptionId19 = '';
-let fcmServerKey = '';
-let fcmSenderId = '';
 let safariCertificatePath = '';
 let integrationId = '';
 let sNowClientId = '';
@@ -112,6 +109,7 @@ let slackDmToken = '';
 let slackChannelID = '';
 let webhookTemplateID = '';
 let webhookTemplateBody = '';
+let schedulerSourceId = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -126,8 +124,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(config).not.toBeNull();
 
     instanceId = config.guid;
-    fcmSenderId = config.fcmId;
-    fcmServerKey = config.fcmKey;
     safariCertificatePath = config.safariCertificate;
     sNowClientId = config.snowClientId;
     sNowClientSecret = config.snowClientSecret;
@@ -154,6 +150,7 @@ describe('EventNotificationsV1_integration', () => {
     slackDmToken = config.slackDmToken;
     slackChannelID = config.slackChannelId;
     webhookTemplateBody = config.webhookTemplateBody;
+    schedulerSourceId = config.schedulerSourceId;
 
     eventNotificationsService.enableRetries();
   });
@@ -234,7 +231,7 @@ describe('EventNotificationsV1_integration', () => {
       instanceId,
       name: 'Event Notification Create Source Acme',
       description: 'This source is used for Acme Bank',
-      enabled: false,
+      enabled: true,
     };
 
     const res = await eventNotificationsService.createSources(params);
@@ -404,6 +401,46 @@ describe('EventNotificationsV1_integration', () => {
     expect(resThird.result.description).toBe(description);
     topicId3 = resThird.result.id;
 
+    const currentInstant = new Date();
+    const formattedStartDate = currentInstant.toISOString();
+
+    const formattedEndDate = new Date(currentInstant);
+    formattedEndDate.setMinutes(currentInstant.getMinutes() + 1);
+
+    const eventScheduleFilterAttributesModel = {
+      starts_at: formattedStartDate,
+      ends_at: formattedEndDate,
+      expression: '* * * * *',
+    };
+
+    const rulesSchedulerModel = {
+      enabled: true,
+      event_schedule_filter: eventScheduleFilterAttributesModel,
+    };
+
+    const topicCreateSchedulerSourcesItemModel = {
+      id: schedulerSourceId,
+      rules: [rulesSchedulerModel],
+    };
+
+    description = 'Topic 4 for cron scheduler';
+    name = `topic4`;
+
+    const paramsScheduler = {
+      instanceId,
+      name,
+      description,
+      sources: [topicCreateSchedulerSourcesItemModel],
+    };
+
+    const resSscheduler = await eventNotificationsService.createTopic(paramsScheduler);
+    expect(resSscheduler).toBeDefined();
+    expect(resSscheduler.status).toBe(201);
+    expect(resSscheduler.result).toBeDefined();
+    expect(resSscheduler.result.name).toBe(name);
+    expect(resSscheduler.result.description).toBe(description);
+    topicId4 = resSscheduler.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -417,27 +454,20 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
   test('listTopics()', async () => {
-    let offset = 0;
+    const offset = 0;
     const limit = 1;
-    let hasMore = true;
     const search = '';
-    do {
-      const params = {
-        instanceId,
-        limit,
-        offset,
-        search,
-      };
+    const params = {
+      instanceId,
+      limit,
+      offset,
+      search,
+    };
 
-      const res = await eventNotificationsService.listTopics(params);
-      expect(res).toBeDefined();
-      expect(res.status).toBe(200);
-      expect(res.result).toBeDefined();
-      offset += 1;
-      if (res.result.total_count <= offset) {
-        hasMore = false;
-      }
-    } while (hasMore);
+    const res = await eventNotificationsService.listTopics(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
 
     //
     // The following status codes aren't covered by tests.
@@ -548,38 +578,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
     destinationId = res.result.id;
-
-    // FCM
-
-    let destinationConfigParamsModelFCM = {
-      server_key: fcmServerKey,
-      sender_id: fcmSenderId,
-    };
-
-    let destinationConfigModelFCM = {
-      params: destinationConfigParamsModelFCM,
-    };
-
-    name = 'FCM_destination';
-    description = 'FCM Destination';
-    type = 'push_android';
-    params = {
-      instanceId,
-      name,
-      type,
-      description,
-      config: destinationConfigModelFCM,
-    };
-
-    let resNew = await eventNotificationsService.createDestination(params);
-    expect(resNew).toBeDefined();
-    expect(resNew.status).toBe(201);
-    expect(resNew.result).toBeDefined();
-
-    expect(resNew.result.type).toBe(type);
-    expect(resNew.result.name).toBe(name);
-    expect(resNew.result.description).toBe(description);
-    destinationId3 = resNew.result.id;
 
     // slack
     const destinationConfigModelSlack = {
@@ -798,13 +796,13 @@ describe('EventNotificationsV1_integration', () => {
     expect(sNowRes.result.description).toBe(description);
     destinationId11 = sNowRes.result.id;
 
-    destinationConfigParamsModelFCM = {
+    const destinationConfigParamsModelFCM = {
       private_key: fcmPrivateKey,
       project_id: fcmProjectId,
       client_email: fcmClientEmail,
     };
 
-    destinationConfigModelFCM = {
+    const destinationConfigModelFCM = {
       params: destinationConfigParamsModelFCM,
     };
 
@@ -819,7 +817,7 @@ describe('EventNotificationsV1_integration', () => {
       config: destinationConfigModelFCM,
     };
 
-    resNew = await eventNotificationsService.createDestination(params);
+    const resNew = await eventNotificationsService.createDestination(params);
     expect(resNew).toBeDefined();
     expect(resNew.status).toBe(201);
     expect(resNew.result).toBeDefined();
@@ -1263,34 +1261,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
 
-    // FCM
-    let destinationConfigParamsModelFCM = {
-      server_key: fcmServerKey,
-      sender_id: fcmSenderId,
-    };
-
-    let destinationConfigModelFCM = {
-      params: destinationConfigParamsModelFCM,
-    };
-
-    name = 'FCM_destination_update';
-    description = 'FCM Destination update';
-
-    params = {
-      instanceId,
-      id: destinationId3,
-      name,
-      description,
-      config: destinationConfigModelFCM,
-    };
-
-    let fcmRes = await eventNotificationsService.updateDestination(params);
-    expect(fcmRes).toBeDefined();
-    expect(fcmRes.status).toBe(200);
-    expect(fcmRes.result).toBeDefined();
-    expect(fcmRes.result.name).toBe(name);
-    expect(fcmRes.result.description).toBe(description);
-
     // slack
     const destinationConfigModelSlack = {
       params: {
@@ -1485,13 +1455,13 @@ describe('EventNotificationsV1_integration', () => {
     expect(sNowRes.result.name).toBe(name);
     expect(sNowRes.result.description).toBe(description);
 
-    destinationConfigParamsModelFCM = {
+    const destinationConfigParamsModelFCM = {
       private_key: fcmPrivateKey,
       project_id: fcmProjectId,
       client_email: fcmClientEmail,
     };
 
-    destinationConfigModelFCM = {
+    const destinationConfigModelFCM = {
       params: destinationConfigParamsModelFCM,
     };
 
@@ -1506,7 +1476,7 @@ describe('EventNotificationsV1_integration', () => {
       config: destinationConfigModelFCM,
     };
 
-    fcmRes = await eventNotificationsService.updateDestination(params);
+    const fcmRes = await eventNotificationsService.updateDestination(params);
     expect(fcmRes).toBeDefined();
     expect(fcmRes.status).toBe(200);
     expect(fcmRes.result).toBeDefined();
@@ -1901,25 +1871,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result.name).toBe(name);
     expect(resSecond.result.description).toBe(description);
     subscriptionId2 = resSecond.result.id;
-
-    // FCM
-    name = 'FCM subscription';
-    description = 'Subscription for the FCM';
-    params = {
-      instanceId,
-      name,
-      destinationId: destinationId3,
-      topicId: topicId3,
-      description,
-    };
-
-    const resThird = await eventNotificationsService.createSubscription(params);
-    expect(resThird).toBeDefined();
-    expect(resThird.status).toBe(201);
-    expect(resThird.result).toBeDefined();
-    expect(resThird.result.name).toBe(name);
-    expect(resThird.result.description).toBe(description);
-    subscriptionId3 = resThird.result.id;
 
     // slack
     name = 'slack subscription';
@@ -2429,23 +2380,6 @@ describe('EventNotificationsV1_integration', () => {
     expect(resSecond.result.name).toBe(nameSecond);
     expect(resSecond.result.description).toBe(descriptionSecond);
 
-    // FCM
-    name = 'FCM subscription update';
-    description = 'Subscription for the FCM update';
-    params = {
-      instanceId,
-      name,
-      id: subscriptionId3,
-      description,
-    };
-
-    let fcmRes = await eventNotificationsService.updateSubscription(params);
-    expect(fcmRes).toBeDefined();
-    expect(fcmRes.status).toBe(200);
-    expect(fcmRes.result).toBeDefined();
-    expect(fcmRes.result.name).toBe(name);
-    expect(fcmRes.result.description).toBe(description);
-
     // slack
     name = 'slack subscription update';
     description = 'Subscription for the slack update';
@@ -2585,7 +2519,7 @@ describe('EventNotificationsV1_integration', () => {
       description,
     };
 
-    fcmRes = await eventNotificationsService.updateSubscription(params);
+    const fcmRes = await eventNotificationsService.updateSubscription(params);
     expect(fcmRes).toBeDefined();
     expect(fcmRes.status).toBe(200);
     expect(fcmRes.result).toBeDefined();
@@ -2895,6 +2829,7 @@ describe('EventNotificationsV1_integration', () => {
       time: '2019-01-01T12:00:00.000Z',
       ibmenmailto: JSON.stringify(['abc@ibm.com', 'def@us.ibm.com']),
       ibmensmsto: JSON.stringify(['+911234567890', '+911224567890']),
+      ibmensmstext: 'this is a sample text message',
       ibmenslackto: JSON.stringify(['C07FALXBH4G', 'C07FALXBU4G']),
       ibmenmms: JSON.stringify(mms),
       ibmentemplates: JSON.stringify([slackTemplateID]),
@@ -3217,7 +3152,6 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId,
       subscriptionId1,
       subscriptionId2,
-      subscriptionId3,
       subscriptionId4,
       subscriptionId5,
       subscriptionId6,
@@ -3287,6 +3221,16 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.status).toBe(204);
     expect(res.result).toBeDefined();
 
+    params = {
+      instanceId,
+      id: topicId4,
+    };
+
+    res = await eventNotificationsService.deleteTopic(params);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(204);
+    expect(res.result).toBeDefined();
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -3299,7 +3243,6 @@ describe('EventNotificationsV1_integration', () => {
   test('deleteDestination()', async () => {
     const destinations = [
       destinationId,
-      destinationId3,
       destinationId4,
       destinationId5,
       destinationId6,
