@@ -1,3 +1,12 @@
+# [0.12.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.11.0...v0.12.0) (2025-01-20)
+
+
+### Features
+
+* cron scheduler support ([4ca6685](https://github.com/IBM/event-notifications-node-admin-sdk/commit/4ca6685ceed0ceb9c396a754aae6ac46ef5663e3))
+* cron scheduler support ([#69](https://github.com/IBM/event-notifications-node-admin-sdk/issues/69)) ([b7ceb8b](https://github.com/IBM/event-notifications-node-admin-sdk/commit/b7ceb8b2152b40e600757c8680df752945ecbe03))
+* cron scheduler support with workflow actions migration ([7ed431c](https://github.com/IBM/event-notifications-node-admin-sdk/commit/7ed431c58b5ffe78f36f20b9cc523c16b2e490b2))
+
 # [0.11.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.10.0...v0.11.0) (2024-10-30)
 
 
