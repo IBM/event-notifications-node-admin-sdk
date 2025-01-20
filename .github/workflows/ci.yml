@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ci
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build and test
+      run: |
+        npm run build
+        npm run lint
+        npm run check-packages
+
+    - name: Release
+      if: github.ref == 'refs/heads/main' && matrix.node-version == '18'
+      run: |
+        export NPM_TOKEN=${{ secrets.NPM_TOKEN }}
+        export GH_TOKEN=${{ secrets.GH_TOKEN }}
+        npx semantic-release
