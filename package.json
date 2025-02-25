@@ -37,6 +37,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
+    "@ibm-cloud/event-notifications-node-admin-sdk": "^0.12.0",
     "@types/node": "^20.12.7",
     "eslint-config-airbnb": "^19.0.4",
     "extend": "^3.0.2",
@@ -49,7 +50,7 @@
     "@typescript-eslint/parser": "^7.8.0",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
-    "eslint": "^8.52.0",
+    "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.1.0",

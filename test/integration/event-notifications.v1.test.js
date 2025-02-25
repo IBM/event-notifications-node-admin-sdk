@@ -110,6 +110,8 @@ let slackChannelID = '';
 let webhookTemplateID = '';
 let webhookTemplateBody = '';
 let schedulerSourceId = '';
+let pagerdutyTemplateID = '';
+let pagerdutyTemplateBody = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -151,6 +153,7 @@ describe('EventNotificationsV1_integration', () => {
     slackChannelID = config.slackChannelId;
     webhookTemplateBody = config.webhookTemplateBody;
     schedulerSourceId = config.schedulerSourceId;
+    pagerdutyTemplateBody = config.pagerdutyTemplateBody;
 
     eventNotificationsService.enableRetries();
   });
@@ -1147,6 +1150,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(createTemplateResult.result.name).toBe(name);
     expect(createTemplateResult.result.description).toBe(description);
     webhookTemplateID = createTemplateResult.result.id;
+
+    const pagerdutyTemplateConfigModel = {
+      body: pagerdutyTemplateBody,
+    };
+
+    name = 'pagerduty template name';
+    description = 'pagerduty template description';
+    type = 'pagerduty.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: pagerdutyTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    pagerdutyTemplateID = createTemplateResult.result.id;
   });
 
   test('listDestinations()', async () => {
@@ -1790,6 +1818,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(replaceTemplateResult.result.type).toBe(type);
     expect(replaceTemplateResult.result.name).toBe(name);
     expect(replaceTemplateResult.result.description).toBe(description);
+
+    const pagerdutyTemplateConfigModel = {
+      body: pagerdutyTemplateBody,
+    };
+
+    name = 'pagerduty template name update';
+    description = 'pagerduty template description update';
+    type = 'pagerduty.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: pagerdutyTemplateID,
+      name,
+      type,
+      params: pagerdutyTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
   });
 
   test('createSubscription()', async () => {
@@ -1980,6 +2033,9 @@ describe('EventNotificationsV1_integration', () => {
       destinationId: destinationId10,
       topicId,
       description,
+      attributes: {
+        template_id_notification: pagerdutyTemplateID,
+      },
     };
 
     const pdRes = await eventNotificationsService.createSubscription(params);
@@ -2477,6 +2533,9 @@ describe('EventNotificationsV1_integration', () => {
       name,
       id: subscriptionId10,
       description,
+      attributes: {
+        template_id_notification: pagerdutyTemplateID,
+      },
     };
 
     const pdRes = await eventNotificationsService.updateSubscription(params);
@@ -3288,6 +3347,7 @@ describe('EventNotificationsV1_integration', () => {
       templateNotificationID,
       slackTemplateID,
       webhookTemplateID,
+      pagerdutyTemplateID,
     ];
 
     for (let i = 0; i < templates.length; i += 1) {
