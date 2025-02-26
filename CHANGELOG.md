@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.12.0...v0.13.0) (2025-02-26)
+
+
+### Features
+
+* pagerduty template support ([#72](https://github.com/IBM/event-notifications-node-admin-sdk/issues/72)) ([7e5a386](https://github.com/IBM/event-notifications-node-admin-sdk/commit/7e5a38654babcd731b228b40945aab9cfafc7d40))
+
 # [0.12.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.11.0...v0.12.0) (2025-01-20)
 
 
