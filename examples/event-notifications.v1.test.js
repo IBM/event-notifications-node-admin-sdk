@@ -76,6 +76,7 @@ let subscriptionId5 = '';
 let subscriptionId6 = '';
 let subscriptionId7 = '';
 let subscriptionId8 = '';
+let subscriptionId9 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -109,6 +110,8 @@ let slackDmToken = '';
 let slackChannelID = '';
 let webhookTemplateID = '';
 let webhookTemplateBody = '';
+let pagerdutyTemplateID = '';
+let pagerdutyTemplateBody = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -148,6 +151,7 @@ describe('EventNotificationsV1', () => {
   slackDmToken = config.slackDmToken;
   slackChannelID = config.slackChannelId;
   webhookTemplateBody = config.webhookTemplateBody;
+  pagerdutyTemplateBody = config.pagerdutyTemplateBody;
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -1186,6 +1190,29 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const pagerdutyTemplateConfigModel = {
+      body: pagerdutyTemplateBody,
+    };
+
+    name = 'pagerduty template name';
+    description = 'pagerduty template description';
+    type = 'pagerduty.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: pagerdutyTemplateConfigModel,
+      description,
+    };
+
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      pagerdutyTemplateID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_template
   });
 
@@ -1889,6 +1916,31 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const pagerdutyTemplateConfigModel = {
+      body: pagerdutyTemplateBody,
+    };
+
+    name = 'pagerduty template name update';
+    description = 'pagerduty template description update';
+    type = 'pagerduty.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: pagerdutyTemplateID,
+      name,
+      type,
+      params: pagerdutyTemplateConfigModel,
+      description,
+    };
+
+    try {
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      webhookTemplateID = replaceTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_template
   });
 
@@ -2124,6 +2176,28 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
       subscriptionId8 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // PagerDuty
+    name = 'PagerDuty subscription';
+    description = 'Subscription for the PagerDuty';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId10,
+      topicId,
+      description,
+      attributes: {
+        template_id_notification: pagerdutyTemplateID,
+      },
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      subscriptionId9 = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2463,6 +2537,26 @@ describe('EventNotificationsV1', () => {
       attributes: {
         channels: channelDetails,
         template_id_notification: slackTemplateID,
+      },
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    // PagerDuty
+    name = 'Pager Duty subscription update';
+    description = 'Subscription for the Pager Duty update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId9,
+      description,
+      attributes: {
+        template_id_notification: pagerdutyTemplateID,
       },
     };
 

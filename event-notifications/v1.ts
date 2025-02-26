@@ -5050,6 +5050,13 @@ namespace EventNotificationsV1 {
     from_name: string;
   }
 
+  /** The attributes for a PagerDuty notification. */
+  export interface SubscriptionAttributesPagerDutyAttributesResponse
+    extends SubscriptionAttributes {
+    /** ID of Base64 converted JSON Pagerduty Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
   /** SMS attributes object. */
   export interface SubscriptionAttributesSMSAttributesResponse extends SubscriptionAttributes {
     /** The subscribed list. */
@@ -5139,6 +5146,13 @@ namespace EventNotificationsV1 {
 
   /** The attributes for an FCM notification. */
   export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {}
+
+  /** The attributes for a pagerduty notification. */
+  export interface SubscriptionCreateAttributesPagerDutyAttributes
+    extends SubscriptionCreateAttributes {
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
 
   /** The attributes for an sms notification. */
   export interface SubscriptionCreateAttributesSMSAttributes extends SubscriptionCreateAttributes {
@@ -5237,6 +5251,13 @@ namespace EventNotificationsV1 {
     unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
+  /** The attributes for a pagerduty notification. */
+  export interface SubscriptionUpdateAttributesPagerDutyAttributes
+    extends SubscriptionUpdateAttributes {
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
   /** SMS attributes object. */
   export interface SubscriptionUpdateAttributesSMSUpdateAttributes
     extends SubscriptionUpdateAttributes {
@@ -5290,6 +5311,12 @@ namespace EventNotificationsV1 {
     body: string;
     /** The template subject. */
     subject?: string;
+  }
+
+  /** Payload describing a pagerduty template configuration. */
+  export interface TemplateConfigOneOfPagerdutyTemplateConfig extends TemplateConfigOneOf {
+    /** Template body(Base64 encoded). */
+    body: string;
   }
 
   /** Payload describing a slack template configuration. */

@@ -637,6 +637,30 @@ try {
 ```
 For webhook template supported template type value: webhook.notification
 
+#### Pagerduty Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+},
+};
+let createTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let createTemplateResult;
+try {
+  createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+  console.log(JSON.stringify(createTemplateResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+For pagerduty template supported template type value: pagerduty.notification
+
 ### List Templates
 ```js
 const params = {
@@ -739,6 +763,29 @@ try {
 }
 ```
 For webhook template supported template type value: webhook.notification
+
+#### Update PagerDuty Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+  },
+}; 
+let replaceTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,s
+};
+let replaceTemplateResult;
+try {
+  replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+For pagerduty template supported template type value: pagerduty.notification
 
 ### Delete Template
 ```js
@@ -1256,7 +1303,6 @@ try {
     let mms = '{"content": "akajdklahl", "content_type": "image/png"}'
 
 const notificationCreateModel = {
-      instanceId,
       ibmenseverity: notificationSeverity,
       id: notificationID,
       source: notificationsSouce,
