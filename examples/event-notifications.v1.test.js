@@ -76,6 +76,7 @@ let subscriptionId5 = '';
 let subscriptionId6 = '';
 let subscriptionId7 = '';
 let subscriptionId8 = '';
+let subscriptionId9 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -2179,7 +2180,7 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    //PagerDuty
+    // PagerDuty
     name = 'PagerDuty subscription';
     description = 'Subscription for the PagerDuty';
     params = {
@@ -2192,7 +2193,6 @@ describe('EventNotificationsV1', () => {
         template_id_notification: pagerdutyTemplateID,
       },
     };
-
 
     try {
       res = await eventNotificationsService.createSubscription(params);
@@ -2547,7 +2547,7 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
-    //PagerDuty
+    // PagerDuty
     name = 'Pager Duty subscription update';
     description = 'Subscription for the Pager Duty update';
     params = {

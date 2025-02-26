@@ -4,7 +4,7 @@
   "description": "IBM Cloud Event Notifications Admin Node.js SDK",
   "repository": {
     "type": "git",
-    "url": "https://github.com/IBM/event-notifications-node-admin-sdk"
+    "url": "git+https://github.com/IBM/event-notifications-node-admin-sdk.git"
   },
   "keywords": [
     "ibm"
@@ -37,7 +37,6 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@ibm-cloud/event-notifications-node-admin-sdk": "^0.12.0",
     "@types/node": "^20.12.7",
     "eslint-config-airbnb": "^19.0.4",
     "extend": "^3.0.2",
@@ -76,5 +75,15 @@
       "<rootDir>/examples/"
     ],
     "testEnvironment": "node"
+  },
+  "bugs": {
+    "url": "https://github.com/IBM/event-notifications-node-admin-sdk/issues"
+  },
+  "homepage": "https://github.com/IBM/event-notifications-node-admin-sdk#readme",
+  "main": ".eslintrc.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
   }
 }
