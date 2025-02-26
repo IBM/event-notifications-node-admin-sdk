@@ -4,7 +4,7 @@
   "description": "IBM Cloud Event Notifications Admin Node.js SDK",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IBM/event-notifications-node-admin-sdk.git"
+    "url": "https://github.com/IBM/event-notifications-node-admin-sdk"
   },
   "keywords": [
     "ibm"
