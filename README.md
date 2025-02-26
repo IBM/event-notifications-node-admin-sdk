@@ -1303,7 +1303,6 @@ try {
     let mms = '{"content": "akajdklahl", "content_type": "image/png"}'
 
 const notificationCreateModel = {
-      instanceId,
       ibmenseverity: notificationSeverity,
       id: notificationID,
       source: notificationsSouce,
