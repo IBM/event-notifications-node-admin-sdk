@@ -55,6 +55,7 @@ let destinationId16 = '';
 let destinationId17 = '';
 let destinationId18 = '';
 let destinationId19 = '';
+let destinationId20 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -74,6 +75,7 @@ let subscriptionId16 = '';
 let subscriptionId17 = '';
 let subscriptionId18 = '';
 let subscriptionId19 = '';
+let subscriptionId20 = '';
 let safariCertificatePath = '';
 let integrationId = '';
 let sNowClientId = '';
@@ -112,6 +114,11 @@ let webhookTemplateBody = '';
 let schedulerSourceId = '';
 let pagerdutyTemplateID = '';
 let pagerdutyTemplateBody = '';
+let eventStreamsTemplateID = '';
+let eventStreamsTemplateBody = '';
+let eventStreamsCRN = '';
+let eventStreamsTopic = '';
+let eventStreamsEndPoint = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -154,6 +161,10 @@ describe('EventNotificationsV1_integration', () => {
     webhookTemplateBody = config.webhookTemplateBody;
     schedulerSourceId = config.schedulerSourceId;
     pagerdutyTemplateBody = config.pagerdutyTemplateBody;
+    eventStreamsTemplateBody = config.eventStreamsTemplateBody;
+    eventStreamsCRN = config.eventStreamsCrn;
+    eventStreamsTopic = config.eventStreamsTopic;
+    eventStreamsEndPoint = config.eventStreamsEndpoint;
 
     eventNotificationsService.enableRetries();
   });
@@ -1025,6 +1036,38 @@ describe('EventNotificationsV1_integration', () => {
     expect(resslackDM.result.name).toBe(name);
     expect(resslackDM.result.description).toBe(description);
     destinationId19 = resslackDM.result.id;
+
+    const destinationEventStreamsConfigParamsModel = {
+      crn: eventStreamsCRN,
+      endpoint: eventStreamsEndPoint,
+      topic: eventStreamsTopic,
+    };
+
+    const destinationEventStreamsConfigModel = {
+      params: destinationEventStreamsConfigParamsModel,
+    };
+
+    name = 'event_streams_destination';
+    description = 'event streams Destination';
+    type = 'event_streams';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationEventStreamsConfigModel,
+    };
+
+    const eventStreamsRes = await eventNotificationsService.createDestination(params);
+    expect(eventStreamsRes).toBeDefined();
+    expect(eventStreamsRes.status).toBe(201);
+    expect(eventStreamsRes.result).toBeDefined();
+
+    expect(eventStreamsRes.result.type).toBe(type);
+    expect(eventStreamsRes.result.name).toBe(name);
+    expect(eventStreamsRes.result.description).toBe(description);
+    destinationId20 = eventStreamsRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1175,6 +1218,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(createTemplateResult.result.name).toBe(name);
     expect(createTemplateResult.result.description).toBe(description);
     pagerdutyTemplateID = createTemplateResult.result.id;
+
+    const eventStreamsTemplateConfigModel = {
+      body: eventStreamsTemplateBody,
+    };
+
+    name = 'eventstreams template name';
+    description = 'eventstreams template description';
+    type = 'event_streams.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: eventStreamsTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    eventStreamsTemplateID = createTemplateResult.result.id;
   });
 
   test('listDestinations()', async () => {
@@ -1708,6 +1776,34 @@ describe('EventNotificationsV1_integration', () => {
     expect(slackDMRes.result).toBeDefined();
     expect(slackDMRes.result.name).toBe(name);
     expect(slackDMRes.result.description).toBe(description);
+
+    const destinationEventStreamsConfigParamsModel = {
+      crn: eventStreamsCRN,
+      endpoint: eventStreamsEndPoint,
+      topic: eventStreamsTopic,
+    };
+
+    const destinationEventStreamsConfigModel = {
+      params: destinationEventStreamsConfigParamsModel,
+    };
+
+    name = 'event streams updated';
+    description = 'This destination is for event streams';
+
+    params = {
+      instanceId,
+      id: destinationId20,
+      name,
+      description,
+      config: destinationEventStreamsConfigModel,
+    };
+
+    const eventStreamsRes = await eventNotificationsService.updateDestination(params);
+    expect(eventStreamsRes).toBeDefined();
+    expect(eventStreamsRes.status).toBe(200);
+    expect(eventStreamsRes.result).toBeDefined();
+    expect(eventStreamsRes.result.name).toBe(name);
+    expect(eventStreamsRes.result.description).toBe(description);
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1832,6 +1928,31 @@ describe('EventNotificationsV1_integration', () => {
       name,
       type,
       params: pagerdutyTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
+
+    const eventStreamsTemplateConfigModel = {
+      body: eventStreamsTemplateBody,
+    };
+
+    name = 'eventstreams template name update';
+    description = 'eventstreams template description update';
+    type = 'event_streams.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: eventStreamsTemplateID,
+      name,
+      type,
+      params: eventStreamsTemplateConfigModel,
       description,
     };
 
@@ -2254,6 +2375,27 @@ describe('EventNotificationsV1_integration', () => {
     expect(slackDMRes.result.name).toBe(name);
     expect(slackDMRes.result.description).toBe(description);
     subscriptionId19 = slackDMRes.result.id;
+
+    name = 'Event Streams subscription';
+    description = 'Subscription for the Event Streams';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId20,
+      topicId,
+      description,
+      attributes: {
+        template_id_notification: eventStreamsTemplateID,
+      },
+    };
+
+    const eventStreamsRes = await eventNotificationsService.createSubscription(params);
+    expect(eventStreamsRes).toBeDefined();
+    expect(eventStreamsRes.status).toBe(201);
+    expect(eventStreamsRes.result).toBeDefined();
+    expect(eventStreamsRes.result.name).toBe(name);
+    expect(eventStreamsRes.result.description).toBe(description);
+    subscriptionId20 = eventStreamsRes.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -2754,6 +2896,25 @@ describe('EventNotificationsV1_integration', () => {
     expect(slackDMRes.result).toBeDefined();
     expect(slackDMRes.result.name).toBe(name);
     expect(slackDMRes.result.description).toBe(description);
+
+    name = 'Event Streams subscription update';
+    description = 'Subscription for the Event Streams update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId20,
+      description,
+      attributes: {
+        template_id_notification: eventStreamsTemplateID,
+      },
+    };
+
+    const eventStreamsRes = await eventNotificationsService.updateSubscription(params);
+    expect(eventStreamsRes).toBeDefined();
+    expect(eventStreamsRes.status).toBe(200);
+    expect(eventStreamsRes.result).toBeDefined();
+    expect(eventStreamsRes.result.name).toBe(name);
+    expect(eventStreamsRes.result.description).toBe(description);
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -3226,6 +3387,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId17,
       subscriptionId18,
       subscriptionId19,
+      subscriptionId20,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3317,6 +3479,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId17,
       destinationId18,
       destinationId19,
+      destinationId20,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
@@ -3348,6 +3511,7 @@ describe('EventNotificationsV1_integration', () => {
       slackTemplateID,
       webhookTemplateID,
       pagerdutyTemplateID,
+      eventStreamsTemplateID,
     ];
 
     for (let i = 0; i < templates.length; i += 1) {

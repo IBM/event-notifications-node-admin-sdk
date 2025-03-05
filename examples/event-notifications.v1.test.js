@@ -67,6 +67,7 @@ let destinationId16 = '';
 let destinationId17 = '';
 let destinationId18 = '';
 let destinationId19 = '';
+let destinationId20 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -77,6 +78,7 @@ let subscriptionId6 = '';
 let subscriptionId7 = '';
 let subscriptionId8 = '';
 let subscriptionId9 = '';
+let subscriptionId10 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -112,6 +114,11 @@ let webhookTemplateID = '';
 let webhookTemplateBody = '';
 let pagerdutyTemplateID = '';
 let pagerdutyTemplateBody = '';
+let eventStreamsTemplateID = '';
+let eventStreamsTemplateBody = '';
+let eventStreamsCRN = '';
+let eventStreamsTopic = '';
+let eventStreamsEndPoint = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -152,6 +159,11 @@ describe('EventNotificationsV1', () => {
   slackChannelID = config.slackChannelId;
   webhookTemplateBody = config.webhookTemplateBody;
   pagerdutyTemplateBody = config.pagerdutyTemplateBody;
+  eventStreamsTemplateBody = config.eventStreamsTemplateBody;
+  eventStreamsCRN = config.eventStreamsCrn;
+  eventStreamsTopic = config.eventStreamsTopic;
+  eventStreamsEndPoint = config.eventStreamsEndpoint;
+
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
   test('Initialize services', async () => {
@@ -1060,6 +1072,34 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const destinationEventStreamsConfigParamsModel = {
+      crn: eventStreamsCRN,
+      endpoint: eventStreamsEndPoint,
+      topic: eventStreamsTopic,
+    };
+
+    const destinationEventStreamsConfigModel = {
+      params: destinationEventStreamsConfigParamsModel,
+    };
+
+    name = 'event_streams_destination';
+    description = 'event streams Destination';
+    type = 'event_streams';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationEventStreamsConfigModel,
+    };
+
+    try {
+      const eventStreamsRes = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(eventStreamsRes.result, null, 2));
+      destinationId20 = eventStreamsRes.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -1210,6 +1250,29 @@ describe('EventNotificationsV1', () => {
       createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
       console.log(JSON.stringify(createTemplateResult.result, null, 2));
       pagerdutyTemplateID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const eventStreamsTemplateConfigModel = {
+      body: eventStreamsTemplateBody,
+    };
+
+    name = 'eventstreams template name';
+    description = 'eventstreams template description';
+    type = 'event_streams.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: eventStreamsTemplateConfigModel,
+      description,
+    };
+
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      eventStreamsTemplateID = createTemplateResult.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1806,6 +1869,34 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const destinationEventStreamsConfigParamsModel = {
+      crn: eventStreamsCRN,
+      endpoint: eventStreamsEndPoint,
+      topic: eventStreamsTopic,
+    };
+
+    const destinationEventStreamsConfigModel = {
+      params: destinationEventStreamsConfigParamsModel,
+    };
+
+    name = 'event streams updated';
+    description = 'This destination is for event streams';
+
+    params = {
+      instanceId,
+      id: destinationId20,
+      name,
+      description,
+      config: destinationEventStreamsConfigModel,
+    };
+
+    try {
+      const eventStreamsRes = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(eventStreamsRes.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 
@@ -1938,6 +2029,30 @@ describe('EventNotificationsV1', () => {
         await eventNotificationsService.replaceTemplate(replaceTemplateParams);
       console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
       webhookTemplateID = replaceTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const eventStreamsTemplateConfigModel = {
+      body: eventStreamsTemplateBody,
+    };
+
+    name = 'eventstreams template name update';
+    description = 'eventstreams template description update';
+    type = 'event_streams.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: eventStreamsTemplateID,
+      name,
+      type,
+      params: eventStreamsTemplateConfigModel,
+      description,
+    };
+    try {
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      eventStreamsTemplateID = replaceTemplateResult.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2198,6 +2313,26 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
       subscriptionId9 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'Event Streams subscription';
+    description = 'Subscription for the Event Streams';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId20,
+      topicId,
+      description,
+      attributes: {
+        template_id_notification: eventStreamsTemplateID,
+      },
+    };
+    try {
+      const eventStreamsRes = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(eventStreamsRes.result, null, 2));
+      subscriptionId10 = eventStreamsRes.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2563,6 +2698,24 @@ describe('EventNotificationsV1', () => {
     try {
       res = await eventNotificationsService.updateSubscription(params);
       console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'Event Streams subscription update';
+    description = 'Subscription for the Event Streams update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId10,
+      description,
+      attributes: {
+        template_id_notification: eventStreamsTemplateID,
+      },
+    };
+    try {
+      const eventStreamsRes = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(eventStreamsRes.result, null, 2));
     } catch (err) {
       console.warn(err);
     }
@@ -3124,6 +3277,8 @@ describe('EventNotificationsV1', () => {
       subscriptionId6,
       subscriptionId7,
       subscriptionId8,
+      subscriptionId9,
+      subscriptionId10,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3207,6 +3362,7 @@ describe('EventNotificationsV1', () => {
       destinationId17,
       destinationId18,
       destinationId19,
+      destinationId20,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
@@ -3238,6 +3394,8 @@ describe('EventNotificationsV1', () => {
       templateNotificationID,
       slackTemplateID,
       webhookTemplateID,
+      pagerdutyTemplateID,
+      eventStreamsTemplateID,
     ];
 
     for (let i = 0; i < templates.length; i += 1) {
