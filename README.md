@@ -661,6 +661,30 @@ try {
 ```
 For pagerduty template supported template type value: pagerduty.notification
 
+#### Eventstreams Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+},
+};
+let createTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let createTemplateResult;
+try {
+  createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+  console.log(JSON.stringify(createTemplateResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+For EventStreams template supported template type value: event_streams.notification
+
 ### List Templates
 ```js
 const params = {
@@ -786,6 +810,29 @@ try {
 }
 ```
 For pagerduty template supported template type value: pagerduty.notification
+
+#### Update EventStreams Template
+```js
+const templateConfigModel = {
+  params: {
+    body: 'base 64 encoded json body',
+  },
+}; 
+let replaceTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,s
+};
+let replaceTemplateResult;
+try {
+  replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+For Event Streams template supported template type value: event_streams.notification
 
 ### Delete Template
 ```js
@@ -1430,6 +1477,11 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_SLACK_TEMPLATE_BODY` - base 64 encoded json body
 - `EVENT_NOTIFICATIONS_WEBHOOK_TEMPLATE_BODY` - base 64 encoded json body
 - `EVENT_NOTIFICATIONS_SCHEDULER_SOURCE_ID` - periodic timer source id
+- `EVENT_NOTIFICATIONS_PAGERDUTY_TEMPLATE_BODY` - base 64 encoded json body for pagerduty destination
+- `EVENT_NOTIFICATIONS_EVENT_STREAMS_TEMPLATE_BODY` - base 64 encoded json body for event streams destination
+- `EVENT_NOTIFICATIONS_EVENT_STREAMS_CRN` - Event Streams instance CRN
+- `EVENT_NOTIFICATIONS_EVENT_STREAMS_TOPIC` - Event Streams instance Topic name
+- `EVENT_NOTIFICATIONS_EVENT_STREAMS_ENDPOINT` - Event streams end point
 
 ## Questions
 

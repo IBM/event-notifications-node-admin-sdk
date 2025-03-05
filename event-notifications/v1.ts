@@ -3480,6 +3480,7 @@ namespace EventNotificationsV1 {
       PUSH_HUAWEI = 'push_huawei',
       SMTP_CUSTOM = 'smtp_custom',
       SMS_CUSTOM = 'sms_custom',
+      EVENT_STREAMS = 'event_streams',
     }
   }
 
@@ -3933,7 +3934,7 @@ namespace EventNotificationsV1 {
     /** Destination description. */
     description: string;
     /** Destination type
-     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage/Huawei.
+     *  Email/SMS/Webhook/FCM/Slack/MSTeams/PagerDuty/IBMCodeEngine/ServiceNow/IBMCloudObjectStorage/Huawei/CustomEmail/CustomSMS/EventStreams.
      */
     type: string;
     /** Whether to collect the failed event in Cloud Object Storage bucket. */
@@ -4855,6 +4856,17 @@ namespace EventNotificationsV1 {
     spf?: SPFAttributes;
   }
 
+  /** Payload describing a Event Streams destination configuration. */
+  export interface DestinationConfigOneOfEventStreamsDestinationConfig
+    extends DestinationConfigOneOf {
+    /** CRN of the Event Streans instance. */
+    crn: string;
+    /** End Point of Event Streams. */
+    endpoint: string;
+    /** Topic of Event Streams. */
+    topic: string;
+  }
+
   /** Payload describing an FCM destination configuration. project_id, private_key and client_email for FCM HTTP v1 APIs. */
   export interface DestinationConfigOneOfFCMDestinationConfig extends DestinationConfigOneOf {
     /** Deprecated: FCM server_key. */
@@ -5050,6 +5062,13 @@ namespace EventNotificationsV1 {
     from_name: string;
   }
 
+  /** The attributes for a Event Streams response. */
+  export interface SubscriptionAttributesEventStreamsAttributesResponse
+    extends SubscriptionAttributes {
+    /** ID of Base64 converted JSON Pagerduty Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
   /** The attributes for a PagerDuty notification. */
   export interface SubscriptionAttributesPagerDutyAttributesResponse
     extends SubscriptionAttributes {
@@ -5142,6 +5161,13 @@ namespace EventNotificationsV1 {
     reply_to_name: string;
     /** The email name of From. */
     from_name: string;
+  }
+
+  /** The attributes for a Event Streams subscription. */
+  export interface SubscriptionCreateAttributesEventstreamsAttributes
+    extends SubscriptionCreateAttributes {
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
   }
 
   /** The attributes for an FCM notification. */
@@ -5251,6 +5277,13 @@ namespace EventNotificationsV1 {
     unsubscribed?: UpdateAttributesUnsubscribed;
   }
 
+  /** The attributes for a Event Streams subscription. */
+  export interface SubscriptionUpdateAttributesEventstreamsAttributes
+    extends SubscriptionUpdateAttributes {
+    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
   /** The attributes for a pagerduty notification. */
   export interface SubscriptionUpdateAttributesPagerDutyAttributes
     extends SubscriptionUpdateAttributes {
@@ -5311,6 +5344,12 @@ namespace EventNotificationsV1 {
     body: string;
     /** The template subject. */
     subject?: string;
+  }
+
+  /** Payload describing a event streams template configuration. */
+  export interface TemplateConfigOneOfEventStreamsTemplateConfig extends TemplateConfigOneOf {
+    /** Template body(Base64 encoded). */
+    body: string;
   }
 
   /** Payload describing a pagerduty template configuration. */
