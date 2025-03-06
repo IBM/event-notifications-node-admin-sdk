@@ -1,3 +1,11 @@
+# [0.14.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.13.0...v0.14.0) (2025-03-06)
+
+
+### Features
+
+* support for Event Streams destination and templates ([#73](https://github.com/IBM/event-notifications-node-admin-sdk/issues/73)) ([989a759](https://github.com/IBM/event-notifications-node-admin-sdk/commit/989a759aff70b450a356f957d17fb99689a4b228))
+* support for Event Streams destination and templates ([#73](https://github.com/IBM/event-notifications-node-admin-sdk/issues/73)) ([b81471f](https://github.com/IBM/event-notifications-node-admin-sdk/commit/b81471f6bb411c58568e5a17176558992d98b000))
+
 # [0.13.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.12.0...v0.13.0) (2025-02-26)
 
 
