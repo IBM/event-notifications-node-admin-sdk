@@ -12,7 +12,7 @@ jobs:
     environment: ci
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20, 22]
         
     steps:
     - uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
         npm run check-packages
 
     - name: Release
-      if: github.ref == 'refs/heads/main' && matrix.node-version == '18'
+      if: github.ref == 'refs/heads/main' && matrix.node-version == '20'
       run: |
         export NPM_TOKEN=${{ secrets.NPM_TOKEN }}
         export GH_TOKEN=${{ secrets.GH_TOKEN }}
