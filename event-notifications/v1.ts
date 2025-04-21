@@ -4861,7 +4861,7 @@ namespace EventNotificationsV1 {
     extends DestinationConfigOneOf {
     /** CRN of the Event Streans instance. */
     crn: string;
-    /** End Point of Event Streams. */
+    /** Endpoint of Event Streams. */
     endpoint: string;
     /** Topic of Event Streams. */
     topic: string;
@@ -4910,7 +4910,7 @@ namespace EventNotificationsV1 {
     bucket_name: string;
     /** Instance Id of Cloud Object Storage. */
     instance_id: string;
-    /** End Point of Cloud Object Storage. */
+    /** Endpoint of Cloud Object Storage. */
     endpoint: string;
   }
 
@@ -4940,8 +4940,8 @@ namespace EventNotificationsV1 {
 
   /** Payload describing a PagerDuty destination configuration. */
   export interface DestinationConfigOneOfPagerDutyDestinationConfig extends DestinationConfigOneOf {
-    /** API Key for the PagerDuty account. */
-    api_key: string;
+    /** Deprecated: API Key for the PagerDuty account. */
+    api_key?: string;
     /** Routing Key (Integration Key) for the team in PagerDuty account. */
     routing_key: string;
   }
@@ -5065,7 +5065,7 @@ namespace EventNotificationsV1 {
   /** The attributes for a Event Streams response. */
   export interface SubscriptionAttributesEventStreamsAttributesResponse
     extends SubscriptionAttributes {
-    /** ID of Base64 converted JSON Pagerduty Blocks w/o Handlebars. */
+    /** Event Streams template id. */
     template_id_notification?: string;
   }
 
@@ -5166,7 +5166,7 @@ namespace EventNotificationsV1 {
   /** The attributes for a Event Streams subscription. */
   export interface SubscriptionCreateAttributesEventstreamsAttributes
     extends SubscriptionCreateAttributes {
-    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    /** Event Streams template id. */
     template_id_notification?: string;
   }
 
@@ -5280,7 +5280,7 @@ namespace EventNotificationsV1 {
   /** The attributes for a Event Streams subscription. */
   export interface SubscriptionUpdateAttributesEventstreamsAttributes
     extends SubscriptionUpdateAttributes {
-    /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
+    /** Event Streams template id. */
     template_id_notification?: string;
   }
 
