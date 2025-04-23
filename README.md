@@ -1495,6 +1495,16 @@ a [bug report](https://github.com/IBM/event-notifications-node-admin-sdk/issues)
 Before that, please search for similar issues. It's possible someone has
 already encountered this issue.
 
+## ⚠️ Deprecation Notice (Attributes)
+
+### Pagerduty Destination Configuration
+
+> The following attribute from interface DestinationConfigOneOfPagerDutyDestinationConfig is **deprecated** and will be removed in a future release:
+
+- `api_key`
+
+This attribute no longer recommended for use and may not be supported in upcoming versions of the SDK. Only `routing_key` is expected to be passed.
+
 ## Open source @ IBM
 Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
