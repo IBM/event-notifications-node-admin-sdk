@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.14.0...v0.15.0) (2025-04-23)
+
+
+### Features
+
+* making api_key as deprecated for pagerduty destination ([#75](https://github.com/IBM/event-notifications-node-admin-sdk/issues/75)) ([3491a10](https://github.com/IBM/event-notifications-node-admin-sdk/commit/3491a109c35954e222d39666e8fe809f71c533ec))
+
 # [0.14.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.13.0...v0.14.0) (2025-03-06)
 
 
