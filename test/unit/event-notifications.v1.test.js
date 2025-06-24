@@ -252,6 +252,7 @@ describe('EventNotificationsV1', () => {
         ibmenhtmlbody: 'testString',
         subject: 'testString',
         ibmenmms: 'testString',
+        ibmenmarkdown: 'testString',
         data: { foo: 'bar' },
         datacontenttype: 'application/json',
         ibmenpushto:
