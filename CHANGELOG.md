@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.15.0...v0.16.0) (2025-06-24)
+
+
+### Features
+
+* adds markdown support from notification payload ([#77](https://github.com/IBM/event-notifications-node-admin-sdk/issues/77)) ([ce1c5ad](https://github.com/IBM/event-notifications-node-admin-sdk/commit/ce1c5ad73e21e5fbffdaa3d736f2b7a92b8eb8e2))
+
 # [0.15.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.14.0...v0.15.0) (2025-04-23)
 
 
