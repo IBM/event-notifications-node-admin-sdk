@@ -3194,6 +3194,67 @@ describe('EventNotificationsV1', () => {
     // end-update_smtp_user
   });
 
+  test('listPredefinedTemplates request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('listPredefinedTemplates() result:');
+    // begin-list_predefined-templates
+    const source = 'logs';
+    const type = 'slack.notification';
+    const listPreDefinedTemplatesParams = {
+      instanceId,
+      source,
+      type,
+    };
+
+    try {
+      const res = await eventNotificationsService.listPreDefinedTemplates(
+        listPreDefinedTemplatesParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-list_predefined-templates
+  });
+
+  test('getPredefinedTemplates request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getPredefinedTemplate() result:');
+    // begin-get_predefined-template
+    const id = '0cacb9a0-d43a-4042-920d-d4a3f7d4cbd5'; // from dev
+
+    const getPreDefinedTemplateParams = {
+      instanceId,
+      id,
+    };
+
+    try {
+      const res = await eventNotificationsService.getPreDefinedTemplate(
+        getPreDefinedTemplateParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-get_predefined-template
+  });
+
   test('deleteSMTPUser request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);

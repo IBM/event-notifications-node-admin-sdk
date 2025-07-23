@@ -953,6 +953,72 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
+   * List all predefined templates.
+   *
+   * List all predefined templates.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.source - Source type.
+   * @param {string} params.type - Destination type.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {string} [params.search] - Search string for filtering results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>>}
+   */
+  public listPreDefinedTemplates(
+    params: EventNotificationsV1.ListPreDefinedTemplatesParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'source', 'type'];
+    const _validParams = ['instanceId', 'source', 'type', 'limit', 'offset', 'search', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'source': _params.source,
+      'type': _params.type,
+      'limit': _params.limit,
+      'offset': _params.offset,
+      'search': _params.search,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listPreDefinedTemplates'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/pre_defined_templates',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
    * Get details of a Template.
    *
    * Get details of a Template.
@@ -1114,6 +1180,60 @@ class EventNotificationsV1 extends BaseService {
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get details of a Predefined Template.
+   *
+   * Get details of a Predefined Template.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Template.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.GetPredefinedTemplate>>}
+   */
+  public getPreDefinedTemplate(
+    params: EventNotificationsV1.GetPreDefinedTemplateParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.GetPredefinedTemplate>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getPreDefinedTemplate'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/pre_defined_templates/{id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -3382,6 +3502,23 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `listPreDefinedTemplates` operation. */
+  export interface ListPreDefinedTemplatesParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Source type. */
+    source: string;
+    /** Destination type. */
+    type: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
+    /** Search string for filtering results. */
+    search?: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /** Parameters for the `getTemplate` operation. */
   export interface GetTemplateParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -3409,6 +3546,15 @@ namespace EventNotificationsV1 {
 
   /** Parameters for the `deleteTemplate` operation. */
   export interface DeleteTemplateParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Template. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `getPreDefinedTemplate` operation. */
+  export interface GetPreDefinedTemplateParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
     /** Unique identifier for Template. */
@@ -4069,6 +4215,24 @@ namespace EventNotificationsV1 {
     expression?: string;
   }
 
+  /** Template object. */
+  export interface GetPredefinedTemplate {
+    /** Template ID. */
+    id: string;
+    /** Template name. */
+    name: string;
+    /** Template description. */
+    description: string;
+    /** The type of template. */
+    type: string;
+    /** The type of source. */
+    source?: string;
+    /** Updated at. */
+    updated_at: string;
+    /** Payload describing a Predefined template configuration. */
+    params: PredefinedTemplateConfig;
+  }
+
   /** Payload describing histogram. */
   export interface Histrogram {
     /** List of buckets. */
@@ -4251,6 +4415,46 @@ namespace EventNotificationsV1 {
   export interface PageHrefResponse {
     /** URL to the page. */
     href: string;
+  }
+
+  /** Predefined Template object. */
+  export interface PredefinedTemplate {
+    /** Template ID. */
+    id: string;
+    /** Template name. */
+    name: string;
+    /** Template description. */
+    description: string;
+    /** The type of source. */
+    source: string;
+    /** The type of template. */
+    type: string;
+    /** Updated at. */
+    updated_at: string;
+  }
+
+  /** Payload describing a Predefined template configuration. */
+  export interface PredefinedTemplateConfig {
+    /** Template body(Base64 encoded). */
+    body: string;
+  }
+
+  /** Payload describing a pre-defined templates list request. */
+  export interface PredefinedTemplatesList {
+    /** Total number of pre-defined templates. */
+    total_count: number;
+    /** Current offset. */
+    offset: number;
+    /** limit to show templates. */
+    limit: number;
+    /** List of pre-defined templates. */
+    templates: PredefinedTemplate[];
+    /** Response having URL of the page. */
+    first?: PageHrefResponse;
+    /** Response having URL of the page. */
+    previous?: PageHrefResponse;
+    /** Response having URL of the page. */
+    next?: PageHrefResponse;
   }
 
   /** Rule object. */
@@ -5611,6 +5815,90 @@ namespace EventNotificationsV1 {
      */
     public async getAll(): Promise<EventNotificationsV1.Template[]> {
       const results: Template[] = [];
+      while (this.hasNext()) {
+        const nextPage = await this.getNext();
+        results.push(...nextPage);
+      }
+      return results;
+    }
+  }
+
+  /**
+   * PreDefinedTemplatesPager can be used to simplify the use of listPreDefinedTemplates().
+   */
+  export class PreDefinedTemplatesPager {
+    protected _hasNext: boolean;
+
+    protected pageContext: any;
+
+    protected client: EventNotificationsV1;
+
+    protected params: EventNotificationsV1.ListPreDefinedTemplatesParams;
+
+    /**
+     * Construct a PreDefinedTemplatesPager object.
+     *
+     * @param {EventNotificationsV1}  client - The service client instance used to invoke listPreDefinedTemplates()
+     * @param {Object} params - The parameters to be passed to listPreDefinedTemplates()
+     * @constructor
+     * @returns {PreDefinedTemplatesPager}
+     */
+    constructor(
+      client: EventNotificationsV1,
+      params: EventNotificationsV1.ListPreDefinedTemplatesParams
+    ) {
+      if (params && params.offset) {
+        throw new Error(`the params.offset field should not be set`);
+      }
+
+      this._hasNext = true;
+      this.pageContext = { next: undefined };
+      this.client = client;
+      this.params = JSON.parse(JSON.stringify(params || {}));
+    }
+
+    /**
+     * Returns true if there are potentially more results to be retrieved by invoking getNext().
+     * @returns {boolean}
+     */
+    public hasNext(): boolean {
+      return this._hasNext;
+    }
+
+    /**
+     * Returns the next page of results by invoking listPreDefinedTemplates().
+     * @returns {Promise<EventNotificationsV1.PredefinedTemplate[]>}
+     */
+    public async getNext(): Promise<EventNotificationsV1.PredefinedTemplate[]> {
+      if (!this.hasNext()) {
+        throw new Error('No more results available');
+      }
+
+      if (this.pageContext.next) {
+        this.params.offset = this.pageContext.next;
+      }
+      const response = await this.client.listPreDefinedTemplates(this.params);
+      const { result } = response;
+
+      let next = null;
+      if (result && result.next) {
+        if (result.next.href) {
+          next = getQueryParam(result.next.href, 'offset');
+        }
+      }
+      this.pageContext.next = next;
+      if (!this.pageContext.next) {
+        this._hasNext = false;
+      }
+      return result.templates;
+    }
+
+    /**
+     * Returns all results by invoking listPreDefinedTemplates() repeatedly until all pages of results have been retrieved.
+     * @returns {Promise<EventNotificationsV1.PredefinedTemplate[]>}
+     */
+    public async getAll(): Promise<EventNotificationsV1.PredefinedTemplate[]> {
+      const results: PredefinedTemplate[] = [];
       while (this.hasNext()) {
         const nextPage = await this.getNext();
         results.push(...nextPage);

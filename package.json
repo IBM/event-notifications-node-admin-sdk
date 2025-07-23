@@ -34,13 +34,13 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@types/node": "^20.12.7",
     "eslint-config-airbnb": "^19.0.4",
     "extend": "^3.0.2",
-    "ibm-cloud-sdk-core": "^4.3.0"
+    "ibm-cloud-sdk-core": "^5.4.1"
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.3",

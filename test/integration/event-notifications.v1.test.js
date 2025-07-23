@@ -3335,6 +3335,37 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
   });
 
+  test('listPredefinedTemplates()', async () => {
+    const source = 'logs';
+    const type = 'slack.notification';
+    const listPreDefinedTemplatesParams = {
+      instanceId,
+      source,
+      type,
+    };
+
+    const res = await eventNotificationsService.listPreDefinedTemplates(
+      listPreDefinedTemplatesParams
+    );
+
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+  });
+
+  test('getPredefinedTemplate()', async () => {
+    const id = '0cacb9a0-d43a-4042-920d-d4a3f7d4cbd5'; // from dev
+
+    const getPreDefinedTemplateParams = {
+      instanceId,
+      id,
+    };
+
+    const res = await eventNotificationsService.getPreDefinedTemplate(getPreDefinedTemplateParams);
+
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+  });
+
   test('deleteSMTPUser()', async () => {
     const userIDs = [smtpUserID];
 
