@@ -114,7 +114,9 @@ SDK Methods to consume
 	- [List Templates](#list-templates)
 	- [Get Template](#get-template)
 	- [Update Template](#update-template)
-	- [Delete Template](#delete-template)  
+	- [Delete Template](#delete-template)
+  - [List Predefined Templates](#list-predefined-templates)
+  - [Get Predefined Template](#get-predefined-template)  
 - [Push Destination APIs](#push-destination-apis)
 	- [Create Destination tag subscription](#create-destination-tag-subscription)
 	- [List Destination tag subscription](#list-destination-tag-subscription)
@@ -716,6 +718,38 @@ try {
 }
 ```
 
+### List Predefined Templates
+```js
+const listPreDefinedTemplatesParams = {
+      instanceId: <instance-id>,
+      source: <source-type>,
+      type: <destination-type>,
+};
+
+try {
+  const res = await eventNotificationsService.listPreDefinedTemplates(
+        listPreDefinedTemplatesParams);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Predefined Template
+```js
+const getPreDefinedTemplateParams = {
+    instanceId: <instance-id>,
+    id: <template-id>,
+  };
+
+  try {
+    const res = await eventNotificationsService.getPreDefinedTemplate(
+      getPreDefinedTemplateParams
+    );
+  } catch (err) {
+    console.warn(err);
+  }
+```
 ### Update Template
 
 #### Update Email Template
