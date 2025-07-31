@@ -5214,6 +5214,13 @@ namespace EventNotificationsV1 {
     sensitive_headers?: string[];
   }
 
+  /** The attributes for a Code Engine response. */
+  export interface SubscriptionAttributesCodeEngineAttributesResponse
+    extends SubscriptionAttributes {
+    /** Code Engine template id. */
+    template_id_notification?: string;
+  }
+
   /** The attributes reponse for an email destination. */
   export interface SubscriptionAttributesCustomEmailAttributesResponse
     extends SubscriptionAttributes {
@@ -5326,6 +5333,13 @@ namespace EventNotificationsV1 {
     add_notification_payload: boolean;
   }
 
+  /** The attributes for a Code Engine subscription. */
+  export interface SubscriptionCreateAttributesCodeEngineAttributes
+    extends SubscriptionCreateAttributes {
+    /** code engine template id. */
+    template_id_notification?: string;
+  }
+
   /** The attributes for an email notification. */
   export interface SubscriptionCreateAttributesCustomEmailAttributes
     extends SubscriptionCreateAttributes {
@@ -5425,6 +5439,13 @@ namespace EventNotificationsV1 {
     /** Signing webhook attributes. */
     signing_enabled?: boolean;
     /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
+  /** The attributes for a Code Engine subscription. */
+  export interface SubscriptionUpdateAttributesCodeEngineAttributes
+    extends SubscriptionUpdateAttributes {
+    /** code engine template id. */
     template_id_notification?: string;
   }
 
@@ -5542,6 +5563,19 @@ namespace EventNotificationsV1 {
     signing_enabled?: boolean;
     /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
     template_id_notification?: string;
+  }
+
+  /** Payload describing a code engine application template configuration. */
+  export interface TemplateConfigOneOfCodeEngineApplicationTemplateConfig
+    extends TemplateConfigOneOf {
+    /** Template body(Base64 encoded). */
+    body: string;
+  }
+
+  /** Payload describing a code engine Job template configuration. */
+  export interface TemplateConfigOneOfCodeEngineJobTemplateConfig extends TemplateConfigOneOf {
+    /** Template body(Base64 encoded). */
+    body: string;
   }
 
   /** Payload describing an email template configuration. */
