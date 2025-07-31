@@ -119,6 +119,10 @@ let eventStreamsTemplateBody = '';
 let eventStreamsCRN = '';
 let eventStreamsTopic = '';
 let eventStreamsEndPoint = '';
+let codeEngineApplicationTemplateID = '';
+let codeEngineJobTemplateID = '';
+let codeEngineAppTemplateBody = '';
+let codeEngineJobTemplateBody = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -165,6 +169,8 @@ describe('EventNotificationsV1_integration', () => {
     eventStreamsCRN = config.eventStreamsCrn;
     eventStreamsTopic = config.eventStreamsTopic;
     eventStreamsEndPoint = config.eventStreamsEndpoint;
+    codeEngineAppTemplateBody = config.codeEngineAppTemplateBody;
+    codeEngineJobTemplateBody = config.codeEngineJobTemplateBody;
 
     eventNotificationsService.enableRetries();
   });
@@ -1243,6 +1249,56 @@ describe('EventNotificationsV1_integration', () => {
     expect(createTemplateResult.result.name).toBe(name);
     expect(createTemplateResult.result.description).toBe(description);
     eventStreamsTemplateID = createTemplateResult.result.id;
+
+    const codeEngineAppTemplateConfigModel = {
+      body: codeEngineAppTemplateBody,
+    };
+
+    name = 'codeengine app template name';
+    description = 'codeengine app template description';
+    type = 'ibmceapp.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: codeEngineAppTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    codeEngineApplicationTemplateID = createTemplateResult.result.id;
+
+    const codeEngineJobTemplateConfigModel = {
+      body: codeEngineJobTemplateBody,
+    };
+
+    name = 'codeengine job template name';
+    description = 'codeengine job template description';
+    type = 'ibmcejob.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: codeEngineJobTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    codeEngineJobTemplateID = createTemplateResult.result.id;
   });
 
   test('listDestinations()', async () => {
@@ -1915,6 +1971,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(replaceTemplateResult.result.name).toBe(name);
     expect(replaceTemplateResult.result.description).toBe(description);
 
+    const eventStreamsTemplateConfigModel = {
+      body: eventStreamsTemplateBody,
+    };
+
+    name = 'eventstreams template name update';
+    description = 'eventstreams template description update';
+    type = 'event_streams.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: eventStreamsTemplateID,
+      name,
+      type,
+      params: eventStreamsTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
+
     const pagerdutyTemplateConfigModel = {
       body: pagerdutyTemplateBody,
     };
@@ -1940,19 +2021,44 @@ describe('EventNotificationsV1_integration', () => {
     expect(replaceTemplateResult.result.name).toBe(name);
     expect(replaceTemplateResult.result.description).toBe(description);
 
-    const eventStreamsTemplateConfigModel = {
-      body: eventStreamsTemplateBody,
+    const codeEngineAppTemplateConfigModel = {
+      body: codeEngineAppTemplateBody,
     };
 
-    name = 'eventstreams template name update';
-    description = 'eventstreams template description update';
-    type = 'event_streams.notification';
+    name = 'codeengine app template name update';
+    description = 'codeengine app template description update';
+    type = 'ibmceapp.notification';
     replaceTemplateParams = {
       instanceId,
-      id: eventStreamsTemplateID,
+      id: codeEngineApplicationTemplateID,
       name,
       type,
-      params: eventStreamsTemplateConfigModel,
+      params: codeEngineAppTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
+
+    const codeEngineJobTemplateConfigModel = {
+      body: codeEngineJobTemplateBody,
+    };
+
+    name = 'codeengine job template name update';
+    description = 'codeengine job template description update';
+    type = 'ibmcejob.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: codeEngineJobTemplateID,
+      name,
+      type,
+      params: codeEngineJobTemplateConfigModel,
       description,
     };
 
@@ -2213,7 +2319,7 @@ describe('EventNotificationsV1_integration', () => {
 
     // code engine
     const subscriptionCECreateAttributesModel = {
-      signing_enabled: false,
+      template_id_notification: codeEngineApplicationTemplateID,
     };
 
     name = 'subscription_code_engine';
@@ -2326,7 +2432,7 @@ describe('EventNotificationsV1_integration', () => {
 
     // code engine
     const subscriptionCEJobCreateAttributesModel = {
-      signing_enabled: false,
+      template_id_notification: codeEngineJobTemplateID,
     };
 
     name = 'subscription_code_engine_job';
@@ -2728,7 +2834,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(fcmRes.result.description).toBe(description);
 
     const subscriptionCEUpdateAttributesModel = {
-      signing_enabled: true,
+      template_id_notification: codeEngineApplicationTemplateID,
     };
 
     name = 'code_engine_sub_updated';
@@ -2850,7 +2956,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(resCustomSMS.result.description).toBe(descriptionCustomSMS);
 
     const subscriptionCEJobUpdateAttributesModel = {
-      signing_enabled: true,
+      template_id_notification: codeEngineJobTemplateID,
     };
 
     name = 'code_engine_job_sub_updated';
@@ -3546,6 +3652,8 @@ describe('EventNotificationsV1_integration', () => {
       webhookTemplateID,
       pagerdutyTemplateID,
       eventStreamsTemplateID,
+      codeEngineApplicationTemplateID,
+      codeEngineJobTemplateID,
     ];
 
     for (let i = 0; i < templates.length; i += 1) {

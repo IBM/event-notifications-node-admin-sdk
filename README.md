@@ -687,6 +687,29 @@ try {
 ```
 For EventStreams template supported template type value: event_streams.notification
 
+#### CodeEngine Template
+```js
+  const templateConfigModel = {
+      body: <template-body>,
+    };
+  let createTemplateParams = {
+    instanceId: <instance-id>,
+    name: <template-name>,
+    type: <template-type>,
+    templateConfigModel,
+    description: <template-description>,
+};
+
+  let createTemplateResult;
+  try {
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    console.log(JSON.stringify(createTemplateResult.result, null, 2));
+  } catch (err) {
+    console.warn(err);
+  }
+```
+For CodeEngine template supported template type value: ibmceapp.notification and ibmcejob.notification
+
 ### List Templates
 ```js
 const params = {
@@ -867,6 +890,29 @@ try {
 }
 ```
 For Event Streams template supported template type value: event_streams.notification
+
+#### Update CodeEngine Template
+```js
+const templateConfigModel = {
+  params: {
+    body: <template-body>,
+  },
+}; 
+let replaceTemplateParams = {
+  instanceId: <instance-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,s
+};
+let replaceTemplateResult;
+try {
+  replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+For Code Engine template supported template type value: ibmceapp.notification and ibmcejob.notification
 
 ### Delete Template
 ```js
@@ -1517,6 +1563,8 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_EVENT_STREAMS_CRN` - Event Streams instance CRN
 - `EVENT_NOTIFICATIONS_EVENT_STREAMS_TOPIC` - Event Streams instance Topic name
 - `EVENT_NOTIFICATIONS_EVENT_STREAMS_ENDPOINT` - Event streams end point
+- `EVENT_NOTIFICATIONS_CODE_ENGINE_APP_TEMPLATE_BODY` - base 64 encoded json body for Code Engine Application
+- `EVENT_NOTIFICATIONS_CODE_ENGINE_JOB_TEMPLATE_BODY` - base 64 encoded json body for Code Engine Job
 
 ## Questions
 
