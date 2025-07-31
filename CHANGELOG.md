@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.17.0...v0.18.0) (2025-07-31)
+
+
+### Features
+
+* support for code engine templates ([#79](https://github.com/IBM/event-notifications-node-admin-sdk/issues/79)) ([6b0edf9](https://github.com/IBM/event-notifications-node-admin-sdk/commit/6b0edf9d9466d48e4c8659b24916f12f9dd3eac2))
+
 # [0.17.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.16.0...v0.17.0) (2025-07-25)
 
 
