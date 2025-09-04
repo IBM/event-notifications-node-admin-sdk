@@ -1102,6 +1102,32 @@ describe('EventNotificationsV1_integration', () => {
     }
   });
 
+  test('testWebhookDestination()', async () => {
+    const testDestinationParams = {
+      instanceId,
+      id: destinationId,
+    };
+
+    const testDestinationResult =
+      await eventNotificationsService.testDestination(testDestinationParams);
+    const webhookNotificationId = testDestinationResult.result.notification_id;
+
+    expect(testDestinationResult).toBeDefined();
+    expect(testDestinationResult.status).toBe(202);
+
+    const getNotificationsStatusParams = {
+      instanceId,
+      id: webhookNotificationId,
+    };
+
+    const getNotificationsStatusResult = await eventNotificationsService.getNotificationsStatus(
+      getNotificationsStatusParams
+    );
+
+    expect(getNotificationsStatusResult).toBeDefined();
+    expect(getNotificationsStatusResult.status).toBe(200);
+  });
+
   test('createTemplate()', async () => {
     const templateConfigModel = {
       body: templateBody,

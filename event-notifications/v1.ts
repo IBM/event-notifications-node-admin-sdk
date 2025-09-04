@@ -953,72 +953,6 @@ class EventNotificationsV1 extends BaseService {
   }
 
   /**
-   * List all predefined templates.
-   *
-   * List all predefined templates.
-   *
-   * @param {Object} params - The parameters to send to the service.
-   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.source - Source type.
-   * @param {string} params.type - Destination type.
-   * @param {number} [params.limit] - Page limit for paginated results.
-   * @param {number} [params.offset] - offset for paginated results.
-   * @param {string} [params.search] - Search string for filtering results.
-   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>>}
-   */
-  public listPreDefinedTemplates(
-    params: EventNotificationsV1.ListPreDefinedTemplatesParams
-  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>> {
-    const _params = { ...params };
-    const _requiredParams = ['instanceId', 'source', 'type'];
-    const _validParams = ['instanceId', 'source', 'type', 'limit', 'offset', 'search', 'headers'];
-    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
-    if (_validationErrors) {
-      return Promise.reject(_validationErrors);
-    }
-
-    const query = {
-      'source': _params.source,
-      'type': _params.type,
-      'limit': _params.limit,
-      'offset': _params.offset,
-      'search': _params.search,
-    };
-
-    const path = {
-      'instance_id': _params.instanceId,
-    };
-
-    const sdkHeaders = getSdkHeaders(
-      EventNotificationsV1.DEFAULT_SERVICE_NAME,
-      'v1',
-      'listPreDefinedTemplates'
-    );
-
-    const parameters = {
-      options: {
-        url: '/v1/instances/{instance_id}/pre_defined_templates',
-        method: 'GET',
-        qs: query,
-        path,
-      },
-      defaultOptions: extend(true, {}, this.baseOptions, {
-        headers: extend(
-          true,
-          sdkHeaders,
-          {
-            'Accept': 'application/json',
-          },
-          _params.headers
-        ),
-      }),
-    };
-
-    return this.createRequest(parameters);
-  }
-
-  /**
    * Get details of a Template.
    *
    * Get details of a Template.
@@ -1180,6 +1114,72 @@ class EventNotificationsV1 extends BaseService {
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
         headers: extend(true, sdkHeaders, {}, _params.headers),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * List all predefined templates.
+   *
+   * List all predefined templates.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.source - Source type.
+   * @param {string} params.type - Destination type.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {string} [params.search] - Search string for filtering results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>>}
+   */
+  public listPreDefinedTemplates(
+    params: EventNotificationsV1.ListPreDefinedTemplatesParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'source', 'type'];
+    const _validParams = ['instanceId', 'source', 'type', 'limit', 'offset', 'search', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'source': _params.source,
+      'type': _params.type,
+      'limit': _params.limit,
+      'offset': _params.offset,
+      'search': _params.search,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'listPreDefinedTemplates'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/pre_defined_templates',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
       }),
     };
 
@@ -3286,6 +3286,63 @@ class EventNotificationsV1 extends BaseService {
 
     return this.createRequest(parameters);
   }
+  /*************************
+   * getNotificationsStatus
+   ************************/
+
+  /**
+   * Get notification status.
+   *
+   * Get notification status.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Get Notification Id.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.GetNotificationStatusResponse>>}
+   */
+  public getNotificationsStatus(
+    params: EventNotificationsV1.GetNotificationsStatusParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.GetNotificationStatusResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id'];
+    const _validParams = ['instanceId', 'id', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getNotificationsStatus'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/notifications/{id}',
+        method: 'GET',
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
 }
 
 /*************************
@@ -3502,23 +3559,6 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
-  /** Parameters for the `listPreDefinedTemplates` operation. */
-  export interface ListPreDefinedTemplatesParams {
-    /** Unique identifier for IBM Cloud Event Notifications instance. */
-    instanceId: string;
-    /** Source type. */
-    source: string;
-    /** Destination type. */
-    type: string;
-    /** Page limit for paginated results. */
-    limit?: number;
-    /** offset for paginated results. */
-    offset?: number;
-    /** Search string for filtering results. */
-    search?: string;
-    headers?: OutgoingHttpHeaders;
-  }
-
   /** Parameters for the `getTemplate` operation. */
   export interface GetTemplateParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
@@ -3550,6 +3590,23 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for Template. */
     id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `listPreDefinedTemplates` operation. */
+  export interface ListPreDefinedTemplatesParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Source type. */
+    source: string;
+    /** Destination type. */
+    type: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
+    /** Search string for filtering results. */
+    search?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4035,6 +4092,15 @@ namespace EventNotificationsV1 {
     headers?: OutgoingHttpHeaders;
   }
 
+  /** Parameters for the `getNotificationsStatus` operation. */
+  export interface GetNotificationsStatusParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Get Notification Id. */
+    id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
   /*************************
    * model interfaces
    ************************/
@@ -4213,6 +4279,22 @@ namespace EventNotificationsV1 {
     ends_at?: string;
     /** cron schedule expression. */
     expression?: string;
+  }
+
+  /** Payload describing a notifications response. */
+  export interface GetNotificationStatusResponse {
+    /** status of the notification. */
+    status: string;
+    /** Payload describing a Status Details. */
+    details: GetNotificationStatusResponseDetails;
+  }
+
+  /** Payload describing a Status Details. */
+  export interface GetNotificationStatusResponseDetails {
+    /** HTTP status code. */
+    status_code: number;
+    /** status message of the notification. */
+    status_message: string;
   }
 
   /** Template object. */
@@ -4920,11 +5002,8 @@ namespace EventNotificationsV1 {
     created_at: string;
   }
 
-  /** Destination test object. */
-  export interface TestDestinationResponse {
-    /** test destiantion status. */
-    status: string;
-  }
+  /** TestDestinationResponse. */
+  export interface TestDestinationResponse {}
 
   /** Topic object. */
   export interface Topic {
@@ -5608,6 +5687,24 @@ namespace EventNotificationsV1 {
   export interface TemplateConfigOneOfWebhookTemplateConfig extends TemplateConfigOneOf {
     /** Template body(Base64 encoded). */
     body: string;
+  }
+
+  /** Test Destination response object for other http destination. */
+  export interface TestDestinationResponseDestinationTestResponseConfig
+    extends TestDestinationResponse {
+    /** Test destination status. */
+    status: string;
+  }
+
+  /** Response from /test endpoint. */
+  export interface TestDestinationResponseWebhookDestinationTestResponseConfig
+    extends TestDestinationResponse {
+    /** Test destination status. */
+    status: string;
+    /** Test notification ID. */
+    notification_id: string;
+    /** Type of destination. */
+    destination_type: string;
   }
 
   /*************************

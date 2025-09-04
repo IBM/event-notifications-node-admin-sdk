@@ -1129,6 +1129,44 @@ describe('EventNotificationsV1', () => {
     // end-test_destination
   });
 
+  test('testDWebhookestination()', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('testDWebhookestination() result:');
+    // begin-test_webhhook_destination
+    let webhookNotificationId;
+    const testDestinationParams = {
+      instanceId,
+      id: destinationId,
+    };
+
+    try {
+      const testDestinationResult =
+        await eventNotificationsService.testDestination(testDestinationParams);
+      webhookNotificationId = testDestinationResult.result.notification_id;
+      console.log(JSON.stringify(testDestinationResult.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const getNotificationsStatusParams = {
+      instanceId,
+      id: webhookNotificationId,
+    };
+
+    const getNotificationsStatusResult = await eventNotificationsService.getNotificationsStatus(
+      getNotificationsStatusParams
+    );
+    // end-test_webhhook_destination
+  });
+
   test('createTemplate()', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
