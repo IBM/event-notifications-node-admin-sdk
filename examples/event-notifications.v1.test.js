@@ -68,6 +68,7 @@ let destinationId17 = '';
 let destinationId18 = '';
 let destinationId19 = '';
 let destinationId20 = '';
+let destinationId22 = '';
 let subscriptionId = '';
 let subscriptionId1 = '';
 let subscriptionId2 = '';
@@ -79,6 +80,7 @@ let subscriptionId7 = '';
 let subscriptionId8 = '';
 let subscriptionId9 = '';
 let subscriptionId10 = '';
+const subscriptionId22 = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -119,6 +121,9 @@ let eventStreamsTemplateBody = '';
 let eventStreamsCRN = '';
 let eventStreamsTopic = '';
 let eventStreamsEndPoint = '';
+let appConfigTemplateBody = '';
+let appConfigCRN = '';
+let appConfigTemplateID = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -163,6 +168,8 @@ describe('EventNotificationsV1', () => {
   eventStreamsCRN = config.eventStreamsCrn;
   eventStreamsTopic = config.eventStreamsTopic;
   eventStreamsEndPoint = config.eventStreamsEndpoint;
+  appConfigTemplateBody = config.appConfigTemplateBody;
+  appConfigCRN = config.appConfigCrn;
 
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
@@ -1100,6 +1107,36 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const destinationAppConfigParamsModel = {
+      crn: appConfigCRN,
+      type: 'features',
+      environment_id: 'dev',
+      feature_id: 'flag_test',
+    };
+
+    const destinationAppConfigModel = {
+      params: destinationAppConfigParamsModel,
+    };
+
+    name = 'app_config_destination';
+    description = 'app_config Destination';
+    type = 'app_configuration';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationAppConfigModel,
+    };
+
+    try {
+      const appConfigRes = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(appConfigRes.result, null, 2));
+      destinationId22 = appConfigRes.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
     // end-create_destination
   });
 
@@ -1311,6 +1348,29 @@ describe('EventNotificationsV1', () => {
       createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
       console.log(JSON.stringify(createTemplateResult.result, null, 2));
       eventStreamsTemplateID = createTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const appConfigTemplateConfigModel = {
+      body: appConfigTemplateBody,
+    };
+
+    name = 'App Config template name';
+    description = 'App Config template description';
+    type = 'app_configuration.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: appConfigTemplateConfigModel,
+      description,
+    };
+
+    try {
+      createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+      console.log(JSON.stringify(createTemplateResult.result, null, 2));
+      appConfigTemplateID = createTemplateResult.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -1935,6 +1995,35 @@ describe('EventNotificationsV1', () => {
     } catch (err) {
       console.warn(err);
     }
+
+    const destAppConfigParamsModel = {
+      crn: appConfigCRN,
+      type: 'features',
+      environment_id: 'dev',
+      feature_id: 'flag_test',
+    };
+
+    const destinationAppConfigParamsModel = {
+      params: destAppConfigParamsModel,
+    };
+
+    name = 'App Config updated';
+    description = 'This destination is for App config';
+
+    params = {
+      instanceId,
+      id: destinationId22,
+      name,
+      description,
+      config: destinationAppConfigParamsModel,
+    };
+
+    try {
+      const appConfigRes = await eventNotificationsService.updateDestination(params);
+      console.log(JSON.stringify(appConfigRes.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
     // end-update_destination
   });
 
@@ -2091,6 +2180,31 @@ describe('EventNotificationsV1', () => {
         await eventNotificationsService.replaceTemplate(replaceTemplateParams);
       console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
       eventStreamsTemplateID = replaceTemplateResult.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const appConfigJobTemplateConfigModel = {
+      body: appConfigTemplateBody,
+    };
+
+    name = 'app config template name update';
+    description = 'app config template description update';
+    type = 'app_configuration.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: appConfigTemplateID,
+      name,
+      type,
+      params: appConfigJobTemplateConfigModel,
+      description,
+    };
+
+    try {
+      replaceTemplateResult =
+        await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+      console.log(JSON.stringify(replaceTemplateResult.result, null, 2));
+      appConfigTemplateID = replaceTemplateResult.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2371,6 +2485,27 @@ describe('EventNotificationsV1', () => {
       const eventStreamsRes = await eventNotificationsService.createSubscription(params);
       console.log(JSON.stringify(eventStreamsRes.result, null, 2));
       subscriptionId10 = eventStreamsRes.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'App Configuration subscription';
+    description = 'Subscription for App Configuration';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId22,
+      topicId,
+      description,
+      attributes: {
+        feature_flag_enabled: true,
+      },
+    };
+
+    try {
+      const appConfigRes = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(appConfigRes.result, null, 2));
+      subscriptionId10 = appConfigRes.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2754,6 +2889,25 @@ describe('EventNotificationsV1', () => {
     try {
       const eventStreamsRes = await eventNotificationsService.updateSubscription(params);
       console.log(JSON.stringify(eventStreamsRes.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'App configuration subscription update';
+    description = 'Subscription for the App configuration update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId22,
+      description,
+      attributes: {
+        template_id_notification: appConfigTemplateID,
+      },
+    };
+
+    try {
+      const appConfigRes = await eventNotificationsService.updateSubscription(params);
+      console.log(JSON.stringify(appConfigRes.result, null, 2));
     } catch (err) {
       console.warn(err);
     }
@@ -3381,6 +3535,7 @@ describe('EventNotificationsV1', () => {
       subscriptionId8,
       subscriptionId9,
       subscriptionId10,
+      subscriptionId22,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3465,6 +3620,7 @@ describe('EventNotificationsV1', () => {
       destinationId18,
       destinationId19,
       destinationId20,
+      destinationId22,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
@@ -3498,6 +3654,7 @@ describe('EventNotificationsV1', () => {
       webhookTemplateID,
       pagerdutyTemplateID,
       eventStreamsTemplateID,
+      appConfigTemplateID,
     ];
 
     for (let i = 0; i < templates.length; i += 1) {

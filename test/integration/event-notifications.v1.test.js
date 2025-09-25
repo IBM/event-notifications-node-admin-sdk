@@ -56,6 +56,7 @@ let destinationId17 = '';
 let destinationId18 = '';
 let destinationId19 = '';
 let destinationId20 = '';
+let destinationId22 = '';
 
 let subscriptionId = '';
 let subscriptionId1 = '';
@@ -76,6 +77,7 @@ let subscriptionId17 = '';
 let subscriptionId18 = '';
 let subscriptionId19 = '';
 let subscriptionId20 = '';
+let subscriptionId22 = '';
 let safariCertificatePath = '';
 let integrationId = '';
 let sNowClientId = '';
@@ -123,6 +125,9 @@ let codeEngineApplicationTemplateID = '';
 let codeEngineJobTemplateID = '';
 let codeEngineAppTemplateBody = '';
 let codeEngineJobTemplateBody = '';
+let appConfigTemplateBody = '';
+let appConfigCRN = '';
+let appConfigTemplateID = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -171,7 +176,8 @@ describe('EventNotificationsV1_integration', () => {
     eventStreamsEndPoint = config.eventStreamsEndpoint;
     codeEngineAppTemplateBody = config.codeEngineAppTemplateBody;
     codeEngineJobTemplateBody = config.codeEngineJobTemplateBody;
-
+    appConfigTemplateBody = config.appConfigTemplateBody;
+    appConfigCRN = config.appConfigCrn;
     eventNotificationsService.enableRetries();
   });
 
@@ -1074,6 +1080,38 @@ describe('EventNotificationsV1_integration', () => {
     expect(eventStreamsRes.result.description).toBe(description);
     destinationId20 = eventStreamsRes.result.id;
 
+    const destinationAppConfigParamsModel = {
+      crn: appConfigCRN,
+      type: 'features',
+      environment_id: 'dev',
+      feature_id: 'flag_test',
+    };
+
+    const destinationAppConfigModel = {
+      params: destinationAppConfigParamsModel,
+    };
+
+    name = 'app_config_destination';
+    description = 'app_config Destination';
+    type = 'app_configuration';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+      config: destinationAppConfigModel,
+    };
+
+    const appConfigRes = await eventNotificationsService.createDestination(params);
+    expect(appConfigRes).toBeDefined();
+    expect(appConfigRes.status).toBe(201);
+    expect(appConfigRes.result).toBeDefined();
+
+    expect(appConfigRes.result.type).toBe(type);
+    expect(appConfigRes.result.name).toBe(name);
+    expect(appConfigRes.result.description).toBe(description);
+    destinationId22 = appConfigRes.result.id;
+
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -1325,6 +1363,31 @@ describe('EventNotificationsV1_integration', () => {
     expect(createTemplateResult.result.name).toBe(name);
     expect(createTemplateResult.result.description).toBe(description);
     codeEngineJobTemplateID = createTemplateResult.result.id;
+
+    const appConfigTemplateConfigModel = {
+      body: appConfigTemplateBody,
+    };
+
+    name = 'App Config template name';
+    description = 'App Config template description';
+    type = 'app_configuration.notification';
+    createTemplateParams = {
+      instanceId,
+      name,
+      type,
+      params: appConfigTemplateConfigModel,
+      description,
+    };
+
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    expect(createTemplateResult).toBeDefined();
+    expect(createTemplateResult.status).toBe(201);
+    expect(createTemplateResult.result).toBeDefined();
+
+    expect(createTemplateResult.result.type).toBe(type);
+    expect(createTemplateResult.result.name).toBe(name);
+    expect(createTemplateResult.result.description).toBe(description);
+    appConfigTemplateID = createTemplateResult.result.id;
   });
 
   test('listDestinations()', async () => {
@@ -1886,6 +1949,35 @@ describe('EventNotificationsV1_integration', () => {
     expect(eventStreamsRes.result).toBeDefined();
     expect(eventStreamsRes.result.name).toBe(name);
     expect(eventStreamsRes.result.description).toBe(description);
+
+    const destAppConfigParamsModel = {
+      crn: appConfigCRN,
+      type: 'features',
+      environment_id: 'dev',
+      feature_id: 'flag_test',
+    };
+
+    const destinationAppConfigParamsModel = {
+      params: destAppConfigParamsModel,
+    };
+
+    name = 'App Config updated';
+    description = 'This destination is for App config';
+
+    params = {
+      instanceId,
+      id: destinationId22,
+      name,
+      description,
+      config: destinationAppConfigParamsModel,
+    };
+
+    const appConfigRes = await eventNotificationsService.updateDestination(params);
+    expect(appConfigRes).toBeDefined();
+    expect(appConfigRes.status).toBe(200);
+    expect(appConfigRes.result).toBeDefined();
+    expect(appConfigRes.result.name).toBe(name);
+    expect(appConfigRes.result.description).toBe(description);
     //
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
@@ -2085,6 +2177,31 @@ describe('EventNotificationsV1_integration', () => {
       name,
       type,
       params: codeEngineJobTemplateConfigModel,
+      description,
+    };
+
+    replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+    expect(replaceTemplateResult).toBeDefined();
+    expect(replaceTemplateResult.status).toBe(200);
+    expect(replaceTemplateResult.result).toBeDefined();
+
+    expect(replaceTemplateResult.result.type).toBe(type);
+    expect(replaceTemplateResult.result.name).toBe(name);
+    expect(replaceTemplateResult.result.description).toBe(description);
+
+    const appConfigTemplateConfigModel = {
+      body: appConfigTemplateBody,
+    };
+
+    name = 'app config template name update';
+    description = 'app config template description update';
+    type = 'app_configuration.notification';
+    replaceTemplateParams = {
+      instanceId,
+      id: appConfigTemplateID,
+      name,
+      type,
+      params: appConfigTemplateConfigModel,
       description,
     };
 
@@ -2528,6 +2645,27 @@ describe('EventNotificationsV1_integration', () => {
     expect(eventStreamsRes.result.name).toBe(name);
     expect(eventStreamsRes.result.description).toBe(description);
     subscriptionId20 = eventStreamsRes.result.id;
+
+    name = 'App Configuration subscription';
+    description = 'Subscription for App Configuration';
+    params = {
+      instanceId,
+      name,
+      destinationId: destinationId22,
+      topicId,
+      description,
+      attributes: {
+        feature_flag_enabled: true,
+      },
+    };
+
+    const appConfigRes = await eventNotificationsService.createSubscription(params);
+    expect(appConfigRes).toBeDefined();
+    expect(appConfigRes.status).toBe(201);
+    expect(appConfigRes.result).toBeDefined();
+    expect(appConfigRes.result.name).toBe(name);
+    expect(appConfigRes.result.description).toBe(description);
+    subscriptionId22 = appConfigRes.result.id;
 
     //
     // The following status codes aren't covered by tests.
@@ -3047,6 +3185,25 @@ describe('EventNotificationsV1_integration', () => {
     expect(eventStreamsRes.result).toBeDefined();
     expect(eventStreamsRes.result.name).toBe(name);
     expect(eventStreamsRes.result.description).toBe(description);
+
+    name = 'App configuration subscription update';
+    description = 'Subscription for the App configuration update';
+    params = {
+      instanceId,
+      name,
+      id: subscriptionId22,
+      description,
+      attributes: {
+        template_id_notification: appConfigTemplateID,
+      },
+    };
+
+    const appConfigRes = await eventNotificationsService.updateSubscription(params);
+    expect(appConfigRes).toBeDefined();
+    expect(appConfigRes.status).toBe(200);
+    expect(appConfigRes.result).toBeDefined();
+    expect(appConfigRes.result.name).toBe(name);
+    expect(appConfigRes.result.description).toBe(description);
     // The following status codes aren't covered by tests.
     // Please provide integration tests for these too.
     //
@@ -3554,6 +3711,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId18,
       subscriptionId19,
       subscriptionId20,
+      subscriptionId22,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3646,6 +3804,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId18,
       destinationId19,
       destinationId20,
+      destinationId22,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
@@ -3680,6 +3839,7 @@ describe('EventNotificationsV1_integration', () => {
       eventStreamsTemplateID,
       codeEngineApplicationTemplateID,
       codeEngineJobTemplateID,
+      appConfigTemplateID,
     ];
 
     for (let i = 0; i < templates.length; i += 1) {

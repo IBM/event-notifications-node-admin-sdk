@@ -3684,6 +3684,7 @@ namespace EventNotificationsV1 {
       SMTP_CUSTOM = 'smtp_custom',
       SMS_CUSTOM = 'sms_custom',
       EVENT_STREAMS = 'event_streams',
+      APP_CONFIGURATION = 'app_configuration',
     }
   }
 
@@ -5099,6 +5100,19 @@ namespace EventNotificationsV1 {
     verification: string;
   }
 
+  /** Payload describing a App Configuration destination configuration. */
+  export interface DestinationConfigOneOfAppConfigurationDestinationConfig
+    extends DestinationConfigOneOf {
+    /** The App Configuration Destination type. */
+    type: string;
+    /** CRN of the App Configuration instance. */
+    crn: string;
+    /** Environment ID of App Configuration. */
+    environment_id: string;
+    /** Feature ID of App Configuration. */
+    feature_id: string;
+  }
+
   /** Payload describing a Chrome destination configuration. */
   export interface DestinationConfigOneOfChromeDestinationConfig extends DestinationConfigOneOf {
     /** FCM api_key. */
@@ -5293,6 +5307,15 @@ namespace EventNotificationsV1 {
     sensitive_headers?: string[];
   }
 
+  /** The attributes for a App Configuration notification. */
+  export interface SubscriptionAttributesAppConfigurationAttributesResponse
+    extends SubscriptionAttributes {
+    /** App Configuration enable feature flag attribute. */
+    feature_flag_enabled?: boolean;
+    /** App Configuration template id. */
+    template_id_notification?: string;
+  }
+
   /** The attributes for a Code Engine response. */
   export interface SubscriptionAttributesCodeEngineAttributesResponse
     extends SubscriptionAttributes {
@@ -5412,6 +5435,15 @@ namespace EventNotificationsV1 {
     add_notification_payload: boolean;
   }
 
+  /** The attributes for a App Configuration subscription. */
+  export interface SubscriptionCreateAttributesAppConfigurationAttributes
+    extends SubscriptionCreateAttributes {
+    /** App Configuration enable feature flag attribute. */
+    feature_flag_enabled?: boolean;
+    /** App Configuration template id. */
+    template_id_notification?: string;
+  }
+
   /** The attributes for a Code Engine subscription. */
   export interface SubscriptionCreateAttributesCodeEngineAttributes
     extends SubscriptionCreateAttributes {
@@ -5518,6 +5550,15 @@ namespace EventNotificationsV1 {
     /** Signing webhook attributes. */
     signing_enabled?: boolean;
     /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
+    template_id_notification?: string;
+  }
+
+  /** The attributes for a App Configuration subscription. */
+  export interface SubscriptionUpdateAttributesAppConfigurationAttributes
+    extends SubscriptionUpdateAttributes {
+    /** App Configuration enable feature flag attribute. */
+    feature_flag_enabled?: boolean;
+    /** App Configuration template id. */
     template_id_notification?: string;
   }
 
@@ -5642,6 +5683,12 @@ namespace EventNotificationsV1 {
     signing_enabled?: boolean;
     /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
     template_id_notification?: string;
+  }
+
+  /** Payload describing a App Configuration template configuration. */
+  export interface TemplateConfigOneOfAppConfigurationTemplateConfig extends TemplateConfigOneOf {
+    /** Template body(Base64 encoded). */
+    body: string;
   }
 
   /** Payload describing a code engine application template configuration. */
