@@ -1,3 +1,10 @@
+# [0.20.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.19.0...v0.20.0) (2025-09-25)
+
+
+### Features
+
+* adds support for app configuration as a destination ([#82](https://github.com/IBM/event-notifications-node-admin-sdk/issues/82)) ([5da772c](https://github.com/IBM/event-notifications-node-admin-sdk/commit/5da772cfc767afaa0e8dda1960d144f9f009571b))
+
 # [0.19.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.18.0...v0.19.0) (2025-09-04)
 
 
