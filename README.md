@@ -511,6 +511,7 @@ Currently, this functionality supports following destinations:
 5. IBM Cloud Code Engine
 6. IBM Cloud Object Storage
 7. Webhook
+8. App Configuration
 
 ```js
 const testDestinationParams = {
@@ -731,6 +732,29 @@ For EventStreams template supported template type value: event_streams.notificat
 ```
 For CodeEngine template supported template type value: ibmceapp.notification and ibmcejob.notification
 
+#### AppConfiguration Template
+```js
+  const templateConfigModel = {
+      body: <template-body>,
+    };
+  let createTemplateParams = {
+    instanceId: <instance-id>,
+    name: <template-name>,
+    type: <template-type>,
+    templateConfigModel,
+    description: <template-description>,
+};
+
+  let createTemplateResult;
+  try {
+    createTemplateResult = await eventNotificationsService.createTemplate(createTemplateParams);
+    console.log(JSON.stringify(createTemplateResult.result, null, 2));
+  } catch (err) {
+    console.warn(err);
+  }
+```
+For App Configuration template supported template type value: app_configuration.notification
+
 ### List Templates
 ```js
 const params = {
@@ -912,6 +936,30 @@ try {
 ```
 For Event Streams template supported template type value: event_streams.notification
 
+#### Update App Configuration Template
+```js
+const templateConfigModel = {
+  params: {
+    body: <template-body>,
+  },
+}; 
+let replaceTemplateParams = {
+  instanceId: <instance-id>,
+  id: <template-id>,
+  name: <template-name>,
+  type: <template-type>,
+  templateConfigModel,
+  description: <template-description>,
+};
+let replaceTemplateResult;
+try {
+  replaceTemplateResult = await eventNotificationsService.replaceTemplate(replaceTemplateParams);
+} catch (err) {
+  console.warn(err);
+}
+```
+For App Configuration template supported template type value: app_configuration.notification
+
 #### Update CodeEngine Template
 ```js
 const templateConfigModel = {
@@ -1008,7 +1056,6 @@ try {
 ### Create Subscription
 
 ```js
-While Creating Subscription use any of one option from webhook or email
 
 // SubscriptionCreateAttributesWebhookAttributes
 const subscriptionCreateAttributesModel = {
@@ -1032,6 +1079,46 @@ eventNotificationsService
   .catch(err => {
     console.warn(err);
   });
+```
+
+### ⚠️ Special Consideration for App Configuration Destination
+
+When creating or updating a subscription for an **App Configuration** destination, the `attributes` object has a specific rule:  
+
+- You must include **either** `feature_flag_enabled` **or** `template_id_notification`  
+- You **cannot** include both properties together  
+
+This ensures that a subscription is created for the correct use case — either **feature flag evaluation** or **notification templating**, but not both at once.
+
+#### ✅ Valid Example (Feature Flag Evaluation)
+
+```js
+{
+  "attributes": {
+    "feature_flag_enabled": true
+  }
+}
+```
+
+#### ✅ Valid Example (template association)
+
+```js
+{
+  "attributes": {
+    "template_id_notification": "<template-id>"
+  }
+}
+```
+
+#### ❌ Invalid Example (Not Allowed)
+
+```js
+{
+  "attributes": {
+    "feature_flag_enabled": true,
+    "template_id_notification": "<template-id>"
+  }
+}
 ```
 
 ### List Subscriptions
@@ -1586,6 +1673,8 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_EVENT_STREAMS_ENDPOINT` - Event streams end point
 - `EVENT_NOTIFICATIONS_CODE_ENGINE_APP_TEMPLATE_BODY` - base 64 encoded json body for Code Engine Application
 - `EVENT_NOTIFICATIONS_CODE_ENGINE_JOB_TEMPLATE_BODY` - base 64 encoded json body for Code Engine Job
+- `EVENT_NOTIFICATIONS_APP_CONFIG_CRN` - CRN of App Configuration instance
+- `EVENT_NOTIFICATIONS_APP_CONFIG_TEMPLATE_BODY` -  base 64 encoded json body for App Configuration
 
 ## Questions
 
