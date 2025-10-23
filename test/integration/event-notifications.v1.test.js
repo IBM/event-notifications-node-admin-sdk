@@ -107,7 +107,9 @@ let slackTemplateBody = '';
 let cosInstanceCRN = '';
 let cosIntegrationId = '';
 let smtpConfigID = '';
+let smtpUserToClone = '';
 let smtpUserID = '';
+let smtpUserID2 = '';
 let notificationID = '';
 let slackDmToken = '';
 let slackChannelID = '';
@@ -178,6 +180,7 @@ describe('EventNotificationsV1_integration', () => {
     codeEngineJobTemplateBody = config.codeEngineJobTemplateBody;
     appConfigTemplateBody = config.appConfigTemplateBody;
     appConfigCRN = config.appConfigCrn;
+    smtpUserToClone = config.smtpUserToClone;
     eventNotificationsService.enableRetries();
   });
 
@@ -3509,6 +3512,24 @@ describe('EventNotificationsV1_integration', () => {
     smtpUserID = res.result.id;
   });
 
+  test('cloneSMTPUser()', async () => {
+    const description = 'SMTP user description clone';
+    const createSmtpUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      usernameToClone: smtpUserToClone,
+      description,
+    };
+
+    const res = await eventNotificationsService.createSmtpUser(createSmtpUserParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(201);
+    expect(res.result).toBeDefined();
+    expect(res.result.username).toBeDefined();
+    expect(res.result.domain).toBeDefined();
+    smtpUserID2 = res.result.id;
+  });
+
   test('listSMTPConfigurations()', async () => {
     const limit = 1;
     const offset = 0;
@@ -3656,7 +3677,7 @@ describe('EventNotificationsV1_integration', () => {
   });
 
   test('deleteSMTPUser()', async () => {
-    const userIDs = [smtpUserID];
+    const userIDs = [smtpUserID, smtpUserID2];
 
     for (let i = 0; i < userIDs.length; i += 1) {
       const deleteSmtpUserParams = {
