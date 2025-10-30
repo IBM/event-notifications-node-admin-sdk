@@ -1314,6 +1314,19 @@ const res = await eventNotificationsService.createSmtpUser(createSmtpUserParams)
 
 ```
 
+### Clone SMTP User
+
+```js
+const cloneSmtpUserParams = {
+  instanceId : <instance-id>,
+  id: <smtp-Config-id>,
+  usernameToClone: <smtp-user-to-clone>,
+};
+
+const res = await eventNotificationsService.createSmtpUser(cloneSmtpUserParams);
+
+```
+
 ### Get SMTP Configuration
 
 ```js
@@ -1675,6 +1688,7 @@ Find [event_notifications_v1.env.hide](https://github.com/IBM/event-notification
 - `EVENT_NOTIFICATIONS_CODE_ENGINE_JOB_TEMPLATE_BODY` - base 64 encoded json body for Code Engine Job
 - `EVENT_NOTIFICATIONS_APP_CONFIG_CRN` - CRN of App Configuration instance
 - `EVENT_NOTIFICATIONS_APP_CONFIG_TEMPLATE_BODY` -  base 64 encoded json body for App Configuration
+- `EVENT_NOTIFICATIONS_SMTP_USER_TO_CLONE` - SMTP username to be cloned
 
 ## Questions
 

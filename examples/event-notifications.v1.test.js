@@ -124,6 +124,8 @@ let eventStreamsEndPoint = '';
 let appConfigTemplateBody = '';
 let appConfigCRN = '';
 let appConfigTemplateID = '';
+let smtpUserToClone = '';
+let smtpUserID2 = '';
 
 // Save original console.log
 const originalLog = console.log;
@@ -170,6 +172,7 @@ describe('EventNotificationsV1', () => {
   eventStreamsEndPoint = config.eventStreamsEndpoint;
   appConfigTemplateBody = config.appConfigTemplateBody;
   appConfigCRN = config.appConfigCrn;
+  smtpUserToClone = config.smtpUserToClone;
 
   let eventNotificationsService = EventNotificationsV1.newInstance({});
 
@@ -3186,6 +3189,34 @@ describe('EventNotificationsV1', () => {
     // end-create_smtp_user
   });
 
+  test('cloneSMTPUser request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('cloneSMTPUser() result:');
+    // begin-clone_smtp_user
+    const cloneSMTPUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      usernameToClone: smtpUserToClone,
+    };
+
+    try {
+      const res = await eventNotificationsService.createSmtpUser(cloneSMTPUserParams);
+      smtpUserID2 = res.result.id;
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-clone_smtp_user
+  });
+
   test('listSMTPConfigurations request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -3472,6 +3503,19 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-delete_smtp_user
+
+    const deleteSmtpClonedUserParams = {
+      instanceId,
+      id: smtpConfigID,
+      userId: smtpUserID2,
+    };
+
+    try {
+      const res = await eventNotificationsService.deleteSmtpUser(deleteSmtpClonedUserParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
   });
 
   test('deleteSMTPConfiguration  request example', async () => {

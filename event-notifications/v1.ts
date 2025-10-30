@@ -2725,6 +2725,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for SMTP.
    * @param {string} [params.description] - The description of SMTP configuration.
+   * @param {string} [params.usernameToClone] - provide name of the user to clone.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUserResponse>>}
    */
@@ -2733,7 +2734,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPUserResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'description', 'headers'];
+    const _validParams = ['instanceId', 'id', 'description', 'usernameToClone', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2741,6 +2742,10 @@ class EventNotificationsV1 extends BaseService {
 
     const body = {
       'description': _params.description,
+    };
+
+    const query = {
+      'username_to_clone': _params.usernameToClone,
     };
 
     const path = {
@@ -2759,6 +2764,7 @@ class EventNotificationsV1 extends BaseService {
         url: '/v1/instances/{instance_id}/smtp/config/{id}/users',
         method: 'POST',
         body,
+        qs: query,
         path,
       },
       defaultOptions: extend(true, {}, this.baseOptions, {
@@ -3989,6 +3995,8 @@ namespace EventNotificationsV1 {
     id: string;
     /** The description of SMTP configuration. */
     description?: string;
+    /** provide name of the user to clone. */
+    usernameToClone?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4702,8 +4710,8 @@ namespace EventNotificationsV1 {
     smtp_config_id: string;
     /** SMTP user name. */
     username: string;
-    /** password. */
-    password: string;
+    /** Password for SMTP user; Cloned SMTP user response do not include a password. */
+    password?: string;
     /** Created time. */
     created_at: string;
   }

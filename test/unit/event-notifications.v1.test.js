@@ -4920,10 +4920,12 @@ describe('EventNotificationsV1', () => {
         const instanceId = 'testString';
         const id = 'testString';
         const description = 'testString';
+        const usernameToClone = 'testString';
         const createSmtpUserParams = {
           instanceId,
           id,
           description,
+          usernameToClone,
         };
 
         const createSmtpUserResult = eventNotificationsService.createSmtpUser(createSmtpUserParams);
@@ -4945,6 +4947,7 @@ describe('EventNotificationsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.qs.username_to_clone).toEqual(usernameToClone);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.id).toEqual(id);
       }
