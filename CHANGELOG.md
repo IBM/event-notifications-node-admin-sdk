@@ -1,3 +1,10 @@
+# [0.21.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.20.0...v0.21.0) (2025-10-30)
+
+
+### Features
+
+* support for clone smtp user credentials ([#83](https://github.com/IBM/event-notifications-node-admin-sdk/issues/83)) ([612f79e](https://github.com/IBM/event-notifications-node-admin-sdk/commit/612f79e669397c9fd847e4b6d0df4fda878bda4c))
+
 # [0.20.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.19.0...v0.20.0) (2025-09-25)
 
 
