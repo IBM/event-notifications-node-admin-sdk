@@ -146,7 +146,8 @@ SDK Methods to consume
 	- [Delete SMTP Configuration](#delete-smtp-user)
 	- [Verify SMTP](#verify-smtp)
 - [Metrics](#Metrics) 
-  - [Get Metrics](#get-metrics)      
+  - [Get Metrics](#get-metrics)   
+  - [Get Bounce Metrics](#get-bounce-metrics)   
 - [Send Notifications](#send-notifications)
 
 ## Source 
@@ -1468,6 +1469,8 @@ const getMetricsParams = {
   gte: <gte-timestamp>,
   lte: <lte-timestamp>,
   destinationId: <destination-id>,
+  subscriptionId: <subscription-id>,
+  sourceId: <source-id>,
   emailTo: <email-to>,
   notificationId: <notification-id>,
   subject: <subject>,
@@ -1475,6 +1478,30 @@ const getMetricsParams = {
 
 try {
   const res = await eventNotificationsService.getMetrics(getMetricsParams);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Bounce Metrics
+
+```js
+const getBounceMetricsParams = {
+  instanceId: <instance-id>,
+  destinationType: 'smtp_custom',
+  gte: <gte-timestamp>,
+  lte: <lte-timestamp>,
+  destinationId: <destination-id>,
+  subscriptionId: <subscription-id>,
+  sourceId: <source-id>,
+  emailTo: <email-to>,
+  notificationId: <notification-id>,
+  subject: <subject>,
+};
+
+try {
+  const res = await eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
   console.log(JSON.stringify(res.result, null, 2));
 } catch (err) {
   console.warn(err);

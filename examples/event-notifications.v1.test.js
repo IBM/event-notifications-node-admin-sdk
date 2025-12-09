@@ -3084,6 +3084,8 @@ describe('EventNotificationsV1', () => {
       gte,
       lte,
       destinationId: destinationId16,
+      subscriptionId: subscriptionId6,
+      sourceId,
       emailTo: email_to,
       notificationId: notificationID,
       subject,
@@ -3096,6 +3098,45 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
     // end-metrics
+  });
+
+  test('getBounceMetrics request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('getBounceMetrics() result:');
+    // begin-bounce-metrics
+    const destination_type = 'smtp_custom';
+    const gte = '2025-12-08T17:18:43Z';
+    const lte = '2025-12-09T17:18:43Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getBounceMetricsParams = {
+      instanceId,
+      destinationType: destination_type,
+      gte,
+      lte,
+      destinationId: destinationId16,
+      subscriptionId: subscriptionId6,
+      sourceId,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    try {
+      const res = await eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-bounce-metrics
   });
 
   test('createSMTPConfiguration request example', async () => {

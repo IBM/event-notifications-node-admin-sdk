@@ -123,6 +123,7 @@ describe('EventNotificationsV1', () => {
         const gte = 'testString';
         const lte = 'testString';
         const destinationId = 'testString';
+        const subscriptionId = 'testString';
         const sourceId = 'testString';
         const emailTo = 'testString';
         const notificationId = 'testString';
@@ -133,6 +134,7 @@ describe('EventNotificationsV1', () => {
           gte,
           lte,
           destinationId,
+          subscriptionId,
           sourceId,
           emailTo,
           notificationId,
@@ -157,6 +159,7 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.qs.gte).toEqual(gte);
         expect(mockRequestOptions.qs.lte).toEqual(lte);
         expect(mockRequestOptions.qs.destination_id).toEqual(destinationId);
+        expect(mockRequestOptions.qs.subscription_id).toEqual(subscriptionId);
         expect(mockRequestOptions.qs.source_id).toEqual(sourceId);
         expect(mockRequestOptions.qs.email_to).toEqual(emailTo);
         expect(mockRequestOptions.qs.notification_id).toEqual(notificationId);
@@ -219,6 +222,130 @@ describe('EventNotificationsV1', () => {
         let err;
         try {
           await eventNotificationsService.getMetrics();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('getBounceMetrics', () => {
+    describe('positive tests', () => {
+      function __getBounceMetricsTest() {
+        // Construct the params object for operation getBounceMetrics
+        const instanceId = 'testString';
+        const destinationType = 'smtp_custom';
+        const gte = 'testString';
+        const lte = 'testString';
+        const destinationId = 'testString';
+        const subscriptionId = 'testString';
+        const sourceId = 'testString';
+        const emailTo = 'testString';
+        const notificationId = 'testString';
+        const subject = 'testString';
+        const limit = 1;
+        const offset = 0;
+        const getBounceMetricsParams = {
+          instanceId,
+          destinationType,
+          gte,
+          lte,
+          destinationId,
+          subscriptionId,
+          sourceId,
+          emailTo,
+          notificationId,
+          subject,
+          limit,
+          offset,
+        };
+
+        const getBounceMetricsResult =
+          eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
+
+        // all methods should return a Promise
+        expectToBePromise(getBounceMetricsResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(mockRequestOptions, '/v1/instances/{instance_id}/metrics/bounce', 'GET');
+        const expectedAccept = 'application/json';
+        const expectedContentType = undefined;
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
+        expect(mockRequestOptions.qs.gte).toEqual(gte);
+        expect(mockRequestOptions.qs.lte).toEqual(lte);
+        expect(mockRequestOptions.qs.destination_id).toEqual(destinationId);
+        expect(mockRequestOptions.qs.subscription_id).toEqual(subscriptionId);
+        expect(mockRequestOptions.qs.source_id).toEqual(sourceId);
+        expect(mockRequestOptions.qs.email_to).toEqual(emailTo);
+        expect(mockRequestOptions.qs.notification_id).toEqual(notificationId);
+        expect(mockRequestOptions.qs.subject).toEqual(subject);
+        expect(mockRequestOptions.qs.limit).toEqual(limit);
+        expect(mockRequestOptions.qs.offset).toEqual(offset);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __getBounceMetricsTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __getBounceMetricsTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __getBounceMetricsTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const destinationType = 'smtp_custom';
+        const gte = 'testString';
+        const lte = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const getBounceMetricsParams = {
+          instanceId,
+          destinationType,
+          gte,
+          lte,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getBounceMetrics({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.getBounceMetrics();
         } catch (e) {
           err = e;
         }
