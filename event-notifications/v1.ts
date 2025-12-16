@@ -112,6 +112,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.gte - GTE (greater than equal), start timestamp in UTC.
    * @param {string} params.lte - LTE (less than equal), end timestamp in UTC.
    * @param {string} [params.destinationId] - Unique identifier for Destination.
+   * @param {string} [params.subscriptionId] - Unique identifier for Subscription.
    * @param {string} [params.sourceId] - Unique identifier for Source.
    * @param {string} [params.emailTo] - Receiver email id.
    * @param {string} [params.notificationId] - Notification Id.
@@ -130,6 +131,7 @@ class EventNotificationsV1 extends BaseService {
       'gte',
       'lte',
       'destinationId',
+      'subscriptionId',
       'sourceId',
       'emailTo',
       'notificationId',
@@ -146,6 +148,7 @@ class EventNotificationsV1 extends BaseService {
       'gte': _params.gte,
       'lte': _params.lte,
       'destination_id': _params.destinationId,
+      'subscription_id': _params.subscriptionId,
       'source_id': _params.sourceId,
       'email_to': _params.emailTo,
       'notification_id': _params.notificationId,
@@ -161,6 +164,98 @@ class EventNotificationsV1 extends BaseService {
     const parameters = {
       options: {
         url: '/v1/instances/{instance_id}/metrics',
+        method: 'GET',
+        qs: query,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Get bounce metrics.
+   *
+   * Get bounce metrics.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.destinationType - Destination type. Allowed values are [smtp_custom].
+   * @param {string} params.gte - GTE (greater than equal), start timestamp in UTC.
+   * @param {string} params.lte - LTE (less than equal), end timestamp in UTC.
+   * @param {string} [params.destinationId] - Unique identifier for Destination.
+   * @param {string} [params.subscriptionId] - Unique identifier for Subscription.
+   * @param {string} [params.sourceId] - Unique identifier for Source.
+   * @param {string} [params.emailTo] - Receiver email id.
+   * @param {string} [params.notificationId] - Notification Id.
+   * @param {string} [params.subject] - Email subject.
+   * @param {number} [params.limit] - Page limit for paginated results.
+   * @param {number} [params.offset] - offset for paginated results.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.BounceMetrics>>}
+   */
+  public getBounceMetrics(
+    params: EventNotificationsV1.GetBounceMetricsParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.BounceMetrics>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'destinationType', 'gte', 'lte'];
+    const _validParams = [
+      'instanceId',
+      'destinationType',
+      'gte',
+      'lte',
+      'destinationId',
+      'subscriptionId',
+      'sourceId',
+      'emailTo',
+      'notificationId',
+      'subject',
+      'limit',
+      'offset',
+      'headers',
+    ];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const query = {
+      'destination_type': _params.destinationType,
+      'gte': _params.gte,
+      'lte': _params.lte,
+      'destination_id': _params.destinationId,
+      'subscription_id': _params.subscriptionId,
+      'source_id': _params.sourceId,
+      'email_to': _params.emailTo,
+      'notification_id': _params.notificationId,
+      'subject': _params.subject,
+      'limit': _params.limit,
+      'offset': _params.offset,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'getBounceMetrics'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/metrics/bounce',
         method: 'GET',
         qs: query,
         path,
@@ -3391,6 +3486,8 @@ namespace EventNotificationsV1 {
     lte: string;
     /** Unique identifier for Destination. */
     destinationId?: string;
+    /** Unique identifier for Subscription. */
+    subscriptionId?: string;
     /** Unique identifier for Source. */
     sourceId?: string;
     /** Receiver email id. */
@@ -3404,6 +3501,43 @@ namespace EventNotificationsV1 {
 
   /** Constants for the `getMetrics` operation. */
   export namespace GetMetricsConstants {
+    /** Destination type. Allowed values are [smtp_custom]. */
+    export enum DestinationType {
+      SMTP_CUSTOM = 'smtp_custom',
+    }
+  }
+
+  /** Parameters for the `getBounceMetrics` operation. */
+  export interface GetBounceMetricsParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Destination type. Allowed values are [smtp_custom]. */
+    destinationType: GetBounceMetricsConstants.DestinationType | string;
+    /** GTE (greater than equal), start timestamp in UTC. */
+    gte: string;
+    /** LTE (less than equal), end timestamp in UTC. */
+    lte: string;
+    /** Unique identifier for Destination. */
+    destinationId?: string;
+    /** Unique identifier for Subscription. */
+    subscriptionId?: string;
+    /** Unique identifier for Source. */
+    sourceId?: string;
+    /** Receiver email id. */
+    emailTo?: string;
+    /** Notification Id. */
+    notificationId?: string;
+    /** Email subject. */
+    subject?: string;
+    /** Page limit for paginated results. */
+    limit?: number;
+    /** offset for paginated results. */
+    offset?: number;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Constants for the `getBounceMetrics` operation. */
+  export namespace GetBounceMetricsConstants {
     /** Destination type. Allowed values are [smtp_custom]. */
     export enum DestinationType {
       SMTP_CUSTOM = 'smtp_custom',
@@ -4113,6 +4247,30 @@ namespace EventNotificationsV1 {
   /*************************
    * model interfaces
    ************************/
+
+  /** Bounce metric object. */
+  export interface BounceMetricItem {
+    /** Email address. */
+    email_address: string;
+    /** Subject. */
+    subject: string;
+    /** Error message. */
+    error_message: string;
+    /** IP address. */
+    ip_address?: string;
+    /** Subscription ID. */
+    subscription_id?: string;
+    /** Bounced at. */
+    timestamp: string;
+  }
+
+  /** Payload describing bounce metrics. */
+  export interface BounceMetrics {
+    /** array of bounce metrics. */
+    metrics: BounceMetricItem[];
+    /** total number of bounce metrics. */
+    total_count: number;
+  }
 
   /** Bucket object. */
   export interface Buckets {
