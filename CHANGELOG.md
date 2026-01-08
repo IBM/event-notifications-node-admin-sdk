@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.21.0...v0.22.0) (2026-01-08)
+
+
+### Features
+
+* add support for getBounceMetrics ([#84](https://github.com/IBM/event-notifications-node-admin-sdk/issues/84)) ([5751b0a](https://github.com/IBM/event-notifications-node-admin-sdk/commit/5751b0adae0758bdcaff0b8a2f6b9284864228f9))
+
 # [0.21.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.20.0...v0.21.0) (2025-10-30)
 
 
