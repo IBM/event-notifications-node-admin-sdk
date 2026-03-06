@@ -5267,8 +5267,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a App Configuration destination configuration. */
-  export interface DestinationConfigOneOfAppConfigurationDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfAppConfigurationDestinationConfig extends DestinationConfigOneOf {
     /** The App Configuration Destination type. */
     type: string;
     /** CRN of the App Configuration instance. */
@@ -5292,8 +5291,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a code engine destination configuration. */
-  export interface DestinationConfigOneOfCodeEngineDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfCodeEngineDestinationConfig extends DestinationConfigOneOf {
     /** URL of code engine. */
     url?: string;
     /** HTTP method of code engine. */
@@ -5311,8 +5309,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a custom Domain Email destination configuration. */
-  export interface DestinationConfigOneOfCustomDomainEmailDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfCustomDomainEmailDestinationConfig extends DestinationConfigOneOf {
     /** Email Domain. */
     domain: string;
     /** The DKIM attributes. */
@@ -5322,8 +5319,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a Event Streams destination configuration. */
-  export interface DestinationConfigOneOfEventStreamsDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfEventStreamsDestinationConfig extends DestinationConfigOneOf {
     /** CRN of the Event Streans instance. */
     crn: string;
     /** Endpoint of Event Streams. */
@@ -5369,8 +5365,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a Cloud Object Storage destination configuration. */
-  export interface DestinationConfigOneOfIBMCloudObjectStorageDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfIBMCloudObjectStorageDestinationConfig extends DestinationConfigOneOf {
     /** Bucket Name for Cloud Object Storage. */
     bucket_name: string;
     /** Instance Id of Cloud Object Storage. */
@@ -5430,8 +5425,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a ServiceNow destination configuration. */
-  export interface DestinationConfigOneOfServiceNowDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfServiceNowDestinationConfig extends DestinationConfigOneOf {
     /** ClientID for the ServiceNow account oauth. */
     client_id: string;
     /** ClientSecret for the ServiceNow account oauth. */
@@ -5453,8 +5447,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a Slack direct message destination configuration. */
-  export interface DestinationConfigOneOfSlackDirectMessageDestinationConfig
-    extends DestinationConfigOneOf {
+  export interface DestinationConfigOneOfSlackDirectMessageDestinationConfig extends DestinationConfigOneOf {
     /** Token of slack application. */
     token: string;
     /** The Slack Destination type. */
@@ -5474,8 +5467,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a App Configuration notification. */
-  export interface SubscriptionAttributesAppConfigurationAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesAppConfigurationAttributesResponse extends SubscriptionAttributes {
     /** App Configuration enable feature flag attribute. */
     feature_flag_enabled?: boolean;
     /** App Configuration template id. */
@@ -5483,15 +5475,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a Code Engine response. */
-  export interface SubscriptionAttributesCodeEngineAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesCodeEngineAttributesResponse extends SubscriptionAttributes {
     /** Code Engine template id. */
     template_id_notification?: string;
   }
 
   /** The attributes reponse for an email destination. */
-  export interface SubscriptionAttributesCustomEmailAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesCustomEmailAttributesResponse extends SubscriptionAttributes {
     /** The email id string. */
     invited?: EmailAttributesResponseInvitedItems[];
     /** The unsubscribe list. */
@@ -5515,8 +5505,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Custom SMS attributes object. */
-  export interface SubscriptionAttributesCustomSMSAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesCustomSMSAttributesResponse extends SubscriptionAttributes {
     /** The subscribed list. */
     subscribed?: SMSAttributesItems[];
     /** The unsubscribe list. */
@@ -5544,15 +5533,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a Event Streams response. */
-  export interface SubscriptionAttributesEventStreamsAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesEventStreamsAttributesResponse extends SubscriptionAttributes {
     /** Event Streams template id. */
     template_id_notification?: string;
   }
 
   /** The attributes for a PagerDuty notification. */
-  export interface SubscriptionAttributesPagerDutyAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesPagerDutyAttributesResponse extends SubscriptionAttributes {
     /** ID of Base64 converted JSON Pagerduty Blocks w/o Handlebars. */
     template_id_notification?: string;
   }
@@ -5568,8 +5555,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a ServiceNow notification. */
-  export interface SubscriptionAttributesServiceNowAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesServiceNowAttributesResponse extends SubscriptionAttributes {
     /** Assigned name from ServiceNow account. */
     assigned_to?: string;
     /** Assigned group name from ServiceNow account. */
@@ -5585,8 +5571,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack direct message. */
-  export interface SubscriptionAttributesSlackDirectMessageAttributesResponse
-    extends SubscriptionAttributes {
+  export interface SubscriptionAttributesSlackDirectMessageAttributesResponse extends SubscriptionAttributes {
     /** List of channels. */
     channels?: ChannelCreateAttributes[];
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
@@ -5602,8 +5587,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a App Configuration subscription. */
-  export interface SubscriptionCreateAttributesAppConfigurationAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesAppConfigurationAttributes extends SubscriptionCreateAttributes {
     /** App Configuration enable feature flag attribute. */
     feature_flag_enabled?: boolean;
     /** App Configuration template id. */
@@ -5611,15 +5595,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a Code Engine subscription. */
-  export interface SubscriptionCreateAttributesCodeEngineAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesCodeEngineAttributes extends SubscriptionCreateAttributes {
     /** code engine template id. */
     template_id_notification?: string;
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesCustomEmailAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesCustomEmailAttributes extends SubscriptionCreateAttributes {
     /** The email id string. */
     invited: string[];
     /** Whether to add the notification payload to the email. */
@@ -5639,15 +5621,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an custom sms notification. */
-  export interface SubscriptionCreateAttributesCustomSMSAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesCustomSMSAttributes extends SubscriptionCreateAttributes {
     /** The sms id string. */
     invited: string[];
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionCreateAttributesEmailAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesEmailAttributes extends SubscriptionCreateAttributes {
     /** The email id string. */
     invited: string[];
     /** Whether to add the notification payload to the email. */
@@ -5661,8 +5641,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a Event Streams subscription. */
-  export interface SubscriptionCreateAttributesEventstreamsAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesEventstreamsAttributes extends SubscriptionCreateAttributes {
     /** Event Streams template id. */
     template_id_notification?: string;
   }
@@ -5671,8 +5650,7 @@ namespace EventNotificationsV1 {
   export interface SubscriptionCreateAttributesFCMAttributes extends SubscriptionCreateAttributes {}
 
   /** The attributes for a pagerduty notification. */
-  export interface SubscriptionCreateAttributesPagerDutyAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesPagerDutyAttributes extends SubscriptionCreateAttributes {
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
   }
@@ -5684,8 +5662,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a ServiceNow notification. */
-  export interface SubscriptionCreateAttributesServiceNowAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesServiceNowAttributes extends SubscriptionCreateAttributes {
     /** Name of user ServiceNow incident will be assigned to. */
     assigned_to?: string;
     /** Group Name to which incident will be assigned to. */
@@ -5693,8 +5670,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack notification. */
-  export interface SubscriptionCreateAttributesSlackAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesSlackAttributes extends SubscriptionCreateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
@@ -5702,8 +5678,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack direct message. */
-  export interface SubscriptionCreateAttributesSlackDirectMessageAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesSlackDirectMessageAttributes extends SubscriptionCreateAttributes {
     /** List of channels. */
     channels?: ChannelCreateAttributes[];
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
@@ -5711,8 +5686,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionCreateAttributesWebhookAttributes
-    extends SubscriptionCreateAttributes {
+  export interface SubscriptionCreateAttributesWebhookAttributes extends SubscriptionCreateAttributes {
     /** Signing webhook attributes. */
     signing_enabled?: boolean;
     /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
@@ -5720,8 +5694,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a App Configuration subscription. */
-  export interface SubscriptionUpdateAttributesAppConfigurationAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesAppConfigurationAttributes extends SubscriptionUpdateAttributes {
     /** App Configuration enable feature flag attribute. */
     feature_flag_enabled?: boolean;
     /** App Configuration template id. */
@@ -5729,15 +5702,13 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a Code Engine subscription. */
-  export interface SubscriptionUpdateAttributesCodeEngineAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesCodeEngineAttributes extends SubscriptionUpdateAttributes {
     /** code engine template id. */
     template_id_notification?: string;
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesCustomEmailUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesCustomEmailUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** Whether to add the notification payload to the email. */
@@ -5761,8 +5732,7 @@ namespace EventNotificationsV1 {
   }
 
   /** SMS attributes object. */
-  export interface SubscriptionUpdateAttributesCustomSMSUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesCustomSMSUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** The email ids or phone numbers. */
@@ -5772,8 +5742,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for an email notification. */
-  export interface SubscriptionUpdateAttributesEmailUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesEmailUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** Whether to add the notification payload to the email. */
@@ -5791,22 +5760,19 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a Event Streams subscription. */
-  export interface SubscriptionUpdateAttributesEventstreamsAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesEventstreamsAttributes extends SubscriptionUpdateAttributes {
     /** Event Streams template id. */
     template_id_notification?: string;
   }
 
   /** The attributes for a pagerduty notification. */
-  export interface SubscriptionUpdateAttributesPagerDutyAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesPagerDutyAttributes extends SubscriptionUpdateAttributes {
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
     template_id_notification?: string;
   }
 
   /** SMS attributes object. */
-  export interface SubscriptionUpdateAttributesSMSUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesSMSUpdateAttributes extends SubscriptionUpdateAttributes {
     /** The email ids or phone numbers. */
     invited?: UpdateAttributesInvited;
     /** The email ids or phone numbers. */
@@ -5816,8 +5782,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a ServiceNow notification. */
-  export interface SubscriptionUpdateAttributesServiceNowAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesServiceNowAttributes extends SubscriptionUpdateAttributes {
     /** Name of user ServiceNow incident will be assigned to. */
     assigned_to?: string;
     /** Group Name to which incident will be assigned to. */
@@ -5825,8 +5790,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack notification. */
-  export interface SubscriptionUpdateAttributesSlackAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesSlackAttributes extends SubscriptionUpdateAttributes {
     /** Attachment Color for the slack message. */
     attachment_color?: string;
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
@@ -5834,8 +5798,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a slack direct message. */
-  export interface SubscriptionUpdateAttributesSlackDirectMessageUpdateAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesSlackDirectMessageUpdateAttributes extends SubscriptionUpdateAttributes {
     /** List of channels. */
     channels?: ChannelUpdateAttributes[];
     /** ID of Base64 converted JSON Slack Blocks w/o Handlebars. */
@@ -5843,8 +5806,7 @@ namespace EventNotificationsV1 {
   }
 
   /** The attributes for a webhook notification. */
-  export interface SubscriptionUpdateAttributesWebhookAttributes
-    extends SubscriptionUpdateAttributes {
+  export interface SubscriptionUpdateAttributesWebhookAttributes extends SubscriptionUpdateAttributes {
     /** Signing webhook attributes. */
     signing_enabled?: boolean;
     /** ID of Base64 converted JSON webhook Blocks w/o Handlebars. */
@@ -5858,8 +5820,7 @@ namespace EventNotificationsV1 {
   }
 
   /** Payload describing a code engine application template configuration. */
-  export interface TemplateConfigOneOfCodeEngineApplicationTemplateConfig
-    extends TemplateConfigOneOf {
+  export interface TemplateConfigOneOfCodeEngineApplicationTemplateConfig extends TemplateConfigOneOf {
     /** Template body(Base64 encoded). */
     body: string;
   }
@@ -5903,15 +5864,13 @@ namespace EventNotificationsV1 {
   }
 
   /** Test Destination response object for other http destination. */
-  export interface TestDestinationResponseDestinationTestResponseConfig
-    extends TestDestinationResponse {
+  export interface TestDestinationResponseDestinationTestResponseConfig extends TestDestinationResponse {
     /** Test destination status. */
     status: string;
   }
 
   /** Response from /test endpoint. */
-  export interface TestDestinationResponseWebhookDestinationTestResponseConfig
-    extends TestDestinationResponse {
+  export interface TestDestinationResponseWebhookDestinationTestResponseConfig extends TestDestinationResponse {
     /** Test destination status. */
     status: string;
     /** Test notification ID. */
