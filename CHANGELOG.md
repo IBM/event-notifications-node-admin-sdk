@@ -1,3 +1,16 @@
+# [0.23.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.22.0...v0.23.0) (2026-03-12)
+
+
+### Bug Fixes
+
+* release issue fix for node version ([#89](https://github.com/IBM/event-notifications-node-admin-sdk/issues/89)) ([a2b57d0](https://github.com/IBM/event-notifications-node-admin-sdk/commit/a2b57d0a939b1cc7b06ebad87efc7de206af45c8))
+* update or remove unused package for vulnerability fix ([#88](https://github.com/IBM/event-notifications-node-admin-sdk/issues/88)) ([0364af7](https://github.com/IBM/event-notifications-node-admin-sdk/commit/0364af790d3ac712f87e6f48d75d7d0661f71a85))
+
+
+### Features
+
+* add support for getBounceMetrics ([#84](https://github.com/IBM/event-notifications-node-admin-sdk/issues/84)) ([5751b0a](https://github.com/IBM/event-notifications-node-admin-sdk/commit/5751b0adae0758bdcaff0b8a2f6b9284864228f9))
+
 ## [0.22.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.22.0...v0.22.1) (2026-03-09)
 
 
