@@ -1245,7 +1245,7 @@ const res = await eventNotificationsService.getIntegration(params);
 
 ### Update Integration
 
-For kms/hs-crypto-
+For kms/hs-crypto (Note: hs-crypto is deprecated, use kms instead)-
 
 ```js
 const metadata = {
