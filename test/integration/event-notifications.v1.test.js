@@ -267,6 +267,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(201);
     expect(res.result).toBeDefined();
+    expect(res.result.view_events).toBe(true);
 
     sourceId = res.result.id;
 
@@ -346,6 +347,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
+    expect(res.result.view_events).toBe(true);
 
     //
     // The following status codes aren't covered by tests.

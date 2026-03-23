@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2628,7 +2628,8 @@ class EventNotificationsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.id - Unique identifier for integration.
-   * @param {string} params.type - Integration type. Allowed values are kms, hs-crypto and collect_failed_events.
+   * @param {string} params.type - Integration type. Allowed values are kms, hs-crypto (deprecated) and
+   * collect_failed_events.
    * @param {IntegrationMetadata} params.metadata - Integration Metadata object.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.IntegrationGetResponse>>}
@@ -3392,9 +3393,9 @@ class EventNotificationsV1 extends BaseService {
    ************************/
 
   /**
-   * Get notification status.
+   * Get status of webhook test notification.
    *
-   * Get notification status.
+   * Status of webhook test notification.
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
@@ -4088,7 +4089,7 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for integration. */
     id: string;
-    /** Integration type. Allowed values are kms, hs-crypto and collect_failed_events. */
+    /** Integration type. Allowed values are kms, hs-crypto (deprecated) and collect_failed_events. */
     type: string;
     /** Integration Metadata object. */
     metadata: IntegrationMetadata;
@@ -4270,6 +4271,10 @@ namespace EventNotificationsV1 {
     metrics: BounceMetricItem[];
     /** total number of bounce metrics. */
     total_count: number;
+    /** Current offset. */
+    offset: number;
+    /** limit to show bounce metrics. */
+    limit: number;
   }
 
   /** Bucket object. */
@@ -4514,7 +4519,7 @@ namespace EventNotificationsV1 {
   export interface IntegrationGetResponse {
     /** ID of the integration. */
     id: string;
-    /** Integration type. Allowed values are kms and hs-crypto. */
+    /** Integration type. Allowed values are kms and hs-crypto (deprecated) and collect_failed_events. */
     type: string;
     /** Integration Metadata object. */
     metadata: IntegrationMetadata;
@@ -4546,7 +4551,7 @@ namespace EventNotificationsV1 {
   export interface IntegrationListItem {
     /** ID of the integration. */
     id: string;
-    /** Integration type. Allowed values are kms and hs-crypto. */
+    /** Integration type. Allowed values are kms, hs-crypto (deprecated) and collect_failed_events. */
     type: string;
     /** Integration Metadata object. */
     metadata: IntegrationMetadata;

@@ -301,7 +301,7 @@ describe('EventNotificationsV1', () => {
     let params = {
       instanceId,
       id: integrationId,
-      type: 'kms/hs-crypto',
+      type: 'kms', // Note: hs-crypto is deprecated, use 'kms' instead
       metadata,
     };
 
