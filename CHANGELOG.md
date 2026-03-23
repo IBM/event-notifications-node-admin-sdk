@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.23.0...v0.24.0) (2026-03-23)
+
+
+### Features
+
+* deprecate hs-crypto ([#90](https://github.com/IBM/event-notifications-node-admin-sdk/issues/90)) ([22c0f71](https://github.com/IBM/event-notifications-node-admin-sdk/commit/22c0f71730f8983b27a0094bedb57830b2052ebe))
+
 # [0.23.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.22.0...v0.23.0) (2026-03-12)
 
 
