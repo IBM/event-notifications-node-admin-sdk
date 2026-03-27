@@ -348,6 +348,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.name - Name of the source.
    * @param {string} params.description - Description of the source.
    * @param {boolean} [params.enabled] - Whether the source is enabled or not.
+   * @param {boolean} [params.storeNotifications] - enable to view the payload of incoming events for troubleshooting.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>>}
    */
@@ -356,7 +357,14 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'description'];
-    const _validParams = ['instanceId', 'name', 'description', 'enabled', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'name',
+      'description',
+      'enabled',
+      'storeNotifications',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -366,6 +374,7 @@ class EventNotificationsV1 extends BaseService {
       'name': _params.name,
       'description': _params.description,
       'enabled': _params.enabled,
+      'store_notifications': _params.storeNotifications,
     };
 
     const path = {
@@ -571,6 +580,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} [params.name] - Name of the source.
    * @param {string} [params.description] - Description of the source.
    * @param {boolean} [params.enabled] - Whether the source is enabled or not.
+   * @param {boolean} [params.storeNotifications] - enable to view the payload of incoming events for troubleshooting.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.Source>>}
    */
@@ -579,7 +589,15 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Source>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'name', 'description', 'enabled', 'headers'];
+    const _validParams = [
+      'instanceId',
+      'id',
+      'name',
+      'description',
+      'enabled',
+      'storeNotifications',
+      'headers',
+    ];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -589,6 +607,7 @@ class EventNotificationsV1 extends BaseService {
       'name': _params.name,
       'description': _params.description,
       'enabled': _params.enabled,
+      'store_notifications': _params.storeNotifications,
     };
 
     const path = {
@@ -1862,6 +1881,67 @@ class EventNotificationsV1 extends BaseService {
           sdkHeaders,
           {
             'Accept': 'application/json',
+          },
+          _params.headers
+        ),
+      }),
+    };
+
+    return this.createRequest(parameters);
+  }
+
+  /**
+   * Upgrade sandbox destination to production.
+   *
+   * Upgrade sandbox destination to production with custom domain.
+   *
+   * @param {Object} params - The parameters to send to the service.
+   * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
+   * @param {string} params.id - Unique identifier for Destination.
+   * @param {string} params.domain - Email Domain.
+   * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
+   * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>>}
+   */
+  public updateSandboxDestination(
+    params: EventNotificationsV1.UpdateSandboxDestinationParams
+  ): Promise<EventNotificationsV1.Response<EventNotificationsV1.DestinationResponse>> {
+    const _params = { ...params };
+    const _requiredParams = ['instanceId', 'id', 'domain'];
+    const _validParams = ['instanceId', 'id', 'domain', 'headers'];
+    const _validationErrors = validateParams(_params, _requiredParams, _validParams);
+    if (_validationErrors) {
+      return Promise.reject(_validationErrors);
+    }
+
+    const body = {
+      'domain': _params.domain,
+    };
+
+    const path = {
+      'instance_id': _params.instanceId,
+      'id': _params.id,
+    };
+
+    const sdkHeaders = getSdkHeaders(
+      EventNotificationsV1.DEFAULT_SERVICE_NAME,
+      'v1',
+      'updateSandboxDestination'
+    );
+
+    const parameters = {
+      options: {
+        url: '/v1/instances/{instance_id}/destinations/{id}/upgrade',
+        method: 'PATCH',
+        body,
+        path,
+      },
+      defaultOptions: extend(true, {}, this.baseOptions, {
+        headers: extend(
+          true,
+          sdkHeaders,
+          {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
           _params.headers
         ),
@@ -3563,6 +3643,8 @@ namespace EventNotificationsV1 {
     description: string;
     /** Whether the source is enabled or not. */
     enabled?: boolean;
+    /** enable to view the payload of incoming events for troubleshooting. */
+    storeNotifications?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3609,6 +3691,8 @@ namespace EventNotificationsV1 {
     description?: string;
     /** Whether the source is enabled or not. */
     enabled?: boolean;
+    /** enable to view the payload of incoming events for troubleshooting. */
+    storeNotifications?: boolean;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -3823,6 +3907,7 @@ namespace EventNotificationsV1 {
       IBMCOS = 'ibmcos',
       PUSH_HUAWEI = 'push_huawei',
       SMTP_CUSTOM = 'smtp_custom',
+      SMTP_CUSTOM_SANDBOX = 'smtp_custom_sandbox',
       SMS_CUSTOM = 'sms_custom',
       EVENT_STREAMS = 'event_streams',
       APP_CONFIGURATION = 'app_configuration',
@@ -3920,6 +4005,17 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Unique identifier for Destination. */
     id: string;
+    headers?: OutgoingHttpHeaders;
+  }
+
+  /** Parameters for the `updateSandboxDestination` operation. */
+  export interface UpdateSandboxDestinationParams {
+    /** Unique identifier for IBM Cloud Event Notifications instance. */
+    instanceId: string;
+    /** Unique identifier for Destination. */
+    id: string;
+    /** Email Domain. */
+    domain: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4519,7 +4615,7 @@ namespace EventNotificationsV1 {
   export interface IntegrationGetResponse {
     /** ID of the integration. */
     id: string;
-    /** Integration type. Allowed values are kms and hs-crypto (deprecated) and collect_failed_events. */
+    /** Integration type. Allowed values are kms, hs-crypto (deprecated) and collect_failed_events. */
     type: string;
     /** Integration Metadata object. */
     metadata: IntegrationMetadata;
@@ -4655,6 +4751,8 @@ namespace EventNotificationsV1 {
     ibmenhuaweibody?: string;
     /** Payload describing a notification Safari body. Value should be stringified. */
     ibmensafaribody?: string;
+    /** Email attachments to be sent with the notification. */
+    email_attachments?: NodeJS.ReadableStream | Buffer[];
     /** NotificationCreate accepts additional properties. */
     [propName: string]: any;
   }
@@ -4931,6 +5029,8 @@ namespace EventNotificationsV1 {
     description: string;
     /** The status of the source. */
     enabled: boolean;
+    /** view the payload of incoming events for troubleshooting. */
+    store_notifications?: boolean;
     /** Type of the source. */
     type: string;
     /** The last updated time of the source. */
@@ -4971,6 +5071,8 @@ namespace EventNotificationsV1 {
     type: string;
     /** Whether the source is enabled or not. */
     enabled: boolean;
+    /** view the payload of incoming events for troubleshooting. */
+    store_notifications?: boolean;
     /** Time of the last update. */
     updated_at: string;
     /** Number of topics. */
@@ -4987,6 +5089,8 @@ namespace EventNotificationsV1 {
     description: string;
     /** Whether the source is enabled or not. */
     enabled: boolean;
+    /** view the payload of incoming events for troubleshooting. */
+    store_notifications?: boolean;
     /** Time of the created. */
     created_at: string;
   }
@@ -5323,6 +5427,16 @@ namespace EventNotificationsV1 {
     spf?: SPFAttributes;
   }
 
+  /** Payload describing a custom Email Sandbox destination configuration. */
+  export interface DestinationConfigOneOfCustomEmailSandboxDestinationConfig extends DestinationConfigOneOf {
+    /** Email Domain. */
+    domain?: string;
+    /** The DKIM attributes. */
+    dkim?: DKIMAttributes;
+    /** The SPF attributes. */
+    spf?: SPFAttributes;
+  }
+
   /** Payload describing a Event Streams destination configuration. */
   export interface DestinationConfigOneOfEventStreamsDestinationConfig extends DestinationConfigOneOf {
     /** CRN of the Event Streans instance. */
@@ -5619,6 +5733,22 @@ namespace EventNotificationsV1 {
     from_name: string;
     /** The email from. */
     from_email: string;
+    /** The templete id for notification. */
+    template_id_notification?: string;
+    /** The templete id for invitation. */
+    template_id_invitation?: string;
+  }
+
+  /** The attributes for an email notification. */
+  export interface SubscriptionCreateAttributesCustomEmailSandboxAttributes extends SubscriptionCreateAttributes {
+    /** The email id string. */
+    invited: string[];
+    /** Whether to add the notification payload to the email. */
+    add_notification_payload: boolean;
+    /** The email address to reply to. */
+    reply_to_mail: string;
+    /** The email name to reply to. */
+    reply_to_name: string;
     /** The templete id for notification. */
     template_id_notification?: string;
     /** The templete id for invitation. */
