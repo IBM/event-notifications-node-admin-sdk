@@ -54,6 +54,7 @@ let destinationId15 = '';
 let destinationId16 = '';
 let destinationId17 = '';
 let destinationId18 = '';
+let sandboxDestinationId = '';
 let destinationId19 = '';
 let destinationId20 = '';
 let destinationId22 = '';
@@ -78,6 +79,7 @@ let subscriptionId18 = '';
 let subscriptionId19 = '';
 let subscriptionId20 = '';
 let subscriptionId22 = '';
+let sandboxSubscriptionId = '';
 let safariCertificatePath = '';
 let integrationId = '';
 let sNowClientId = '';
@@ -261,13 +263,14 @@ describe('EventNotificationsV1_integration', () => {
       name: 'Event Notification Create Source Acme',
       description: 'This source is used for Acme Bank',
       enabled: true,
+      storeNotifications: true,
     };
 
     const res = await eventNotificationsService.createSources(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(201);
     expect(res.result).toBeDefined();
-    expect(res.result.view_events).toBe(true);
+    expect(res.result.store_notifications).toBe(true);
 
     sourceId = res.result.id;
 
@@ -341,13 +344,14 @@ describe('EventNotificationsV1_integration', () => {
       name: 'Event Notification update Source Acme',
       description: 'This source is used for updated Acme Bank',
       enabled: true,
+      storeNotifications: true,
     };
 
     const res = await eventNotificationsService.updateSource(params);
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.result).toBeDefined();
-    expect(res.result.view_events).toBe(true);
+    expect(res.result.store_notifications).toBe(true);
 
     //
     // The following status codes aren't covered by tests.
@@ -972,6 +976,26 @@ describe('EventNotificationsV1_integration', () => {
     expect(customEmailRes.result.name).toBe(name);
     expect(customEmailRes.result.description).toBe(description);
     destinationId16 = customEmailRes.result.id;
+
+    name = 'Custom_Email_Sandbox_destination';
+    description = 'Custom Email Sandbox Destination';
+    type = 'smtp_custom_sandbox';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+    };
+
+    const sandboxEmailRes = await eventNotificationsService.createDestination(params);
+    expect(sandboxEmailRes).toBeDefined();
+    expect(sandboxEmailRes.status).toBe(201);
+    expect(sandboxEmailRes.result).toBeDefined();
+
+    expect(sandboxEmailRes.result.type).toBe(type);
+    expect(sandboxEmailRes.result.name).toBe(name);
+    expect(sandboxEmailRes.result.description).toBe(description);
+    sandboxDestinationId = sandboxEmailRes.result.id;
 
     name = 'Custom_sms_destination';
     description = 'Custom sms Destination';
@@ -2555,6 +2579,32 @@ describe('EventNotificationsV1_integration', () => {
     expect(customEmailres.result.description).toBe(description);
     subscriptionId16 = customEmailres.result.id;
 
+    const subscriptionCreateSandboxAttributesModel = {
+      invited: ['entestmonitor@gmail.com'],
+      add_notification_payload: true,
+      reply_to_mail: 'entestmonitor@outlook.com',
+      reply_to_name: 'Sandbox Tester',
+    };
+
+    name = 'subscription_sandbox_email';
+    description = 'Subscription for sandbox email';
+    params = {
+      instanceId,
+      name,
+      destinationId: sandboxDestinationId,
+      topicId,
+      attributes: subscriptionCreateSandboxAttributesModel,
+      description,
+    };
+
+    const sandboxEmailres = await eventNotificationsService.createSubscription(params);
+    expect(sandboxEmailres).toBeDefined();
+    expect(sandboxEmailres.status).toBe(201);
+    expect(sandboxEmailres.result).toBeDefined();
+    expect(sandboxEmailres.result.name).toBe(name);
+    expect(sandboxEmailres.result.description).toBe(description);
+    sandboxSubscriptionId = sandboxEmailres.result.id;
+
     const SubscriptionCreateAttributesCustomSMSAttributes = {
       invited: ['+12064563059', '+12267054625'],
     };
@@ -3093,6 +3143,40 @@ describe('EventNotificationsV1_integration', () => {
     expect(customEmailRes.result.name).toBe(customEmailName);
     expect(customEmailRes.result.description).toBe(customEmailDescription);
 
+    const sandboxEmailUpdateAttributesInvited = {
+      add: ['entestmonitor@outlook.com'],
+    };
+
+    const sandboxEmailUpdateAttributesToRemove = {
+      remove: ['entestmonitor@gmail.com'],
+    };
+
+    const subscriptionUpdateSandboxAttributesModel = {
+      invited: sandboxEmailUpdateAttributesInvited,
+      add_notification_payload: false,
+      reply_to_mail: 'entestmonitor@outlook.com',
+      reply_to_name: 'Sandbox Tester Updated',
+      subscribed: sandboxEmailUpdateAttributesToRemove,
+      unsubscribed: sandboxEmailUpdateAttributesToRemove,
+    };
+
+    const sandboxEmailName = 'subscription_sandbox_email_updated';
+    const sandboxEmailDescription = 'Subscription for sandbox email updated';
+    const sandboxParams = {
+      instanceId,
+      name: sandboxEmailName,
+      id: sandboxSubscriptionId,
+      attributes: subscriptionUpdateSandboxAttributesModel,
+      description: sandboxEmailDescription,
+    };
+
+    const sandboxEmailRes = await eventNotificationsService.updateSubscription(sandboxParams);
+    expect(sandboxEmailRes).toBeDefined();
+    expect(sandboxEmailRes.status).toBe(200);
+    expect(sandboxEmailRes.result).toBeDefined();
+    expect(sandboxEmailRes.result.name).toBe(sandboxEmailName);
+    expect(sandboxEmailRes.result.description).toBe(sandboxEmailDescription);
+
     const customSMSUpdateAttributesInvited = {
       add: ['+12064512559'],
     };
@@ -3236,6 +3320,14 @@ describe('EventNotificationsV1_integration', () => {
   test('sendNotifications()', async () => {
     // Request models needed by this operation.
 
+    // EmailAttachment
+    const emailAttachmentModel = {
+      content: 'VGhpcyBpcyBhIHRlc3QgYXR0YWNobWVudA==',
+      filename: 'test.txt',
+      content_type: 'text/plain',
+      disposition: 'attachment',
+    };
+
     // NotificationFCMDevices
     const notificationFcmDevicesModel = {
       user_ids: ['userId'],
@@ -3359,6 +3451,7 @@ describe('EventNotificationsV1_integration', () => {
       ibmensafaribody: JSON.stringify(notificationSafariBodymodel),
       ibmendefaultshort: 'Alert on offer',
       ibmendefaultlong: 'Offer is going to expire soon',
+      email_attachments: [emailAttachmentModel],
       specversion: '1.0',
     };
 
@@ -3674,6 +3767,25 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.description).toBe(description);
   });
 
+  test('updateEmailSandboxDestination()', async () => {
+    const domain = 'mailx.event-notifications.test.cloud.ibm.com';
+    const updateEmailSandboxDestinationParams = {
+      instanceId,
+      id: sandboxDestinationId,
+      domain,
+    };
+
+    const res = await eventNotificationsService.updateEmailSandboxDestination(
+      updateEmailSandboxDestinationParams
+    );
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+    expect(res.result.id).toBe(sandboxDestinationId);
+    expect(res.result.type).toBe('smtp_custom');
+    expect(res.result.config.params.domain).toBe(domain);
+  });
+
   test('listPredefinedTemplates()', async () => {
     const source = 'logs';
     const type = 'slack.notification';
@@ -3762,6 +3874,7 @@ describe('EventNotificationsV1_integration', () => {
       subscriptionId19,
       subscriptionId20,
       subscriptionId22,
+      sandboxSubscriptionId,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3855,6 +3968,7 @@ describe('EventNotificationsV1_integration', () => {
       destinationId19,
       destinationId20,
       destinationId22,
+      sandboxDestinationId,
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {

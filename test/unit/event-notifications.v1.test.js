@@ -359,6 +359,14 @@ describe('EventNotificationsV1', () => {
     describe('positive tests', () => {
       // Request models needed by this operation.
 
+      // EmailAttachment
+      const emailAttachmentModel = {
+        content: 'testString',
+        filename: 'testString',
+        content_type: 'testString',
+        disposition: 'attachment',
+      };
+
       // NotificationCreate
       const notificationCreateModel = {
         specversion: '1.0',
@@ -393,6 +401,7 @@ describe('EventNotificationsV1', () => {
         ibmenfirefoxheaders: '{"TTL":3600,"Topic":"test","Urgency":"high"}',
         ibmenhuaweibody: 'testString',
         ibmensafaribody: 'testString',
+        email_attachments: [emailAttachmentModel],
         foo: 'testString',
       };
 
@@ -490,11 +499,13 @@ describe('EventNotificationsV1', () => {
         const name = 'testString';
         const description = 'testString';
         const enabled = true;
+        const storeNotifications = false;
         const createSourcesParams = {
           instanceId,
           name,
           description,
           enabled,
+          storeNotifications,
         };
 
         const createSourcesResult = eventNotificationsService.createSources(createSourcesParams);
@@ -514,6 +525,7 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.store_notifications).toEqual(storeNotifications);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -675,9 +687,9 @@ describe('EventNotificationsV1', () => {
       const serviceUrl = eventNotificationsServiceOptions.url;
       const path = '/v1/instances/testString/sources';
       const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
+        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"store_notifications":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
       const mockPagerResponse2 =
-        '{"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
+        '{"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"store_notifications":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -911,12 +923,14 @@ describe('EventNotificationsV1', () => {
         const name = 'testString';
         const description = 'testString';
         const enabled = true;
+        const storeNotifications = false;
         const updateSourceParams = {
           instanceId,
           id,
           name,
           description,
           enabled,
+          storeNotifications,
         };
 
         const updateSourceResult = eventNotificationsService.updateSource(updateSourceParams);
@@ -936,6 +950,7 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.store_notifications).toEqual(storeNotifications);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.id).toEqual(id);
       }
@@ -3256,6 +3271,109 @@ describe('EventNotificationsV1', () => {
         let err;
         try {
           await eventNotificationsService.testDestination();
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+    });
+  });
+
+  describe('updateEmailSandboxDestination', () => {
+    describe('positive tests', () => {
+      function __updateEmailSandboxDestinationTest() {
+        // Construct the params object for operation updateEmailSandboxDestination
+        const instanceId = 'testString';
+        const id = 'testString';
+        const domain = 'testString';
+        const updateEmailSandboxDestinationParams = {
+          instanceId,
+          id,
+          domain,
+        };
+
+        const updateEmailSandboxDestinationResult =
+          eventNotificationsService.updateEmailSandboxDestination(
+            updateEmailSandboxDestinationParams
+          );
+
+        // all methods should return a Promise
+        expectToBePromise(updateEmailSandboxDestinationResult);
+
+        // assert that create request was called
+        expect(createRequestMock).toHaveBeenCalledTimes(1);
+
+        const mockRequestOptions = getOptions(createRequestMock);
+
+        checkUrlAndMethod(
+          mockRequestOptions,
+          '/v1/instances/{instance_id}/destinations/{id}/upgrade',
+          'PATCH'
+        );
+        const expectedAccept = 'application/json';
+        const expectedContentType = 'application/json';
+        checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
+        expect(mockRequestOptions.body.domain).toEqual(domain);
+        expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
+        expect(mockRequestOptions.path.id).toEqual(id);
+      }
+
+      test('should pass the right params to createRequest with enable and disable retries', () => {
+        // baseline test
+        __updateEmailSandboxDestinationTest();
+
+        // enable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.enableRetries();
+        __updateEmailSandboxDestinationTest();
+
+        // disable retries and test again
+        createRequestMock.mockClear();
+        eventNotificationsService.disableRetries();
+        __updateEmailSandboxDestinationTest();
+      });
+
+      test('should prioritize user-given headers', () => {
+        // parameters
+        const instanceId = 'testString';
+        const id = 'testString';
+        const domain = 'testString';
+        const userAccept = 'fake/accept';
+        const userContentType = 'fake/contentType';
+        const updateEmailSandboxDestinationParams = {
+          instanceId,
+          id,
+          domain,
+          headers: {
+            Accept: userAccept,
+            'Content-Type': userContentType,
+          },
+        };
+
+        eventNotificationsService.updateEmailSandboxDestination(
+          updateEmailSandboxDestinationParams
+        );
+        checkMediaHeaders(createRequestMock, userAccept, userContentType);
+      });
+    });
+
+    describe('negative tests', () => {
+      test('should enforce required parameters', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateEmailSandboxDestination({});
+        } catch (e) {
+          err = e;
+        }
+
+        expect(err.message).toMatch(/Missing required parameters/);
+      });
+
+      test('should reject promise when required params are not given', async () => {
+        let err;
+        try {
+          await eventNotificationsService.updateEmailSandboxDestination();
         } catch (e) {
           err = e;
         }

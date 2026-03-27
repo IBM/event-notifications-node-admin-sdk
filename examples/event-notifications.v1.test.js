@@ -66,6 +66,7 @@ let destinationId15 = '';
 let destinationId16 = '';
 let destinationId17 = '';
 let destinationId18 = '';
+let sandboxDestinationId = '';
 let destinationId19 = '';
 let destinationId20 = '';
 let destinationId22 = '';
@@ -81,6 +82,7 @@ let subscriptionId8 = '';
 let subscriptionId9 = '';
 let subscriptionId10 = '';
 const subscriptionId22 = '';
+let sandboxSubscriptionId = '';
 let fcmServerKey = '';
 let fcmSenderId = '';
 let safariCertificatePath = '';
@@ -355,6 +357,7 @@ describe('EventNotificationsV1', () => {
       name: 'Event Notification Create Source Acme',
       description: 'This source is used for Acme Bank',
       enabled: false,
+      storeNotifications: true,
     };
 
     let res;
@@ -442,6 +445,7 @@ describe('EventNotificationsV1', () => {
       name: 'Event Notification update Source Acme',
       description: 'This source is used for updated Acme Bank',
       enabled: true,
+      storeNotifications: true,
     };
 
     let res;
@@ -1001,6 +1005,24 @@ describe('EventNotificationsV1', () => {
       res = await eventNotificationsService.createDestination(params);
       console.log(JSON.stringify(res.result, null, 2));
       destinationId16 = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
+    name = 'Custom_Email_Sandbox_destination';
+    description = 'Custom Email Sandbox Destination';
+    type = 'smtp_custom_sandbox';
+    params = {
+      instanceId,
+      name,
+      type,
+      description,
+    };
+
+    try {
+      res = await eventNotificationsService.createDestination(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      sandboxDestinationId = res.result.id;
     } catch (err) {
       console.warn(err);
     }
@@ -2398,6 +2420,32 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const subscriptionCreateSandboxAttributesModel = {
+      invited: ['entestmonitor@gmail.com'],
+      add_notification_payload: true,
+      reply_to_mail: 'entestmonitor@outlook.com',
+      reply_to_name: 'Sandbox Tester',
+    };
+
+    name = 'subscription_sandbox_email';
+    description = 'Subscription for sandbox email';
+    params = {
+      instanceId,
+      name,
+      destinationId: sandboxDestinationId,
+      topicId,
+      attributes: subscriptionCreateSandboxAttributesModel,
+      description,
+    };
+
+    try {
+      res = await eventNotificationsService.createSubscription(params);
+      console.log(JSON.stringify(res.result, null, 2));
+      sandboxSubscriptionId = res.result.id;
+    } catch (err) {
+      console.warn(err);
+    }
+
     const SubscriptionCreateAttributesCustomSMSAttributes = {
       invited: ['+12064563059', '+12267054625'],
     };
@@ -2800,6 +2848,40 @@ describe('EventNotificationsV1', () => {
       console.warn(err);
     }
 
+    const sandboxEmailUpdateAttributesInvited = {
+      add: ['entestmonitor@outlook.com'],
+    };
+
+    const sandboxEmailUpdateAttributesToRemove = {
+      remove: ['entestmonitor@gmail.com'],
+    };
+
+    const subscriptionUpdateSandboxAttributesModel = {
+      invited: sandboxEmailUpdateAttributesInvited,
+      add_notification_payload: false,
+      reply_to_mail: 'entestmonitor@outlook.com',
+      reply_to_name: 'Sandbox Tester Updated',
+      subscribed: sandboxEmailUpdateAttributesToRemove,
+      unsubscribed: sandboxEmailUpdateAttributesToRemove,
+    };
+
+    const sandboxEmailName = 'subscription_sandbox_email_updated';
+    const sandboxEmailDescription = 'Subscription for sandbox email updated';
+    const sandboxParams = {
+      instanceId,
+      name: sandboxEmailName,
+      id: sandboxSubscriptionId,
+      attributes: subscriptionUpdateSandboxAttributesModel,
+      description: sandboxEmailDescription,
+    };
+
+    try {
+      res = await eventNotificationsService.updateSubscription(sandboxParams);
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+
     const customSMSUpdateAttributesInvited = {
       add: ['+12064512559'],
     };
@@ -2971,6 +3053,14 @@ describe('EventNotificationsV1', () => {
 
     // begin-send_notifications
 
+    // EmailAttachment
+    const emailAttachmentModel = {
+      content: 'VGhpcyBpcyBhIHRlc3QgYXR0YWNobWVudA==',
+      filename: 'test.txt',
+      content_type: 'text/plain',
+      disposition: 'attachment',
+    };
+
     // NotificationFCMDevices
     const notificationFcmDevicesModel = {
       user_ids: [userId],
@@ -3041,6 +3131,7 @@ describe('EventNotificationsV1', () => {
       ibmenhuaweibody: JSON.stringify(notificationHuaweiBodyModel),
       ibmendefaultshort: 'testString',
       ibmendefaultlong: 'testString',
+      email_attachments: [emailAttachmentModel],
       specversion: '1.0',
     };
 
@@ -3458,6 +3549,36 @@ describe('EventNotificationsV1', () => {
     // end-update_smtp_user
   });
 
+  test('updateEmailSandboxDestination request example', async () => {
+    consoleLogMock.mockImplementation((output) => {
+      originalLog(output);
+    });
+    consoleWarnMock.mockImplementation((output) => {
+      // if an error occurs, display the message and then fail the test
+      originalWarn(output);
+      expect(true).toBeFalsy();
+    });
+
+    originalLog('updateEmailSandboxDestination() result:');
+    // begin-update_sandbox_destination
+    const domain = 'mailx.event-notifications.test.cloud.ibm.com';
+    const updateEmailSandboxDestinationParams = {
+      instanceId,
+      id: sandboxDestinationId,
+      domain,
+    };
+
+    try {
+      const res = await eventNotificationsService.updateEmailSandboxDestination(
+        updateEmailSandboxDestinationParams
+      );
+      console.log(JSON.stringify(res.result, null, 2));
+    } catch (err) {
+      console.warn(err);
+    }
+    // end-update_sandbox_destination
+  });
+
   test('listPredefinedTemplates request example', async () => {
     consoleLogMock.mockImplementation((output) => {
       originalLog(output);
@@ -3621,6 +3742,7 @@ describe('EventNotificationsV1', () => {
       subscriptionId9,
       subscriptionId10,
       subscriptionId22,
+      sandboxSubscriptionId,
     ];
 
     for (let i = 0; i < subscriptions.length; i += 1) {
@@ -3706,6 +3828,7 @@ describe('EventNotificationsV1', () => {
       destinationId19,
       destinationId20,
       destinationId22,
+      sandboxDestinationId, // Note: After updateEmailSandboxDestination, this becomes smtp_custom type
     ];
 
     for (let i = 0; i < destinations.length; i += 1) {
