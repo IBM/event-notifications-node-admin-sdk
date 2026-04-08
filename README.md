@@ -107,8 +107,9 @@ SDK Methods to consume
 	- [Get Destination](#get-destination)
 	- [Update Destination](#update-destination)
 	- [Delete Destination](#delete-destination)
-  - [Custom Domain_Name_verification](#custom-domain-name-verification)
-  - [Test Destination](#test-destination)
+	 - [Custom Domain_Name_verification](#custom-domain-name-verification)
+	 - [Test Destination](#test-destination)
+	 - [Update Sandbox Destination](#update-sandbox-destination)
 - [Templates](#templates)
 	- [Create Template](#create-template)
 	- [List Templates](#list-templates)
@@ -160,6 +161,7 @@ SDK Methods to consume
     name: '<source-name>',
     description: '<source-description>',
     enabled: false,
+    storeNotifications: true, // Optional: Enable to view the payload of incoming events for troubleshooting (default: false)
   };
 
   let res;
@@ -215,6 +217,7 @@ const params = {
     name: '<source-updated-name>',
     description: '<source-updated-description>',
     enabled: true,
+    storeNotifications: true, // Optional: Enable to view the payload of incoming events for troubleshooting (default: false)
   };
 
     let res;
@@ -415,6 +418,32 @@ eventNotificationsService
   });
 
 ```
+
+**SMTP Custom Sandbox Destination:**
+
+For testing purposes, you can create an SMTP custom sandbox destination (`smtp_custom_sandbox`) without requiring a domain parameter. This allows you to test email notifications before moving to production.
+
+```js
+const params = {
+  instanceId: <instance-id>,
+  name: <destination-name>,
+  type: 'smtp_custom_sandbox',
+  description: <destination-description>,
+};
+
+eventNotificationsService.createDestination(params)
+  .then(res => {
+    console.log(JSON.stringify(res.result, null, 2));
+  })
+  .catch(err => {
+    console.warn(err);
+  });
+```
+
+When you're ready to move to production, use the [Update Sandbox Destination](#update-sandbox-destination) method to upgrade it to `smtp_custom` type with your custom domain.
+
+**Push Notification Destinations:**
+
 Among the supported destinations, if you need to create Push Notification destinations, you have the additional option of choosing a destination of production type or pre-production type.
 Set `pre_prod` boolean parameter to *true* to configure destination as pre-production destination else set the value as *false*.
 Supported destinations are Android, iOS, Chrome, Firefox and Safari.
@@ -552,6 +581,31 @@ In case of `webhook` destination test response also returns notification_id, the
 ```
 
 The response of `GetNotificationsStatus` will have success, failed or inprogress status. The Notification ID will be valid only for 1 minute to fetch the status of test. The status response as **success** will conclude successful test of webhook destination
+
+### Update Sandbox Destination
+
+This functionality allows you to upgrade a sandbox SMTP custom email destination to a production destination with a custom domain.
+
+**Note**: The sandbox destination (`smtp_custom_sandbox`) is created without requiring a domain parameter. When you're ready to move to production, use this method to upgrade it to `smtp_custom` type with your custom domain.
+
+```js
+const updateEmailSandboxDestinationParams = {
+  instanceId: <instance-id>,  // Event notifications service instance GUID
+  id: <destination-id>,        // Sandbox destination ID to be upgraded
+  domain: <custom-domain>,     // Your custom domain for production use
+};
+
+try {
+  const updateEmailSandboxDestinationResult = await eventNotificationsService.updateEmailSandboxDestination(
+    updateEmailSandboxDestinationParams
+  );
+  console.log(JSON.stringify(updateEmailSandboxDestinationResult.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+After upgrading, the destination type will change from `smtp_custom_sandbox` to `smtp_custom`, and you'll need to verify the domain ownership using SPF and DKIM verification (see Custom Domain Name Verification section below).
 
 ### Custom Domain Name Verification
 
@@ -1511,6 +1565,14 @@ try {
 ## Send Notifications
 
 ```js
+// EmailAttachment
+    const EmailAttachment = {
+      content: 'VGhpcyBpcyBhIHRlc3QgYXR0YWNobWVudA==',
+      filename: 'test.txt',
+      content_type: 'text/plain',
+      disposition: 'attachment',
+    };
+
 // NotificationFCMDevices
     const notificationDevicesModel = {
       user_ids: ['<user-ids>'],
@@ -1598,6 +1660,7 @@ const notificationCreateModel = {
       ibmenhtmlbody: htmlBody,
       ibmendefaultshort: 'short info',
       ibmendefaultlong: 'long info',
+      attachments: [emailAttachmentModel],
       specversion: '1.0',
     };
 
@@ -1661,6 +1724,11 @@ const notificationCreateModel = {
   - **ibmenslackto** (_Array of string_) - Array of Slack channel/member ids to which the notification to be sent.
   - **ibmentemplates** (_Array of string_) - Array of template IDs that needs to be applied while sending notification for custom domain email and slack destination.
   - **ibmenmarkdown** (_string_) - The markdown content of pretty formatting.
+  - **attachments** (_Array of EmailAttachment_) - Array of email attachment objects to be sent with the notification.
+    - **content** (_string_) - Base64 encoded file content.
+    - **filename** (_string_) - Name of the attachment file.
+    - **content_type** (_string_) - MIME type of the attachment (e.g., 'text/plain', 'application/pdf').
+    - **disposition** (_string_) - Content disposition. Currently only 'attachment' is supported.
 
 Note: variable with * represents the mandatory attribute.
 </details>
