@@ -1,3 +1,10 @@
+# [0.25.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.24.0...v0.25.0) (2026-04-08)
+
+
+### Features
+
+* add support for viewpayload sandbox and attachment ([#91](https://github.com/IBM/event-notifications-node-admin-sdk/issues/91)) ([09f2833](https://github.com/IBM/event-notifications-node-admin-sdk/commit/09f2833d5d00a6886ae24019d70c995479938758))
+
 # [0.24.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.23.0...v0.24.0) (2026-03-23)
 
 
