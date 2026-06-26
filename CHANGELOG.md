@@ -1,3 +1,10 @@
+## [0.25.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.25.0...v0.25.1) (2026-06-26)
+
+
+### Bug Fixes
+
+* adding smtp config id for metrics api ([#92](https://github.com/IBM/event-notifications-node-admin-sdk/issues/92)) ([977b078](https://github.com/IBM/event-notifications-node-admin-sdk/commit/977b0787be9728b2502dd988008739524984b134))
+
 # [0.25.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.24.0...v0.25.0) (2026-04-08)
 
 
