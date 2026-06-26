@@ -147,8 +147,10 @@ SDK Methods to consume
 	- [Delete SMTP Configuration](#delete-smtp-user)
 	- [Verify SMTP](#verify-smtp)
 - [Metrics](#Metrics) 
-  - [Get Metrics](#get-metrics)   
-  - [Get Bounce Metrics](#get-bounce-metrics)   
+  - [Get Metrics With Destination Type](#get-metrics)
+  - [Get Metrics With SMTP Config ID](#get-metrics)
+  - [Get Bounce Metrics With Destination Type](#get-bounce-metrics)
+  - [Get Bounce Metrics With SMTP Config ID](#get-bounce-metrics)  
 - [Send Notifications](#send-notifications)
 
 ## Source 
@@ -1514,7 +1516,7 @@ supported verification types are dkim,spf and en_authorization.
 
 ## Metrics
 
-### Get Metrics
+### Get Metrics With Destination Type
 
 ```js
 const getMetricsParams = {
@@ -1538,7 +1540,30 @@ try {
 }
 ```
 
-### Get Bounce Metrics
+### Get Metrics With SMTP Config ID
+
+```js
+const getMetricsParams = {
+  instanceId: <instance-id>,
+  smtpConfigId: <smtp-Config-id>,
+  gte: <gte-timestamp>,
+  lte: <lte-timestamp>,
+  subscriptionId: <subscription-id>,
+  sourceId: <source-id>,
+  emailTo: <email-to>,
+  notificationId: <notification-id>,
+  subject: <subject>,
+};
+
+try {
+  const res = await eventNotificationsService.getMetrics(getMetricsParams);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Bounce Metrics With Destination Type
 
 ```js
 const getBounceMetricsParams = {
@@ -1547,6 +1572,29 @@ const getBounceMetricsParams = {
   gte: <gte-timestamp>,
   lte: <lte-timestamp>,
   destinationId: <destination-id>,
+  subscriptionId: <subscription-id>,
+  sourceId: <source-id>,
+  emailTo: <email-to>,
+  notificationId: <notification-id>,
+  subject: <subject>,
+};
+
+try {
+  const res = await eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
+  console.log(JSON.stringify(res.result, null, 2));
+} catch (err) {
+  console.warn(err);
+}
+```
+
+### Get Bounce Metrics With SMTP Config ID
+
+```js
+const getBounceMetricsParams = {
+  instanceId: <instance-id>,
+  smtpConfigId: <smtp-Config-id>,
+  gte: <gte-timestamp>,
+  lte: <lte-timestamp>,
   subscriptionId: <subscription-id>,
   sourceId: <source-id>,
   emailTo: <email-to>,

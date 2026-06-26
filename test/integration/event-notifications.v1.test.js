@@ -3527,56 +3527,6 @@ describe('EventNotificationsV1_integration', () => {
     //
   });
 
-  test('getMetrics()', async () => {
-    const destination_type = 'smtp_custom';
-    const gte = '2025-12-08T17:18:43Z';
-    const lte = '2025-12-09T11:55:22Z';
-    const email_to = 'testuser@in.ibm.com';
-    const subject = 'Test Metrics Subject';
-    const getMetricsParams = {
-      instanceId,
-      destinationType: destination_type,
-      gte,
-      lte,
-      destinationId: destinationId16,
-      subscriptionId: subscriptionId16,
-      sourceId,
-      emailTo: email_to,
-      notificationId: notificationID,
-      subject,
-    };
-
-    const res = await eventNotificationsService.getMetrics(getMetricsParams);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-  });
-
-  test('getBounceMetrics()', async () => {
-    const destination_type = 'smtp_custom';
-    const gte = '2025-12-08T17:18:43Z';
-    const lte = '2025-12-09T11:55:22Z';
-    const email_to = 'testuser@in.ibm.com';
-    const subject = 'Test Metrics Subject';
-    const getBounceMetricsParams = {
-      instanceId,
-      destinationType: destination_type,
-      gte,
-      lte,
-      destinationId: destinationId16,
-      subscriptionId: subscriptionId16,
-      sourceId,
-      emailTo: email_to,
-      notificationId: notificationID,
-      subject,
-    };
-
-    const res = await eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
-    expect(res).toBeDefined();
-    expect(res.status).toBe(200);
-    expect(res.result).toBeDefined();
-  });
-
   test('createSMTPConfiguration()', async () => {
     const name = 'SMTP Configuration';
     const domain = 'test.event-notifications.test.cloud.ibm.com';
@@ -3599,6 +3549,101 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.domain).toBe(domain);
     expect(res.result.description).toBe(description);
     smtpConfigID = res.result.id;
+  });
+
+  test('getMetricsWithDestinationType()', async () => {
+    const destination_type = 'smtp_custom';
+    const gte = '2026-06-08T17:18:43Z';
+    const lte = '2026-06-09T11:55:22Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getMetricsParams = {
+      instanceId,
+      destinationType: destination_type,
+      gte,
+      lte,
+      destinationId: destinationId16,
+      subscriptionId: subscriptionId16,
+      sourceId,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    const res = await eventNotificationsService.getMetrics(getMetricsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getMetricsWithSmtpConfigId()', async () => {
+    const gte = '2026-06-08T17:18:43Z';
+    const lte = '2026-06-09T11:55:22Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getMetricsParams = {
+      instanceId,
+      smtpConfigId: smtpConfigID,
+      gte,
+      lte,
+      subscriptionId: subscriptionId16,
+      sourceId,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    const res = await eventNotificationsService.getMetrics(getMetricsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+
+  test('getBounceMetricsWithDestinationType()', async () => {
+    const destination_type = 'smtp_custom';
+    const gte = '2026-06-08T17:18:43Z';
+    const lte = '2026-06-09T11:55:22Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getBounceMetricsParams = {
+      instanceId,
+      destinationType: destination_type,
+      gte,
+      lte,
+      destinationId: destinationId16,
+      subscriptionId: subscriptionId16,
+      sourceId,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    const res = await eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
+  });
+  test('getBounceMetricsWithConfigId()', async () => {
+    const gte = '2026-06-08T17:18:43Z';
+    const lte = '2026-06-09T11:55:22Z';
+    const email_to = 'testuser@in.ibm.com';
+    const subject = 'Test Metrics Subject';
+    const getBounceMetricsParams = {
+      instanceId,
+      smtpConfigId: smtpConfigID,
+      gte,
+      lte,
+      subscriptionId: subscriptionId16,
+      sourceId,
+      emailTo: email_to,
+      notificationId: notificationID,
+      subject,
+    };
+
+    const res = await eventNotificationsService.getBounceMetrics(getBounceMetricsParams);
+    expect(res).toBeDefined();
+    expect(res.status).toBe(200);
+    expect(res.result).toBeDefined();
   });
 
   test('verifySMTP()', async () => {

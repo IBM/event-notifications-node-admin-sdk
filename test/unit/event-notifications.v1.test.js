@@ -119,9 +119,10 @@ describe('EventNotificationsV1', () => {
       function __getMetricsTest() {
         // Construct the params object for operation getMetrics
         const instanceId = 'testString';
-        const destinationType = 'smtp_custom';
         const gte = 'testString';
         const lte = 'testString';
+        const smtpConfigId = 'testString';
+        const destinationType = 'smtp_custom';
         const destinationId = 'testString';
         const subscriptionId = 'testString';
         const sourceId = 'testString';
@@ -130,9 +131,10 @@ describe('EventNotificationsV1', () => {
         const subject = 'testString';
         const getMetricsParams = {
           instanceId,
-          destinationType,
           gte,
           lte,
+          smtpConfigId,
+          destinationType,
           destinationId,
           subscriptionId,
           sourceId,
@@ -155,9 +157,10 @@ describe('EventNotificationsV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
         expect(mockRequestOptions.qs.gte).toEqual(gte);
         expect(mockRequestOptions.qs.lte).toEqual(lte);
+        expect(mockRequestOptions.qs.smtp_config_id).toEqual(smtpConfigId);
+        expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
         expect(mockRequestOptions.qs.destination_id).toEqual(destinationId);
         expect(mockRequestOptions.qs.subscription_id).toEqual(subscriptionId);
         expect(mockRequestOptions.qs.source_id).toEqual(sourceId);
@@ -185,14 +188,12 @@ describe('EventNotificationsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const destinationType = 'smtp_custom';
         const gte = 'testString';
         const lte = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getMetricsParams = {
           instanceId,
-          destinationType,
           gte,
           lte,
           headers: {
@@ -236,9 +237,10 @@ describe('EventNotificationsV1', () => {
       function __getBounceMetricsTest() {
         // Construct the params object for operation getBounceMetrics
         const instanceId = 'testString';
-        const destinationType = 'smtp_custom';
         const gte = 'testString';
         const lte = 'testString';
+        const smtpConfigId = 'testString';
+        const destinationType = 'smtp_custom';
         const destinationId = 'testString';
         const subscriptionId = 'testString';
         const sourceId = 'testString';
@@ -249,9 +251,10 @@ describe('EventNotificationsV1', () => {
         const offset = 0;
         const getBounceMetricsParams = {
           instanceId,
-          destinationType,
           gte,
           lte,
+          smtpConfigId,
+          destinationType,
           destinationId,
           subscriptionId,
           sourceId,
@@ -277,9 +280,10 @@ describe('EventNotificationsV1', () => {
         const expectedAccept = 'application/json';
         const expectedContentType = undefined;
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
-        expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
         expect(mockRequestOptions.qs.gte).toEqual(gte);
         expect(mockRequestOptions.qs.lte).toEqual(lte);
+        expect(mockRequestOptions.qs.smtp_config_id).toEqual(smtpConfigId);
+        expect(mockRequestOptions.qs.destination_type).toEqual(destinationType);
         expect(mockRequestOptions.qs.destination_id).toEqual(destinationId);
         expect(mockRequestOptions.qs.subscription_id).toEqual(subscriptionId);
         expect(mockRequestOptions.qs.source_id).toEqual(sourceId);
@@ -309,14 +313,12 @@ describe('EventNotificationsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const destinationType = 'smtp_custom';
         const gte = 'testString';
         const lte = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const getBounceMetricsParams = {
           instanceId,
-          destinationType,
           gte,
           lte,
           headers: {

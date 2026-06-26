@@ -108,9 +108,12 @@ class EventNotificationsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.destinationType - Destination type. Allowed values are [smtp_custom].
    * @param {string} params.gte - GTE (greater than equal), start timestamp in UTC.
    * @param {string} params.lte - LTE (less than equal), end timestamp in UTC.
+   * @param {string} [params.smtpConfigId] - SMTP configuration ID. Required when querying metrics for SMTP interface
+   * destinations.
+   * @param {string} [params.destinationType] - Destination type for which metrics are requested. Supported value:
+   * smtp_custom. Required when querying metrics for custom email destinations.
    * @param {string} [params.destinationId] - Unique identifier for Destination.
    * @param {string} [params.subscriptionId] - Unique identifier for Subscription.
    * @param {string} [params.sourceId] - Unique identifier for Source.
@@ -124,12 +127,13 @@ class EventNotificationsV1 extends BaseService {
     params: EventNotificationsV1.GetMetricsParams
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.Metrics>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'destinationType', 'gte', 'lte'];
+    const _requiredParams = ['instanceId', 'gte', 'lte'];
     const _validParams = [
       'instanceId',
-      'destinationType',
       'gte',
       'lte',
+      'smtpConfigId',
+      'destinationType',
       'destinationId',
       'subscriptionId',
       'sourceId',
@@ -144,9 +148,10 @@ class EventNotificationsV1 extends BaseService {
     }
 
     const query = {
-      'destination_type': _params.destinationType,
       'gte': _params.gte,
       'lte': _params.lte,
+      'smtp_config_id': _params.smtpConfigId,
+      'destination_type': _params.destinationType,
       'destination_id': _params.destinationId,
       'subscription_id': _params.subscriptionId,
       'source_id': _params.sourceId,
@@ -190,9 +195,12 @@ class EventNotificationsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.destinationType - Destination type. Allowed values are [smtp_custom].
    * @param {string} params.gte - GTE (greater than equal), start timestamp in UTC.
    * @param {string} params.lte - LTE (less than equal), end timestamp in UTC.
+   * @param {string} [params.smtpConfigId] - SMTP configuration ID. Required when querying metrics for SMTP interface
+   * destinations.
+   * @param {string} [params.destinationType] - Destination type for which metrics are requested. Supported value:
+   * smtp_custom. Required when querying metrics for custom email destinations.
    * @param {string} [params.destinationId] - Unique identifier for Destination.
    * @param {string} [params.subscriptionId] - Unique identifier for Subscription.
    * @param {string} [params.sourceId] - Unique identifier for Source.
@@ -208,12 +216,13 @@ class EventNotificationsV1 extends BaseService {
     params: EventNotificationsV1.GetBounceMetricsParams
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.BounceMetrics>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'destinationType', 'gte', 'lte'];
+    const _requiredParams = ['instanceId', 'gte', 'lte'];
     const _validParams = [
       'instanceId',
-      'destinationType',
       'gte',
       'lte',
+      'smtpConfigId',
+      'destinationType',
       'destinationId',
       'subscriptionId',
       'sourceId',
@@ -230,9 +239,10 @@ class EventNotificationsV1 extends BaseService {
     }
 
     const query = {
-      'destination_type': _params.destinationType,
       'gte': _params.gte,
       'lte': _params.lte,
+      'smtp_config_id': _params.smtpConfigId,
+      'destination_type': _params.destinationType,
       'destination_id': _params.destinationId,
       'subscription_id': _params.subscriptionId,
       'source_id': _params.sourceId,
@@ -3559,12 +3569,16 @@ namespace EventNotificationsV1 {
   export interface GetMetricsParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
-    /** Destination type. Allowed values are [smtp_custom]. */
-    destinationType: GetMetricsConstants.DestinationType | string;
     /** GTE (greater than equal), start timestamp in UTC. */
     gte: string;
     /** LTE (less than equal), end timestamp in UTC. */
     lte: string;
+    /** SMTP configuration ID. Required when querying metrics for SMTP interface destinations. */
+    smtpConfigId?: string;
+    /** Destination type for which metrics are requested. Supported value: smtp_custom. Required when querying
+     *  metrics for custom email destinations.
+     */
+    destinationType?: GetMetricsConstants.DestinationType | string;
     /** Unique identifier for Destination. */
     destinationId?: string;
     /** Unique identifier for Subscription. */
@@ -3582,7 +3596,7 @@ namespace EventNotificationsV1 {
 
   /** Constants for the `getMetrics` operation. */
   export namespace GetMetricsConstants {
-    /** Destination type. Allowed values are [smtp_custom]. */
+    /** Destination type for which metrics are requested. Supported value: smtp_custom. Required when querying metrics for custom email destinations. */
     export enum DestinationType {
       SMTP_CUSTOM = 'smtp_custom',
     }
@@ -3592,12 +3606,16 @@ namespace EventNotificationsV1 {
   export interface GetBounceMetricsParams {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
-    /** Destination type. Allowed values are [smtp_custom]. */
-    destinationType: GetBounceMetricsConstants.DestinationType | string;
     /** GTE (greater than equal), start timestamp in UTC. */
     gte: string;
     /** LTE (less than equal), end timestamp in UTC. */
     lte: string;
+    /** SMTP configuration ID. Required when querying metrics for SMTP interface destinations. */
+    smtpConfigId?: string;
+    /** Destination type for which metrics are requested. Supported value: smtp_custom. Required when querying
+     *  metrics for custom email destinations.
+     */
+    destinationType?: GetBounceMetricsConstants.DestinationType | string;
     /** Unique identifier for Destination. */
     destinationId?: string;
     /** Unique identifier for Subscription. */
@@ -3619,7 +3637,7 @@ namespace EventNotificationsV1 {
 
   /** Constants for the `getBounceMetrics` operation. */
   export namespace GetBounceMetricsConstants {
-    /** Destination type. Allowed values are [smtp_custom]. */
+    /** Destination type for which metrics are requested. Supported value: smtp_custom. Required when querying metrics for custom email destinations. */
     export enum DestinationType {
       SMTP_CUSTOM = 'smtp_custom',
     }
