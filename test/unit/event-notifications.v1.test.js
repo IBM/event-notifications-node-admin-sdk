@@ -62,7 +62,7 @@ describe('EventNotificationsV1', () => {
     }
     getAuthenticatorMock.mockClear();
   });
-
+  
   describe('the newInstance method', () => {
     test('should use defaults when options not provided', () => {
       const testInstance = EventNotificationsV1.newInstance();
@@ -392,8 +392,7 @@ describe('EventNotificationsV1', () => {
         ibmenmarkdown: 'testString',
         data: { foo: 'bar' },
         datacontenttype: 'application/json',
-        ibmenpushto:
-          '{"platforms":["push_android", "push_ios", "push_firefox", "push_chrome", "push_safari", "push_huawei"]}',
+        ibmenpushto:'{"platforms":["push_android", "push_ios", "push_firefox", "push_chrome", "push_safari", "push_huawei"]}',
         ibmenfcmbody: 'testString',
         ibmenapnsbody: 'testString',
         ibmenapnsheaders: 'testString',
@@ -502,12 +501,14 @@ describe('EventNotificationsV1', () => {
         const description = 'testString';
         const enabled = true;
         const storeNotifications = false;
+        const source = 'testString';
         const createSourcesParams = {
           instanceId,
           name,
           description,
           enabled,
           storeNotifications,
+          source,
         };
 
         const createSourcesResult = eventNotificationsService.createSources(createSourcesParams);
@@ -528,6 +529,7 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.enabled).toEqual(enabled);
         expect(mockRequestOptions.body.store_notifications).toEqual(storeNotifications);
+        expect(mockRequestOptions.body.source).toEqual(source);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -689,9 +691,9 @@ describe('EventNotificationsV1', () => {
       const serviceUrl = eventNotificationsServiceOptions.url;
       const path = '/v1/instances/testString/sources';
       const mockPagerResponse1 =
-        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"store_notifications":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
+        '{"next":{"href":"https://myhost.com/somePath?offset=1"},"total_count":2,"limit":1,"smtp_configurations":[{"id":"id","name":"name","description":"description","domain":"domain","admin_emails":["user@host.org"],"config":{"dkim":{"txt_name":"txt_name","txt_value":"txt_value","verification":"verification"},"en_authorization":{"verification":"verification"},"spf":{"txt_name":"txt_name","txt_value":"txt_value","verification":"verification"}},"updated_at":"2019-01-01T12:00:00.000Z"}]}';
       const mockPagerResponse2 =
-        '{"sources":[{"id":"id","name":"name","description":"description","type":"type","enabled":false,"store_notifications":false,"updated_at":"2019-01-01T12:00:00.000Z","topic_count":0}],"total_count":2,"limit":1}';
+         '{"total_count":2,"limit":1,"smtp_configurations":[{"id":"id","name":"name","description":"description","domain":"domain","admin_emails":["user@host.org"],"config":{"dkim":{"txt_name":"txt_name","txt_value":"txt_value","verification":"verification"},"en_authorization":{"verification":"verification"},"spf":{"txt_name":"txt_name","txt_value":"txt_value","verification":"verification"}},"updated_at":"2019-01-01T12:00:00.000Z"}]}';
 
       beforeEach(() => {
         unmock_createRequest();
@@ -4916,11 +4918,13 @@ describe('EventNotificationsV1', () => {
         const name = 'testString';
         const domain = 'testString';
         const description = 'testString';
+        const adminEmails = ['user@host.org'];
         const createSmtpConfigurationParams = {
           instanceId,
           name,
           domain,
           description,
+          adminEmails,
         };
 
         const createSmtpConfigurationResult = eventNotificationsService.createSmtpConfiguration(
@@ -4942,6 +4946,7 @@ describe('EventNotificationsV1', () => {
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.domain).toEqual(domain);
         expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.admin_emails).toEqual(adminEmails);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
 
@@ -5518,11 +5523,13 @@ describe('EventNotificationsV1', () => {
         const id = 'testString';
         const name = 'testString';
         const description = 'testString';
+        const adminEmails = ['user@host.org'];
         const updateSmtpConfigurationParams = {
           instanceId,
           id,
           name,
           description,
+          adminEmails,
         };
 
         const updateSmtpConfigurationResult = eventNotificationsService.updateSmtpConfiguration(
@@ -5547,6 +5554,7 @@ describe('EventNotificationsV1', () => {
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.name).toEqual(name);
         expect(mockRequestOptions.body.description).toEqual(description);
+        expect(mockRequestOptions.body.admin_emails).toEqual(adminEmails);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
         expect(mockRequestOptions.path.id).toEqual(id);
       }

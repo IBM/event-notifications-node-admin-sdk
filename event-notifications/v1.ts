@@ -359,6 +359,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.description - Description of the source.
    * @param {boolean} [params.enabled] - Whether the source is enabled or not.
    * @param {boolean} [params.storeNotifications] - enable to view the payload of incoming events for troubleshooting.
+   * @param {string} [params.source] - The source CRN. This field is applicable only for VPC sources.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>>}
    */
@@ -385,6 +386,7 @@ class EventNotificationsV1 extends BaseService {
       'description': _params.description,
       'enabled': _params.enabled,
       'store_notifications': _params.storeNotifications,
+      'source': _params.source,
     };
 
     const path = {
@@ -2787,6 +2789,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.name - The name of SMTP configuration.
    * @param {string} params.domain - Domain Name.
    * @param {string} [params.description] - The description of SMTP configuration.
+   * @param {string[]} [params.adminEmails] - Admin email addresses.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPCreateResponse>>}
    */
@@ -2795,7 +2798,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPCreateResponse>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'name', 'domain'];
-    const _validParams = ['instanceId', 'name', 'domain', 'description', 'headers'];
+    const _validParams = ['instanceId', 'name', 'domain', 'description', 'adminEmails', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -2805,6 +2808,7 @@ class EventNotificationsV1 extends BaseService {
       'name': _params.name,
       'domain': _params.domain,
       'description': _params.description,
+      'admin_emails': _params.adminEmails,
     };
 
     const path = {
@@ -3097,6 +3101,7 @@ class EventNotificationsV1 extends BaseService {
    * @param {string} params.id - Unique identifier for SMTP.
    * @param {string} [params.name] - SMTP name.
    * @param {string} [params.description] - SMTP description.
+   * @param {string[]} [params.adminEmails] - Admin email addresses.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfiguration>>}
    */
@@ -3105,7 +3110,7 @@ class EventNotificationsV1 extends BaseService {
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SMTPConfiguration>> {
     const _params = { ...params };
     const _requiredParams = ['instanceId', 'id'];
-    const _validParams = ['instanceId', 'id', 'name', 'description', 'headers'];
+    const _validParams = ['instanceId', 'id', 'name', 'description', 'adminEmails', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
       return Promise.reject(_validationErrors);
@@ -3114,6 +3119,7 @@ class EventNotificationsV1 extends BaseService {
     const body = {
       'name': _params.name,
       'description': _params.description,
+      'admin_emails': _params.adminEmails,
     };
 
     const path = {
@@ -3663,6 +3669,8 @@ namespace EventNotificationsV1 {
     enabled?: boolean;
     /** enable to view the payload of incoming events for troubleshooting. */
     storeNotifications?: boolean;
+    /** The source CRN. This field is applicable only for VPC sources. */
+    source?: string;
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4220,6 +4228,8 @@ namespace EventNotificationsV1 {
     domain: string;
     /** The description of SMTP configuration. */
     description?: string;
+    /** Admin email addresses. */
+    adminEmails?: string[];
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4283,6 +4293,8 @@ namespace EventNotificationsV1 {
     name?: string;
     /** SMTP description. */
     description?: string;
+    /** Admin email addresses. */
+    adminEmails?: string[];
     headers?: OutgoingHttpHeaders;
   }
 
@@ -4923,6 +4935,8 @@ namespace EventNotificationsV1 {
     description?: string;
     /** Domain Name. */
     domain: string;
+    /** Admin email addresses. */
+    admin_emails?: string[];
     /** Payload describing a SMTP configuration. */
     config: SMTPConfig;
     /** Created time. */
@@ -4957,6 +4971,8 @@ namespace EventNotificationsV1 {
     description?: string;
     /** Domain Name. */
     domain: string;
+    /** Admin email addresses. */
+    admin_emails?: string[];
     /** Payload describing a SMTP configuration. */
     config: SMTPConfig;
     /** Created time. */

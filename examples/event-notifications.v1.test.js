@@ -3319,11 +3319,13 @@ describe('EventNotificationsV1', () => {
     const name = 'SMTP Configuration';
     const domain = 'mailx.event-notifications.test.cloud.ibm.com';
     const description = 'SMTP Configuration description';
+    const adminEmails = ['testuser@ibm.com'];
     const createSmtpConfigurationParams = {
       instanceId,
       name,
       domain,
       description,
+      adminEmails,
     };
 
     try {
@@ -3576,11 +3578,13 @@ describe('EventNotificationsV1', () => {
     // begin-update_smtp_configuration
     const name = 'SMTP configuration update';
     const description = 'SMTP description update';
+    const adminEmails = ['testuser@ibm.com'];
     const updateSmtpConfigurationParams = {
       instanceId,
       id: smtpConfigID,
       name,
       description,
+      adminEmails,
     };
 
     try {
