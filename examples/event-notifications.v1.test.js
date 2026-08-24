@@ -3665,12 +3665,8 @@ describe('EventNotificationsV1', () => {
 
     originalLog('listPredefinedTemplates() result:');
     // begin-list_predefined-templates
-    const source = 'logs';
-    const type = 'slack.notification';
     const listPreDefinedTemplatesParams = {
       instanceId,
-      source,
-      type,
     };
 
     try {
