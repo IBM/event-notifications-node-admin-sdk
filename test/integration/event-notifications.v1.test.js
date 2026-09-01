@@ -3836,8 +3836,6 @@ describe('EventNotificationsV1_integration', () => {
     const type = 'slack.notification';
     const listPreDefinedTemplatesParams = {
       instanceId,
-      source,
-      type,
     };
 
     const res = await eventNotificationsService.listPreDefinedTemplates(
