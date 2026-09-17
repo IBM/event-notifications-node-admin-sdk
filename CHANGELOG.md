@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.25.1...v0.26.0) (2026-09-17)
+
+
+### Features
+
+* updating predefined template params ([#94](https://github.com/IBM/event-notifications-node-admin-sdk/issues/94)) ([ffa1557](https://github.com/IBM/event-notifications-node-admin-sdk/commit/ffa15573245220ec20e36305a779eabc7f99d88e))
+
 ## [0.25.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.25.0...v0.25.1) (2026-06-26)
 
 
