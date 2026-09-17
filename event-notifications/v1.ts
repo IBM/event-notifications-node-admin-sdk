@@ -356,8 +356,8 @@ class EventNotificationsV1 extends BaseService {
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
    * @param {string} params.name - Name of the source.
-   * @param {string} params.description - Description of the source.
-   * @param {boolean} [params.enabled] - Whether the source is enabled or not.
+   * @param {boolean} params.enabled - Whether the source is enabled or not.
+   * @param {string} [params.description] - Description of the source.
    * @param {boolean} [params.storeNotifications] - enable to view the payload of incoming events for troubleshooting.
    * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
    * @returns {Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>>}
@@ -366,12 +366,12 @@ class EventNotificationsV1 extends BaseService {
     params: EventNotificationsV1.CreateSourcesParams
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.SourceResponse>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'name', 'description'];
+    const _requiredParams = ['instanceId', 'name', 'enabled'];
     const _validParams = [
       'instanceId',
       'name',
-      'description',
       'enabled',
+      'description',
       'storeNotifications',
       'headers',
     ];
@@ -382,8 +382,8 @@ class EventNotificationsV1 extends BaseService {
 
     const body = {
       'name': _params.name,
-      'description': _params.description,
       'enabled': _params.enabled,
+      'description': _params.description,
       'store_notifications': _params.storeNotifications,
     };
 
@@ -1251,8 +1251,8 @@ class EventNotificationsV1 extends BaseService {
    *
    * @param {Object} params - The parameters to send to the service.
    * @param {string} params.instanceId - Unique identifier for IBM Cloud Event Notifications instance.
-   * @param {string} params.source - Source type.
-   * @param {string} params.type - Destination type.
+   * @param {string} [params.source] - Source type.
+   * @param {string} [params.type] - Destination type.
    * @param {number} [params.limit] - Page limit for paginated results.
    * @param {number} [params.offset] - offset for paginated results.
    * @param {string} [params.search] - Search string for filtering results.
@@ -1263,7 +1263,7 @@ class EventNotificationsV1 extends BaseService {
     params: EventNotificationsV1.ListPreDefinedTemplatesParams
   ): Promise<EventNotificationsV1.Response<EventNotificationsV1.PredefinedTemplatesList>> {
     const _params = { ...params };
-    const _requiredParams = ['instanceId', 'source', 'type'];
+    const _requiredParams = ['instanceId'];
     const _validParams = ['instanceId', 'source', 'type', 'limit', 'offset', 'search', 'headers'];
     const _validationErrors = validateParams(_params, _requiredParams, _validParams);
     if (_validationErrors) {
@@ -3657,10 +3657,10 @@ namespace EventNotificationsV1 {
     instanceId: string;
     /** Name of the source. */
     name: string;
-    /** Description of the source. */
-    description: string;
     /** Whether the source is enabled or not. */
-    enabled?: boolean;
+    enabled: boolean;
+    /** Description of the source. */
+    description?: string;
     /** enable to view the payload of incoming events for troubleshooting. */
     storeNotifications?: boolean;
     headers?: OutgoingHttpHeaders;
@@ -3841,9 +3841,9 @@ namespace EventNotificationsV1 {
     /** Unique identifier for IBM Cloud Event Notifications instance. */
     instanceId: string;
     /** Source type. */
-    source: string;
+    source?: string;
     /** Destination type. */
-    type: string;
+    type?: string;
     /** Page limit for paginated results. */
     limit?: number;
     /** offset for paginated results. */
@@ -4737,15 +4737,17 @@ namespace EventNotificationsV1 {
     ibmendefaultlong: string;
     /** The subject of the notification. */
     ibmensubject?: string;
-    /** The template id Array of string. */
+    /** A stringified JSON array containing one or more valid template ids. */
     ibmentemplates?: string;
-    /** The email id string. */
+    /** A stringified JSON array containing one or more valid email addresses.A maximum of 50 email addresses can be
+     *  specified in a single API call.
+     */
     ibmenmailto?: string;
-    /** The slack channel id/member id stringified array. */
+    /** A stringified JSON array containing one or more valid slack channel id/member id. */
     ibmenslackto?: string;
     /** The SMS text. */
     ibmensmstext?: string;
-    /** The SMS number string. */
+    /** A stringified JSON array containing one or more valid SMS numbers. */
     ibmensmsto?: string;
     /** The html body of notification. */
     ibmenhtmlbody?: string;

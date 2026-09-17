@@ -499,14 +499,14 @@ describe('EventNotificationsV1', () => {
         // Construct the params object for operation createSources
         const instanceId = 'testString';
         const name = 'testString';
-        const description = 'testString';
         const enabled = true;
+        const description = 'testString';
         const storeNotifications = false;
         const createSourcesParams = {
           instanceId,
           name,
-          description,
           enabled,
+          description,
           storeNotifications,
         };
 
@@ -525,8 +525,8 @@ describe('EventNotificationsV1', () => {
         const expectedContentType = 'application/json';
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(mockRequestOptions.body.name).toEqual(name);
-        expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.enabled).toEqual(enabled);
+        expect(mockRequestOptions.body.description).toEqual(description);
         expect(mockRequestOptions.body.store_notifications).toEqual(storeNotifications);
         expect(mockRequestOptions.path.instance_id).toEqual(instanceId);
       }
@@ -550,13 +550,13 @@ describe('EventNotificationsV1', () => {
         // parameters
         const instanceId = 'testString';
         const name = 'testString';
-        const description = 'testString';
+        const enabled = true;
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const createSourcesParams = {
           instanceId,
           name,
-          description,
+          enabled,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
@@ -2194,14 +2194,10 @@ describe('EventNotificationsV1', () => {
       test('should prioritize user-given headers', () => {
         // parameters
         const instanceId = 'testString';
-        const source = 'testString';
-        const type = 'testString';
         const userAccept = 'fake/accept';
         const userContentType = 'fake/contentType';
         const listPreDefinedTemplatesParams = {
           instanceId,
-          source,
-          type,
           headers: {
             Accept: userAccept,
             'Content-Type': userContentType,
