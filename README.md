@@ -164,6 +164,7 @@ SDK Methods to consume
     description: '<source-description>',
     enabled: false,
     storeNotifications: true, // Optional: Enable to view the payload of incoming events for troubleshooting (default: false)
+    source: '<source-id>', // Optional: The source CRN. This field is applicable only for VPC sources.
   };
 
   let res;
@@ -1351,10 +1352,12 @@ const createSmtpConfigurationParams = {
   name : <smtp-name>,
   domain : <smtp-domain>,
   description : <smtp-description>,
+  adminEmails: <list-of-admin-emails>,
 };
 
 const res = await eventNotificationsService.createSmtpConfiguration(
   createSmtpConfigurationParams
+  );
 
 ```
 
@@ -1455,6 +1458,7 @@ const updateSmtpConfigurationParams = {
   id: <smtp-Config-id>,
   name: <smtp-name>,
   description: <smtp-description>,
+  adminEmails: <list-of-admin-emails>,
 };
 
 const res = await eventNotificationsService.updateSmtpConfiguration(
