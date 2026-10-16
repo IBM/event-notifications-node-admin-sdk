@@ -1,3 +1,10 @@
+## [0.26.2](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.26.1...v0.26.2) (2026-10-16)
+
+
+### Bug Fixes
+
+* vulnerability fix ([#101](https://github.com/IBM/event-notifications-node-admin-sdk/issues/101)) ([2f31284](https://github.com/IBM/event-notifications-node-admin-sdk/commit/2f312840ff6bc09c948417e52b357a18af0de4df))
+
 ## [0.26.1](https://github.com/IBM/event-notifications-node-admin-sdk/compare/v0.26.0...v0.26.1) (2026-10-09)
 
 
