@@ -132,6 +132,7 @@ let codeEngineJobTemplateBody = '';
 let appConfigTemplateBody = '';
 let appConfigCRN = '';
 let appConfigTemplateID = '';
+let vpcSourceCRN = '';
 
 describe('EventNotificationsV1_integration', () => {
   jest.setTimeout(timeout);
@@ -184,6 +185,7 @@ describe('EventNotificationsV1_integration', () => {
     appConfigCRN = config.appConfigCrn;
     smtpUserToClone = config.smtpUserToClone;
     eventNotificationsService.enableRetries();
+    vpcSourceCRN = config.vpcSourceCrn;
   });
 
   test('createIntegration()', async () => {
@@ -264,6 +266,7 @@ describe('EventNotificationsV1_integration', () => {
       description: 'This source is used for Acme Bank',
       enabled: true,
       storeNotifications: true,
+      source: vpcSourceCRN,
     };
 
     const res = await eventNotificationsService.createSources(params);
@@ -3531,11 +3534,13 @@ describe('EventNotificationsV1_integration', () => {
     const name = 'SMTP Configuration';
     const domain = 'test.event-notifications.test.cloud.ibm.com';
     const description = 'SMTP Configuration description';
+    const adminEmails = ['admin1@ibm.com'];
     const createSmtpConfigurationParams = {
       instanceId,
       name,
       domain,
       description,
+      adminEmails,
     };
 
     const res = await eventNotificationsService.createSmtpConfiguration(
@@ -3548,6 +3553,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.result.name).toBe(name);
     expect(res.result.domain).toBe(domain);
     expect(res.result.description).toBe(description);
+    expect(res.result.admin_emails).toBe(adminEmails);
     smtpConfigID = res.result.id;
   });
 
@@ -3781,11 +3787,13 @@ describe('EventNotificationsV1_integration', () => {
   test('updateSMTPConfiguration()', async () => {
     const name = 'SMTP configuration update';
     const description = 'SMTP description update';
+    const adminEmails = ['admin1@ibm.com'];
     const updateSmtpConfigurationParams = {
       instanceId,
       id: smtpConfigID,
       name,
       description,
+      adminEmails,
     };
 
     const res = await eventNotificationsService.updateSmtpConfiguration(
@@ -3795,6 +3803,7 @@ describe('EventNotificationsV1_integration', () => {
     expect(res.status).toBe(200);
     expect(res.result.name).toBe(name);
     expect(res.result.description).toBe(description);
+    expect(res.result.admin_emails).toBe(adminEmails);
   });
 
   test('updateSMTPUser()', async () => {
